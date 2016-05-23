@@ -1,0 +1,22 @@
+﻿// TODO : переделать "(" <expression<bool>> ")"
+<loop with precondition> ::= <operator while> <condition part> <Command block>;
+<operator while> ::= "while" ;
+<condition part> ::= <Start list arguments> <expression<bool>> <End list arguments>;
+
+<loop with postcondition> ::= <operator repeat> <Command block> <operator while> <condition part> ;
+<operator repeat> ::= "do";
+
+<loop with counter> ::=  <operator for>  <Start list arguments>  <Parameters for> <End list arguments>   <Command block>;
+<operator for> ::= "for" ;
+<Parameters for> ::= <Start value for> <Command separator> <Condition end for> <Command separator> <Next value counter>;
+<Start value for> ::= <varialble> '=' <value> ;
+<Condition end for> ::= <expression<bool>>;
+<Next value counter> ::= <value>;
+
+<any interrupt operator> ::= <operator continue>  | <operator break> ; // операторы прерывания
+<operator continue> ::= "continue"; // TODO : распознаётся на семантичеком уровне
+<operator break> ::= "break";
+
+<reserve loop literal> ::= <operator while> | <operator repeat> | <operator for> | <operator continue> |  <operator break> ;
+
+

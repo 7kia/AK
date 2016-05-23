@@ -1,0 +1,24 @@
+﻿<letter> ::= <Russian letters> | <english letters> ;
+<english letters> ::= ['a' .. 'z'] | [ 'A' .. 'Z'];
+<Russian letters> ::=  ['а' .. 'я'] | ['А' .. 'Я'];
+
+<digit> ::= <digit zero> | <digit more zero>;
+<digit zero> ::= '0';
+<digit more zero> ::= [ '1' .. '9' ] ;
+
+<Command separator> ::= ';' ;
+<variable separator> ::= ',' ;
+<common separator > ::= ' ' | '\t'; // TODO : посмотри стоит добавлять\n или нет
+<Start block> = '{' ; 
+<End block> = '}' ;
+<Start list arguments> ::= '(';
+< End list arguments> ::= ')';
+<case enumerator> ::= ":" ;
+<char> ::= 0 .. 65536 ; // Планируется добавить поддержку unicode , чтобы русские символы отображались
+<string> ::=  '\"' (<char>)+ '\"' ;
+<reserve logic literal> ::= "true" | "false" ;
+
+
+
+
+

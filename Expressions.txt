@@ -1,0 +1,15 @@
+﻿<expression<name type> > ::= ( '(' <expression<name type>> ')' ) | (<expression<number>> | <expression<not numeric type>>)+ ;
+
+<expression<number>> ::= <term> | <expression<number>>'+' < term >) | <expression<number>> '-' < term >);
+<term> ::= <value<numeric>> | (<term> '*' <term> ) | (<term> '/' <term> )
+<number operation> = '+' | '-' | '*' | '/' ;
+<value<numeric>> ::= (<number> | <Call function>) ; // TODO : нужно знать тип возвращаемого значения
+
+<expression<not numeric type>> ::= <value<not numeric type>> | (<expression<not numeric type>> <operation for <not numeric type>> <expression<not numeric type>>);
+<value<not numeric type>> ::= (<not numeric type> | <Call function>));// TODO : нужно знать тип возвращаемого значения
+
+// TODO : побитовые операции
+<operation for <bool>> ::= '|' | '&' | '!' | '^' | '!=' | '=='; // или, и, не, искл. или, (не) равно
+
+
+
