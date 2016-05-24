@@ -1,0 +1,36 @@
+﻿<name type> ::= любой из 1 {} ;
+1 - {
+<name integer> ::= "int" ;
+<name float> ::= "float" ;
+<name char> ::= "char";
+<name string> ::= "string";
+<name logic> ::= "bool" ;
+1 - }
+
+< Prefix type> ::= (<prefix const>)? (<Prefix numeric type>)?  ;// TODO : для bool может только const 
+// или ничего
+<prefix const> ::= "const" ;
+//////////////////////////////////////////////////////////////////////////
+// Числовые типы
+<number> ::= <integer> | <float> ; // TODO : неоднозначность
+<integer> ::= <have sign> <digit part>;
+<digit part> ::= <digit zero> | <combination of digits without zero>;
+<combination of digits without zero> ::= (<digit more zero>)+ (<digit>)*;
+
+<float> ::= <integer> <fractional part> ( <exponent part> )?;
+<fractional part> ::= '.' (<digit>)+;
+<exponent part> ::= <have sign> ( "e" | "E") ;
+<have sign> ::= >('\+' | '\-') ?;
+
+// TODO : название
+<Prefix numeric type> ::= <prefix signed> | <prefix unsigned> | <prefix long> | <prefix long long>
+<prefix signed> ::= "signed" ;
+<prefix unsigned> ::= "unsigned" ;
+<prefix long> ::= "long" ;
+<prefix long long> ::= "long long" ;
+//////////////////////////////////////////////////////////////////////////
+
+
+
+
+

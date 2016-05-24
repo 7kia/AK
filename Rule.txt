@@ -20,15 +20,7 @@
 
 <Assign for variable> ::= ((<init variable> | <variable> )'=' (<value> | <list values>)) ;
 
-<init variable> ::= <name type> (<is pointer> )? <common separator>  <identification>;
-<name type> ::= любой из 1 {} ;
-1 - {
-<name integer> ::= "int" ;
-<name float> ::= "float" ;
-<name char> ::= "char";
-<name string> ::= "string";
-<name logic> ::= "bool" ;
-1 - }
+<init variable> ::= <name type> <Prefix type> (<is pointer> )? <common separator>  <identification>;
 <is pointer> ::= <name pointer>;
 <name pointer> ::= '*';
 
