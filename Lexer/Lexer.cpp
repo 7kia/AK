@@ -39,7 +39,7 @@ int CLexer::Scan(SToken &data)
     double value = ParseDouble();
     if (!std::isnan(value))
     {
-        data.value = value;
+        data.doubleValue = value;
         return TK_NUMBER;
     }
     if (ParseString(data))
@@ -114,10 +114,12 @@ double CLexer::ParseDouble()
         return std::numeric_limits<double>::quiet_NaN();
     }
 
-    if (m_peep.empty() || (m_peep[0] != '.'))
+    if (m_peep.empty() || (m_peep[0] != '.'))// TODO : might add suffix u, L(for example 1.f, 4u)
     {
         return value;
     }
+
+
     m_peep.remove_prefix(1);
     double factor = 1.f;
     while (!m_peep.empty() && std::isdigit(m_peep[0]))

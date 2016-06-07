@@ -1123,7 +1123,7 @@ static void yy_reduce(
         break;
       case 40: /* expression ::= NUMBER */
 {
-    EmplaceAST<CLiteralAST>(yygotominor.yy35, CValue::FromDouble(yymsp[0].minor.yy0.value));
+    EmplaceAST<CLiteralAST>(yygotominor.yy35, CValue::FromDouble(yymsp[0].minor.yy0.doubleValue));
 }
         break;
       case 41: /* expression ::= STRING */
