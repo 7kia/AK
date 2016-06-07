@@ -9,10 +9,10 @@ public:
     CInterpreter(std::ostream &output, std::ostream &errors);
     ~CInterpreter();
 
-    void StartDebugTrace();
-    void EnterLoop(std::istream &input);
+    void					StartDebugTrace();
+    void					EnterLoop(std::istream &input);
 
 private:
     class Impl;
-    std::unique_ptr<Impl> m_pImpl;
+    std::unique_ptr<Impl>	m_pImpl;
 };

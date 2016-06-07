@@ -27,7 +27,7 @@ CLexer::CLexer(unsigned lineNo
 
 int CLexer::Scan(SToken &data)
 {
-    SkipSpaces();
+    SkipSpaces();// TODO : see need whitespace
     data.line = m_lineNo;
     data.column = 1 + unsigned(m_peep.data() - m_sources.c_str());
 
@@ -35,6 +35,7 @@ int CLexer::Scan(SToken &data)
     {
         return 0;
     }
+
     double value = ParseDouble();
     if (!std::isnan(value))
     {
@@ -107,10 +108,12 @@ double CLexer::ParseDouble()
         value = value * 10.0f + double(digit);
         m_peep.remove_prefix(1);
     }
+
     if (!parsedAny)
     {
         return std::numeric_limits<double>::quiet_NaN();
     }
+
     if (m_peep.empty() || (m_peep[0] != '.'))
     {
         return value;
