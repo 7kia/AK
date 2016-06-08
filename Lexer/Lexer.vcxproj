@@ -153,6 +153,7 @@
     <ClInclude Include="Interpreter.h" />
     <ClInclude Include="InterpreterContext.h" />
     <ClInclude Include="Lexer.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Parser_private.h" />
     <ClInclude Include="stdafx.h" />

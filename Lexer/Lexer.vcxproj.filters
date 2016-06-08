@@ -60,6 +60,9 @@
     <ClInclude Include="VariablesScope.h">
       <Filter>Compiler</Filter>
     </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Файлы исходного кода</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
