@@ -3,6 +3,8 @@
 */
 /* First off, code is included that follows the "include" declaration
 ** in the input grammar file. */
+#include "stdafx.h"
+
 #include <stdio.h>
 
 // Generated function: void ParseGrammar(void*, int, SToken, CParser*);

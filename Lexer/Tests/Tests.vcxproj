@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{604C9E71-FDA3-46E0-9994-1FB81AADA5BB}</ProjectGuid>
+    <ProjectGuid>{5637F0C5-2C33-4E71-903C-42AF77E22545}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Compiler</RootNamespace>
+    <RootNamespace>Lab21Test</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -74,6 +74,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -83,8 +84,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -97,22 +97,25 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>$(TargetPath)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -129,7 +132,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -147,34 +150,41 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AST.h" />
-    <ClInclude Include="Grammar.h" />
-    <ClInclude Include="Interpreter.h" />
-    <ClInclude Include="InterpreterContext.h" />
-    <ClInclude Include="Lexer.h" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="Parser.h" />
-    <ClInclude Include="Parser_private.h" />
+    <ClInclude Include="..\AST.h" />
+    <ClInclude Include="..\Grammar.h" />
+    <ClInclude Include="..\Interpreter.h" />
+    <ClInclude Include="..\InterpreterContext.h" />
+    <ClInclude Include="..\Lexer.h" />
+    <ClInclude Include="..\Parser.h" />
+    <ClInclude Include="..\Parser_private.h" />
+    <ClInclude Include="..\StringPool.h" />
+    <ClInclude Include="..\Token.h" />
+    <ClInclude Include="..\Value.h" />
+    <ClInclude Include="..\VariablesScope.h" />
+    <ClInclude Include="FunctionsForTests.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="StringPool.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Token.h" />
-    <ClInclude Include="Value.h" />
-    <ClInclude Include="VariablesScope.h" />
+    <ClInclude Include="TestsOld.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AST.cpp" />
-    <ClCompile Include="Grammar.cpp" />
-    <ClCompile Include="Interpreter.cpp" />
-    <ClCompile Include="InterpreterContext.cpp" />
-    <ClCompile Include="Lexer.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Parser.cpp" />
-    <ClCompile Include="Parser_private.cpp" />
-    <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="StringPool.cpp" />
-    <ClCompile Include="Value.cpp" />
-    <ClCompile Include="VariablesScope.cpp" />
+    <ClCompile Include="..\AST.cpp" />
+    <ClCompile Include="..\Grammar.cpp" />
+    <ClCompile Include="..\Interpreter.cpp" />
+    <ClCompile Include="..\InterpreterContext.cpp" />
+    <ClCompile Include="..\Lexer.cpp" />
+    <ClCompile Include="..\Parser.cpp" />
+    <ClCompile Include="..\Parser_private.cpp" />
+    <ClCompile Include="..\StringPool.cpp" />
+    <ClCompile Include="..\Value.cpp" />
+    <ClCompile Include="..\VariablesScope.cpp" />
+    <ClCompile Include="FunctionsForTests.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="TestsOld.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

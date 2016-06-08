@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "VariablesScope.h"
 
 CVariablesScope::CVariablesScope()

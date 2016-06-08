@@ -1,3 +1,6 @@
+#include "stdafx.h"
+
+
 #include "Interpreter.h"
 #include "StringPool.h"
 #include "InterpreterContext.h"

@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "AST.h"
 #include "InterpreterContext.h"
 #include "VariablesScope.h"

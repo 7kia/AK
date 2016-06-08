@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "Parser.h"
 #include "Token.h"
 #include "InterpreterContext.h"

@@ -1,0 +1,13 @@
+def sqr(x)
+result = x * x
+return result
+end
+
+print sqr(10)
+print sqr(9)
+
+w = 1
+print w
+
+w = 2.4
+print w

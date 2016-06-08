@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "Parser.h"
 #include "Lexer.h"
 #include "StringPool.h"
@@ -27,6 +29,8 @@ int main(int argc, char *argv[])
 	}
 	catch (const std::invalid_argument& e)
 	{
+		(void)e;
+
 		std::srand(static_cast<unsigned>(time(nullptr)));
 		CInterpreter interpreter(std::cout, std::cerr);
 

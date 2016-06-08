@@ -1,3 +1,6 @@
+#include "stdafx.h"
+
+
 #include "Value.h"
 #include <stdexcept>
 
