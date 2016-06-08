@@ -38,18 +38,35 @@ int CLexer::Scan(SToken &data)
         return 0;
     }
 
+	/////////////////////////////////////////////////////
+	// Parse identifier
+	std::string id = ParseIdentifier();
+	if (!id.empty())
+	{
+		return AcceptIdOrKeyword(data, std::move(id));
+	}
+	/////////////////////////////////////////////////////
+
+	/////////////////////////////////////////////////////
+	// Parse number
     double value = ParseDouble();
     if (!std::isnan(value))
     {
         data.value = value;
         return TK_NUMBER;
     }
+	/////////////////////////////////////////////////////
 
+	/////////////////////////////////////////////////////
+	// Parse string
     if (ParseString(data))
     {
         return TK_STRING;
     }
+	/////////////////////////////////////////////////////
 
+	/////////////////////////////////////////////////////
+	// Parse other symbols
     switch (m_peep[0])
     {
     case '<':
@@ -88,13 +105,9 @@ int CLexer::Scan(SToken &data)
         m_peep.remove_prefix(1);
         return TK_ASSIGN;
     }
+	/////////////////////////////////////////////////////
 
-    std::string id = ParseIdentifier();
-    if (!id.empty())
-    {
-        return AcceptIdOrKeyword(data, std::move(id));
-    }
-
+	/////////////////////////////////////////////////////
     // on error, return EOF
     OnError("unknown lexem", data);
     return 0;
@@ -118,10 +131,20 @@ double CLexer::ParseDouble()
         return std::numeric_limits<double>::quiet_NaN();
     }
 
+	/////////////////////////////////////////////////
+	// TODO
+	if (isalpha(m_peep[0]))
+	{
+		OnError("Next symbol after number is incorrect ", SToken());
+		return std::numeric_limits<double>::quiet_NaN();
+	}
+	/////////////////////////////////////////////////
+	// If not double part then return integer value
     if (m_peep.empty() || (m_peep[0] != '.'))
     {
         return value;
     }
+	/////////////////////////////////////////////////
     m_peep.remove_prefix(1);
     double factor = 1.f;
     while (!m_peep.empty() && std::isdigit(m_peep[0]))
@@ -142,6 +165,12 @@ std::string CLexer::ParseIdentifier()
 	// -------------
 	std::string startString = m_peep.data();// TODO : in start identifier must not digit
 	// --------------
+
+	// In start letter
+	if (!isalpha(m_peep[0]))
+	{
+		return "";
+	}
 
     while (!m_peep.empty() && std::isalnum(m_peep[size]))
     {

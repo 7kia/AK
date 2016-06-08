@@ -1,0 +1,5 @@
+print w
+print w1
+print x1
+print m01923
+print line9

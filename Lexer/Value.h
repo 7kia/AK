@@ -2,6 +2,8 @@
 #include <boost/variant.hpp>
 #include <iostream>
 
+#include "Grammar.h"
+
 class CValue
 {
 public:

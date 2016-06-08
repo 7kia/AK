@@ -1,0 +1,5 @@
+  Error: unknown variable w
+  Error: unknown variable w1
+  Error: unknown variable x1
+  Error: unknown variable m01923
+  Error: unknown variable line9

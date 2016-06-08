@@ -1,3 +1,7 @@
+#pragma once
+
+//////////////////////////////////////////////////////////////////////
+// Tokens id
 #define TK_LESS                            1
 #define TK_EQUALS                          2
 #define TK_PLUS                            3
@@ -22,8 +26,11 @@
 #define TK_NUMBER                         22
 #define TK_STRING                         23
 #define TK_BOOL                           24
+//////////////////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////////////////////////////
 // Reserve words
-static const std::string NAME_IF = "if";
+static const std::string NAME_IF = "if";// TODO : not enough words
 static const std::string NAME_TRUE = "true";
 static const std::string NAME_FALSE = "false";
+//////////////////////////////////////////////////////////////////////
