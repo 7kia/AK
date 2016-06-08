@@ -36,12 +36,27 @@ int CLexer::Scan(SToken &data)
         return 0;
     }
 
-    double value = ParseDouble();
-    if (!std::isnan(value))
+	////////////////////////////////////
+	// Parse number
+	double intValue = ParseInt();
+	
+	if (!std::isnan(intValue))
     {
-        data.doubleValue = value;
-        return TK_NUMBER;
+		if (m_peep[0] == '.')
+		{
+			double doublePart = ParseDoublePart();
+
+			if (!std::isnan(doublePart))
+			{
+				data.doubleValue = intValue + doublePart;
+				return TK_DOUBLE;
+			}
+		}
+		
+		data.intValue = static_cast<int>(intValue);
+		return TK_INT;		
     }
+	////////////////////////////////////
     if (ParseString(data))
     {
         return TK_STRING;
@@ -76,7 +91,7 @@ int CLexer::Scan(SToken &data)
         m_peep.remove_prefix(1);
         return TK_RPAREN;
     case '=':
-        if (m_peep.length() >= 2 && (m_peep[1] == '='))
+        if (m_peep.length() >= 2 && (m_peep[1] == '='))// TDDO : ?
         {
             m_peep.remove_prefix(2);
             return TK_EQUALS;
@@ -96,39 +111,50 @@ int CLexer::Scan(SToken &data)
     return 0;
 }
 
-// returns NaN if cannot parse double.
-double CLexer::ParseDouble()
+double CLexer::ParseInt()
 {
-    double value = 0;
-    bool parsedAny = false;
-    while (!m_peep.empty() && std::isdigit(m_peep[0]))
-    {
-        parsedAny = true;
-        const int digit = m_peep[0] - '0';
-        value = value * 10.0f + double(digit);
-        m_peep.remove_prefix(1);
-    }
+	double value = 0;
+	bool parsedAny = false;
+	while (!m_peep.empty() && std::isdigit(m_peep[0]))
+	{
+		parsedAny = true;
+		const int digit = m_peep[0] - '0';
+		value = value * 10.0f + double(digit);
+		m_peep.remove_prefix(1);
+	}
 
-    if (!parsedAny)
-    {
-        return std::numeric_limits<double>::quiet_NaN();
-    }
+	if (!parsedAny)
+	{
+		return std::numeric_limits<double>::quiet_NaN();
+	}
 
-    if (m_peep.empty() || (m_peep[0] != '.'))// TODO : might add suffix u, L(for example 1.f, 4u)
-    {
-        return value;
-    }
+	if (m_peep.empty() || (m_peep[0] != '.'))// TODO : might add suffix u, L(for example 1.f, 4u)
+	{
+		return value;
+	}
+}
 
+// returns NaN if cannot parse double.
+double CLexer::ParseDoublePart()
+{
+	bool isDoublePart = false;
+	double value = 0;
 
     m_peep.remove_prefix(1);
     double factor = 1.f;
     while (!m_peep.empty() && std::isdigit(m_peep[0]))
     {
+		isDoublePart = true;
         const int digit = m_peep[0] - '0';
         factor *= 0.1f;
         value += factor * double(digit);
         m_peep.remove_prefix(1);
     }
+
+	if (!isDoublePart)
+	{
+		return std::numeric_limits<double>::quiet_NaN();
+	}
 
     return value;
 }

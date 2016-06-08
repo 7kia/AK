@@ -23,7 +23,9 @@ public:
     int Scan(SToken &data);
 
 private:
-    double								ParseDouble();
+
+	double								ParseInt();// double because need use isnan for recongize integer
+    double								ParseDoublePart();
     std::string							ParseIdentifier();
     void								SkipSpaces();
     bool								ParseString(SToken &data);

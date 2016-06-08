@@ -20,5 +20,7 @@
 #define TK_WHILE                          20
 #define TK_DO                             21
 #define TK_NUMBER                         22
-#define TK_STRING                         23
-#define TK_BOOL                           24
+#define TK_INT							  23
+#define TK_DOUBLE						  24
+#define TK_STRING                         25
+#define TK_BOOL                           26

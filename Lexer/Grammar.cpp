@@ -63,6 +63,9 @@ using namespace parser_private;
 **    YYERRORSYMBOL      is the code number of the error symbol.  If not
 **                       defined, then do no error processing.
 */
+
+#include <vector>// TODO : new, see need it
+
 #define YYCODETYPE unsigned char
 #define YYNOCODE 38
 #define YYACTIONTYPE unsigned char
@@ -77,6 +80,7 @@ typedef union {
   NamesListPtr yy65;
   ExpressionListPtr yy69;
   int yy75;
+  double yy76;// TODO : rename
 } YYMINORTYPE;
 #ifndef YYSTACKDEPTH
 #define YYSTACKDEPTH 100
@@ -356,7 +360,7 @@ static const char *const yyTokenName[] = {
 #ifndef NDEBUG
 /* For tracing reduce actions, the names of all rules are required.
 */
-static const char *const yyRuleName[] = {
+static const std::vector<std::string> yyRuleName = {
  /*   0 */ "translation_unit ::= toplevel_list",
  /*   1 */ "toplevel_list ::= toplevel_line",
  /*   2 */ "toplevel_list ::= toplevel_list toplevel_line",
@@ -397,10 +401,11 @@ static const char *const yyRuleName[] = {
  /*  37 */ "expression ::= expression PERCENT expression",
  /*  38 */ "expression ::= PLUS expression",
  /*  39 */ "expression ::= MINUS expression",
- /*  40 */ "expression ::= NUMBER",
- /*  41 */ "expression ::= STRING",
- /*  42 */ "expression ::= BOOL",
- /*  43 */ "expression ::= ID",
+ /*  40 */ "expression ::= INTEGER",
+ /*  41 */ "expression ::= DOUBLE",
+ /*  42 */ "expression ::= STRING",
+ /*  43 */ "expression ::= BOOL",
+ /*  44 */ "expression ::= ID",
 };
 #endif /* NDEBUG */
 
@@ -1121,22 +1126,27 @@ static void yy_reduce(
   yy_destructor(yypParser,4,&yymsp[-1].minor);
 }
         break;
-      case 40: /* expression ::= NUMBER */
+      case 40: /* expression ::= INTEGER */
 {
-    EmplaceAST<CLiteralAST>(yygotominor.yy35, CValue::FromDouble(yymsp[0].minor.yy0.doubleValue));
+    EmplaceAST<CLiteralAST>(yygotominor.yy35, CValue::FromDouble(yymsp[0].minor.yy0.intValue));
 }
         break;
-      case 41: /* expression ::= STRING */
+	  case 41: /* expression ::= DOUBLE */
+	  {
+		  EmplaceAST<CLiteralAST>(yygotominor.yy35, CValue::FromDouble(yymsp[0].minor.yy0.doubleValue));
+	  }
+	  break;
+      case 42: /* expression ::= STRING */
 {
     EmplaceAST<CLiteralAST>(yygotominor.yy35, pParse->GetStringLiteral(yymsp[0].minor.yy0.stringId));
 }
         break;
-      case 42: /* expression ::= BOOL */
+      case 43: /* expression ::= BOOL */
 {
     EmplaceAST<CLiteralAST>(yygotominor.yy35, CValue::FromBoolean(yymsp[0].minor.yy0.boolValue));
 }
         break;
-      case 43: /* expression ::= ID */
+      case 44: /* expression ::= ID */
 {
     EmplaceAST<CVariableRefAST>(yygotominor.yy35, yymsp[0].minor.yy0.stringId);
 }
