@@ -16,16 +16,26 @@
 
 const std::string PATH_RIGHT_DATA = "Right\\";
 
-struct TestNameFiles_
+namespace TestNameFiles
 {
-	const std::string nameFormatFiles = ".txt";
-	const std::string nameCodeFile = "testProgram";
-	const std::string nameErrorFile = "errorProgram";
-	const std::string nameOutputFile = "outputProgram";
-};
+	static const std::string nameFormatFiles = ".txt";
+	static const std::string nameCodeFile = "testProgram";
+	static const std::string nameErrorFile = "errorProgram";
+	static const std::string nameOutputFile = "outputProgram";
+}
 
 void CompareFiles(const std::string & first, const std::string & second);
 
-void TestLexer(const std::string nameInputFile
+void RunLexer(const std::string nameInputFile
 				, const std::string nameErrorFile
 				, const std::string nameOutputFile);
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Run and test lexer for files have next names:
+//
+// input code file = TestNameFiles::nameCodeFile + suffixNametest + TestNameFiles_::nameFormatFiles
+// error file = TestNameFiles::nameErrorFile + suffixNametest + TestNameFiles_::nameFormatFiles
+// output code file = TestNameFiles::nameOutputFile + suffixNametest + TestNameFiles_::nameFormatFiles
+//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+void TestLexer(const std::string & suffixNametest);

@@ -14,7 +14,7 @@ void CompareFiles(const string & first, const string & second)
 	BOOST_CHECK_EQUAL_COLLECTIONS(iterResultFile, endIter, iterRightRsultFile, endIter);
 }
 
-void TestLexer(const std::string nameInputFile
+void RunLexer(const std::string nameInputFile
 				, const std::string nameErrorFile
 				, const std::string nameOutputFile)
 {
@@ -24,4 +24,19 @@ void TestLexer(const std::string nameInputFile
 
 	CInterpreter interpreter(outputFile, errorFile);
 	interpreter.EnterLoop(inputFile);
+}
+
+void TestLexer(const std::string & suffixNametest)
+{
+	const std::string suffixCheckFiles = suffixNametest + TestNameFiles::nameFormatFiles;
+
+	BOOST_REQUIRE_NO_THROW(RunLexer(TestNameFiles::nameCodeFile + suffixCheckFiles
+		, TestNameFiles::nameErrorFile + suffixCheckFiles
+		, TestNameFiles::nameOutputFile + suffixCheckFiles));
+
+	CompareFiles(TestNameFiles::nameOutputFile + suffixCheckFiles
+		, PATH_RIGHT_DATA + TestNameFiles::nameOutputFile + suffixCheckFiles);
+
+	CompareFiles(TestNameFiles::nameErrorFile + suffixCheckFiles
+		, PATH_RIGHT_DATA + TestNameFiles::nameErrorFile + suffixCheckFiles);
 };
