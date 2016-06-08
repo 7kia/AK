@@ -44,10 +44,12 @@ int CLexer::Scan(SToken &data)
         data.value = value;
         return TK_NUMBER;
     }
+
     if (ParseString(data))
     {
         return TK_STRING;
     }
+
     switch (m_peep[0])
     {
     case '<':
@@ -186,12 +188,12 @@ bool CLexer::ParseString(SToken &data)
 
 int CLexer::AcceptIdOrKeyword(SToken &data, std::string && id)
 {
-    if (id == "true")
+    if (id == NAME_TRUE)
     {
         data.boolValue = true;
         return TK_BOOL;
     }
-    else if (id == "false")
+    else if (id == NAME_FALSE)
     {
         data.boolValue = false;
         return TK_BOOL;

@@ -22,3 +22,8 @@
 #define TK_NUMBER                         22
 #define TK_STRING                         23
 #define TK_BOOL                           24
+
+// Reserve words
+static const std::string NAME_IF = "if";
+static const std::string NAME_TRUE = "true";
+static const std::string NAME_FALSE = "false";

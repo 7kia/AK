@@ -46,7 +46,7 @@ std::string ToPrettyString(double value)
 
 std::string ToPrettyString(bool value)
 {
-    return value ? "true" : "false";
+    return value ? NAME_TRUE : NAME_FALSE;
 }
 
 // Конвертирует значение в Boolean (C++ bool).
