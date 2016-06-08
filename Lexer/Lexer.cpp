@@ -15,14 +15,14 @@ CLexer::CLexer(unsigned lineNo
     , m_stringPool(pool)
     , m_onError(handler)
     , m_keywords({
-        { "do",     TK_DO },
-        { "if",     TK_IF },
-        { "end",    TK_END },
-        { "else",   TK_ELSE },
-        { "while",  TK_WHILE },
-        { "print",  TK_PRINT },
-        { "return", TK_RETURN },
-        { "def",    TK_FUNCTION },
+        { "do",     TokensId::TK_DO },
+        { "if",     TokensId::TK_IF },
+        { "end",    TokensId::TK_END },
+        { "else",	TokensId::TK_ELSE },
+        { "while",  TokensId::TK_WHILE },
+        { "print",  TokensId::TK_PRINT },
+        { "return", TokensId::TK_RETURN },
+        { "def",    TokensId::TK_FUNCTION },
       })
 {
 }
@@ -53,7 +53,7 @@ int CLexer::Scan(SToken &data)
     if (!std::isnan(value))
     {
         data.value = value;
-        return TK_NUMBER;
+        return TokensId::TK_NUMBER;
     }
 	/////////////////////////////////////////////////////
 
@@ -61,7 +61,7 @@ int CLexer::Scan(SToken &data)
 	// Parse string
     if (ParseString(data))
     {
-        return TK_STRING;
+        return TokensId::TK_STRING;
     }
 	/////////////////////////////////////////////////////
 
@@ -69,41 +69,44 @@ int CLexer::Scan(SToken &data)
 	// Parse other symbols
     switch (m_peep[0])
     {
-    case '<':
+    case NAME_LESS:
         m_peep.remove_prefix(1);
-        return TK_LESS;
-    case '+':
+        return TokensId::TK_LESS;
+	//case NAME_MORE:
+		//m_peep.remove_prefix(1);
+		//return TokensId::TK_MORE;// TODO : not work
+    case NAME_PLUS:
         m_peep.remove_prefix(1);
-        return TK_PLUS;
-    case '-':
+        return TokensId::TK_PLUS;
+    case NAME_MINUS:
         m_peep.remove_prefix(1);
-        return TK_MINUS;
-    case '*':
+        return TokensId::TK_MINUS;
+    case NAME_MULTIPLICATION:
         m_peep.remove_prefix(1);
-        return TK_STAR;
-    case '/':
+        return TokensId::TK_STAR;
+    case NAME_DIVISION:
         m_peep.remove_prefix(1);
-        return TK_SLASH;
-    case ',':
+        return TokensId::TK_SLASH;
+    case VARIABLE_SEPARATOR:// TODO : write test for it
         m_peep.remove_prefix(1);
-        return TK_COMMA;
-    case '%':
+        return TokensId::TK_COMMA;
+    case NAME_DIVISION_BY_REMAIN:
         m_peep.remove_prefix(1);
-        return TK_PERCENT;
-    case '(':
+        return TokensId::TK_PERCENT;
+    case START_LIST_ARGUMENTS:
         m_peep.remove_prefix(1);
-        return TK_LPAREN;
-    case ')':
+        return TokensId::TK_LPAREN;
+    case END_LIST_ARGUMENTS:
         m_peep.remove_prefix(1);
-        return TK_RPAREN;
-    case '=':
-        if (m_peep.length() >= 2 && (m_peep[1] == '='))
+        return TokensId::TK_RPAREN;
+    case NAME_ASSIGMENT:
+        if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
         {
             m_peep.remove_prefix(2);
-            return TK_EQUALS;
+            return TokensId::TK_EQUALS;
         }
         m_peep.remove_prefix(1);
-        return TK_ASSIGN;
+        return TokensId::TK_ASSIGN;
     }
 	/////////////////////////////////////////////////////
 
@@ -132,7 +135,7 @@ double CLexer::ParseDouble()
     }
 
 	/////////////////////////////////////////////////
-	// TODO
+	// After number would space symbol(s), 
 	if (isalpha(m_peep[0]))
 	{
 		OnError("Next symbol after number is incorrect ", SToken());
@@ -162,11 +165,7 @@ std::string CLexer::ParseIdentifier()
 {
     size_t size = 0;
 
-	// -------------
-	std::string startString = m_peep.data();// TODO : in start identifier must not digit
-	// --------------
-
-	// In start letter
+	// In start identifier must not digit
 	if (!isalpha(m_peep[0]))
 	{
 		return "";
@@ -197,6 +196,7 @@ bool CLexer::ParseString(SToken &data)
     {
         return false;
     }
+
     m_peep.remove_prefix(1);
     size_t quotePos = m_peep.find('\"');
     if (quotePos == boost::string_ref::npos)
@@ -220,12 +220,12 @@ int CLexer::AcceptIdOrKeyword(SToken &data, std::string && id)
     if (id == NAME_TRUE)
     {
         data.boolValue = true;
-        return TK_BOOL;
+        return TokensId::TK_BOOL;
     }
     else if (id == NAME_FALSE)
     {
         data.boolValue = false;
-        return TK_BOOL;
+        return TokensId::TK_BOOL;
     }
 
     auto it = m_keywords.find(id);
@@ -235,7 +235,7 @@ int CLexer::AcceptIdOrKeyword(SToken &data, std::string && id)
     }
 
     data.stringId = m_stringPool.Insert(id);
-    return TK_ID;
+    return TokensId::TK_ID;
 }
 
 void CLexer::OnError(const char message[], SToken &data)
@@ -243,7 +243,7 @@ void CLexer::OnError(const char message[], SToken &data)
     if (m_onError)
     {
         std::stringstream formatter;
-        formatter << message << "at (" << data.line << "," << data.column << ")";
+        formatter << message << " at (" << data.line << "," << data.column << ")";
         m_onError(formatter.str());
     }
 }

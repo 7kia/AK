@@ -1,13 +1,11 @@
-def sqr(x)
-result = x * x
-return result
+index = 0
+if index == 0
+	print index - 1
 end
-
-print sqr(10)
-print sqr(9)
-
-w = 1
-print w
-
-w = 2.4
-print w
+index = 2
+if index == 0
+	print "not right"
+else 
+if index == 2
+	print "right"
+end
