@@ -14,13 +14,15 @@
 <value> ::= <Call function> | <Assign for variable> | <variable>   | <expression> | <literal>;
 
 <Call function> ::= <FunctionName><list arguments>; 
-<FunctionName> ::= <identificator> ;
 <list arguments> ::= <Start list arguments> <set arguments> <End list arguments>;
 <set arguments> ::= <value>  (<variable separator> <value> )? ;
 
 <Assign for variable> ::= ((<init variable> | <variable> )'=' (<value> | <list values>)) ;
 
-<init variable> ::= <Prefix type> <name type> ((<prefix const>)? <is pointer> )? <common separator>  <identification>;
+
+<init variable> ::= <type initialization>  <common separator>  <identification>;
+//                     		\/ Types.txt
+<type initialization> ::= <Prefix type> <name type> ((<prefix const>)? <is pointer> )? ;
 <is pointer> ::= <name pointer>;
 <name pointer> ::= '*';
 

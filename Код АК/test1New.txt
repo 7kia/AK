@@ -1,16 +1,28 @@
 #include <math>
 #include "something.hak"
 
+signed float sqr(float x)
+{
+	signed float result = x * x;
+	return result;
+}
+
 int main()
 {
-	int number = 0;
-	int* pNumber = &number;
+	const signed int number = 0;
+	signed float _float_Number = 1.2;
+	signed int const* pNumber = &number;
 
 	if(*number == 1)
 	{
 		printf("1");
 	} else 
 	{
+		printf(sqr(9));// 81
 		printf("0");
+		printf(_float_Number);
 	}	
+	/*
+	TODO : многострочный комментарий
+	*/
 }

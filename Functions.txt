@@ -1,0 +1,21 @@
+﻿/////////////////////////////////////////////////////
+// Функции
+//
+<
+
+<function init> ::= <type initialization> <FunctionName> <list arguments> // TODO : add separator
+<FunctionName> ::= <identificator> ;
+<list arguments> ::= <Start list arguments> <set arguments> <End list arguments>;
+<set arguments> ::= <value>  (<variable separator> <value> )? ;
+
+<Call function> ::= <FunctionName><list arguments>; 
+
+<function implementation> ::= <function init> <Command block> ;
+
+<return function> ::= <name return> <value> ;
+<name return> ::= "return" ;
+
+
+
+
+
