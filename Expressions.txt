@@ -5,6 +5,11 @@
 <number operation> = '+' | '-' | '*' | '/' ;
 <value<numeric>> ::= (<number> | <Call function>) ; // TODO : нужно знать тип возвращаемого значения
 
+<expression<bool>> ::= <termBool> | <expression<Bool>>'+' <termBool>) | <expression<Bool>> '-' <termBool>);
+<termBool> ::= <value<Bool>> | (<termBool> "&&" <termBool> )
+<value<Bool>> ::= (<Bool> | <Call function>) ; // TODO : нужно знать тип возвращаемого значения
+
+// Для остальных
 <expression<not numeric type>> ::= <value<not numeric type>> | (<expression<not numeric type>> <operation for <not numeric type>> <expression<not numeric type>>);
 <value<not numeric type>> ::= (<not numeric type> | <Call function>));// TODO : нужно знать тип возвращаемого значения
 
