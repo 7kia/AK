@@ -1,11 +1,12 @@
 ﻿///////////////////////////////////////////////////////////////////////////////
 // Основа
-<Program> ::= (<function block>)? <Name main function> <Command block>;
+<Program> ::= (<module block>)? (<function block>)? <Name main function> <Command block>;
 <Command block> ::= <Start block> <Commands> <End block>;
 <Commands> ::= (<Command>)+;
 <Command> ::= (<value> | <any branching> | <any loop> | <any interrupt operator> | <return function> )<Command separator>;
 //
-<identificator> ::= (<letter>)+ (<digit> | <letter>)* ;
+<identificator> ::= (<letter>)+ <correct symbols in identificator> ;
+<correct symbols in identificator> ::= (<digit> | <letter> | <underscore symbol>)*;
 ///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////

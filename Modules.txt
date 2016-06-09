@@ -1,0 +1,22 @@
+﻿/////////////////////////////////////////////////////
+// Модули
+//
+<module block> ::= (<include module>)+;
+
+<include module> ::= <preprocessor include> <white space> <path to module>;
+<preprocessor include> ::= "#include" ;
+<white space> ::= ' ';
+<path to module> ::= <path to user module> | <path to system module> ;
+
+<symbol folder separator> ::= '/' | '\\' ;
+<path to user module> ::= "\"" <folder module>  "\"";// TODO : see is correct middle rule
+<folder module> ::= (<folder back>)* (<folder name><symbol folder separator>)+ <name file module>  ;
+<folder back> ::= ".." <symbol folder separator>;// TODO посмотри нужен ли он
+<folder name> ::= (<correct symbols in identificator>)+
+<name file module> ::= <correct symbols in identificator> '.' <correct symbols in identificator>;
+
+<path to system module> ::= "<" <name file module> ">";// TODO : see is correct middle rule
+
+
+
+

@@ -14,6 +14,7 @@
 <Start list arguments> ::= '(';
 < End list arguments> ::= ')';
 <case enumerator> ::= ":" ;
+<underscore symbol> ::= '_';
 <char> ::= 0 .. 65536 ; // Планируется добавить поддержку unicode , чтобы русские символы отображались
 <string> ::=  '\"' (<char>)+ '\"' ;
 <reserve logic literal> ::= "true" | "false" ;
