@@ -1,7 +1,7 @@
 main
 {
-	int number = 0;
-	int* pNumber = &number;
+	const signed int number = 0;
+	signed int* pNumber = &number;
 
 	if(*number == 1)
 	{

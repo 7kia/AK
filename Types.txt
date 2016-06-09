@@ -7,8 +7,7 @@
 <name logic> ::= "bool" ;
 1 - }
 
-< Prefix type> ::= (<prefix const>)? (<Prefix numeric type>)?  ;
-// TODO : для bool может только const 
+< Prefix type> ::= (<prefix const>)? (<Prefix numeric type>)?  ;// TODO : для bool может только const 
 // или ничего
 <prefix const> ::= "const" ;
 //////////////////////////////////////////////////////////////////////////

@@ -20,7 +20,7 @@
 
 <Assign for variable> ::= ((<init variable> | <variable> )'=' (<value> | <list values>)) ;
 
-<init variable> ::= <name type> <Prefix type> (<is pointer> )? <common separator>  <identification>;
+<init variable> ::= <Prefix type> <name type> ((<prefix const>)? <is pointer> )? <common separator>  <identification>;
 <is pointer> ::= <name pointer>;
 <name pointer> ::= '*';
 
