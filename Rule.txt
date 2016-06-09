@@ -14,7 +14,7 @@
 <value> ::= <Call function> | <Assign for variable> | <variable>   | <expression> | <literal>;
 
 <Call function> ::= <FunctionName><list arguments>; 
- <FunctionName> ::= <identificator> ;
+<FunctionName> ::= <identificator> ;
 <list arguments> ::= <Start list arguments> <set arguments> <End list arguments>;
 <set arguments> ::= <value>  (<variable separator> <value> )? ;
 
@@ -24,7 +24,8 @@
 <is pointer> ::= <name pointer>;
 <name pointer> ::= '*';
 
-<variable> ::= (<operator dereference>)? ( <array> | <identificator>) ;// TODO :  разыменование
+<variable> ::= ((<operator dereference>)? | (<operator refer>)?)* ( <array> | <identificator>) ;// TODO :  разыменование
+<operator refer> ::= "&";
 <operator dereference> ::= "*";// TODO оператор разыменования
 <array> ::= <identification> ('[' <integer> ']')+;
 

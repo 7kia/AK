@@ -1,0 +1,13 @@
+main
+{
+	int number = 0;
+	int* pNumber = &number;
+
+	if(*number == 1)
+	{
+		printf("1");
+	} else 
+	{
+		printf("0");
+	}	
+}

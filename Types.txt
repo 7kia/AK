@@ -7,7 +7,8 @@
 <name logic> ::= "bool" ;
 1 - }
 
-< Prefix type> ::= (<prefix const>)? (<Prefix numeric type>)?  ;// TODO : для bool может только const 
+< Prefix type> ::= (<prefix const>)? (<Prefix numeric type>)?  ;
+// TODO : для bool может только const 
 // или ничего
 <prefix const> ::= "const" ;
 //////////////////////////////////////////////////////////////////////////
@@ -23,11 +24,13 @@
 <have sign> ::= >('\+' | '\-') ?;
 
 // TODO : название
-<Prefix numeric type> ::= <prefix signed> | <prefix unsigned> | <prefix long> | <prefix long long>
+<Prefix numeric type> ::= <любой из 2 {} ;
+2 - {
 <prefix signed> ::= "signed" ;
 <prefix unsigned> ::= "unsigned" ;
 <prefix long> ::= "long" ;
 <prefix long long> ::= "long long" ;
+2 - }
 //////////////////////////////////////////////////////////////////////////
 
 

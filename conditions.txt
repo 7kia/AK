@@ -1,0 +1,18 @@
+// TODO : переделать "(" <expression<bool>> ")"
+<usual branching> ::= <operator if> <condition part> <Command block> (<else part>)? ;
+<operator if> ::= "if";
+<condition part> ::= <Start list arguments> <expression<bool>> <End list arguments> ;
+<else part> ::= <operator else> (<branching> | (<Command block> (<else part>)?) ;
+<operator else> ::= "else";
+
+<switch branching> ::= <operator swith> <Check value> <switch block> ;
+<Check value> ::= <Start list arguments> <value> <End list arguments>; 
+<operator swith> ::= "swith";
+<switch block> ::= <Start block> <Body switch> <End block>;
+<Body switch> ::= (<Sequence cases> <command block>)*;
+<Sequence cases> ::= ((<operator case>  <value> <case enumerator>)+ ;
+<operator case> ::= "case" ;
+// /\ должна ли быть именно *в <switch block>, то есть может ли switch быть пустым
+
+<reserve branching literal> ::= <operator if> | <operator else> | <operator swith>
+
