@@ -1,6 +1,10 @@
-print 2 < 3
-print 2 + 3
-print 2 - 3
-print 2 * 3
-print 2 / 3
-print 4 % 3
+printf(2 < 3);
+printf(2 > 3);
+printf(2 + 3);
+printf(2 - 3);
+printf(2 * 3);
+printf(2 / 3);
+printf("2" , "3");
+printf(4 % 3);
+printf(4 == 3);
+signed int f = 1;

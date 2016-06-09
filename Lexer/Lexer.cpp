@@ -11,9 +11,27 @@ CLexer::CLexer(const std::string & line)
     : m_sources(line)
     , m_peep(m_sources)
     , m_keywords({
+		{ "int", TokensId::TK_INTEGER },
+		{ "double", TokensId::TK_DOUBLE },
+		{ "string", TokensId::TK_STRING },
 		{ "bool", TokensId::TK_BOOL },
+
 		{ "printf", TokensId::TK_PRINT },
+
         { "return", TokensId::TK_RETURN },
+
+		{ "if", TokensId::TK_IF },
+		{ "else", TokensId::TK_ELSE },
+
+		{ "while", TokensId::TK_WHILE },
+		{ "do", TokensId::TK_DO },
+		{ "for", TokensId::TK_FOR },
+
+		{ "signed", TokensId::TK_SIGNED },
+		{ "unsigned", TokensId::TK_UNSIGNED },
+		{ "const", TokensId::TK_CONST },
+		{ "long", TokensId::TK_LONG },
+
       })
 {
 }
@@ -24,7 +42,7 @@ TokensId CLexer::Scan(SToken &data)
 
     if (m_peep.empty())
     {
-		return TokensId::TK_NONE;
+		return TokensId::TK_NONE;// TODO: might need TK_NONE
     }
 
 	/////////////////////////////////////////////////////
@@ -110,6 +128,14 @@ TokensId CLexer::Scan(SToken &data)
 		data.value = END_LIST_ARGUMENTS;
         m_peep.remove_prefix(1);
         return TokensId::TK_RIGHT_PAREN;
+	case START_BLOCK:
+		data.value = START_BLOCK;
+		m_peep.remove_prefix(1);
+		return TokensId::TK_LEFT_BRACE;
+	case END_BLOCK:
+		data.value = END_BLOCK;
+		m_peep.remove_prefix(1);
+		return TokensId::TK_RIGHT_BRACE;
     case NAME_ASSIGMENT:
         if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
         {

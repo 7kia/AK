@@ -1,0 +1,4 @@
+signed int g = 1;
+unsigned int s = 2;
+const signed j = 4;
+long signed v = 8;

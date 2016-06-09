@@ -1,11 +1,7 @@
 #pragma once
 
-#include "../Parser.h"
 #include "../Lexer.h"
-#include "../StringPool.h"
 #include "../Interpreter.h"
-#include "../Token.h"
-#include "../Grammar.h"
 
 #include <iostream>
 #include <time.h>
@@ -26,9 +22,7 @@ namespace TestNameFiles
 
 void CompareFiles(const std::string & first, const std::string & second);
 
-void RunLexer(const std::string nameInputFile
-				, const std::string nameErrorFile
-				, const std::string nameOutputFile);
+void RunLexer(const std::string nameInputFile, const std::string nameOutputFile);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Run and test lexer for files have next names:

@@ -8,63 +8,111 @@ enum class TokensId
 {
 
 	  TK_NONE = 0
+
 	, TK_INTEGER = 1
 	, TK_DOUBLE
 	, TK_STRING
+
+	, TK_SIGNED
+	, TK_UNSIGNED
+	, TK_CONST
+	, TK_LONG
+
 	, TK_BOOL
 	, TK_LESS
 	, TK_MORE
 	, TK_EQUALS
 	, TK_LESS_OR_EQUAL
 	, TK_MORE_OR_EQUAL
+
 	, TK_PLUS
 	, TK_MINUS
 	, TK_STAR
 	, TK_SLASH
 	, TK_PERCENT
+
 	, TK_ID
+
 	, TK_LEFT_PAREN
 	, TK_RIGHT_PAREN
+	, TK_LEFT_BRACE
+	, TK_RIGHT_BRACE
+
 	, TK_COMMA
+
 	, TK_ASSIGN
+
 	, TK_PRINT
+
+	, TK_NEWLINE
+
+	, TK_SEMICOLON
+
 	, TK_RETURN
+
 	, TK_IF
 	, TK_ELSE
+
 	, TK_WHILE
 	, TK_DO
-	, Amount
+	, TK_FOR
+	, Amount = TK_FOR + 1// TODO : replace
 };
 
-static const std::array<std::string, static_cast<int>(TokensId::Amount)> TokensStringPresentation
-{
+static const std::map<TokensId, std::string> TokensStringPresentation
+= {
 
-	"Unknow"
-	, "Integer"
-	, "Double"
-	, "String"
-	, "Bool"
-	, "Less"
-	, "More"
-	, "Equal"
-	, "Less or equal"
-	, "More or equal"
-	, "Plus"
-	, "Minus"
-	, "Star"
-	, "Slash"
-	, "Percent"
-	, "Identifier"
-	, "Left paren"
-	, "Right paren"
-	, "Comma"
-	, "Assign"
-	, "Print"
-	, "return"
-	, "If"
-	, "Else"
-	, "While"
-	, "Do"
+	{ TokensId::TK_NONE, "Unknow"}
+
+	,{ TokensId::TK_INTEGER, "Integer"}
+	,{ TokensId::TK_DOUBLE,  "Double"}
+	,{ TokensId::TK_STRING, "String"}
+
+	,{ TokensId::TK_SIGNED, "Signed" }
+	,{ TokensId::TK_UNSIGNED, "Unsigned" }
+	,{ TokensId::TK_CONST, "Const" }
+	,{ TokensId::TK_LONG, "Long" }
+
+	,{ TokensId::TK_BOOL, "Bool"}
+	,{ TokensId::TK_LESS, "Less"}
+	,{ TokensId::TK_MORE, "More"}
+	,{ TokensId::TK_EQUALS, "Equal"}
+	,{ TokensId::TK_LESS_OR_EQUAL, "Less or equal"}
+	,{ TokensId::TK_MORE_OR_EQUAL, "More or equal"}
+
+
+	,{ TokensId::TK_PLUS, "Plus"}
+	,{ TokensId::TK_MINUS, "Minus"}
+	,{ TokensId::TK_STAR,  "Star"}
+	,{ TokensId::TK_SLASH, "Slash"}
+	,{ TokensId::TK_PERCENT, "Percent"}
+
+	,{ TokensId::TK_ID, "Identifier"}
+
+	,{ TokensId::TK_LEFT_PAREN, "Left paren"}
+	,{ TokensId::TK_RIGHT_PAREN, "Right paren"}
+	,{ TokensId::TK_LEFT_BRACE, "Left brace" }
+	,{ TokensId::TK_RIGHT_BRACE, "Right brace" }
+
+
+	,{ TokensId::TK_COMMA, "Comma"}
+
+	,{ TokensId::TK_ASSIGN, "Assign"}
+
+	,{ TokensId::TK_PRINT, "Print"}
+
+	,{ TokensId::TK_NEWLINE, "Newline"}
+
+	,{ TokensId::TK_SEMICOLON, "Semicolon"}
+
+	,{ TokensId::TK_RETURN, "Return"}
+
+	,{ TokensId::TK_IF, "If"}
+	,{ TokensId::TK_ELSE, "Else"}
+
+	,{ TokensId::TK_WHILE, "While"}
+	,{ TokensId::TK_DO, "Do"}
+	,{ TokensId::TK_FOR, "For"}
 };
 //////////////////////////////////////////////////////////////////////
 
@@ -77,6 +125,7 @@ static const char VARIABLE_SEPARATOR = ',';
 
 static const char WHITE_SPACE = ' ';// TODO : rename
 static const char TAB_SYMBOL = '\t';
+static const char NEWLINE_SYMBOL = '\n';
 //static const std::string COMMON_SEPARATORS[] = { WHITE_SPACE , TAB_SYMBOL };
 
 static const char START_BLOCK = '{';

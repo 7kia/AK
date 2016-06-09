@@ -1,3 +1,0 @@
-  Error: Next symbol after number is incorrect  at (0,0)
-  Error: unknown lexem at (1,7)
-  Error: Syntax error at (1,1)

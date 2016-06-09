@@ -33,6 +33,15 @@ void CInterpreter::ProcessLine(const std::string & line)
 	{
 		tokenId = lexer.Scan(token);
 
-		m_output << token.value << " - " << TokensStringPresentation[static_cast<int>(tokenId)] << std::endl;
-	} while (tokenId != TokensId::TK_NONE);
+		// Добавлено для читаемости тестов
+		if (tokenId == TokensId::TK_NONE)
+		{
+			m_output << std::endl;
+		}
+		else
+		{
+			m_output << token.value << " - " << TokensStringPresentation.at(tokenId) << std::endl;
+		}
+
+	} while (tokenId != TokensId::TK_NONE);// TODO: might need TK_NONE
 }

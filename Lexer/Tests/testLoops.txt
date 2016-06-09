@@ -1,0 +1,10 @@
+while(false)
+{
+};
+
+do{
+}while(false);
+
+for(signed int index = 1; index < 4; index = index + 1)
+{
+};

@@ -27,10 +27,19 @@
     <ClInclude Include="targetver.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="TestsOld.h">
+    <ClInclude Include="FunctionsForTests.h">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
-    <ClInclude Include="FunctionsForTests.h">
+    <ClInclude Include="..\Interpreter.h">
+      <Filter>TestClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lexer.h">
+      <Filter>TestClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Token.h">
+      <Filter>TestClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="TestsLexer.h">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
   </ItemGroup>
@@ -38,10 +47,19 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="TestsOld.cpp">
+    <ClCompile Include="FunctionsForTests.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="FunctionsForTests.cpp">
+    <ClCompile Include="..\Interpreter.cpp">
+      <Filter>TestClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lexer.cpp">
+      <Filter>TestClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Token.cpp">
+      <Filter>TestClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="TestsLexer.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>

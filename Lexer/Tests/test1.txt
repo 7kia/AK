@@ -1,13 +1,14 @@
-def sqr(x)
-result = x * x
-return result
-end
+unsigned double sqr(x)
+{
+	unsigned double result = x * x;
+	return result;
+}
 
-print sqr(10)
-print sqr(9)
+printf(sqr(10));
+printf(sqr(9));
 
-w = 1
-print w
+signed w = 1;
+printf(w);
 
-w = 2.4
-print w
+signed w = 2.4;
+printf(w);
