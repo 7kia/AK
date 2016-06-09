@@ -166,6 +166,20 @@ std::string CLexer::ParseInt()
 {
 	string value;
 	bool parsedAny = false;
+
+	// Not recognize zeros in start
+	if (m_peep.size() >= 2)
+	{
+		if ((m_peep[0] == '0') 
+			&& 
+			isdigit(m_peep[1])
+			)
+		{
+			return std::string();// Признак ошибки
+		}
+	}
+
+
 	while (!m_peep.empty() && std::isdigit(m_peep[0]))
 	{
 		parsedAny = true;
