@@ -5,12 +5,10 @@
 class CInterpreter
 {
 public:
-    CInterpreter(std::ostream &output);
+    CInterpreter();
     ~CInterpreter();
 
     void					EnterLoop(std::istream &input);
 
-private:
-    class Impl;
-    std::unique_ptr<Impl>	m_pImpl;
+	void					ProcessLine(const std::string & line);
 };

@@ -53,9 +53,6 @@
     <ClCompile Include="Lexer.cpp">
       <Filter>Compiler</Filter>
     </ClCompile>
-    <ClCompile Include="Value.cpp">
-      <Filter>Compiler</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>

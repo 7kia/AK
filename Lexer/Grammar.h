@@ -35,7 +35,6 @@ enum class TokensId
 	, TK_ELSE
 	, TK_WHILE
 	, TK_DO
-	, TK_RETURN
 	,
 };
 

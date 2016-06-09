@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Token.h"
 
 SToken::SToken()

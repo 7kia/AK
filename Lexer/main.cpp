@@ -1,11 +1,9 @@
 #include "stdafx.h"
 
-#include "Parser.h"
+
 #include "Lexer.h"
-#include "StringPool.h"
 #include "Interpreter.h"
-#include "Token.h"
-#include "Grammar.h"
+
 #include <iostream>
 #include <time.h>
 
@@ -31,7 +29,7 @@ int main(int argc, char *argv[])
 	{
 		(void)e;
 
-		CInterpreter interpreter(std::cout);
+		CInterpreter interpreter;
 
 		interpreter.EnterLoop(std::cin);
 
@@ -47,7 +45,7 @@ int main(int argc, char *argv[])
 	ofstream outputFile(argv[2]);
 	ifstream inputFile(argv[1]);
 
-	CInterpreter interpreter(outputFile);
+	CInterpreter interpreter;
 	interpreter.EnterLoop(inputFile);
 
     return 0;
