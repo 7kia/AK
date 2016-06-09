@@ -5,10 +5,9 @@
 class CInterpreter
 {
 public:
-    CInterpreter(std::ostream &output, std::ostream &errors);
+    CInterpreter(std::ostream &output);
     ~CInterpreter();
 
-    void					StartDebugTrace();
     void					EnterLoop(std::istream &input);
 
 private:

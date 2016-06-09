@@ -31,8 +31,7 @@ int main(int argc, char *argv[])
 	{
 		(void)e;
 
-		std::srand(static_cast<unsigned>(time(nullptr)));
-		CInterpreter interpreter(std::cout, std::cerr);
+		CInterpreter interpreter(std::cout);
 
 		interpreter.EnterLoop(std::cin);
 
@@ -45,11 +44,10 @@ int main(int argc, char *argv[])
 	}
     
 
-	ofstream outputFile(argv[3]);
-	ofstream errorFile(argv[2]);
+	ofstream outputFile(argv[2]);
 	ifstream inputFile(argv[1]);
 
-	CInterpreter interpreter(outputFile, errorFile);
+	CInterpreter interpreter(outputFile);
 	interpreter.EnterLoop(inputFile);
 
     return 0;

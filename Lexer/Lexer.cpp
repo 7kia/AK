@@ -5,37 +5,26 @@
 #include <iostream>
 #include <sstream>
 
-CLexer::CLexer(unsigned lineNo
-				, std::string const& line
-				, CStringPool & pool
-				, ErrorHandler const &handler)
-    : m_lineNo(lineNo)
-    , m_sources(line)
+using namespace std;
+
+CLexer::CLexer(const std::string & line
+				, std::ostream &output
+				, std::ostream &errors)
+    : m_sources(line)
     , m_peep(m_sources)
-    , m_stringPool(pool)
-    , m_onError(handler)
     , m_keywords({
-        { "do",     TokensId::TK_DO },
-        { "if",     TokensId::TK_IF },
-        { "end",    TokensId::TK_END },
-        { "else",	TokensId::TK_ELSE },
-        { "while",  TokensId::TK_WHILE },
-        { "print",  TokensId::TK_PRINT },
         { "return", TokensId::TK_RETURN },
-        { "def",    TokensId::TK_FUNCTION },
       })
 {
 }
 
-int CLexer::Scan(SToken &data)
+TokensId CLexer::Scan(SToken &data)
 {
     SkipSpaces();// TODO : see need whitespace
-    data.line = m_lineNo;
-    data.column = 1 + unsigned(m_peep.data() - m_sources.c_str());
 
     if (m_peep.empty())
     {
-        return 0;
+		return TokensId::TK_NONE;
     }
 
 	/////////////////////////////////////////////////////
@@ -43,23 +32,13 @@ int CLexer::Scan(SToken &data)
 	std::string id = ParseIdentifier();
 	if (!id.empty())
 	{
-		return AcceptIdOrKeyword(data, std::move(id));
+		return AcceptIdOrKeyword(data);
 	}
 	/////////////////////////////////////////////////////
 
 	/////////////////////////////////////////////////////
-	// Parse number // TODO : not pars double, because program will not stable
-    double value = ParseDouble();
-    if (!std::isnan(value))
-    {
-        data.value = value;
-        return TokensId::TK_NUMBER;
-    }
-	/////////////////////////////////////////////////////
-	/*
-	////////////////////////////////////
 	// Parse number
-	double intValue = ParseInt();
+	string intValue = ParseInt();
 	
 	if (!std::isnan(intValue))
     {
@@ -79,56 +58,6 @@ int CLexer::Scan(SToken &data)
     }
 
 
-	double CLexer::ParseInt()
-	{
-		double value = 0;
-		bool parsedAny = false;
-		while (!m_peep.empty() && std::isdigit(m_peep[0]))
-		{
-			parsedAny = true;
-			const int digit = m_peep[0] - '0';
-			value = value * 10.0f + double(digit);
-			m_peep.remove_prefix(1);
-		}
-
-	if (!parsedAny)
-	{
-		return std::numeric_limits<double>::quiet_NaN();
-	}
-
-		if (m_peep.empty() || (m_peep[0] != '.'))// TODO : might add suffix u, L(for example 1.f, 4u)
-		{
-			return value;
-		}
-	}
-
-	// returns NaN if cannot parse double.
-	double CLexer::ParseDoublePart()
-	{
-		bool isDoublePart = false;
-		double value = 0;
-
-		m_peep.remove_prefix(1);
-		double factor = 1.f;
-		while (!m_peep.empty() && std::isdigit(m_peep[0]))
-		{
-			isDoublePart = true;
-			const int digit = m_peep[0] - '0';
-			factor *= 0.1f;
-			value += factor * double(digit);
-			m_peep.remove_prefix(1);
-		}
-
-		if (!isDoublePart)
-		{
-			return std::numeric_limits<double>::quiet_NaN();
-		}
-
-		return value;
-	}
-	*/
-
-
 	/////////////////////////////////////////////////////
 	// Parse string
     if (ParseString(data))
@@ -144,9 +73,9 @@ int CLexer::Scan(SToken &data)
     case NAME_LESS:
         m_peep.remove_prefix(1);
         return TokensId::TK_LESS;
-	//case NAME_MORE:
-		//m_peep.remove_prefix(1);
-		//return TokensId::TK_MORE;// TODO : not work
+	case NAME_MORE:
+		m_peep.remove_prefix(1);
+		return TokensId::TK_MORE;// TODO : not work
     case NAME_PLUS:
         m_peep.remove_prefix(1);
         return TokensId::TK_PLUS;
@@ -182,10 +111,52 @@ int CLexer::Scan(SToken &data)
     }
 	/////////////////////////////////////////////////////
 
-	/////////////////////////////////////////////////////
-    // on error, return EOF
-    OnError("unknown lexem", data);
-    return 0;
+    return TokensId::TK_NONE;
+}
+
+std::string CLexer::ParseInt()
+{
+	string value;
+	bool parsedAny = false;
+	while (!m_peep.empty() && std::isdigit(m_peep[0]))
+	{
+		parsedAny = true;
+		value += m_peep[0]
+		m_peep.remove_prefix(1);
+	}
+
+	if (!parsedAny)
+	{
+		return std::string();// Признак ошибки
+	}
+
+	if ((m_peep.empty() || !(isalpha(m_peep[0]))
+	{
+		return value;
+	}
+	return std::string();
+}
+
+// returns NaN if cannot parse double.
+string CLexer::ParseDoublePart()
+{
+	bool isDoublePart = false;
+	string value = ".";
+
+	m_peep.remove_prefix(1);
+	while (!m_peep.empty() && std::isdigit(m_peep[0]))
+	{
+		isDoublePart = true;
+		value += m_peep[0];
+		m_peep.remove_prefix(1);
+	}
+
+	if (!isDoublePart)
+	{
+		return std::string();
+	}
+
+	return value;
 }
 
 // returns NaN if cannot parse double.
@@ -210,8 +181,7 @@ double CLexer::ParseDouble()
 	// After number would space symbol(s), 
 	if (isalpha(m_peep[0]))
 	{
-		OnError("Next symbol after number is incorrect ", SToken());
-		return std::numeric_limits<double>::quiet_NaN();
+		throw std::logic_error("Next symbol after number is incorrect ");
 	}
 	/////////////////////////////////////////////////
 	// If not double part then return integer value
@@ -264,58 +234,45 @@ void CLexer::SkipSpaces()
 
 bool CLexer::ParseString(SToken &data)
 {
-    if (m_peep[0] != '\"')
-    {
-        return false;
-    }
+	if (m_peep[0] != '\"')
+	{
+		return false;
+	}
 
-    m_peep.remove_prefix(1);
-    size_t quotePos = m_peep.find('\"');
-    if (quotePos == boost::string_ref::npos)
-    {
-        OnError("missed end quote", data);
-        data.stringId = m_stringPool.Insert(m_peep.to_string());
-        m_peep.clear();
+	m_peep.remove_prefix(1);
+	size_t quotePos = m_peep.find('\"');
+	if (quotePos == boost::string_ref::npos)
+	{
+		m_peep.clear();
 
-        return true;
-    }
+		return true;
+	}
 
-    boost::string_ref value = m_peep.substr(0, quotePos);
-    data.stringId = m_stringPool.Insert(value.to_string());
-    m_peep.remove_prefix(quotePos + 1);
-
-    return true;
+	data.value = m_peep.substr(0, quotePos);
+	m_peep.remove_prefix(quotePos + 1);
+	return true;
 }
 
-int CLexer::AcceptIdOrKeyword(SToken &data, std::string && id)
+TokensId CLexer::AcceptIdOrKeyword(SToken &data, boost::string_ref id)
 {
     if (id == NAME_TRUE)
     {
-        data.boolValue = true;
+        data.value = std::string(id);
         return TokensId::TK_BOOL;
     }
     else if (id == NAME_FALSE)
     {
-        data.boolValue = false;
+        data.value = std::string(id);
         return TokensId::TK_BOOL;
     }
 
-    auto it = m_keywords.find(id);
+    auto it = m_keywords.find(std::string(id));
     if (it != m_keywords.end())
     {
-        return it->second;
+        return static_cast<TokensId>(it->second);
     }
 
-    data.stringId = m_stringPool.Insert(id);
+    data.value = std::string(id);
     return TokensId::TK_ID;
 }
 
-void CLexer::OnError(const char message[], SToken &data)
-{
-    if (m_onError)
-    {
-        std::stringstream formatter;
-        formatter << message << " at (" << data.line << "," << data.column << ")";
-        m_onError(formatter.str());
-    }
-}

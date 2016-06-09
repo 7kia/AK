@@ -1,13 +1,12 @@
 #pragma once
 
+#include "Grammar.h"
+
 struct SToken
 {
-    unsigned line;
-    unsigned column;
-    union {
-        // Id in CStringPool object. Always 0 for most tokens.
-        unsigned stringId;
-        double value;
-        bool boolValue;
-    };
+	SToken();
+	SToken(const std::string & value, TokensId id);
+
+	std::string		value;
+	TokensId		id = TokensId::TK_NONE;
 };

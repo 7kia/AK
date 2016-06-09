@@ -27,78 +27,39 @@
     <ClInclude Include="targetver.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="AST.h">
-      <Filter>Compiler</Filter>
-    </ClInclude>
-    <ClInclude Include="Grammar.h">
-      <Filter>Compiler</Filter>
-    </ClInclude>
     <ClInclude Include="Interpreter.h">
-      <Filter>Compiler</Filter>
-    </ClInclude>
-    <ClInclude Include="InterpreterContext.h">
       <Filter>Compiler</Filter>
     </ClInclude>
     <ClInclude Include="Lexer.h">
       <Filter>Compiler</Filter>
     </ClInclude>
-    <ClInclude Include="Parser.h">
-      <Filter>Compiler</Filter>
-    </ClInclude>
-    <ClInclude Include="Parser_private.h">
-      <Filter>Compiler</Filter>
-    </ClInclude>
-    <ClInclude Include="StringPool.h">
-      <Filter>Compiler</Filter>
-    </ClInclude>
     <ClInclude Include="Token.h">
-      <Filter>Compiler</Filter>
-    </ClInclude>
-    <ClInclude Include="Value.h">
-      <Filter>Compiler</Filter>
-    </ClInclude>
-    <ClInclude Include="VariablesScope.h">
       <Filter>Compiler</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
       <Filter>Файлы исходного кода</Filter>
+    </ClInclude>
+    <ClInclude Include="Grammar.h">
+      <Filter>Compiler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="AST.cpp">
-      <Filter>Compiler</Filter>
-    </ClCompile>
     <ClCompile Include="Interpreter.cpp">
-      <Filter>Compiler</Filter>
-    </ClCompile>
-    <ClCompile Include="InterpreterContext.cpp">
       <Filter>Compiler</Filter>
     </ClCompile>
     <ClCompile Include="Lexer.cpp">
       <Filter>Compiler</Filter>
     </ClCompile>
-    <ClCompile Include="Parser.cpp">
-      <Filter>Compiler</Filter>
-    </ClCompile>
-    <ClCompile Include="Parser_private.cpp">
-      <Filter>Compiler</Filter>
-    </ClCompile>
-    <ClCompile Include="StringPool.cpp">
-      <Filter>Compiler</Filter>
-    </ClCompile>
     <ClCompile Include="Value.cpp">
-      <Filter>Compiler</Filter>
-    </ClCompile>
-    <ClCompile Include="VariablesScope.cpp">
       <Filter>Compiler</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="Grammar.cpp">
+    <ClCompile Include="Token.cpp">
       <Filter>Compiler</Filter>
     </ClCompile>
   </ItemGroup>

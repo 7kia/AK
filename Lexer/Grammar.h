@@ -1,19 +1,24 @@
 #pragma once
 
+#include <string>
+
 //////////////////////////////////////////////////////////////////////
 // Tokens id
-enum TokensId
+enum class TokensId
 {
-	TK_LESS = 1
-	//, TK_MORE
+	/*
+		TK_NONE = 0
+	, TK_LESS = 1
+	, TK_MORE
 	, TK_EQUALS
+	, TK_LESS_OR_EQUAL
+	, TK_MORE_OR_EQUAL
 	, TK_PLUS
 	, TK_MINUS
 	, TK_STAR
 	, TK_SLASH
 	, TK_PERCENT
 	, TK_NEWLINE
-	, TK_FUNCTION
 	, TK_ID
 	, TK_LPAREN
 	, TK_RPAREN
@@ -29,6 +34,15 @@ enum TokensId
 	, TK_NUMBER
 	, TK_STRING
 	, TK_BOOL
+
+	*/
+	  TK_NONE = 0
+	, TK_INTEGER
+	, TK_DOUBLE
+	, TK_BOOL
+	, TK_ID
+	, TK_RETURN
+	, 
 };
 
 //////////////////////////////////////////////////////////////////////

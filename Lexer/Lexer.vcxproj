@@ -147,34 +147,21 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AST.h" />
     <ClInclude Include="Grammar.h" />
     <ClInclude Include="Interpreter.h" />
-    <ClInclude Include="InterpreterContext.h" />
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="Parser.h" />
-    <ClInclude Include="Parser_private.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="StringPool.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Token.h" />
-    <ClInclude Include="Value.h" />
-    <ClInclude Include="VariablesScope.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AST.cpp" />
-    <ClCompile Include="Grammar.cpp" />
     <ClCompile Include="Interpreter.cpp" />
-    <ClCompile Include="InterpreterContext.cpp" />
     <ClCompile Include="Lexer.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Parser.cpp" />
-    <ClCompile Include="Parser_private.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="StringPool.cpp" />
+    <ClCompile Include="Token.cpp" />
     <ClCompile Include="Value.cpp" />
-    <ClCompile Include="VariablesScope.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
