@@ -27,5 +27,5 @@ private:
     const std::string					m_sources;
     boost::string_ref					m_peep;
 
-	const std::map<std::string, int>	m_keywords;
+	const std::map<std::string, TokensId>	m_keywords;
 };

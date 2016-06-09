@@ -7,12 +7,11 @@
 
 using namespace std;
 
-CLexer::CLexer(const std::string & line
-				, std::ostream &output
-				, std::ostream &errors)
+CLexer::CLexer(const std::string & line)
     : m_sources(line)
     , m_peep(m_sources)
     , m_keywords({
+		{ "bool", TokensId::TK_BOOL },
         { "return", TokensId::TK_RETURN },
       })
 {
@@ -32,7 +31,7 @@ TokensId CLexer::Scan(SToken &data)
 	std::string id = ParseIdentifier();
 	if (!id.empty())
 	{
-		return AcceptIdOrKeyword(data);
+		return AcceptIdOrKeyword(data, id);
 	}
 	/////////////////////////////////////////////////////
 
@@ -40,22 +39,22 @@ TokensId CLexer::Scan(SToken &data)
 	// Parse number
 	string intValue = ParseInt();
 	
-	if (!std::isnan(intValue))
+	if (!intValue.empty())
     {
 		if (m_peep[0] == '.')
 		{
-			double doublePart = ParseDoublePart();
+			string doublePart = ParseDoublePart();
 
-			if (!std::isnan(doublePart))
+			if (!doublePart.empty())
 			{
-				data.doubleValue = intValue + doublePart;
-				return TK_DOUBLE;
+				data.value = intValue + doublePart;
+				return TokensId::TK_DOUBLE;
 			}
 		}
 		
-		data.intValue = static_cast<int>(intValue);
-		return TK_INT;		
-    }
+		data.value = intValue;
+		return TokensId::TK_INTEGER;
+	}
 
 
 	/////////////////////////////////////////////////////
@@ -121,7 +120,7 @@ std::string CLexer::ParseInt()
 	while (!m_peep.empty() && std::isdigit(m_peep[0]))
 	{
 		parsedAny = true;
-		value += m_peep[0]
+		value += m_peep[0];
 		m_peep.remove_prefix(1);
 	}
 
@@ -130,7 +129,7 @@ std::string CLexer::ParseInt()
 		return std::string();// Признак ошибки
 	}
 
-	if ((m_peep.empty() || !(isalpha(m_peep[0]))
+	if (m_peep.empty() || !(isalpha(m_peep[0])) )
 	{
 		return value;
 	}
@@ -157,50 +156,6 @@ string CLexer::ParseDoublePart()
 	}
 
 	return value;
-}
-
-// returns NaN if cannot parse double.
-double CLexer::ParseDouble()
-{
-    double value = 0;
-    bool parsedAny = false;
-    while (!m_peep.empty() && std::isdigit(m_peep[0]))
-    {
-        parsedAny = true;
-        const int digit = m_peep[0] - '0';
-        value = value * 10.0f + double(digit);
-        m_peep.remove_prefix(1);
-    }
-
-    if (!parsedAny)
-    {
-        return std::numeric_limits<double>::quiet_NaN();
-    }
-
-	/////////////////////////////////////////////////
-	// After number would space symbol(s), 
-	if (isalpha(m_peep[0]))
-	{
-		throw std::logic_error("Next symbol after number is incorrect ");
-	}
-	/////////////////////////////////////////////////
-	// If not double part then return integer value
-    if (m_peep.empty() || (m_peep[0] != '.'))
-    {
-        return value;
-    }
-	/////////////////////////////////////////////////
-    m_peep.remove_prefix(1);
-    double factor = 1.f;
-    while (!m_peep.empty() && std::isdigit(m_peep[0]))
-    {
-        const int digit = m_peep[0] - '0';
-        factor *= 0.1f;
-        value += factor * double(digit);
-        m_peep.remove_prefix(1);
-    }
-
-    return value;
 }
 
 std::string CLexer::ParseIdentifier()
@@ -248,12 +203,12 @@ bool CLexer::ParseString(SToken &data)
 		return true;
 	}
 
-	data.value = m_peep.substr(0, quotePos);
+	data.value = std::string(m_peep.substr(0, quotePos));
 	m_peep.remove_prefix(quotePos + 1);
 	return true;
 }
 
-TokensId CLexer::AcceptIdOrKeyword(SToken &data, boost::string_ref id)
+TokensId CLexer::AcceptIdOrKeyword(SToken &data, const boost::string_ref id)
 {
     if (id == NAME_TRUE)
     {

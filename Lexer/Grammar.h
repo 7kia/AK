@@ -6,9 +6,13 @@
 // Tokens id
 enum class TokensId
 {
-	/*
-		TK_NONE = 0
-	, TK_LESS = 1
+
+	  TK_NONE = 0
+	, TK_INTEGER = 1
+	, TK_DOUBLE
+	, TK_STRING
+	, TK_BOOL
+	, TK_LESS
 	, TK_MORE
 	, TK_EQUALS
 	, TK_LESS_OR_EQUAL
@@ -31,18 +35,8 @@ enum class TokensId
 	, TK_ELSE
 	, TK_WHILE
 	, TK_DO
-	, TK_NUMBER
-	, TK_STRING
-	, TK_BOOL
-
-	*/
-	  TK_NONE = 0
-	, TK_INTEGER
-	, TK_DOUBLE
-	, TK_BOOL
-	, TK_ID
 	, TK_RETURN
-	, 
+	,
 };
 
 //////////////////////////////////////////////////////////////////////
