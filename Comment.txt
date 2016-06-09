@@ -1,0 +1,13 @@
+﻿/////////////////////////////////////////////////////
+// Комментарии
+//
+<multistring comment> ::= <Start multi comment> (<char>)+ <End multi comment>;
+
+<Start multi comment> ::= "/*";
+<End multi comment>::= "*/";
+
+<only string comment> ::= <Start only string comment> (<char> кроме '\n')* '\n';// TODO посмотри нужно ли удалить из общих разделителей
+
+
+
+

@@ -8,7 +8,7 @@
 
 <Command separator> ::= ';' ;
 <variable separator> ::= ',' ;
-<common separator > ::= ' ' | '\t'; // TODO : посмотри стоит добавлять\n или нет
+<common separator > ::= <multistring comment> | <only string comment> | ' ' | '\t' ; // TODO : посмотри стоит добавлять\n или нет
 <Start block> = '{' ; 
 <End block> = '}' ;
 <Start list arguments> ::= '(';
