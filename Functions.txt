@@ -1,7 +1,7 @@
 ﻿/////////////////////////////////////////////////////
 // Функции
 //
-<
+<function block> ::= (<function implementation> | <function init>)+;
 
 <function init> ::= <type initialization> <FunctionName> <list arguments> // TODO : add separator
 <FunctionName> ::= <identificator> ;

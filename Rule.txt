@@ -1,9 +1,9 @@
 ﻿///////////////////////////////////////////////////////////////////////////////
 // Основа
-<Program> ::= <Name main function> <Command block>;
+<Program> ::= (<function block>)? <Name main function> <Command block>;
 <Command block> ::= <Start block> <Commands> <End block>;
 <Commands> ::= (<Command>)+;
-<Command> ::= (<value> | <any branching> | <any loop> | <any interrupt operator> )<Command separator>;
+<Command> ::= (<value> | <any branching> | <any loop> | <any interrupt operator> | <return function> )<Command separator>;
 //
 <identificator> ::= (<letter>)+ (<digit> | <letter>)* ;
 ///////////////////////////////////////////////////////////////////////////////
@@ -12,10 +12,6 @@
 // Комманды
 // TODO : оператор присвоения
 <value> ::= <Call function> | <Assign for variable> | <variable>   | <expression> | <literal>;
-
-<Call function> ::= <FunctionName><list arguments>; 
-<list arguments> ::= <Start list arguments> <set arguments> <End list arguments>;
-<set arguments> ::= <value>  (<variable separator> <value> )? ;
 
 <Assign for variable> ::= ((<init variable> | <variable> )'=' (<value> | <list values>)) ;
 
