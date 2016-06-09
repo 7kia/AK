@@ -27,39 +27,6 @@
     <ClInclude Include="targetver.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\AST.h">
-      <Filter>TestClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Grammar.h">
-      <Filter>TestClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Interpreter.h">
-      <Filter>TestClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="..\InterpreterContext.h">
-      <Filter>TestClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Lexer.h">
-      <Filter>TestClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Parser.h">
-      <Filter>TestClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Parser_private.h">
-      <Filter>TestClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="..\StringPool.h">
-      <Filter>TestClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Token.h">
-      <Filter>TestClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Value.h">
-      <Filter>TestClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="..\VariablesScope.h">
-      <Filter>TestClasses</Filter>
-    </ClInclude>
     <ClInclude Include="TestsOld.h">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
@@ -70,36 +37,6 @@
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AST.cpp">
-      <Filter>TestClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Grammar.cpp">
-      <Filter>TestClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Interpreter.cpp">
-      <Filter>TestClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="..\InterpreterContext.cpp">
-      <Filter>TestClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Lexer.cpp">
-      <Filter>TestClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Parser.cpp">
-      <Filter>TestClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Parser_private.cpp">
-      <Filter>TestClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="..\StringPool.cpp">
-      <Filter>TestClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Value.cpp">
-      <Filter>TestClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="..\VariablesScope.cpp">
-      <Filter>TestClasses</Filter>
     </ClCompile>
     <ClCompile Include="TestsOld.cpp">
       <Filter>Файлы исходного кода</Filter>

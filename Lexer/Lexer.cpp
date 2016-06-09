@@ -12,6 +12,7 @@ CLexer::CLexer(const std::string & line)
     , m_peep(m_sources)
     , m_keywords({
 		{ "bool", TokensId::TK_BOOL },
+		{ "printf", TokensId::TK_PRINT },
         { "return", TokensId::TK_RETURN },
       })
 {
@@ -70,41 +71,53 @@ TokensId CLexer::Scan(SToken &data)
     switch (m_peep[0])
     {
     case NAME_LESS:
+		data.value = NAME_LESS;
         m_peep.remove_prefix(1);
         return TokensId::TK_LESS;
 	case NAME_MORE:
+		data.value = NAME_MORE;
 		m_peep.remove_prefix(1);
 		return TokensId::TK_MORE;// TODO : not work
     case NAME_PLUS:
+		data.value = NAME_PLUS;
         m_peep.remove_prefix(1);
         return TokensId::TK_PLUS;
     case NAME_MINUS:
+		data.value = NAME_MINUS;
         m_peep.remove_prefix(1);
         return TokensId::TK_MINUS;
     case NAME_MULTIPLICATION:
+		data.value = NAME_MULTIPLICATION;
         m_peep.remove_prefix(1);
         return TokensId::TK_STAR;
     case NAME_DIVISION:
+		data.value = NAME_DIVISION;
         m_peep.remove_prefix(1);
         return TokensId::TK_SLASH;
     case VARIABLE_SEPARATOR:// TODO : write test for it
+		data.value = VARIABLE_SEPARATOR;
         m_peep.remove_prefix(1);
         return TokensId::TK_COMMA;
     case NAME_DIVISION_BY_REMAIN:
+		data.value = NAME_DIVISION_BY_REMAIN;
         m_peep.remove_prefix(1);
         return TokensId::TK_PERCENT;
     case START_LIST_ARGUMENTS:
+		data.value = START_LIST_ARGUMENTS;
         m_peep.remove_prefix(1);
-        return TokensId::TK_LPAREN;
+        return TokensId::TK_LEFT_PAREN;
     case END_LIST_ARGUMENTS:
+		data.value = END_LIST_ARGUMENTS;
         m_peep.remove_prefix(1);
-        return TokensId::TK_RPAREN;
+        return TokensId::TK_RIGHT_PAREN;
     case NAME_ASSIGMENT:
         if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
         {
+			data.value = NAME_ASSIGMENT + NAME_ASSIGMENT;
             m_peep.remove_prefix(2);
             return TokensId::TK_EQUALS;
         }
+		data.value = NAME_ASSIGMENT;
         m_peep.remove_prefix(1);
         return TokensId::TK_ASSIGN;
     }
@@ -212,18 +225,19 @@ TokensId CLexer::AcceptIdOrKeyword(SToken &data, const boost::string_ref id)
 {
     if (id == NAME_TRUE)
     {
-        data.value = std::string(id);
+        data.value = NAME_TRUE;
         return TokensId::TK_BOOL;
     }
     else if (id == NAME_FALSE)
     {
-        data.value = std::string(id);
+        data.value = NAME_FALSE;
         return TokensId::TK_BOOL;
     }
 
     auto it = m_keywords.find(std::string(id));
     if (it != m_keywords.end())
     {
+		data.value = it->first;
         return static_cast<TokensId>(it->second);
     }
 

@@ -19,9 +19,9 @@ const std::string PATH_RIGHT_DATA = "Right\\";
 namespace TestNameFiles
 {
 	static const std::string nameFormatFiles = ".txt";
-	static const std::string nameCodeFile = "testProgram";
-	static const std::string nameErrorFile = "errorProgram";
-	static const std::string nameOutputFile = "outputProgram";
+	static const std::string nameCodeFile = "test";
+	static const std::string nameErrorFile = "error";
+	static const std::string nameOutputFile = "output";
 }
 
 void CompareFiles(const std::string & first, const std::string & second);

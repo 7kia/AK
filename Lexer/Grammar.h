@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-
+#include <array>
 //////////////////////////////////////////////////////////////////////
 // Tokens id
 enum class TokensId
@@ -22,11 +22,9 @@ enum class TokensId
 	, TK_STAR
 	, TK_SLASH
 	, TK_PERCENT
-	, TK_NEWLINE
 	, TK_ID
-	, TK_LPAREN
-	, TK_RPAREN
-	, TK_END
+	, TK_LEFT_PAREN
+	, TK_RIGHT_PAREN
 	, TK_COMMA
 	, TK_ASSIGN
 	, TK_PRINT
@@ -35,9 +33,39 @@ enum class TokensId
 	, TK_ELSE
 	, TK_WHILE
 	, TK_DO
-	,
+	, Amount
 };
 
+static const std::array<std::string, static_cast<int>(TokensId::Amount)> TokensStringPresentation
+{
+
+	"Unknow"
+	, "Integer"
+	, "Double"
+	, "String"
+	, "Bool"
+	, "Less"
+	, "More"
+	, "Equal"
+	, "Less or equal"
+	, "More or equal"
+	, "Plus"
+	, "Minus"
+	, "Star"
+	, "Slash"
+	, "Percent"
+	, "Identifier"
+	, "Left paren"
+	, "Right paren"
+	, "Comma"
+	, "Assign"
+	, "Print"
+	, "return"
+	, "If"
+	, "Else"
+	, "While"
+	, "Do"
+};
 //////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////

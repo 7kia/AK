@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 	{
 		(void)e;
 
-		CInterpreter interpreter;
+		CInterpreter interpreter(std::cout);
 
 		interpreter.EnterLoop(std::cin);
 
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 	ofstream outputFile(argv[2]);
 	ifstream inputFile(argv[1]);
 
-	CInterpreter interpreter;
+	CInterpreter interpreter(outputFile);
 	interpreter.EnterLoop(inputFile);
 
     return 0;

@@ -5,7 +5,8 @@
 #include "Lexer.h"
 #include "Grammar.h"
 
-CInterpreter::CInterpreter()
+CInterpreter::CInterpreter(std::ostream &output)
+	: m_output(output)
 {
 }
 
@@ -31,5 +32,7 @@ void CInterpreter::ProcessLine(const std::string & line)
 	do
 	{
 		tokenId = lexer.Scan(token);
+
+		m_output << token.value << " - " << TokensStringPresentation[static_cast<int>(tokenId)] << std::endl;
 	} while (tokenId != TokensId::TK_NONE);
 }
