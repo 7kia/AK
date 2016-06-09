@@ -1,0 +1,12 @@
+printf - Print
+( - Left paren
+1 - Integer
+) - Right paren
+; - Semicolon
+
+printf - Print
+( - Left paren
+1.1 - Double
+) - Right paren
+; - Semicolon
+

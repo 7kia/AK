@@ -1,0 +1,6 @@
+printf - Print
+( - Left paren
+sd - String
+) - Right paren
+; - Semicolon
+

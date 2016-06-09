@@ -1,0 +1,26 @@
+signed - Signed
+int - Integer
+q - Identifier
+= - Assign
+1 - Integer
+; - Semicolon
+
+unsigned - Unsigned
+int - Integer
+
+signed - Signed
+double - Double
+fl - Identifier
+= - Assign
+3.14 - Double
+; - Semicolon
+
+unsigned - Unsigned
+double - Double
+
+string - String
+str1 - Identifier
+= - Assign
+this string - String
+; - Semicolon
+

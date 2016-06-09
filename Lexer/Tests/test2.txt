@@ -1,2 +1,2 @@
-var = 2 + 2 * 2;
+signed double var = 2 + 2 * 2;
 printf(var);

@@ -7,8 +7,8 @@ unsigned double sqr(x)
 printf(sqr(10));
 printf(sqr(9));
 
-signed w = 1;
+signed int w = 1;
 printf(w);
 
-signed w = 2.4;
-printf(w);
+signed int ws = 2.4;
+printf(ws);

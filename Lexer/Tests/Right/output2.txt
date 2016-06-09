@@ -1,0 +1,17 @@
+signed - Signed
+double - Double
+var - Identifier
+= - Assign
+2 - Integer
++ - Plus
+2 - Integer
+* - Star
+2 - Integer
+; - Semicolon
+
+printf - Print
+( - Left paren
+var - Identifier
+) - Right paren
+; - Semicolon
+

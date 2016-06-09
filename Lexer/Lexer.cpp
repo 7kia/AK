@@ -96,6 +96,7 @@ TokensId CLexer::Scan(SToken &data)
 		data.value = NAME_MORE;
 		m_peep.remove_prefix(1);
 		return TokensId::TK_MORE;// TODO : not work
+
     case NAME_PLUS:
 		data.value = NAME_PLUS;
         m_peep.remove_prefix(1);
@@ -112,14 +113,21 @@ TokensId CLexer::Scan(SToken &data)
 		data.value = NAME_DIVISION;
         m_peep.remove_prefix(1);
         return TokensId::TK_SLASH;
-    case VARIABLE_SEPARATOR:// TODO : write test for it
+	case NAME_DIVISION_BY_REMAIN:
+		data.value = NAME_DIVISION_BY_REMAIN;
+		m_peep.remove_prefix(1);
+		return TokensId::TK_PERCENT;
+
+	case COMMAND_SEPARATOR:
+		data.value = COMMAND_SEPARATOR;
+		m_peep.remove_prefix(1);
+		return TokensId::TK_SEMICOLON;
+    case VARIABLE_SEPARATOR:
 		data.value = VARIABLE_SEPARATOR;
         m_peep.remove_prefix(1);
         return TokensId::TK_COMMA;
-    case NAME_DIVISION_BY_REMAIN:
-		data.value = NAME_DIVISION_BY_REMAIN;
-        m_peep.remove_prefix(1);
-        return TokensId::TK_PERCENT;
+
+
     case START_LIST_ARGUMENTS:
 		data.value = START_LIST_ARGUMENTS;
         m_peep.remove_prefix(1);
@@ -136,10 +144,12 @@ TokensId CLexer::Scan(SToken &data)
 		data.value = END_BLOCK;
 		m_peep.remove_prefix(1);
 		return TokensId::TK_RIGHT_BRACE;
+
     case NAME_ASSIGMENT:
         if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
         {
-			data.value = NAME_ASSIGMENT + NAME_ASSIGMENT;
+			data.value = NAME_ASSIGMENT;
+			data.value += NAME_ASSIGMENT;
             m_peep.remove_prefix(2);
             return TokensId::TK_EQUALS;
         }

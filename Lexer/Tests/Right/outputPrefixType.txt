@@ -1,0 +1,30 @@
+signed - Signed
+int - Integer
+g - Identifier
+= - Assign
+1 - Integer
+; - Semicolon
+
+unsigned - Unsigned
+int - Integer
+s - Identifier
+= - Assign
+2 - Integer
+; - Semicolon
+
+const - Const
+signed - Signed
+double - Double
+j - Identifier
+= - Assign
+4 - Integer
+; - Semicolon
+
+long - Long
+signed - Signed
+double - Double
+v - Identifier
+= - Assign
+8 - Integer
+; - Semicolon
+

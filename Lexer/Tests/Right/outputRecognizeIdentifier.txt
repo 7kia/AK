@@ -1,0 +1,25 @@
+printf - Print
+( - Left paren
+w - Identifier
+) - Right paren
+) - Unknow
+printf - Print
+( - Left paren
+w1 - Identifier
+) - Right paren
+) - Unknow
+printf - Print
+( - Left paren
+x1 - Identifier
+) - Right paren
+) - Unknow
+printf - Print
+( - Left paren
+m01923 - Identifier
+) - Right paren
+) - Unknow
+printf - Print
+( - Left paren
+line9 - Identifier
+) - Right paren
+) - Unknow

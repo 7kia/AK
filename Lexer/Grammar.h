@@ -38,6 +38,7 @@ enum class TokensId
 	, TK_LEFT_BRACE
 	, TK_RIGHT_BRACE
 
+	, TK_SEMICOLON
 	, TK_COMMA
 
 	, TK_ASSIGN
@@ -45,8 +46,6 @@ enum class TokensId
 	, TK_PRINT
 
 	, TK_NEWLINE
-
-	, TK_SEMICOLON
 
 	, TK_RETURN
 
@@ -95,6 +94,7 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 	,{ TokensId::TK_RIGHT_BRACE, "Right brace" }
 
 
+	,{ TokensId::TK_SEMICOLON, "Semicolon" }
 	,{ TokensId::TK_COMMA, "Comma"}
 
 	,{ TokensId::TK_ASSIGN, "Assign"}
@@ -102,8 +102,6 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 	,{ TokensId::TK_PRINT, "Print"}
 
 	,{ TokensId::TK_NEWLINE, "Newline"}
-
-	,{ TokensId::TK_SEMICOLON, "Semicolon"}
 
 	,{ TokensId::TK_RETURN, "Return"}
 
@@ -128,6 +126,7 @@ static const char TAB_SYMBOL = '\t';
 static const char NEWLINE_SYMBOL = '\n';
 //static const std::string COMMON_SEPARATORS[] = { WHITE_SPACE , TAB_SYMBOL };
 
+static const char COMMAND_SEPARATOR = ';';
 static const char START_BLOCK = '{';
 static const char END_BLOCK = '}';
 static const char START_LIST_ARGUMENTS = '(';
