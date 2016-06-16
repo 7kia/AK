@@ -1,0 +1,28 @@
+
+void MultiplyWithOutAMP() {
+
+	signed int aMatrix[3][2] = { { 1, 4 },{ 2, 5 },{ 3, 6 } };
+	signed int bMatrix[2][3] = { { 7, 8, 9 },{ 10, 11, 12 } };
+	signed int product[3][3] = { { 0, 0, 0 },{ 0, 0, 0 },{ 0, 0, 0 } };
+
+/* 
+Multi-string
+	comment
+*/
+
+	for (signed int row = 0; row < 3; row++) {
+		for (signed int col = 0; col < 3; col++) {
+			// Multiply the row of A by the column of B to get the row, column of product.
+			for (signed int inner = 0; inner < 2; inner++) {
+				product[row][col] += aMatrix[row][inner] * bMatrix[inner][col];
+			}
+			printf(product[row][col] , "  ");
+		}
+		printf("\n");
+	}
+}
+
+void main() 
+{
+	MultiplyWithOutAMP();
+}

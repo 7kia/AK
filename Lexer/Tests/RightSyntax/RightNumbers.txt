@@ -1,0 +1,30 @@
+0 - Integer
+
+.0 - Double
+
+0. - Double
+
+0.1 - Double
+
+- - Minus
+2.3 - Double
+
++ - Plus
+1.1 - Double
+
+
+
+
+
+
+d - Identifier
+
+= - Assign
+.3 - Double
+
+- - Minus
+.3 - Double
+
+/ - Slash
+.3 - Double
+

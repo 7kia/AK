@@ -32,7 +32,7 @@ void CInterpreter::ProcessLine(const std::string & line)
 	do
 	{
 		tokenId = lexer.Scan(token);
-
+		token.id = tokenId;// TODO : see need tokenId
 		// Добавлено для читаемости тестов
 		if (tokenId == TokensId::TK_NONE)// TODO : process errors, now print nothing
 		{

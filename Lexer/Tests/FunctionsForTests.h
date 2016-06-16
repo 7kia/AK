@@ -10,14 +10,13 @@
 #include <fstream>
 #include <string>
 
-const std::string PATH_RIGHT_DATA = "Right\\";
+const std::string PREFIX_RIGHT_DATA = "Right";
 
 namespace TestNameFiles
 {
 	static const std::string nameFormatFiles = ".txt";
-	static const std::string nameCodeFile = "test";
-	static const std::string nameErrorFile = "error";
-	static const std::string nameOutputFile = "output";
+	static const std::string nameErrorFile = "Error";
+	static const std::string nameOutputFile = "Output";
 }
 
 void CompareFiles(const std::string & first, const std::string & second);
@@ -32,4 +31,7 @@ void RunLexer(const std::string nameInputFile, const std::string nameOutputFile)
 // output code file = TestNameFiles::nameOutputFile + suffixNametest + TestNameFiles_::nameFormatFiles
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-void TestLexer(const std::string & suffixNametest);
+void			TestLexer(const std::string & nameFile, const std::string & folder);
+std::string		GetAbsolutePath(const std::string & name
+								, const std::string & folder
+								, const std::string & prefix);

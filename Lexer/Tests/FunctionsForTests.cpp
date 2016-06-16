@@ -23,14 +23,30 @@ void RunLexer(const std::string nameInputFile, const std::string nameOutputFile)
 	interpreter.EnterLoop(inputFile);
 }
 
-void TestLexer(const std::string & suffixNametest)
+std::string	GetAbsolutePath(const std::string & name
+							, const std::string & folder
+							, const std::string & prefix)
 {
-	const std::string suffixCheckFiles = suffixNametest + TestNameFiles::nameFormatFiles;
+	std::string result;
 
-	BOOST_REQUIRE_NO_THROW(RunLexer(TestNameFiles::nameCodeFile + suffixCheckFiles
-									, TestNameFiles::nameOutputFile + suffixCheckFiles));
+	if (!folder.empty())
+	{
+		result = prefix + folder + "/";
+	}
+	result += prefix + name + TestNameFiles::nameFormatFiles;
 
-	CompareFiles(TestNameFiles::nameOutputFile + suffixCheckFiles
-		, PATH_RIGHT_DATA + TestNameFiles::nameOutputFile + suffixCheckFiles);
+	return result;
+}
 
+
+void TestLexer(const std::string & nameFile, const std::string & folder)
+{
+	
+	std::string nameInputFile = GetAbsolutePath(nameFile, folder, "");
+	std::string nameOutputFile = GetAbsolutePath(nameFile, folder, TestNameFiles::nameOutputFile);
+
+	BOOST_REQUIRE_NO_THROW(RunLexer(nameInputFile, nameOutputFile));
+
+	std::string nameRightFile = GetAbsolutePath(nameFile, folder, PREFIX_RIGHT_DATA);
+	CompareFiles(nameOutputFile, nameRightFile);
 };

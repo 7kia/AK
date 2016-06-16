@@ -70,28 +70,29 @@ TokensId CLexer::Scan(SToken &data)
 	// Parse number
 	string intValue = ParseInt();
 	
-	1.;
-	.0;
-	if (!intValue.empty())
-    {
-		if (m_peep[0] == '.')
+
+	//if (!intValue.empty())
+    //{
+	//auto priviousChar = m_sources[m_peep[0]];
+	//                           \/ privious token
+	if ((m_peep[0] == '.') && (data.id != TokensId::TK_ID))// TODO : see might not only TK_ID
+	{
+		string doublePart = ParseDoublePart();
+
+		data.value = intValue;
+		if (!doublePart.empty())
 		{
-			string doublePart = ParseDoublePart();
-
-			if (!doublePart.empty())
-			{
-				data.value = intValue + doublePart;
-				return TokensId::TK_FLOAT;
-			}
+			data.value += doublePart;
 		}
-		else
-		{
-
-			data.value = intValue;
-			return TokensId::TK_INTEGER;
-
-		}
+		return TokensId::TK_FLOAT;
 	}
+	else if (!intValue.empty() && (data.id != TokensId::TK_ID))
+	{
+
+		data.value = intValue;
+		return TokensId::TK_INTEGER;
+	}
+	//}
 
 
 	/////////////////////////////////////////////////////
@@ -237,11 +238,6 @@ string CLexer::ParseDoublePart()
 		isDoublePart = true;
 		value += m_peep[0];
 		m_peep.remove_prefix(1);
-	}
-
-	if (!isDoublePart)
-	{
-		return std::string();
 	}
 
 	return value;
