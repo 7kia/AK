@@ -2,6 +2,7 @@
 
 #include <string>
 #include <array>
+#include <map>
 //////////////////////////////////////////////////////////////////////
 // Tokens id
 enum class TokensId
@@ -10,7 +11,7 @@ enum class TokensId
 	  TK_NONE = 0
 
 	, TK_INTEGER = 1
-	, TK_DOUBLE
+	, TK_FLOAT
 	, TK_STRING
 
 	, TK_SIGNED
@@ -64,7 +65,7 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 	{ TokensId::TK_NONE, "Unknow"}
 
 	,{ TokensId::TK_INTEGER, "Integer"}
-	,{ TokensId::TK_DOUBLE,  "Double"}
+	,{ TokensId::TK_FLOAT,  "Double"}
 	,{ TokensId::TK_STRING, "String"}
 
 	,{ TokensId::TK_SIGNED, "Signed" }

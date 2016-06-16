@@ -23,6 +23,7 @@ private:
     bool								ParseString(SToken &data);
 	TokensId							AcceptIdOrKeyword(SToken &data, const boost::string_ref id);
 
+	bool								IsIdentifierSymbol(const char symbol) const;
 private:
     const std::string					m_sources;
     boost::string_ref					m_peep;

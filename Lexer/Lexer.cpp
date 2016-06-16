@@ -11,26 +11,38 @@ CLexer::CLexer(const std::string & line)
     : m_sources(line)
     , m_peep(m_sources)
     , m_keywords({
+		//////////////////////////////////
+		// Типы данных
 		{ "int", TokensId::TK_INTEGER },
-		{ "double", TokensId::TK_DOUBLE },
+		{ "float", TokensId::TK_FLOAT },
 		{ "string", TokensId::TK_STRING },
 		{ "bool", TokensId::TK_BOOL },
 
-		{ "printf", TokensId::TK_PRINT },
-
-        { "return", TokensId::TK_RETURN },
-
-		{ "if", TokensId::TK_IF },
-		{ "else", TokensId::TK_ELSE },
-
-		{ "while", TokensId::TK_WHILE },
-		{ "do", TokensId::TK_DO },
-		{ "for", TokensId::TK_FOR },
-
+		//////////////////////////////////
+		// Префиксы типов
 		{ "signed", TokensId::TK_SIGNED },
 		{ "unsigned", TokensId::TK_UNSIGNED },
 		{ "const", TokensId::TK_CONST },
 		{ "long", TokensId::TK_LONG },
+		//////////////////////////////////
+		// Системные функции
+		{ "printf", TokensId::TK_PRINT },
+
+		//////////////////////////////////
+        { "return", TokensId::TK_RETURN },
+
+		//////////////////////////////////
+		// Операторы условии
+		{ "if", TokensId::TK_IF },
+		{ "else", TokensId::TK_ELSE },
+
+		//////////////////////////////////
+		// Операторы циклов
+		{ "while", TokensId::TK_WHILE },
+		{ "do", TokensId::TK_DO },
+		{ "for", TokensId::TK_FOR },
+
+		
 
       })
 {
@@ -42,7 +54,7 @@ TokensId CLexer::Scan(SToken &data)
 
     if (m_peep.empty())
     {
-		return TokensId::TK_NONE;// TODO: might need TK_NONE
+		return TokensId::TK_NONE;
     }
 
 	/////////////////////////////////////////////////////
@@ -58,6 +70,8 @@ TokensId CLexer::Scan(SToken &data)
 	// Parse number
 	string intValue = ParseInt();
 	
+	1.;
+	.0;
 	if (!intValue.empty())
     {
 		if (m_peep[0] == '.')
@@ -67,12 +81,16 @@ TokensId CLexer::Scan(SToken &data)
 			if (!doublePart.empty())
 			{
 				data.value = intValue + doublePart;
-				return TokensId::TK_DOUBLE;
+				return TokensId::TK_FLOAT;
 			}
 		}
-		
-		data.value = intValue;
-		return TokensId::TK_INTEGER;
+		else
+		{
+
+			data.value = intValue;
+			return TokensId::TK_INTEGER;
+
+		}
 	}
 
 
@@ -88,6 +106,8 @@ TokensId CLexer::Scan(SToken &data)
 	// Parse other symbols
     switch (m_peep[0])
     {
+		//////////////////////////////////////
+		// Знаки сравнения
     case NAME_LESS:
 		data.value = NAME_LESS;
         m_peep.remove_prefix(1);
@@ -97,6 +117,8 @@ TokensId CLexer::Scan(SToken &data)
 		m_peep.remove_prefix(1);
 		return TokensId::TK_MORE;// TODO : not work
 
+		//////////////////////////////////////
+		// Арифметические операции
     case NAME_PLUS:
 		data.value = NAME_PLUS;
         m_peep.remove_prefix(1);
@@ -117,7 +139,8 @@ TokensId CLexer::Scan(SToken &data)
 		data.value = NAME_DIVISION_BY_REMAIN;
 		m_peep.remove_prefix(1);
 		return TokensId::TK_PERCENT;
-
+		//////////////////////////////////////
+		// Разделители
 	case COMMAND_SEPARATOR:
 		data.value = COMMAND_SEPARATOR;
 		m_peep.remove_prefix(1);
@@ -127,7 +150,8 @@ TokensId CLexer::Scan(SToken &data)
         m_peep.remove_prefix(1);
         return TokensId::TK_COMMA;
 
-
+		//////////////////////////////////////
+		// Списки команд, аргументов
     case START_LIST_ARGUMENTS:
 		data.value = START_LIST_ARGUMENTS;
         m_peep.remove_prefix(1);
@@ -145,6 +169,8 @@ TokensId CLexer::Scan(SToken &data)
 		m_peep.remove_prefix(1);
 		return TokensId::TK_RIGHT_BRACE;
 
+		//////////////////////////////////////
+		// Оператор присвоения и сравнения
     case NAME_ASSIGMENT:
         if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
         {
@@ -226,7 +252,7 @@ std::string CLexer::ParseIdentifier()
     size_t size = 0;
 
 	// In start identifier must not digit
-	if (!isalpha(m_peep[0]))
+	if (!IsIdentifierSymbol(m_peep[0]) || isdigit(m_peep[0]))
 	{
 		return "";
 	}
@@ -293,5 +319,10 @@ TokensId CLexer::AcceptIdOrKeyword(SToken &data, const boost::string_ref id)
 
     data.value = std::string(id);
     return TokensId::TK_ID;
+}
+
+bool CLexer::IsIdentifierSymbol(const char symbol) const
+{
+	return isalnum(symbol) || (symbol == '_');
 }
 
