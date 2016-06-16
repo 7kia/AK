@@ -83,7 +83,15 @@ TokensId CLexer::Scan(SToken &data)
 		if (!doublePart.empty())
 		{
 			data.value += doublePart;
+
+			string exponentialPart = ParseExponentialPart();
+
+			if (!exponentialPart.empty())
+			{
+				data.value += exponentialPart;
+			}
 		}
+
 		return TokensId::TK_FLOAT;
 	}
 	else if (!intValue.empty() && (data.id != TokensId::TK_ID))
@@ -145,22 +153,22 @@ TokensId CLexer::Scan(SToken &data)
 	case COMMAND_SEPARATOR:
 		data.value = COMMAND_SEPARATOR;
 		m_peep.remove_prefix(1);
-		return TokensId::TK_SEMICOLON;
+return TokensId::TK_SEMICOLON;
     case VARIABLE_SEPARATOR:
 		data.value = VARIABLE_SEPARATOR;
-        m_peep.remove_prefix(1);
-        return TokensId::TK_COMMA;
+		m_peep.remove_prefix(1);
+		return TokensId::TK_COMMA;
 
 		//////////////////////////////////////
 		// Списки команд, аргументов
-    case START_LIST_ARGUMENTS:
+	case START_LIST_ARGUMENTS:
 		data.value = START_LIST_ARGUMENTS;
-        m_peep.remove_prefix(1);
-        return TokensId::TK_LEFT_PAREN;
-    case END_LIST_ARGUMENTS:
+		m_peep.remove_prefix(1);
+		return TokensId::TK_LEFT_PAREN;
+	case END_LIST_ARGUMENTS:
 		data.value = END_LIST_ARGUMENTS;
-        m_peep.remove_prefix(1);
-        return TokensId::TK_RIGHT_PAREN;
+		m_peep.remove_prefix(1);
+		return TokensId::TK_RIGHT_PAREN;
 	case START_BLOCK:
 		data.value = START_BLOCK;
 		m_peep.remove_prefix(1);
@@ -172,21 +180,21 @@ TokensId CLexer::Scan(SToken &data)
 
 		//////////////////////////////////////
 		// Оператор присвоения и сравнения
-    case NAME_ASSIGMENT:
-        if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
-        {
+	case NAME_ASSIGMENT:
+		if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
+		{
 			data.value = NAME_ASSIGMENT;
 			data.value += NAME_ASSIGMENT;
-            m_peep.remove_prefix(2);
-            return TokensId::TK_EQUALS;
-        }
+			m_peep.remove_prefix(2);
+			return TokensId::TK_EQUALS;
+		}
 		data.value = NAME_ASSIGMENT;
-        m_peep.remove_prefix(1);
-        return TokensId::TK_ASSIGN;
-    }
+		m_peep.remove_prefix(1);
+		return TokensId::TK_ASSIGN;
+	}
 	/////////////////////////////////////////////////////
 
-    return TokensId::TK_NONE;
+	return TokensId::TK_NONE;
 }
 
 std::string CLexer::ParseInt()
@@ -194,18 +202,26 @@ std::string CLexer::ParseInt()
 	string value;
 	bool parsedAny = false;
 
+	////////////////////////////////////
 	// Not recognize zeros in start
+	/*
 	if (m_peep.size() >= 2)
 	{
-		if ((m_peep[0] == '0') 
-			&& 
+		if ((m_peep[0] == '0')
+			&&
 			isdigit(m_peep[1])
 			)
 		{
 			return std::string();// Признак ошибки
 		}
 	}
+	*/
 
+	if(!IsZeroInStart())
+	{
+		return std::string();// Признак ошибки
+	}
+	////////////////////////////////////
 
 	while (!m_peep.empty() && std::isdigit(m_peep[0]))
 	{
@@ -219,14 +235,13 @@ std::string CLexer::ParseInt()
 		return std::string();// Признак ошибки
 	}
 
-	if (m_peep.empty() || !(isalpha(m_peep[0])) )
+	if (m_peep.empty() || !(isalpha(m_peep[0])))
 	{
 		return value;
 	}
 	return std::string();
 }
 
-// returns NaN if cannot parse double.
 string CLexer::ParseDoublePart()
 {
 	bool isDoublePart = false;
@@ -241,6 +256,71 @@ string CLexer::ParseDoublePart()
 	}
 
 	return value;
+}
+
+string CLexer::ParseExponentialPart()
+{
+	string value;
+
+	/////////////////////////////////////////////
+	// Sign part
+	if ((m_peep[0] == NAME_PLUS) || (m_peep[0] == NAME_MINUS))
+	{
+		value += m_peep[0];
+	}
+	else
+	{
+		return std::string();// TODO : error
+	}
+	/////////////////////////////////////////////
+	
+	/////////////////////////////////////////////
+	// Exponential part
+	if ((m_peep[1] == 'e') || (m_peep[1] == 'E'))
+	{
+		value += m_peep[1];
+	}
+	else
+	{
+		return std::string();// TODO : error
+	}
+	/////////////////////////////////////////////
+	
+	/////////////////////////////////////////////
+	// Digit part
+	m_peep.remove_prefix(2);
+
+	if (!IsZeroInStart())
+	{
+		return std::string();// Признак ошибки
+	}
+
+	while (!m_peep.empty() && std::isdigit(m_peep[0]))
+	{
+		value += m_peep[0];
+		m_peep.remove_prefix(1);
+	}
+	/////////////////////////////////////////////
+
+	return value;
+}
+
+bool CLexer::IsZeroInStart()
+{
+	////////////////////////////////////
+	// Not recognize zeros in start
+	if (m_peep.size() >= 2)
+	{
+		if ((m_peep[0] == '0')
+			&&
+			isdigit(m_peep[1])
+			)
+		{
+			return false;// Признак ошибки
+		}
+	}
+
+	return true;
 }
 
 std::string CLexer::ParseIdentifier()
