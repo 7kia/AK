@@ -1,4 +1,3 @@
-
 void bubble_sort(signed int *a, signed int length)
 {
 	for (signed int i = 0; i < length - 1; i++) 
@@ -12,6 +11,7 @@ void bubble_sort(signed int *a, signed int length)
 				a[j] = a[j + 1];
 				a[j + 1] = b;
 				swapped = true;
+			}
 		}
 	}
 
@@ -24,10 +24,10 @@ void bubble_sort(signed int *a, signed int length)
 }
 
 void main() {
-	int arrayInt[] = { 2, 1, 8, 3 };
+	signed int arrayInt[] = { 2, 1, 8, 3 };
 	bubble_sort(arrayInt, 4);
 
-	for (int index = 0; index < 4; index++)
+	for (signed int index = 0; index < 4; index++)
 	{
 		printf(arrayInt[index];
 		if (index < (4 - 1))

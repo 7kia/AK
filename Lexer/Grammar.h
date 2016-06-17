@@ -19,7 +19,9 @@ enum class TokensId
 	, TK_CONST
 	, TK_LONG
 
+	, TK_VOID
 	, TK_BOOL
+	, TK_NOT_OPERATOR
 	, TK_LESS
 	, TK_MORE
 	, TK_EQUALS
@@ -38,6 +40,8 @@ enum class TokensId
 	, TK_RIGHT_PAREN
 	, TK_LEFT_BRACE
 	, TK_RIGHT_BRACE
+	, TK_LEFT_SQUARE_BRACKETS
+	, TK_RIGHT_SQUARE_BRACKETS
 
 	, TK_SEMICOLON
 	, TK_COMMA
@@ -64,6 +68,7 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 
 	{ TokensId::TK_NONE, "Unknow"}
 
+	,{ TokensId::TK_VOID, "Void" }
 	,{ TokensId::TK_INTEGER, "Integer"}
 	,{ TokensId::TK_FLOAT,  "Double"}
 	,{ TokensId::TK_STRING, "String"}
@@ -74,6 +79,7 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 	,{ TokensId::TK_LONG, "Long" }
 
 	,{ TokensId::TK_BOOL, "Bool"}
+	,{ TokensId::TK_NOT_OPERATOR, "Not operator" }
 	,{ TokensId::TK_LESS, "Less"}
 	,{ TokensId::TK_MORE, "More"}
 	,{ TokensId::TK_EQUALS, "Equal"}
@@ -93,6 +99,8 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 	,{ TokensId::TK_RIGHT_PAREN, "Right paren"}
 	,{ TokensId::TK_LEFT_BRACE, "Left brace" }
 	,{ TokensId::TK_RIGHT_BRACE, "Right brace" }
+	,{ TokensId::TK_LEFT_SQUARE_BRACKETS, "Left square brackets" }
+	,{ TokensId::TK_RIGHT_SQUARE_BRACKETS, "Right square brackets" }
 
 
 	,{ TokensId::TK_SEMICOLON, "Semicolon" }
@@ -132,6 +140,8 @@ static const char START_BLOCK = '{';
 static const char END_BLOCK = '}';
 static const char START_LIST_ARGUMENTS = '(';
 static const char END_LIST_ARGUMENTS = ')';
+static const char START_OPERATOR_INDEX = '[';
+static const char END_OPERATOR_INDEX = ']';
 static const char CASE_ENUMERATOR = ':';
 //////////////////////////////////////////////////////////////////////
 // Reserve words
@@ -159,6 +169,7 @@ static const std::string NAME_NOT_EQUAL = "!=";
 static const char NAME_ASSIGMENT = '=';
 
 // Logic
+static const char NAME_NOT_OPERATOR = '!';
 static const std::string NAME_AND = "&&";
 static const std::string NAME_OR = "||";
 

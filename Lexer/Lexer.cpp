@@ -13,6 +13,7 @@ CLexer::CLexer(const std::string & line)
     , m_keywords({
 		//////////////////////////////////
 		// Типы данных
+		{ "void", TokensId::TK_VOID },
 		{ "int", TokensId::TK_INTEGER },
 		{ "float", TokensId::TK_FLOAT },
 		{ "string", TokensId::TK_STRING },
@@ -116,16 +117,35 @@ TokensId CLexer::Scan(SToken &data)
     switch (m_peep[0])
     {
 		//////////////////////////////////////
+		// Логические опреаторы
+	case NAME_NOT_OPERATOR:
+		data.value = NAME_NOT_OPERATOR;
+		m_peep.remove_prefix(1);
+		return TokensId::TK_NOT_OPERATOR;
+		//////////////////////////////////////
 		// Знаки сравнения
     case NAME_LESS:
+		if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
+		{
+			data.value = NAME_LESS;
+			data.value += NAME_ASSIGMENT;
+			m_peep.remove_prefix(2);
+			return TokensId::TK_LESS_OR_EQUAL;
+		}
 		data.value = NAME_LESS;
         m_peep.remove_prefix(1);
         return TokensId::TK_LESS;
 	case NAME_MORE:
+		if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
+		{
+			data.value = NAME_MORE;
+			data.value += NAME_ASSIGMENT;
+			m_peep.remove_prefix(2);
+			return TokensId::TK_MORE_OR_EQUAL;
+		}
 		data.value = NAME_MORE;
 		m_peep.remove_prefix(1);
 		return TokensId::TK_MORE;// TODO : not work
-
 		//////////////////////////////////////
 		// Арифметические операции
     case NAME_PLUS:
@@ -177,6 +197,14 @@ return TokensId::TK_SEMICOLON;
 		data.value = END_BLOCK;
 		m_peep.remove_prefix(1);
 		return TokensId::TK_RIGHT_BRACE;
+	case START_OPERATOR_INDEX:
+		data.value = START_OPERATOR_INDEX;
+		m_peep.remove_prefix(1);
+		return TokensId::TK_LEFT_SQUARE_BRACKETS;
+	case END_OPERATOR_INDEX:
+		data.value = END_OPERATOR_INDEX;
+		m_peep.remove_prefix(1);
+		return TokensId::TK_RIGHT_SQUARE_BRACKETS;
 
 		//////////////////////////////////////
 		// Оператор присвоения и сравнения
@@ -333,7 +361,7 @@ std::string CLexer::ParseIdentifier()
 		return "";
 	}
 
-    while (!m_peep.empty() && std::isalnum(m_peep[size]))
+    while (!m_peep.empty() && IsIdentifierSymbol(m_peep[size]))
     {
         ++size;
     }
