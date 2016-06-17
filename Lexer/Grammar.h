@@ -46,6 +46,11 @@ enum class TokensId
 	, TK_SEMICOLON
 	, TK_COMMA
 
+	, TK_ONE_STRING_COMMENT
+	, TK_START_MULTI_STRING_COMMENT
+	, TK_EXTENSION_MULTI_STRING_COMMENT// TODO : is correct translate?
+	, TK_END_MULTI_STRING_COMMENT
+
 	, TK_ASSIGN
 
 	, TK_PRINT
@@ -106,6 +111,11 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 	,{ TokensId::TK_SEMICOLON, "Semicolon" }
 	,{ TokensId::TK_COMMA, "Comma"}
 
+	,{ TokensId::TK_ONE_STRING_COMMENT, "One strign comment" }
+	,{ TokensId::TK_START_MULTI_STRING_COMMENT, "Start multi-strign comment" }
+	,{ TokensId::TK_EXTENSION_MULTI_STRING_COMMENT, "Content multi-string comment" }// TODO : is correct translate?
+	,{ TokensId::TK_END_MULTI_STRING_COMMENT, "End multi-strign comment" }
+
 	,{ TokensId::TK_ASSIGN, "Assign"}
 
 	,{ TokensId::TK_PRINT, "Print"}
@@ -136,12 +146,23 @@ static const char NEWLINE_SYMBOL = '\n';
 //static const std::string COMMON_SEPARATORS[] = { WHITE_SPACE , TAB_SYMBOL };
 
 static const char COMMAND_SEPARATOR = ';';
+
+//////////////////////////////////////////////////////////////////////
+// Comments
+static const std::string ONE_STRING_COMMENT = "//";
+static const std::string START_MULTI_STRING_COMMENT = "/*";
+static const std::string END_MULTI_STRING_COMMENT = "*/";
+//////////////////////////////////////////////////////////////////////
+
 static const char START_BLOCK = '{';
 static const char END_BLOCK = '}';
+
 static const char START_LIST_ARGUMENTS = '(';
 static const char END_LIST_ARGUMENTS = ')';
+
 static const char START_OPERATOR_INDEX = '[';
 static const char END_OPERATOR_INDEX = ']';
+
 static const char CASE_ENUMERATOR = ':';
 //////////////////////////////////////////////////////////////////////
 // Reserve words

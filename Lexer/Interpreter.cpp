@@ -19,6 +19,10 @@ void CInterpreter::EnterLoop(std::istream &input)
     std::string line;
     while (std::getline(input, line))
     {
+		if (!input.eof())
+		{
+			line += NEWLINE_SYMBOL;
+		}
 		ProcessLine(line);
     }
 }
@@ -34,7 +38,7 @@ void CInterpreter::ProcessLine(const std::string & line)
 		tokenId = lexer.Scan(token);
 		token.id = tokenId;// TODO : see need tokenId
 		// Добавлено для читаемости тестов
-		if (tokenId == TokensId::TK_NONE)// TODO : process errors, now print nothing
+		if ( (tokenId == TokensId::TK_NONE) || (tokenId == TokensId::TK_NEWLINE) )// TODO : process errors, now print nothing
 		{
 			m_output << std::endl;
 		}
@@ -43,5 +47,7 @@ void CInterpreter::ProcessLine(const std::string & line)
 			m_output << token.value << " - " << TokensStringPresentation.at(tokenId) << std::endl;
 		}
 
-	} while (tokenId != TokensId::TK_NONE);// TODO: might need TK_NONE
+	} while ( (tokenId != TokensId::TK_NONE) 
+				&& (tokenId != TokensId::TK_NEWLINE)
+			);// TODO: might need TK_NONE
 }

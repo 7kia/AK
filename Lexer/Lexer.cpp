@@ -53,10 +53,66 @@ TokensId CLexer::Scan(SToken &data)
 {
     SkipSpaces();// TODO : see need whitespace
 
-    if (m_peep.empty())
-    {
+   
+
+	/////////////////////////////////////////////////////
+	// Comments
+
+	///////////////////
+	// Extension(TODO : is correct translate ?) multi comment
+	/*
+		if ( (data.id == TokensId::TK_EXTENSION_MULTI_STRING_COMMENT)
+		||
+		(data.id == TokensId::TK_START_MULTI_STRING_COMMENT) )
+	{
+		boost::string_ref twoNextSymbols;
+		while (!m_peep.empty())
+		{
+			twoNextSymbols = m_peep.substr(0, 2);
+			if (twoNextSymbols == END_MULTI_STRING_COMMENT)
+			{
+				data.value = END_MULTI_STRING_COMMENT;
+				m_peep.remove_prefix(2);
+				return TokensId::TK_END_MULTI_STRING_COMMENT;
+			}
+
+			data.value += m_peep[0];
+			m_peep.remove_prefix(1);
+		}
+
+		return TokensId::TK_EXTENSION_MULTI_STRING_COMMENT;
+	}
+
+	*/
+	///////////////////
+
+	boost::string_ref twoNextSymbols = m_peep.substr(0, 2);
+	if (twoNextSymbols == ONE_STRING_COMMENT)
+	{
+		data.value = m_peep.to_string();
+		data.id = TokensId::TK_ONE_STRING_COMMENT;
+		m_peep.clear();
+
+		return TokensId::TK_ONE_STRING_COMMENT;
+	}
+	else if (twoNextSymbols == START_MULTI_STRING_COMMENT)
+	{	
+		data.value = START_MULTI_STRING_COMMENT;
+		m_peep.remove_prefix(2);
+		data.id = TokensId::TK_START_MULTI_STRING_COMMENT;
+		return TokensId::TK_START_MULTI_STRING_COMMENT;
+	}
+	else if (twoNextSymbols == END_MULTI_STRING_COMMENT)
+	{
+		data.value = END_MULTI_STRING_COMMENT;
+		m_peep.remove_prefix(2);
+		return TokensId::TK_END_MULTI_STRING_COMMENT;
+	}
+	/////////////////////////////////////////////////////
+	if (m_peep.empty())
+	{
 		return TokensId::TK_NONE;
-    }
+	}
 
 	/////////////////////////////////////////////////////
 	// Parse identifier
@@ -117,6 +173,13 @@ TokensId CLexer::Scan(SToken &data)
     switch (m_peep[0])
     {
 		//////////////////////////////////////
+		// Новая строка
+	case NEWLINE_SYMBOL:
+		data.value = NEWLINE_SYMBOL;
+		m_peep.remove_prefix(1);
+		return TokensId::TK_NEWLINE;
+
+		//////////////////////////////////////
 		// Логические опреаторы
 	case NAME_NOT_OPERATOR:
 		data.value = NAME_NOT_OPERATOR;
@@ -173,7 +236,7 @@ TokensId CLexer::Scan(SToken &data)
 	case COMMAND_SEPARATOR:
 		data.value = COMMAND_SEPARATOR;
 		m_peep.remove_prefix(1);
-return TokensId::TK_SEMICOLON;
+		return TokensId::TK_SEMICOLON;
     case VARIABLE_SEPARATOR:
 		data.value = VARIABLE_SEPARATOR;
 		m_peep.remove_prefix(1);
