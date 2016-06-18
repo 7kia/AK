@@ -25,8 +25,14 @@ enum class TokensId
 	, TK_LESS
 	, TK_MORE
 	, TK_EQUALS
+	, TK_NOT_EQUALS
+
 	, TK_LESS_OR_EQUAL
 	, TK_MORE_OR_EQUAL
+	, TK_PLUS_ASSIGN
+	, TK_MINUS_ASSIGN
+	, TK_MULTIPLY_ASSIGN
+	, TK_DIVIDE_ASSIGN
 
 	, TK_PLUS
 	, TK_MINUS
@@ -91,8 +97,15 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 	,{ TokensId::TK_LESS, "Less"}
 	,{ TokensId::TK_MORE, "More"}
 	,{ TokensId::TK_EQUALS, "Equal"}
+	,{ TokensId::TK_NOT_EQUALS, "Not equal" }
+
 	,{ TokensId::TK_LESS_OR_EQUAL, "Less or equal"}
 	,{ TokensId::TK_MORE_OR_EQUAL, "More or equal"}
+
+	,{ TokensId::TK_PLUS_ASSIGN, "Plus assign" }
+	,{ TokensId::TK_MINUS_ASSIGN, "Minus assign" }
+	,{ TokensId::TK_MULTIPLY_ASSIGN, "Multiply assign" }
+	,{ TokensId::TK_DIVIDE_ASSIGN, "Divide assign" }
 
 
 	,{ TokensId::TK_PLUS, "Plus"}

@@ -1,0 +1,62 @@
+printf - Print
+( - Left paren
+2 - Integer
+< - Less
+3 - Integer
+) - Right paren
+; - Semicolon
+
+printf - Print
+( - Left paren
+2 - Integer
+> - More
+3 - Integer
+) - Right paren
+; - Semicolon
+
+printf - Print
+( - Left paren
+2 - Integer
++ - Plus
+3 - Integer
+) - Right paren
+; - Semicolon
+
+printf - Print
+( - Left paren
+2 - Integer
+- - Minus
+3 - Integer
+) - Right paren
+; - Semicolon
+
+printf - Print
+( - Left paren
+2 - Integer
+* - Star
+3 - Integer
+) - Right paren
+; - Semicolon
+
+printf - Print
+( - Left paren
+2 - Integer
+/ - Slash
+3 - Integer
+) - Right paren
+; - Semicolon
+
+printf - Print
+( - Left paren
+4 - Integer
+% - Percent
+3 - Integer
+) - Right paren
+; - Semicolon
+
+signed - Signed
+int - Integer
+f - Identifier
+= - Assign
+1 - Integer
+; - Semicolon

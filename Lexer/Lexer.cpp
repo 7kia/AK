@@ -190,6 +190,13 @@ TokensId CLexer::Scan(SToken &data)
 		//////////////////////////////////////
 		// Логические опреаторы
 	case NAME_NOT_OPERATOR:
+		if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
+		{
+			data.value = NAME_NOT_OPERATOR;
+			data.value += NAME_ASSIGMENT;
+			m_peep.remove_prefix(2);
+			return TokensId::TK_NOT_EQUALS;
+		}
 		data.value = NAME_NOT_OPERATOR;
 		m_peep.remove_prefix(1);
 		return TokensId::TK_NOT_OPERATOR;
@@ -220,18 +227,46 @@ TokensId CLexer::Scan(SToken &data)
 		//////////////////////////////////////
 		// Арифметические операции
     case NAME_PLUS:
+		if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
+		{
+			data.value = NAME_PLUS;
+			data.value += NAME_ASSIGMENT;
+			m_peep.remove_prefix(2);
+			return TokensId::TK_PLUS_ASSIGN;
+		}
 		data.value = NAME_PLUS;
         m_peep.remove_prefix(1);
         return TokensId::TK_PLUS;
     case NAME_MINUS:
+		if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
+		{
+			data.value = NAME_MINUS;
+			data.value += NAME_ASSIGMENT;
+			m_peep.remove_prefix(2);
+			return TokensId::TK_MINUS_ASSIGN;
+		}
 		data.value = NAME_MINUS;
         m_peep.remove_prefix(1);
         return TokensId::TK_MINUS;
     case NAME_MULTIPLICATION:
+		if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
+		{
+			data.value = NAME_MULTIPLICATION;
+			data.value += NAME_ASSIGMENT;
+			m_peep.remove_prefix(2);
+			return TokensId::TK_MULTIPLY_ASSIGN;
+		}
 		data.value = NAME_MULTIPLICATION;
         m_peep.remove_prefix(1);
         return TokensId::TK_STAR;
     case NAME_DIVISION:
+		if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
+		{
+			data.value = NAME_DIVISION;
+			data.value += NAME_ASSIGMENT;
+			m_peep.remove_prefix(2);
+			return TokensId::TK_DIVIDE_ASSIGN;
+		}
 		data.value = NAME_DIVISION;
         m_peep.remove_prefix(1);
         return TokensId::TK_SLASH;
