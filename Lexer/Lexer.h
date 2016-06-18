@@ -13,8 +13,8 @@ class CLexer
 public:
     CLexer(const std::string & line);
 
-	TokensId Scan(SToken &data);
-
+	TokensId	Scan(SToken &data);
+	bool		IsEndLine() const;
 private:
 	std::string							ParseInt();
 	std::string							ParseDoublePart();

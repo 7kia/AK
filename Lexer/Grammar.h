@@ -56,6 +56,7 @@ enum class TokensId
 	, TK_PRINT
 
 	, TK_NEWLINE
+	, TK_NEWLINE_FOR_MULTI_STRING_COMMENT
 
 	, TK_RETURN
 

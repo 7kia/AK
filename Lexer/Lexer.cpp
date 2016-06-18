@@ -51,40 +51,48 @@ CLexer::CLexer(const std::string & line)
 
 TokensId CLexer::Scan(SToken &data)
 {
-    SkipSpaces();// TODO : see need whitespace
 
-   
-
-	/////////////////////////////////////////////////////
+  	/////////////////////////////////////////////////////
 	// Comments
 
 	///////////////////
 	// Extension(TODO : is correct translate ?) multi comment
-	/*
+	///*
 		if ( (data.id == TokensId::TK_EXTENSION_MULTI_STRING_COMMENT)
 		||
 		(data.id == TokensId::TK_START_MULTI_STRING_COMMENT) )
 	{
 		boost::string_ref twoNextSymbols;
+		data.value.clear();
+
 		while (!m_peep.empty())
 		{
 			twoNextSymbols = m_peep.substr(0, 2);
 			if (twoNextSymbols == END_MULTI_STRING_COMMENT)
-			{
+			{		
+				if (!data.value.empty())
+				{
+					return TokensId::TK_EXTENSION_MULTI_STRING_COMMENT;
+				}
+
 				data.value = END_MULTI_STRING_COMMENT;
+				data.id = TokensId::TK_END_MULTI_STRING_COMMENT;
 				m_peep.remove_prefix(2);
 				return TokensId::TK_END_MULTI_STRING_COMMENT;
 			}
 
 			data.value += m_peep[0];
+			data.id = TokensId::TK_EXTENSION_MULTI_STRING_COMMENT;
 			m_peep.remove_prefix(1);
 		}
 
 		return TokensId::TK_EXTENSION_MULTI_STRING_COMMENT;
 	}
 
-	*/
+	//*/
 	///////////////////
+	
+	SkipSpaces();// TODO : see need whitespace
 
 	boost::string_ref twoNextSymbols = m_peep.substr(0, 2);
 	if (twoNextSymbols == ONE_STRING_COMMENT)
@@ -286,6 +294,11 @@ TokensId CLexer::Scan(SToken &data)
 	/////////////////////////////////////////////////////
 
 	return TokensId::TK_NONE;
+}
+
+bool CLexer::IsEndLine() const
+{
+	return m_peep.empty();
 }
 
 std::string CLexer::ParseInt()

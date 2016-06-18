@@ -2,6 +2,8 @@
 #include <iostream>
 #include <memory>
 
+#include "Token.h"
+
 class CInterpreter
 {
 public:
@@ -14,4 +16,6 @@ public:
 
 private:
 	std::ostream &			m_output;
+	SToken					m_token;// TODO : transfer, now neccessary for support multi-string comments
+
 };

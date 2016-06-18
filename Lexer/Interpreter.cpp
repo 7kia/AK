@@ -31,23 +31,25 @@ void CInterpreter::ProcessLine(const std::string & line)
 {
 	CLexer lexer(line);
 
-	SToken token;
 	TokensId tokenId;
 	do
 	{
-		tokenId = lexer.Scan(token);
-		token.id = tokenId;// TODO : see need tokenId
+		tokenId = lexer.Scan(m_token);
+		//token.id = tokenId;// TODO : see need tokenId
 		// Добавлено для читаемости тестов
-		if ( (tokenId == TokensId::TK_NONE) || (tokenId == TokensId::TK_NEWLINE) )// TODO : process errors, now print nothing
+		if ( (tokenId == TokensId::TK_NONE) 
+			|| (tokenId == TokensId::TK_NEWLINE)
+			)// TODO : process errors, now print nothing
 		{
 			m_output << std::endl;
 		}
 		else
 		{
-			m_output << token.value << " - " << TokensStringPresentation.at(tokenId) << std::endl;
+			m_output << m_token.value << " - " << TokensStringPresentation.at(tokenId) << std::endl;
 		}
 
 	} while ( (tokenId != TokensId::TK_NONE) 
 				&& (tokenId != TokensId::TK_NEWLINE)
+				&& (!lexer.IsEndLine())
 			);// TODO: might need TK_NONE
 }
