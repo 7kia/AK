@@ -26,6 +26,11 @@ enum class TokensId
 	, TK_MORE
 	, TK_EQUALS
 	, TK_NOT_EQUALS
+	, TK_LOGIC_AND
+	, TK_LOGIC_OR
+
+	, TK_INCREMENT
+	, TK_DECREMENT
 
 	, TK_LESS_OR_EQUAL
 	, TK_MORE_OR_EQUAL
@@ -98,6 +103,12 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 	,{ TokensId::TK_MORE, "More"}
 	,{ TokensId::TK_EQUALS, "Equal"}
 	,{ TokensId::TK_NOT_EQUALS, "Not equal" }
+	,{ TokensId::TK_LOGIC_AND, "Logic and" }
+	,{ TokensId::TK_LOGIC_OR, "Logic or" }
+
+	,{ TokensId::TK_INCREMENT, "Increment" }
+	,{ TokensId::TK_DECREMENT, "Decrement" }
+
 
 	,{ TokensId::TK_LESS_OR_EQUAL, "Less or equal"}
 	,{ TokensId::TK_MORE_OR_EQUAL, "More or equal"}
@@ -200,10 +211,18 @@ static const char NAME_LESS = '<';
 static const std::string NAME_LESS_OR_EQUAL = "<=";
 static const char NAME_MORE = '>';
 static const std::string NAME_MORE_OR_EQUAL = ">=";
+static const std::string NAME_PLUS_ASSIGN = "+=";
+static const std::string NAME_MINUS_ASSIGN = "-=";
+static const std::string NAME_DIVIDE_ASSIGN = "/=";
+static const std::string NAME_MULTIPLY_ASSIGN = "*=";
+
+static const std::string NAME_INCREMENT = "++";
+static const std::string NAME_DECREMENT = "--";
+
 //static const std::string NAME_DEGREE = "^";// TODO : degree or XOR
 
 // Common
-static const std::string NAME_COMPARE = "==";
+static const std::string NAME_EQUAL = "==";
 static const std::string NAME_NOT_EQUAL = "!=";
 static const char NAME_ASSIGMENT = '=';
 

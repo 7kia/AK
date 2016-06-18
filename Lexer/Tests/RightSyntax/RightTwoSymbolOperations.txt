@@ -43,6 +43,23 @@ t - Identifier
 ; - Semicolon
 
 
+t - Identifier
+++ - Increment
+; - Semicolon
+
+++ - Increment
+t - Identifier
+; - Semicolon
+
+-- - Decrement
+t - Identifier
+; - Semicolon
+
+t - Identifier
+-- - Decrement
+; - Semicolon
+
+
 if - If
 ( - Left paren
 true - Bool

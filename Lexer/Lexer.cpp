@@ -95,6 +95,8 @@ TokensId CLexer::Scan(SToken &data)
 	SkipSpaces();// TODO : see need whitespace
 
 	boost::string_ref twoNextSymbols = m_peep.substr(0, 2);
+	/////////////////////////////////////////////////////
+	// Comments
 	if (twoNextSymbols == ONE_STRING_COMMENT)
 	{
 		data.value = m_peep.to_string();
@@ -105,16 +107,93 @@ TokensId CLexer::Scan(SToken &data)
 	}
 	else if (twoNextSymbols == START_MULTI_STRING_COMMENT)
 	{	
-		data.value = START_MULTI_STRING_COMMENT;
+		data.value = twoNextSymbols.to_string();
 		m_peep.remove_prefix(2);
 		data.id = TokensId::TK_START_MULTI_STRING_COMMENT;
 		return TokensId::TK_START_MULTI_STRING_COMMENT;
 	}
 	else if (twoNextSymbols == END_MULTI_STRING_COMMENT)
 	{
-		data.value = END_MULTI_STRING_COMMENT;
+		data.value = twoNextSymbols.to_string();
 		m_peep.remove_prefix(2);
 		return TokensId::TK_END_MULTI_STRING_COMMENT;
+	}
+	/////////////////////////////////////////////////////
+	// Two-symbols operations
+	else if (twoNextSymbols == NAME_NOT_EQUAL)
+	{
+		data.value = twoNextSymbols.to_string();
+		m_peep.remove_prefix(2);
+		return TokensId::TK_NOT_EQUALS;
+	}
+	else if (twoNextSymbols == NAME_EQUAL)
+	{
+		data.value = twoNextSymbols.to_string();
+		m_peep.remove_prefix(2);
+		return TokensId::TK_EQUALS;
+	}
+	else if (twoNextSymbols == NAME_LESS_OR_EQUAL)
+	{		
+		data.value = twoNextSymbols.to_string();
+		m_peep.remove_prefix(2);
+		return TokensId::TK_LESS_OR_EQUAL;	
+	}
+	else if (twoNextSymbols == NAME_MORE_OR_EQUAL)
+	{
+		data.value = twoNextSymbols.to_string();
+		m_peep.remove_prefix(2);
+		return TokensId::TK_MORE_OR_EQUAL;
+	}
+	// Assign operators
+	else if (twoNextSymbols == NAME_PLUS_ASSIGN)
+	{
+		data.value = twoNextSymbols.to_string();
+		m_peep.remove_prefix(2);
+		return TokensId::TK_PLUS_ASSIGN;
+	}
+	else if (twoNextSymbols == NAME_MINUS_ASSIGN)
+	{
+		data.value = twoNextSymbols.to_string();
+		m_peep.remove_prefix(2);
+		return TokensId::TK_MINUS_ASSIGN;
+	}
+	else if (twoNextSymbols == NAME_DIVIDE_ASSIGN)
+	{
+		data.value = twoNextSymbols.to_string();
+		m_peep.remove_prefix(2);
+		return TokensId::TK_DIVIDE_ASSIGN;
+	}
+	else if (twoNextSymbols == NAME_MULTIPLY_ASSIGN)
+	{
+		data.value = twoNextSymbols.to_string();
+		m_peep.remove_prefix(2);
+		return TokensId::TK_MULTIPLY_ASSIGN;
+	}
+	// Logic operators
+	else if (twoNextSymbols == NAME_AND)
+	{
+		data.value = twoNextSymbols.to_string();
+		m_peep.remove_prefix(2);
+		return TokensId::TK_LOGIC_AND;
+	}
+	else if (twoNextSymbols == NAME_OR)
+	{
+		data.value = twoNextSymbols.to_string();
+		m_peep.remove_prefix(2);
+		return TokensId::TK_LOGIC_OR;
+	}
+	// Increment and decrement
+	else if (twoNextSymbols == NAME_INCREMENT)
+	{
+		data.value = twoNextSymbols.to_string();
+		m_peep.remove_prefix(2);
+		return TokensId::TK_INCREMENT;
+	}
+	else if (twoNextSymbols == NAME_DECREMENT)
+	{
+		data.value = twoNextSymbols.to_string();
+		m_peep.remove_prefix(2);
+		return TokensId::TK_DECREMENT;
 	}
 	/////////////////////////////////////////////////////
 	if (m_peep.empty())
@@ -190,83 +269,38 @@ TokensId CLexer::Scan(SToken &data)
 		//////////////////////////////////////
 		// Логические опреаторы
 	case NAME_NOT_OPERATOR:
-		if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
-		{
-			data.value = NAME_NOT_OPERATOR;
-			data.value += NAME_ASSIGMENT;
-			m_peep.remove_prefix(2);
-			return TokensId::TK_NOT_EQUALS;
-		}
+		data.value = NAME_NOT_OPERATOR;
+		m_peep.remove_prefix(1);
+		return TokensId::TK_NOT_OPERATOR;
+	case NAME_BITE_OR:
 		data.value = NAME_NOT_OPERATOR;
 		m_peep.remove_prefix(1);
 		return TokensId::TK_NOT_OPERATOR;
 		//////////////////////////////////////
 		// Знаки сравнения
     case NAME_LESS:
-		if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
-		{
-			data.value = NAME_LESS;
-			data.value += NAME_ASSIGMENT;
-			m_peep.remove_prefix(2);
-			return TokensId::TK_LESS_OR_EQUAL;
-		}
 		data.value = NAME_LESS;
         m_peep.remove_prefix(1);
         return TokensId::TK_LESS;
 	case NAME_MORE:
-		if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
-		{
-			data.value = NAME_MORE;
-			data.value += NAME_ASSIGMENT;
-			m_peep.remove_prefix(2);
-			return TokensId::TK_MORE_OR_EQUAL;
-		}
 		data.value = NAME_MORE;
 		m_peep.remove_prefix(1);
 		return TokensId::TK_MORE;// TODO : not work
 		//////////////////////////////////////
 		// Арифметические операции
     case NAME_PLUS:
-		if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
-		{
-			data.value = NAME_PLUS;
-			data.value += NAME_ASSIGMENT;
-			m_peep.remove_prefix(2);
-			return TokensId::TK_PLUS_ASSIGN;
-		}
 		data.value = NAME_PLUS;
         m_peep.remove_prefix(1);
         return TokensId::TK_PLUS;
     case NAME_MINUS:
-		if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
-		{
-			data.value = NAME_MINUS;
-			data.value += NAME_ASSIGMENT;
-			m_peep.remove_prefix(2);
-			return TokensId::TK_MINUS_ASSIGN;
-		}
 		data.value = NAME_MINUS;
         m_peep.remove_prefix(1);
         return TokensId::TK_MINUS;
     case NAME_MULTIPLICATION:
-		if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
-		{
-			data.value = NAME_MULTIPLICATION;
-			data.value += NAME_ASSIGMENT;
-			m_peep.remove_prefix(2);
-			return TokensId::TK_MULTIPLY_ASSIGN;
-		}
 		data.value = NAME_MULTIPLICATION;
         m_peep.remove_prefix(1);
         return TokensId::TK_STAR;
     case NAME_DIVISION:
-		if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
-		{
-			data.value = NAME_DIVISION;
-			data.value += NAME_ASSIGMENT;
-			m_peep.remove_prefix(2);
-			return TokensId::TK_DIVIDE_ASSIGN;
-		}
 		data.value = NAME_DIVISION;
         m_peep.remove_prefix(1);
         return TokensId::TK_SLASH;
@@ -317,17 +351,9 @@ TokensId CLexer::Scan(SToken &data)
 		data.value = END_OPERATOR_INDEX;
 		m_peep.remove_prefix(1);
 		return TokensId::TK_RIGHT_SQUARE_BRACKETS;
-
 		//////////////////////////////////////
 		// Оператор присвоения и сравнения
 	case NAME_ASSIGMENT:
-		if (m_peep.length() >= 2 && (m_peep[1] == NAME_ASSIGMENT))
-		{
-			data.value = NAME_ASSIGMENT;
-			data.value += NAME_ASSIGMENT;
-			m_peep.remove_prefix(2);
-			return TokensId::TK_EQUALS;
-		}
 		data.value = NAME_ASSIGMENT;
 		m_peep.remove_prefix(1);
 		return TokensId::TK_ASSIGN;

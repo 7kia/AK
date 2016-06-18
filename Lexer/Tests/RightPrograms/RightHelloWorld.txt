@@ -8,7 +8,7 @@ main - Identifier
 
 printf - Print
 ( - Left paren
-Hello, World!\n - String
+"Hello, World!\n" - String
 ) - Right paren
 ; - Semicolon
 
