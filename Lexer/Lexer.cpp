@@ -240,6 +240,12 @@ TokensId CLexer::Scan(SToken &data)
 		m_peep.remove_prefix(1);
 		return TokensId::TK_PERCENT;
 		//////////////////////////////////////
+		// Разыменование
+	case NAME_GET_ADDRESS:
+		data.value = NAME_GET_ADDRESS;
+		m_peep.remove_prefix(1);
+		return TokensId::TK_AMPERSAND;
+		//////////////////////////////////////
 		// Разделители
 	case COMMAND_SEPARATOR:
 		data.value = COMMAND_SEPARATOR;

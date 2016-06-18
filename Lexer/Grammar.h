@@ -33,6 +33,7 @@ enum class TokensId
 	, TK_STAR
 	, TK_SLASH
 	, TK_PERCENT
+	, TK_AMPERSAND// TODO : see is correctness name
 
 	, TK_ID
 
@@ -98,6 +99,7 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 	,{ TokensId::TK_STAR,  "Star"}
 	,{ TokensId::TK_SLASH, "Slash"}
 	,{ TokensId::TK_PERCENT, "Percent"}
+	,{ TokensId::TK_AMPERSAND, "Ampersand" }
 
 	,{ TokensId::TK_ID, "Identifier"}
 
@@ -189,6 +191,8 @@ static const std::string NAME_MORE_OR_EQUAL = ">=";
 static const std::string NAME_COMPARE = "==";
 static const std::string NAME_NOT_EQUAL = "!=";
 static const char NAME_ASSIGMENT = '=';
+
+static const char NAME_GET_ADDRESS = '&';
 
 // Logic
 static const char NAME_NOT_OPERATOR = '!';
