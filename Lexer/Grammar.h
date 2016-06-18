@@ -55,6 +55,7 @@ enum class TokensId
 	, TK_ASSIGN
 
 	, TK_PRINT
+	, TK_SIZEOF
 
 	, TK_NEWLINE
 	, TK_NEWLINE_FOR_MULTI_STRING_COMMENT
@@ -122,6 +123,7 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 	,{ TokensId::TK_ASSIGN, "Assign"}
 
 	,{ TokensId::TK_PRINT, "Print"}
+	,{ TokensId::TK_SIZEOF, "Sizeof" }
 
 	,{ TokensId::TK_NEWLINE, "Newline"}
 

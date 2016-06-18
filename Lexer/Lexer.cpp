@@ -28,7 +28,7 @@ CLexer::CLexer(const std::string & line)
 		//////////////////////////////////
 		// Системные функции
 		{ "printf", TokensId::TK_PRINT },
-
+		{ "sizeof", TokensId::TK_SIZEOF },
 		//////////////////////////////////
         { "return", TokensId::TK_RETURN },
 
