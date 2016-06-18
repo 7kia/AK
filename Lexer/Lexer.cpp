@@ -472,7 +472,7 @@ bool CLexer::ParseString(SToken &data)
 		return true;
 	}
 
-	data.value = std::string(m_peep.substr(0, quotePos));
+	data.value = '\"' + std::string(m_peep.substr(0, quotePos)) + '\"';
 	m_peep.remove_prefix(quotePos + 1);
 	return true;
 }
