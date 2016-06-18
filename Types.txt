@@ -22,6 +22,8 @@
 <exponent part> ::= <have sign> ( "e" | "E") ;
 <have sign> ::= >('\+' | '\-') ?;
 
+<array element> ::= <identification> ('[' <integer> ']')+;
+
 // TODO : название
 <Prefix numeric type> ::= <любой из 2 {} ;
 2 - {

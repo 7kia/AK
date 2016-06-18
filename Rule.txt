@@ -3,7 +3,7 @@
 <Program> ::= (<module block>)? (<function block>)? <Name main function> <Command block>;
 <Command block> ::= <Start block> <Commands> <End block>;
 <Commands> ::= (<Command>)+;
-<Command> ::= (<value> | <any branching> | <any loop> | <any interrupt operator> | <return function> )<Command separator>;
+<Command> ::= (<Assign for variable> | <value> | <any branching> | <any loop> | <any interrupt operator> | <return function> )<Command separator>;
 //
 <identificator> ::= (<letter>)+ <correct symbols in identificator> ;
 <correct symbols in identificator> ::= (<digit> | <letter> | <underscore symbol>)*;
@@ -12,7 +12,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Комманды
 // TODO : оператор присвоения
-<value> ::= <Call function> | <Assign for variable> | <variable>   | <expression> | <literal>;
+<value> ::= <Call function> | <variable>   | <expression> | <literal>;
 
 <Assign for variable> ::= ((<init variable> | <variable> )'=' (<value> | <list values>)) ;
 
@@ -22,15 +22,15 @@
 <type initialization> ::= <Prefix type> <name type> ((<prefix const>)? <is pointer> )? ;
 <is pointer> ::= <name pointer>;
 <name pointer> ::= '*';
+<identification> ::= <identificator> ('[' <integer> ']')+ ;
 
-<variable> ::= ((<operator dereference>)? | (<operator refer>)?)* ( <array> | <identificator>) ;// TODO :  разыменование
+<variable> ::= ((<operator dereference>)? | (<operator refer>)?)* ( <array element> | <identificator>) ;// TODO :  разыменование
 <operator refer> ::= "&";
 <operator dereference> ::= "*";// TODO оператор разыменования
-<array> ::= <identification> ('[' <integer> ']')+;
 
-<list values> ::= <Start block> <first value in list> (<another values in list>)* <End block>;
-<first value in list> ::= <value>;
-<another values in list> ::= <variable separator> <value>;
+<list values> ::= <Start block> <value in list> (<another values in list>)* <End block>;
+<value in list> ::= <list values> | <value>;
+<another values in list> ::= <variable separator> <value in list>;
 
 <literal> ::= <number> | <char> | <string> | <logic>; // TODO : дополнить
 <any branching> ::= <usual branching> | <switch branching> ;
