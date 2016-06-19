@@ -36,7 +36,8 @@ CLexer::CLexer(const std::string & line)
 		// Операторы условии
 		{ "if", TokensId::TK_IF },
 		{ "else", TokensId::TK_ELSE },
-
+		{ "switch", TokensId::TK_SWITH },
+		{ "case", TokensId::TK_CASE },
 		//////////////////////////////////
 		// Операторы циклов
 		{ "while", TokensId::TK_WHILE },
@@ -96,9 +97,26 @@ TokensId CLexer::Scan(SToken &data)
 	
 	SkipSpaces();// TODO : see need whitespace
 
-	boost::string_ref twoNextSymbols = m_peep.substr(0, 2);
+	/////////////////////////////////////////////////////
+	// Three-symbols operations
+	boost::string_ref threeNextSymbols = m_peep.substr(0, 3);
+
+	if (threeNextSymbols == NAME_LEFT_SHIFT_ASSIGN)
+	{
+		data.value = threeNextSymbols.to_string();
+		m_peep.remove_prefix(3);
+		return TokensId::TK_LEFT_SHIFT_ASSIGN;
+	}
+	else if (threeNextSymbols == NAME_RIGHT_SHIFT_ASSIGN)
+	{
+		data.value = threeNextSymbols.to_string();
+		m_peep.remove_prefix(3);
+		return TokensId::TK_RIGHT_SHIFT_ASSIGN;
+	}
 	/////////////////////////////////////////////////////
 	// Comments
+	boost::string_ref twoNextSymbols = m_peep.substr(0, 2);
+
 	if (twoNextSymbols == ONE_STRING_COMMENT)
 	{
 		data.value = m_peep.to_string();
@@ -171,6 +189,12 @@ TokensId CLexer::Scan(SToken &data)
 		m_peep.remove_prefix(2);
 		return TokensId::TK_MULTIPLY_ASSIGN;
 	}
+	else if (twoNextSymbols == NAME_PERCENT_ASSIGN)
+	{
+		data.value = twoNextSymbols.to_string();
+		m_peep.remove_prefix(2);
+		return TokensId::TK_PERCENT_ASSIGN;
+	}
 	// Logic operators
 	else if (twoNextSymbols == NAME_AND)
 	{
@@ -209,6 +233,25 @@ TokensId CLexer::Scan(SToken &data)
 		data.value = twoNextSymbols.to_string();
 		m_peep.remove_prefix(2);
 		return TokensId::TK_RIGHT_SHIFT;
+	}
+	// Bit assign operations
+	else if (twoNextSymbols == NAME_AND_ASSIGN)
+	{
+		data.value = twoNextSymbols.to_string();
+		m_peep.remove_prefix(2);
+		return TokensId::TK_AND_ASSIGN;
+	}
+	else if (twoNextSymbols == NAME_XOR_ASSIGN)
+	{
+		data.value = twoNextSymbols.to_string();
+		m_peep.remove_prefix(2);
+		return TokensId::TK_XOR_ASSIGN;
+	}
+	else if (twoNextSymbols == NAME_OR_ASSIGN)
+	{
+		data.value = twoNextSymbols.to_string();
+		m_peep.remove_prefix(2);
+		return TokensId::TK_OR_ASSIGN;
 	}
 	/////////////////////////////////////////////////////
 	if (m_peep.empty())
@@ -278,6 +321,10 @@ TokensId CLexer::Scan(SToken &data)
 	// Parse other symbols
     switch (m_peep[0])
     {
+	case CASE_ENUMERATOR:
+		data.value = m_peep[0];
+		m_peep.remove_prefix(1);
+		return TokensId::TK_CASE_ENUMERATOR;
 		//////////////////////////////////////
 		// Новая строка
 	case NEWLINE_SYMBOL:

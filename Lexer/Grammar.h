@@ -46,6 +46,13 @@ enum class TokensId
 	, TK_MINUS_ASSIGN
 	, TK_MULTIPLY_ASSIGN
 	, TK_DIVIDE_ASSIGN
+	, TK_PERCENT_ASSIGN
+
+	, TK_AND_ASSIGN
+	, TK_OR_ASSIGN
+	, TK_XOR_ASSIGN
+	, TK_LEFT_SHIFT_ASSIGN
+	, TK_RIGHT_SHIFT_ASSIGN
 
 	, TK_PLUS
 	, TK_MINUS
@@ -83,6 +90,9 @@ enum class TokensId
 
 	, TK_IF
 	, TK_ELSE
+	, TK_SWITH
+	, TK_CASE
+	, TK_CASE_ENUMERATOR
 
 	, TK_WHILE
 	, TK_DO
@@ -137,6 +147,13 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 	,{ TokensId::TK_MINUS_ASSIGN, "Minus assign" }
 	,{ TokensId::TK_MULTIPLY_ASSIGN, "Multiply assign" }
 	,{ TokensId::TK_DIVIDE_ASSIGN, "Divide assign" }
+	,{ TokensId::TK_PERCENT_ASSIGN, "Persent assign" }
+
+	,{ TokensId::TK_AND_ASSIGN, "And assign" }
+	,{ TokensId::TK_OR_ASSIGN, "Or assign" }
+	,{ TokensId::TK_XOR_ASSIGN, "Xor assign" }
+	,{ TokensId::TK_LEFT_SHIFT_ASSIGN, "Left shift assign" }
+	,{ TokensId::TK_RIGHT_SHIFT_ASSIGN, "Right shift assign" }
 
 
 	,{ TokensId::TK_PLUS, "Plus"}
@@ -175,6 +192,10 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 
 	,{ TokensId::TK_IF, "If"}
 	,{ TokensId::TK_ELSE, "Else"}
+	,{ TokensId::TK_SWITH, "Swith" }
+	,{ TokensId::TK_CASE, "Case" }
+	,{ TokensId::TK_CASE_ENUMERATOR, "Case enumerator" }
+
 
 	,{ TokensId::TK_WHILE, "While"}
 	,{ TokensId::TK_DO, "Do"}
@@ -239,6 +260,13 @@ static const std::string NAME_PLUS_ASSIGN = "+=";
 static const std::string NAME_MINUS_ASSIGN = "-=";
 static const std::string NAME_DIVIDE_ASSIGN = "/=";
 static const std::string NAME_MULTIPLY_ASSIGN = "*=";
+static const std::string NAME_PERCENT_ASSIGN = "%=";
+
+static const std::string NAME_AND_ASSIGN = "&=";
+static const std::string NAME_XOR_ASSIGN = "^=";
+static const std::string NAME_OR_ASSIGN = "|=";
+static const std::string NAME_LEFT_SHIFT_ASSIGN = "<<=";
+static const std::string NAME_RIGHT_SHIFT_ASSIGN = ">>=";
 
 static const std::string NAME_INCREMENT = "++";
 static const std::string NAME_DECREMENT = "--";

@@ -42,6 +42,37 @@ t - Identifier
 3 - Integer
 ; - Semicolon
 
+t - Identifier
+%= - Persent assign
+3 - Integer
+; - Semicolon
+
+
+t - Identifier
+&= - And assign
+4 - Integer
+; - Semicolon
+
+t - Identifier
+|= - Or assign
+3 - Integer
+; - Semicolon
+
+t - Identifier
+^= - Xor assign
+3 - Integer
+; - Semicolon
+
+t - Identifier
+<<= - Left shift assign
+3 - Integer
+; - Semicolon
+
+t - Identifier
+>>= - Right shift assign
+3 - Integer
+; - Semicolon
+
 
 t - Identifier
 ++ - Increment
