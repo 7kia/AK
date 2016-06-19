@@ -22,6 +22,7 @@ private:
     std::string							ParseIdentifier();
     void								SkipSpaces();
     bool								ParseString(SToken &data);
+	bool								ParseCharLiteral(SToken & data);
 	TokensId							AcceptIdOrKeyword(SToken &data, const boost::string_ref id);
 
 	bool								IsZeroInStart();

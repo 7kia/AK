@@ -43,6 +43,8 @@ CLexer::CLexer(const std::string & line)
 		{ "do", TokensId::TK_DO },
 		{ "for", TokensId::TK_FOR },
 
+		{ "break", TokensId::TK_BREAK },
+		{ "continue", TokensId::TK_CONTINUE },
 		
 
       })
@@ -195,6 +197,19 @@ TokensId CLexer::Scan(SToken &data)
 		m_peep.remove_prefix(2);
 		return TokensId::TK_DECREMENT;
 	}
+	// Bit shift to left and right
+	else if (twoNextSymbols == NAME_LEFT_SHIFT)
+	{
+		data.value = twoNextSymbols.to_string();
+		m_peep.remove_prefix(2);
+		return TokensId::TK_LEFT_SHIFT;
+	}
+	else if (twoNextSymbols == NAME_RIGHT_SHIFT)
+	{
+		data.value = twoNextSymbols.to_string();
+		m_peep.remove_prefix(2);
+		return TokensId::TK_RIGHT_SHIFT;
+	}
 	/////////////////////////////////////////////////////
 	if (m_peep.empty())
 	{
@@ -248,10 +263,14 @@ TokensId CLexer::Scan(SToken &data)
 
 
 	/////////////////////////////////////////////////////
-	// Parse string
-    if (ParseString(data))
+	// Parse string and char
+	if (ParseString(data))
     {
-        return TokensId::TK_STRING;
+		return TokensId::TK_STRING;
+	}
+    if (ParseCharLiteral(data))
+    {
+        return TokensId::TK_CHAR;
     }
 	/////////////////////////////////////////////////////
 
@@ -262,99 +281,107 @@ TokensId CLexer::Scan(SToken &data)
 		//////////////////////////////////////
 		// Новая строка
 	case NEWLINE_SYMBOL:
-		data.value = NEWLINE_SYMBOL;
+		data.value = m_peep[0];
 		m_peep.remove_prefix(1);
 		return TokensId::TK_NEWLINE;
 
 		//////////////////////////////////////
 		// Логические опреаторы
 	case NAME_NOT_OPERATOR:
-		data.value = NAME_NOT_OPERATOR;
+		data.value = m_peep[0];
 		m_peep.remove_prefix(1);
 		return TokensId::TK_NOT_OPERATOR;
 	case NAME_BITE_OR:
-		data.value = NAME_NOT_OPERATOR;
+		data.value = m_peep[0];
 		m_peep.remove_prefix(1);
-		return TokensId::TK_NOT_OPERATOR;
+		return TokensId::TK_BIT_OR;
+	case NAME_BITE_XOR:
+		data.value = m_peep[0];
+		m_peep.remove_prefix(1);
+		return TokensId::TK_BIT_XOR;
+	case NAME_BITE_NOT:
+		data.value = m_peep[0];
+		m_peep.remove_prefix(1);
+		return TokensId::TK_BIT_NOT;
 		//////////////////////////////////////
 		// Знаки сравнения
     case NAME_LESS:
-		data.value = NAME_LESS;
+		data.value = m_peep[0];
         m_peep.remove_prefix(1);
         return TokensId::TK_LESS;
 	case NAME_MORE:
-		data.value = NAME_MORE;
+		data.value = m_peep[0];
 		m_peep.remove_prefix(1);
 		return TokensId::TK_MORE;// TODO : not work
 		//////////////////////////////////////
 		// Арифметические операции
     case NAME_PLUS:
-		data.value = NAME_PLUS;
+		data.value = m_peep[0];
         m_peep.remove_prefix(1);
         return TokensId::TK_PLUS;
     case NAME_MINUS:
-		data.value = NAME_MINUS;
+		data.value = m_peep[0];
         m_peep.remove_prefix(1);
         return TokensId::TK_MINUS;
     case NAME_MULTIPLICATION:
-		data.value = NAME_MULTIPLICATION;
+		data.value = m_peep[0];
         m_peep.remove_prefix(1);
         return TokensId::TK_STAR;
     case NAME_DIVISION:
-		data.value = NAME_DIVISION;
+		data.value = m_peep[0];
         m_peep.remove_prefix(1);
         return TokensId::TK_SLASH;
 	case NAME_DIVISION_BY_REMAIN:
-		data.value = NAME_DIVISION_BY_REMAIN;
+		data.value = m_peep[0];
 		m_peep.remove_prefix(1);
 		return TokensId::TK_PERCENT;
 		//////////////////////////////////////
 		// Разыменование
 	case NAME_GET_ADDRESS:
-		data.value = NAME_GET_ADDRESS;
+		data.value = m_peep[0];
 		m_peep.remove_prefix(1);
 		return TokensId::TK_AMPERSAND;
 		//////////////////////////////////////
 		// Разделители
 	case COMMAND_SEPARATOR:
-		data.value = COMMAND_SEPARATOR;
+		data.value = m_peep[0];
 		m_peep.remove_prefix(1);
 		return TokensId::TK_SEMICOLON;
     case VARIABLE_SEPARATOR:
-		data.value = VARIABLE_SEPARATOR;
+		data.value = m_peep[0];
 		m_peep.remove_prefix(1);
 		return TokensId::TK_COMMA;
 
 		//////////////////////////////////////
 		// Списки команд, аргументов
 	case START_LIST_ARGUMENTS:
-		data.value = START_LIST_ARGUMENTS;
+		data.value = m_peep[0];
 		m_peep.remove_prefix(1);
 		return TokensId::TK_LEFT_PAREN;
 	case END_LIST_ARGUMENTS:
-		data.value = END_LIST_ARGUMENTS;
+		data.value = m_peep[0];
 		m_peep.remove_prefix(1);
 		return TokensId::TK_RIGHT_PAREN;
 	case START_BLOCK:
-		data.value = START_BLOCK;
+		data.value = m_peep[0];
 		m_peep.remove_prefix(1);
 		return TokensId::TK_LEFT_BRACE;
 	case END_BLOCK:
-		data.value = END_BLOCK;
+		data.value = m_peep[0];
 		m_peep.remove_prefix(1);
 		return TokensId::TK_RIGHT_BRACE;
 	case START_OPERATOR_INDEX:
-		data.value = START_OPERATOR_INDEX;
+		data.value = m_peep[0];
 		m_peep.remove_prefix(1);
 		return TokensId::TK_LEFT_SQUARE_BRACKETS;
 	case END_OPERATOR_INDEX:
-		data.value = END_OPERATOR_INDEX;
+		data.value = m_peep[0];
 		m_peep.remove_prefix(1);
 		return TokensId::TK_RIGHT_SQUARE_BRACKETS;
 		//////////////////////////////////////
 		// Оператор присвоения и сравнения
 	case NAME_ASSIGMENT:
-		data.value = NAME_ASSIGMENT;
+		data.value = m_peep[0];
 		m_peep.remove_prefix(1);
 		return TokensId::TK_ASSIGN;
 	}
@@ -540,6 +567,28 @@ bool CLexer::ParseString(SToken &data)
 	}
 
 	data.value = '\"' + std::string(m_peep.substr(0, quotePos)) + '\"';
+	m_peep.remove_prefix(quotePos + 1);
+	return true;
+}
+
+// TODO : copy privious method, might need rewrite
+bool CLexer::ParseCharLiteral(SToken &data)
+{
+	if (m_peep[0] != '\'')
+	{
+		return false;
+	}
+
+	m_peep.remove_prefix(1);
+	size_t quotePos = m_peep.find('\'');
+	if (quotePos == boost::string_ref::npos)
+	{
+		m_peep.clear();
+
+		return true;
+	}
+
+	data.value = '\'' + std::string(m_peep.substr(0, quotePos)) + '\'';
 	m_peep.remove_prefix(quotePos + 1);
 	return true;
 }

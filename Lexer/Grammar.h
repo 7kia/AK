@@ -12,6 +12,7 @@ enum class TokensId
 
 	, TK_INTEGER = 1
 	, TK_FLOAT
+	, TK_CHAR
 	, TK_STRING
 
 	, TK_SIGNED
@@ -28,6 +29,13 @@ enum class TokensId
 	, TK_NOT_EQUALS
 	, TK_LOGIC_AND
 	, TK_LOGIC_OR
+
+	, TK_BIT_AND
+	, TK_BIT_OR
+	, TK_BIT_XOR// исключающее или
+	, TK_LEFT_SHIFT
+	, TK_RIGHT_SHIFT
+	, TK_BIT_NOT
 
 	, TK_INCREMENT
 	, TK_DECREMENT
@@ -79,6 +87,10 @@ enum class TokensId
 	, TK_WHILE
 	, TK_DO
 	, TK_FOR
+
+	, TK_BREAK
+	, TK_CONTINUE
+
 	, Amount = TK_FOR + 1// TODO : replace
 };
 
@@ -90,6 +102,7 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 	,{ TokensId::TK_VOID, "Void" }
 	,{ TokensId::TK_INTEGER, "Integer"}
 	,{ TokensId::TK_FLOAT,  "Double"}
+	,{ TokensId::TK_CHAR, "Char"}
 	,{ TokensId::TK_STRING, "String"}
 
 	,{ TokensId::TK_SIGNED, "Signed" }
@@ -105,6 +118,13 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 	,{ TokensId::TK_NOT_EQUALS, "Not equal" }
 	,{ TokensId::TK_LOGIC_AND, "Logic and" }
 	,{ TokensId::TK_LOGIC_OR, "Logic or" }
+
+	,{ TokensId::TK_BIT_AND, "Bit and" }
+	,{ TokensId::TK_BIT_OR, "Bit or" }
+	,{ TokensId::TK_BIT_XOR, "Bit xor" }
+	,{ TokensId::TK_LEFT_SHIFT, "Bit shift to left" }
+	,{ TokensId::TK_RIGHT_SHIFT, "Bit shift to right" }
+	,{ TokensId::TK_BIT_NOT, "Bit not" }
 
 	,{ TokensId::TK_INCREMENT, "Increment" }
 	,{ TokensId::TK_DECREMENT, "Decrement" }
@@ -159,6 +179,10 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 	,{ TokensId::TK_WHILE, "While"}
 	,{ TokensId::TK_DO, "Do"}
 	,{ TokensId::TK_FOR, "For"}
+
+	,{ TokensId::TK_BREAK, "Break" }
+	,{ TokensId::TK_CONTINUE, "Continue" }
+
 };
 //////////////////////////////////////////////////////////////////////
 
@@ -236,4 +260,9 @@ static const std::string NAME_OR = "||";
 // Bit
 static const char NAME_BITE_AND = '&';
 static const char NAME_BITE_OR = '|';
+static const char NAME_BITE_XOR = '^';
+static const std::string NAME_LEFT_SHIFT = "<<";
+static const std::string NAME_RIGHT_SHIFT = ">>";
+static const char NAME_BITE_NOT = '~';
+
 //////////////////////////////////////////////////////////////////////
