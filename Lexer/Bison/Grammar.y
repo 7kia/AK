@@ -1,4 +1,4 @@
-%token NAME_MAIN_FUNCTION
+%token NAME_MAIN_FUNCTION "Function main"
 %token BYE
 
 %token START_BLOCK
@@ -22,7 +22,9 @@ myProgram:
 		Основа
 */
 commandBlock:
-		START_BLOCK commands END_BLOCK
+		START_BLOCK							{ printf("START_BLOCK \n");   }
+		commands
+		END_BLOCK							{ printf("END_BLOCK \n");   }		
 		;
 
 
