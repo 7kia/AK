@@ -40,7 +40,11 @@
       know about them.  */
    enum yytokentype {
      NAME_MAIN_FUNCTION = 258,
-     BYE = 259
+     BYE = 259,
+     START_BLOCK = 260,
+     END_BLOCK = 261,
+     COMMAND_SEPARATOR = 262,
+     VARIABLE_SEPARATOR = 263
    };
 #endif
 

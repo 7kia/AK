@@ -40,12 +40,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Hello.l">
-      <Filter>Файлы исходного кода</Filter>
-    </None>
-    <None Include="Hello.y">
-      <Filter>Файлы исходного кода</Filter>
-    </None>
     <None Include="Grammar.y">
       <Filter>Файлы исходного кода</Filter>
     </None>

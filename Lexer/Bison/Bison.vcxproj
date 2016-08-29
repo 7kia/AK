@@ -161,8 +161,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Grammar.y" />
-    <None Include="Hello.l" />
-    <None Include="Hello.y" />
     <None Include="Lexer.l" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
