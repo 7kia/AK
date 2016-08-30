@@ -7,43 +7,80 @@
 extern int yylex();
 extern FILE *yyin;
 extern FILE *yyout;
+#include "Lexer.h"
 #include "Grammar.h"
 
 %}
 
 /*
+////////////////////////////////////////////////////////////////////
+//
+//
+//		Основа
+//
+//
+////////////////////////////////////////////////////////////////////
+*/
+START_BLOCK				"{"
+END_BLOCK				"}"
+
+
+/*
+////////////////////////////////////////////////////////////////////
+//
+//
+//		Алфавит
+//
+//
+////////////////////////////////////////////////////////////////////
+*/
+
+/*
 	 Цифры
 */
-DIGIT_MORE_ZERO			([1-9])
+DIGIT_MORE_ZERO			([1-9])+ /* TODO : see need these + */
 DIGIT_ZERO				"0"
 DIGIT					DIGIT_ZERO | DIGIT_MORE_ZERO
 
-START_BLOCK				"{"
-END_BLOCK				"}"
+/* Need for grammar */
+One_or_more_digits		(DIGIT)+
+/**/
+COMMAND_SEPARATOR		";"
+VARIABLE_SEPARATOR		","
+
+/**/
+
+CHAR \'.\'
+STRING					\".\"
+
+/*\" (CHAR)+ \"*/
+
 START_LIST_ARGUMENTS	"("
 END_LIST_ARGUMENTS		")"
 CASE_ENUMERATOR			":"
 UNDERSCORE_SYMBOL		"_"
-CHAR					\'.\'  /* Планируется добавить поддержку unicode , чтобы русские символы отображались */
-STRING					\" (CHAR)+ \"
 
-LOGIC_TRUE				"true"
-LOGIC_FALSE				"false"
+LOGIC					true|false
 
 
 %%
 
 ("main")       { return NAME_MAIN_FUNCTION;  }
 
-
 "{"				{ return START_BLOCK; }
 "}"				{ return END_BLOCK; }
+
+
+{One_or_more_digits}		{ return One_or_more_digits; }
 
 ";"				{ return COMMAND_SEPARATOR; }
 ","				{ return VARIABLE_SEPARATOR; }
 
+{CHAR}			{ return CHAR; }
+{STRING}		{ return STRING; }
 
 
+{LOGIC}			{ return LOGIC; }
 
 ("tchau"|"bye")"\n"   { return BYE; }
 .                     { yyerror();  }

@@ -43,8 +43,15 @@
      BYE = 259,
      START_BLOCK = 260,
      END_BLOCK = 261,
-     COMMAND_SEPARATOR = 262,
-     VARIABLE_SEPARATOR = 263
+     DIGIT_MORE_ZERO = 262,
+     DIGIT_ZERO = 263,
+     DIGIT = 264,
+     One_or_more_digits = 265,
+     COMMAND_SEPARATOR = 266,
+     VARIABLE_SEPARATOR = 267,
+     CHAR = 268,
+     STRING = 269,
+     LOGIC = 270
    };
 #endif
 
