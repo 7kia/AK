@@ -80,7 +80,7 @@ LOGIC					true|false
 {STRING}		{ return STRING; }
 
 
-{LOGIC}			{ return LOGIC; }
+{LOGIC}			{ fprintf_s(yyout, "Bool ");   return LOGIC; }
 
 ("tchau"|"bye")"\n"   { return BYE; }
 .                     { yyerror();  }

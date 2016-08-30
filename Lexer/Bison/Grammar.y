@@ -97,7 +97,7 @@ Value:
 
 Literal :
 
-		Number | {   fprintf_s(yyout, "Number ");   }
+		Number | 
 		LOGIC | {   fprintf_s(yyout, "Bool ");   }
 		CHAR | {   fprintf_s(yyout, "Char ");   }
 		STRING {   fprintf_s(yyout, "String ");   }
@@ -109,7 +109,7 @@ Literal :
 ////////////////////////////////////////////////////////////////////
 */
 Number : Integer | Float ; /* TODO : неоднозначность */
-Integer : Have_sign Digit_part;
+Integer : Have_sign Digit_part {   fprintf_s(yyout, "Number ");   };
 Digit_part : DIGIT_ZERO | Combination_of_digits_without_zero;
 Combination_of_digits_without_zero : 
 									DIGIT_MORE_ZERO Not_digit_or_is_digit /* (DIGIT)* */

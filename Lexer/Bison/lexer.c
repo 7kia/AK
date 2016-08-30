@@ -692,7 +692,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-{ return LOGIC; }
+{ fprintf_s(yyout, "Bool ");   return LOGIC; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
