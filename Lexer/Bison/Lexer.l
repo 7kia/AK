@@ -38,13 +38,20 @@ END_BLOCK				"}"
 /*
 	 ײטפנû
 */
-DIGIT_MORE_ZERO			([1-9])+ /* TODO : see need these + */
-DIGIT_ZERO				0
-DIGIT					DIGIT_ZERO | DIGIT_MORE_ZERO
+DIGIT_MORE_ZERO			([1-9]) /* TODO : see need these + */
+DIGIT_ZERO				"0"
+DIGIT					([0-9])
 
 /* Need for grammar */
-Have_sign ("+"|"-")?
-One_or_more_digits		(DIGIT)+
+Have_sign				("+"|"-")?
+INT						{Have_sign}(("0")|([1-9][0-9]*))
+/*
+{Have_sign}  ( {DIGIT_ZERO} | ( {DIGIT_MORE_ZERO} ({DIGIT})* ) )
+*/
+Expotential_part		{Have_sign}"e"|"E"
+FLOAT					({INT})"."([0-9]+Expotential_part?)
+/* ({INT})"."({DIGIT})+ ({Have_sign} "e" | "E")? */
+		
 /**/
 COMMAND_SEPARATOR		";"
 VARIABLE_SEPARATOR		","
@@ -71,8 +78,9 @@ LOGIC					true|false
 "{"				{ return START_BLOCK; }
 "}"				{ return END_BLOCK; }
 
+{INT}			{ fprintf_s(yyout, "Integer "); return INT; }
+{FLOAT}			{ fprintf_s(yyout, "Float "); return FLOAT; }
 
-{One_or_more_digits}		{ return One_or_more_digits; }
 
 ";"				{ fprintf_s(yyout, "Command separator "); return COMMAND_SEPARATOR; }
 ","				{ fprintf_s(yyout, "Variable separator ");  return VARIABLE_SEPARATOR; }

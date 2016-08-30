@@ -20,9 +20,11 @@ extern FILE *yyout;
 %token DIGIT_ZERO				
 %token DIGIT					
 
+%token INT
+%token FLOAT
+
 /* Need for grammar */
 %token Have_sign
-%token One_or_more_digits
 
 %token COMMAND_SEPARATOR
 %token VARIABLE_SEPARATOR
@@ -109,23 +111,5 @@ Literal :
 //						Числа
 ////////////////////////////////////////////////////////////////////
 */
-Number : Integer {   fprintf_s(yyout, "Number ");   }| Float {   fprintf_s(yyout, "Number ");   }; /* TODO : неоднозначность */
-Integer : Have_sign Digit_part {   fprintf_s(yyout, "Number ");   };
-Digit_part : DIGIT_ZERO | Combination_of_digits_without_zero;
-Combination_of_digits_without_zero : 
-									DIGIT_MORE_ZERO Not_digit_or_is_digit /* (DIGIT)* */
-									;
-Not_digit_or_is_digit : 
-						DIGIT Not_digit_or_is_digit| 
-						 /* nothing */
-						;
+Number : INT | FLOAT; /* TODO : неоднозначность */
 
-
-Float : Integer Fractional_part  Have_or_not_exponent_part; /* ( Exponent_part )? */
-Have_or_not_exponent_part : Exponent_part | /* nothing */ ;
-Fractional_part : 
-				'.' One_or_more_digits
-				;
-
-Exponent_part : Have_sign Exponent_symbol ;
-Exponent_symbol : "e" | "E" ;
