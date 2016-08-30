@@ -68,6 +68,16 @@
 /* Copy the first part of user declarations.  */
 
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+extern int yylex();
+extern FILE *yyin;
+extern FILE *yyout;
+
+
+
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -398,7 +408,7 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    13,    13,    17,    25,    25,    32,    32,    36
+       0,    25,    25,    29,    37,    37,    46,    46,    50
 };
 #endif
 
@@ -1298,12 +1308,14 @@ yyreduce:
     {
         case 4:
 
-    { printf("START_BLOCK \n");   ;}
+    {   fprintf_s(yyout, "START_BLOCK \n");   ;}
     break;
 
   case 5:
 
-    { printf("END_BLOCK \n");   ;}
+    { 	fprintf_s(yyout, "END_BLOCK \n");
+											 	fclose(yyout);
+												return; ;}
     break;
 
 

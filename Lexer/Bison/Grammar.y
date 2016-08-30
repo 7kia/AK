@@ -1,3 +1,15 @@
+
+%{
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+extern int yylex();
+extern FILE *yyin;
+extern FILE *yyout;
+
+%}
+
 %token NAME_MAIN_FUNCTION "Function main"
 %token BYE
 
@@ -22,9 +34,11 @@ myProgram:
 		Основа
 */
 commandBlock:
-		START_BLOCK							{ printf("START_BLOCK \n");   }
+		START_BLOCK							{   fprintf_s(yyout, "START_BLOCK \n");   }
 		commands
-		END_BLOCK							{ printf("END_BLOCK \n");   }		
+		END_BLOCK							{ 	fprintf_s(yyout, "END_BLOCK \n");
+											 	fclose(yyout);
+												return; } /* TODO : see need delete fclose()*/
 		;
 
 

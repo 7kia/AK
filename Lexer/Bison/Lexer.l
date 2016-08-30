@@ -50,12 +50,20 @@ LOGIC_FALSE				"false"
 
 %%
 
+void ParseFile(const char* inputFileName, const char* outputFileName)
+{
+	fopen_s(&yyout, outputFileName, "w");
+
+	fopen_s(&yyin, inputFileName, "r");
+	yyparse();
+	fclose(yyout);
+}
 
 int main(void)
 {
-   	fopen_s(&yyin, "text1.txt", "r");
-	yyparse();
+	ParseFile("text1.txt", "out1.txt");
 }
+
 
 int yywrap(void)
 {
