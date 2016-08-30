@@ -21,6 +21,7 @@ extern FILE *yyout;
 %token DIGIT					
 
 /* Need for grammar */
+%token Have_sign
 %token One_or_more_digits
 
 %token COMMAND_SEPARATOR
@@ -54,9 +55,9 @@ myProgram:
 ////////////////////////////////////////////////////////////////////
 */
 commandBlock:
-		START_BLOCK							{   fprintf_s(yyout, "START_BLOCK \n");   }
+		START_BLOCK							{   fprintf_s(yyout, "Start main() \n");   }
 		commands
-		END_BLOCK							{ 	fprintf_s(yyout, "END_BLOCK \n");
+		END_BLOCK							{ 	fprintf_s(yyout, "End main() \n");
 											 	fclose(yyout);
 												return; } /* TODO : see need delete fclose()*/
 		;
@@ -98,9 +99,9 @@ Value:
 Literal :
 
 		Number | 
-		LOGIC | {   fprintf_s(yyout, "Bool ");   }
-		CHAR | {   fprintf_s(yyout, "Char ");   }
-		STRING {   fprintf_s(yyout, "String ");   }
+		LOGIC |
+		CHAR | 
+		STRING
 		;
 
 /*
@@ -108,7 +109,7 @@ Literal :
 //						Числа
 ////////////////////////////////////////////////////////////////////
 */
-Number : Integer | Float ; /* TODO : неоднозначность */
+Number : Integer {   fprintf_s(yyout, "Number ");   }| Float {   fprintf_s(yyout, "Number ");   }; /* TODO : неоднозначность */
 Integer : Have_sign Digit_part {   fprintf_s(yyout, "Number ");   };
 Digit_part : DIGIT_ZERO | Combination_of_digits_without_zero;
 Combination_of_digits_without_zero : 
@@ -127,5 +128,4 @@ Fractional_part :
 				;
 
 Exponent_part : Have_sign Exponent_symbol ;
-Have_sign : "+" | "-" | /* nothing */ ;
 Exponent_symbol : "e" | "E" ;

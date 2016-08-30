@@ -39,10 +39,11 @@ END_BLOCK				"}"
 	 ײטפנû
 */
 DIGIT_MORE_ZERO			([1-9])+ /* TODO : see need these + */
-DIGIT_ZERO				"0"
+DIGIT_ZERO				0
 DIGIT					DIGIT_ZERO | DIGIT_MORE_ZERO
 
 /* Need for grammar */
+Have_sign ("+"|"-")?
 One_or_more_digits		(DIGIT)+
 /**/
 COMMAND_SEPARATOR		";"
@@ -50,8 +51,8 @@ VARIABLE_SEPARATOR		","
 
 /**/
 
-CHAR \'.\'
-STRING					\".\"
+CHAR					\'.\'
+STRING					\"(.)*\"
 
 /*\" (CHAR)+ \"*/
 
@@ -73,11 +74,11 @@ LOGIC					true|false
 
 {One_or_more_digits}		{ return One_or_more_digits; }
 
-";"				{ return COMMAND_SEPARATOR; }
-","				{ return VARIABLE_SEPARATOR; }
+";"				{ fprintf_s(yyout, "Command separator "); return COMMAND_SEPARATOR; }
+","				{ fprintf_s(yyout, "Variable separator ");  return VARIABLE_SEPARATOR; }
 
-{CHAR}			{ return CHAR; }
-{STRING}		{ return STRING; }
+{CHAR}			{ fprintf_s(yyout, "Char "); return CHAR; }
+{STRING}		{ fprintf_s(yyout, "String "); return STRING; }
 
 
 {LOGIC}			{ fprintf_s(yyout, "Bool ");   return LOGIC; }
@@ -99,6 +100,7 @@ void ParseFile(const char* inputFileName, const char* outputFileName)
 int main(void)
 {
 	ParseFile("text1.txt", "out1.txt");
+	ParseFile("Literal1.txt", "outLiteral1.txt");
 }
 
 

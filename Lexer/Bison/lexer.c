@@ -287,8 +287,8 @@ static void yy_fatal_error YY_PROTO(( yyconst char msg[] ));
 static yyconst short int yy_accept[42] =
     {   0,
         0,    0,   13,   11,   12,   11,   11,    6,    5,   11,
-       11,   11,   11,   11,    2,    3,    0,    0,    0,    0,
-        0,    0,    0,    0,    8,    7,    0,    0,    0,    0,
+       11,   11,   11,   11,    2,    3,    0,    8,    0,    0,
+        0,    0,    0,    0,    0,    7,    0,    0,    0,    0,
         0,    0,    0,   10,    0,    1,    0,    9,    4,    0,
         0
     } ;
@@ -334,46 +334,46 @@ static yyconst int yy_meta[28] =
 
 static yyconst short int yy_base[44] =
     {   0,
-        0,    0,   55,   56,   56,    0,    0,   56,   56,   45,
-       28,   41,   40,   15,   56,   56,   47,   45,   40,   33,
-       28,   28,   28,   19,   56,   56,   33,   39,   18,   19,
-       27,   23,   25,   56,   20,   56,    9,   56,   25,   22,
-       56,   29,   28
+        0,    0,   57,   58,   58,   53,    0,   58,   58,   46,
+       29,   42,   41,   15,   58,   58,   48,   47,   45,   40,
+       33,   28,   28,   28,   19,   58,   33,   39,   18,   19,
+       27,   23,   25,   58,   20,   58,    9,   58,   25,   22,
+       58,   29,   28
     } ;
 
 static yyconst short int yy_def[44] =
     {   0,
        41,    1,   41,   41,   41,   42,   43,   41,   41,   41,
-       41,   41,   41,   41,   41,   41,   41,   41,   41,   41,
+       41,   41,   41,   41,   41,   41,   42,   42,   41,   41,
        41,   41,   41,   41,   41,   41,   41,   41,   41,   41,
        41,   41,   41,   41,   41,   41,   41,   41,   41,   41,
         0,   41,   41
     } ;
 
-static yyconst short int yy_nxt[84] =
+static yyconst short int yy_nxt[86] =
     {   0,
         4,    5,    6,    7,    8,    9,   10,    4,    4,    4,
         4,   11,    4,    4,   12,    4,    4,    4,   13,    4,
-        4,    4,   14,    4,    4,   15,   16,   23,   18,   17,
-       19,   40,   28,   38,   39,   24,   38,   37,   36,   35,
-       34,   33,   32,   31,   30,   29,   28,   27,   26,   25,
-       22,   21,   20,   19,   41,    3,   41,   41,   41,   41,
+        4,    4,   14,    4,    4,   15,   16,   24,   19,   17,
+       20,   40,   28,   38,   39,   25,   38,   37,   36,   35,
+       34,   33,   32,   31,   30,   29,   28,   27,   26,   18,
+       18,   23,   22,   21,   20,   18,   41,    3,   41,   41,
        41,   41,   41,   41,   41,   41,   41,   41,   41,   41,
        41,   41,   41,   41,   41,   41,   41,   41,   41,   41,
-       41,   41,   41
+       41,   41,   41,   41,   41
     } ;
 
-static yyconst short int yy_chk[84] =
+static yyconst short int yy_chk[86] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,   14,   43,   42,
        40,   39,   37,   35,   33,   14,   32,   31,   30,   29,
-       28,   27,   24,   23,   22,   21,   20,   19,   18,   17,
-       13,   12,   11,   10,    3,   41,   41,   41,   41,   41,
+       28,   27,   25,   24,   23,   22,   21,   20,   19,   18,
+       17,   13,   12,   11,   10,    6,    3,   41,   41,   41,
        41,   41,   41,   41,   41,   41,   41,   41,   41,   41,
        41,   41,   41,   41,   41,   41,   41,   41,   41,   41,
-       41,   41,   41
+       41,   41,   41,   41,   41
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -632,7 +632,7 @@ yy_match:
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 56 );
+		while ( yy_base[yy_current_state] != 58 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -676,19 +676,19 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-{ return COMMAND_SEPARATOR; }
+{ fprintf_s(yyout, "Command separator "); return COMMAND_SEPARATOR; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-{ return VARIABLE_SEPARATOR; }
+{ fprintf_s(yyout, "Variable separator ");  return VARIABLE_SEPARATOR; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-{ return CHAR; }
+{ fprintf_s(yyout, "Char "); return CHAR; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-{ return STRING; }
+{ fprintf_s(yyout, "String "); return STRING; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
@@ -1605,6 +1605,7 @@ void ParseFile(const char* inputFileName, const char* outputFileName)
 int main(void)
 {
 	ParseFile("text1.txt", "out1.txt");
+	ParseFile("Literal1.txt", "outLiteral1.txt");
 }
 
 

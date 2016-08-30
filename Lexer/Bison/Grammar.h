@@ -46,12 +46,13 @@
      DIGIT_MORE_ZERO = 262,
      DIGIT_ZERO = 263,
      DIGIT = 264,
-     One_or_more_digits = 265,
-     COMMAND_SEPARATOR = 266,
-     VARIABLE_SEPARATOR = 267,
-     CHAR = 268,
-     STRING = 269,
-     LOGIC = 270
+     Have_sign = 265,
+     One_or_more_digits = 266,
+     COMMAND_SEPARATOR = 267,
+     VARIABLE_SEPARATOR = 268,
+     CHAR = 269,
+     STRING = 270,
+     LOGIC = 271
    };
 #endif
 
