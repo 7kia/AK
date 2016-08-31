@@ -1,0 +1,8 @@
+signed int varInt = 9;
+signed int* pInt = &varInt;
+
+printf(*pInt);
+
+unsigned int ar[2] = { 0, 1 };
+unsigned int * pAr = &ar;
+printf(*pAr);// 0

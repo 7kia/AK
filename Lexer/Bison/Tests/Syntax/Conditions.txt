@@ -1,0 +1,16 @@
+if(true)
+{
+}else{};
+
+signed int g = 4;
+switch(g)
+{
+	case 1:
+		{
+			// do something
+		}
+	case 4:
+		{
+			
+		}
+}
