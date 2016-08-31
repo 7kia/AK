@@ -53,9 +53,9 @@ Expotential_part		{Have_sign}("e"|"E"){INT}
 FLOAT					{Have_sign}((([0-9]+)"."([0-9]*))|("."([0-9]+))){Expotential_part}?
 
 /*
-///////////////
-//		Арифметические знаки
-///////////////
+//////////////////////////////
+//			Операции
+//////////////////////////////
 */
 
 PLUS					"+"
@@ -63,22 +63,43 @@ MINUS					"-"
 DIVIDE					"/"
 STAR					"*"
 
-ASSIGN					"="
-/* ({INT})"."({DIGIT})+ ({Have_sign} "e" | "E")? */
-		
-/**/
+ASSIGN					"="		
+
+REFERENCE				"&"
+/*
+//////////////////////////////
+//		Разделители
+//////////////////////////////
+*/
 COMMAND_SEPARATOR		";"
 VARIABLE_SEPARATOR		","
 
 /**/
-
+/*
+//////////////////////////////
+//		Типы и их имена
+//////////////////////////////
+*/
 CHAR					\'.\'
 STRING					\"(.)*\"
 
+NAME_INTEGER		"int"
+NAME_FLOAT			"float"
+NAME_CHAR			"char"
+NAME_STRING			"string"
+NAME_LOGIC			"bool"
+
+NAME_TYPE			(NAME_INTEGER)|(NAME_FLOAT)|(NAME_CHAR)|(NAME_STRING)|(NAME_LOGIC)
+
+
 LOGIC					true|false
 
-
+/* Identificator and it used */
 Identificator			[a-zA-Z_][a-zA-Z0-9_]*
+ARRAY_ELEMENT			{Identificator}("["INT"]")+
+
+/* TODO : not work */
+ADDRESED_OPERATION		({STAR}|{REFERENCE})* 
 /**/
 
 START_LIST_ARGUMENTS	"("
@@ -107,11 +128,19 @@ UNDERSCORE_SYMBOL		"_"
 {CHAR}			{ fprintf_s(yyout, "Char "); return CHAR; }
 {STRING}		{ fprintf_s(yyout, "String "); return STRING; }
 
+{NAME_INTEGER}		{ fprintf_s(yyout, "int "); return NAME_INTEGER; }
+{NAME_FLOAT}		{ fprintf_s(yyout, "float "); return NAME_FLOAT; }
+{NAME_CHAR}			{ fprintf_s(yyout, "char "); return NAME_CHAR; }
+{NAME_STRING}		{ fprintf_s(yyout, "string "); return NAME_STRING; }
+{NAME_LOGIC}		{ fprintf_s(yyout, "bool "); return NAME_LOGIC; }
+
+{NAME_TYPE}		{ fprintf_s(yyout, "Name type - "); return NAME_TYPE; }
 
 {LOGIC}			{ fprintf_s(yyout, "Bool ");   return LOGIC; }
 
 {Identificator}			{ fprintf_s(yyout, "Identificator ");   return Identificator; }
-
+{ARRAY_ELEMENT}			{ fprintf_s(yyout, "Array element ");   return ARRAY_ELEMENT; }
+{ADDRESED_OPERATION}	{ fprintf_s(yyout, "Addressed operations ");   return ADDRESED_OPERATION; }
 
 ("tchau"|"bye")"\n"   { return BYE; }
 .                     { yyerror();  }

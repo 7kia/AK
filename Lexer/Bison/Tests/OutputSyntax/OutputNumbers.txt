@@ -41,4 +41,8 @@ Command separator
 Float Literal 
 Command separator 
 
+Identificator Command separator 
 Identificator Error
+Error
+Error
+Float Error

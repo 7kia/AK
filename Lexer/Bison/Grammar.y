@@ -32,17 +32,32 @@ extern FILE *yyout;
 /* Need for grammar */
 %token Have_sign
 
+%token REFERENCE
+%token ADDRESED_OPERATION
+
 %token COMMAND_SEPARATOR
 %token VARIABLE_SEPARATOR
 
+/*
+//////////////////////////////
+//		Типы и их имена
+//////////////////////////////
+*/
 /* Text */
 %token CHAR					/* Планируется добавить поддержку unicode , чтобы русские символы отображались */
 %token STRING
-/* Logic */
+
+%token NAME_INTEGER
+%token NAME_FLOAT
+%token NAME_CHAR
+%token NAME_STRING
+%token NAME_LOGIC
+
+%token NAME_TYPE
 %token LOGIC
+
 %token Identificator
-
-
+%token ARRAY_ELEMENT
 %%
 
 program: 
@@ -77,9 +92,16 @@ commands:
 		;
 
 command:
-		Value COMMAND_SEPARATOR /*  TODO : see Rule.txt */
+		commandContent COMMAND_SEPARATOR /*  TODO : see Rule.txt */
 		;
 
+commandContent:
+			Variable | Value
+			;
+
+Variable: 
+		Identificator /*  TODO : see ADDRESED_OPERATION*/
+		;
 /*
 ////////////////////////////////////////////////////////////////////
 //
@@ -93,7 +115,6 @@ command:
 Value:
 		Literal {   fprintf_s(yyout, "Literal \n");   }
 	;
-
 
 /*
 ////////////////////////////////////////////////////////////////////

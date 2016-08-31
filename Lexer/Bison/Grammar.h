@@ -54,12 +54,21 @@
      STAR = 270,
      ASSIGN = 271,
      Have_sign = 272,
-     COMMAND_SEPARATOR = 273,
-     VARIABLE_SEPARATOR = 274,
-     CHAR = 275,
-     STRING = 276,
-     LOGIC = 277,
-     Identificator = 278
+     REFERENCE = 273,
+     ADDRESED_OPERATION = 274,
+     COMMAND_SEPARATOR = 275,
+     VARIABLE_SEPARATOR = 276,
+     CHAR = 277,
+     STRING = 278,
+     NAME_INTEGER = 279,
+     NAME_FLOAT = 280,
+     NAME_CHAR = 281,
+     NAME_STRING = 282,
+     NAME_LOGIC = 283,
+     NAME_TYPE = 284,
+     LOGIC = 285,
+     Identificator = 286,
+     ARRAY_ELEMENT = 287
    };
 #endif
 
