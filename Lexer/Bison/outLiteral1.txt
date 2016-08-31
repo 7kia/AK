@@ -1,42 +1,5 @@
 
 Start main() 
 
-Char Literal 
-Command separator 
-String Literal 
-Command separator 
-
-Bool Literal 
-Command separator 
-Bool Literal 
-Command separator 
-
-Integer Literal 
-Command separator 
-Integer Literal 
-Command separator 
-Float Literal 
-Command separator 
-Float Literal 
-Command separator 
-Integer Literal 
-Command separator 
-
-Float Literal 
-Command separator 
-Float Literal 
-Command separator 
-Float Literal 
-Command separator 
-
-Integer Literal 
-Command separator 
-Integer Literal 
-Command separator 
-Float Literal 
-Command separator 
-Float Literal 
-Command separator 
-Float Literal 
-Command separator 
-End main() 
+Error
+Command separator Error

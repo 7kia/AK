@@ -48,8 +48,8 @@ INT						{Have_sign}([0-9]+)
 /*
 {Have_sign}  ( {DIGIT_ZERO} | ( {DIGIT_MORE_ZERO} ({DIGIT})* ) )
 */
-Expotential_part		{Have_sign}"e"|"E"
-FLOAT {Have_sign}((([0-9]+)"."([0-9]*))|("."([0-9]+)))
+Expotential_part		{Have_sign}("e"|"E"){INT}
+FLOAT {Have_sign}((([0-9]+)"."([0-9]*))|("."([0-9]+))){Expotential_part}?
 /* ({INT})"."({DIGIT})+ ({Have_sign} "e" | "E")? */
 		
 /**/
@@ -107,8 +107,10 @@ void ParseFile(const char* inputFileName, const char* outputFileName)
 
 int main(void)
 {
-	ParseFile("text1.txt", "out1.txt");
-	ParseFile("Literal1.txt", "outLiteral1.txt");
+	//ParseFile("text1.txt", "out1.txt");
+	//ParseFile("Literal1.txt", "outLiteral1.txt");
+
+	ParseFile("Tests\\Syntax\\Numbers.txt", "Tests\\OutputSyntax\\OutputNumbers.txt");
 }
 
 
