@@ -54,6 +54,16 @@ extern FILE *yyout;
 %token NAME_LOGIC
 
 %token NAME_TYPE
+
+%token PREFIX_SIGNED
+%token PREFIX_UNSIGNED
+%token PREFIX_LONG
+
+%token PREFIX_NUMERIC_TYPES
+%token PREFIX_CONST
+
+
+
 %token LOGIC
 
 %token Identificator

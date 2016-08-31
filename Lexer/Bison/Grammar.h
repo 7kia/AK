@@ -66,9 +66,14 @@
      NAME_STRING = 282,
      NAME_LOGIC = 283,
      NAME_TYPE = 284,
-     LOGIC = 285,
-     Identificator = 286,
-     ARRAY_ELEMENT = 287
+     PREFIX_SIGNED = 285,
+     PREFIX_UNSIGNED = 286,
+     PREFIX_LONG = 287,
+     PREFIX_NUMERIC_TYPES = 288,
+     PREFIX_CONST = 289,
+     LOGIC = 290,
+     Identificator = 291,
+     ARRAY_ELEMENT = 292
    };
 #endif
 

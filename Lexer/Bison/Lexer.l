@@ -94,6 +94,19 @@ NAME_TYPE			(NAME_INTEGER)|(NAME_FLOAT)|(NAME_CHAR)|(NAME_STRING)|(NAME_LOGIC)
 
 LOGIC					true|false
 
+/*
+//////////////////////////////
+//		Префиксы типов
+//////////////////////////////
+*/
+
+PREFIX_SIGNED			"signed"
+PREFIX_UNSIGNED			"unsigned"
+PREFIX_LONG				"long"
+
+PREFIX_NUMERIC_TYPES	{PREFIX_SIGNED}|{PREFIX_UNSIGNED}|{PREFIX_LONG}
+PREFIX_CONST			"const"
+
 /* Identificator and it used */
 Identificator			[a-zA-Z_][a-zA-Z0-9_]*
 ARRAY_ELEMENT			{Identificator}("["INT"]")+
@@ -137,6 +150,15 @@ UNDERSCORE_SYMBOL		"_"
 {NAME_TYPE}		{ fprintf_s(yyout, "Name type - "); return NAME_TYPE; }
 
 {LOGIC}			{ fprintf_s(yyout, "Bool ");   return LOGIC; }
+
+{PREFIX_SIGNED}			{ fprintf_s(yyout, "signed ");   return PREFIX_SIGNED; }
+{PREFIX_UNSIGNED}		{ fprintf_s(yyout, "unsigned ");   return PREFIX_UNSIGNED; }
+{PREFIX_LONG}			{ fprintf_s(yyout, "long ");   return PREFIX_LONG; }
+
+
+{PREFIX_NUMERIC_TYPES}			{  return PREFIX_NUMERIC_TYPES; }
+{PREFIX_CONST}			{ fprintf_s(yyout, "const ");   return PREFIX_CONST; }
+
 
 {Identificator}			{ fprintf_s(yyout, "Identificator ");   return Identificator; }
 {ARRAY_ELEMENT}			{ fprintf_s(yyout, "Array element ");   return ARRAY_ELEMENT; }
