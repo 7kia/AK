@@ -44,12 +44,12 @@ DIGIT					([0-9])
 
 /* Need for grammar */
 Have_sign				("+"|"-")?
-INT						{Have_sign}(("0")|([1-9][0-9]*))
+INT						{Have_sign}([0-9]+)
 /*
 {Have_sign}  ( {DIGIT_ZERO} | ( {DIGIT_MORE_ZERO} ({DIGIT})* ) )
 */
 Expotential_part		{Have_sign}"e"|"E"
-FLOAT					({INT})"."([0-9]+Expotential_part?)
+FLOAT {Have_sign}((([0-9]+)"."([0-9]*))|("."([0-9]+)))
 /* ({INT})"."({DIGIT})+ ({Have_sign} "e" | "E")? */
 		
 /**/
@@ -119,6 +119,5 @@ int yywrap(void)
 
 int yyerror(void)
 {
-    printf("Error\n");
-    exit(1);
+    fprintf_s(yyout, "Error\n");
 }

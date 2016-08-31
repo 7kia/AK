@@ -415,7 +415,7 @@ static const yytype_int8 yyrhs[] =
       19,     0,    -1,    20,    -1,     3,    21,    -1,    -1,     5,
       22,    23,     6,    -1,    24,    23,    -1,    -1,    25,    13,
       -1,    26,    -1,    27,    -1,    17,    -1,    15,    -1,    16,
-      -1,    10,    -1,    11,    -1
+      -1,    11,    -1,    10,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
@@ -469,7 +469,7 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     0,     0,     2,     4,     3,     1,     7,    14,    15,
+       0,     0,     0,     2,     4,     3,     1,     7,    15,    14,
       12,    13,    11,     0,     7,     0,     9,    10,     5,     6,
        8
 };
