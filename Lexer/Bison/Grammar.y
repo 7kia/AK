@@ -23,6 +23,12 @@ extern FILE *yyout;
 %token INT
 %token FLOAT
 
+%token PLUS
+%token MINUS
+%token DIVIDE
+%token STAR
+
+%token ASSIGN
 /* Need for grammar */
 %token Have_sign
 
@@ -34,6 +40,7 @@ extern FILE *yyout;
 %token STRING
 /* Logic */
 %token LOGIC
+%token Identificator
 
 
 %%

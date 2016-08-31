@@ -48,12 +48,18 @@
      DIGIT = 264,
      INT = 265,
      FLOAT = 266,
-     Have_sign = 267,
-     COMMAND_SEPARATOR = 268,
-     VARIABLE_SEPARATOR = 269,
-     CHAR = 270,
-     STRING = 271,
-     LOGIC = 272
+     PLUS = 267,
+     MINUS = 268,
+     DIVIDE = 269,
+     STAR = 270,
+     ASSIGN = 271,
+     Have_sign = 272,
+     COMMAND_SEPARATOR = 273,
+     VARIABLE_SEPARATOR = 274,
+     CHAR = 275,
+     STRING = 276,
+     LOGIC = 277,
+     Identificator = 278
    };
 #endif
 

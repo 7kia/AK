@@ -9,6 +9,12 @@ Float Literal
 Command separator 
 Float Literal 
 Command separator 
+
+Float Literal 
+Command separator 
+Float Literal 
+Command separator 
+
 Float Literal 
 Command separator 
 Float Literal 
@@ -23,10 +29,7 @@ Float Literal
 Command separator 
 Float Literal 
 Command separator 
-Float Literal 
-Command separator 
-Float Literal 
-Command separator 
+
 Integer Literal 
 Command separator 
 Integer Literal 
@@ -37,25 +40,5 @@ Float Literal
 Command separator 
 Float Literal 
 Command separator 
-Error
-Float Literal 
-Command separator 
-Error
-Error
-Error
-Error
-Float Literal 
-Command separator 
-Error
-Error
-Error
-Error
-Float Literal 
-Command separator 
-Error
-Error
-Error
-Error
-Float Literal 
-Command separator 
-End main() 
+
+Identificator Error

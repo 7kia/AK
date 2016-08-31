@@ -36,7 +36,11 @@ END_BLOCK				"}"
 */
 
 /*
-	 Цифры
+////////////////////////////////////////////////////////////////////
+//
+//		Цифры
+//
+////////////////////////////////////////////////////////////////////
 */
 DIGIT_MORE_ZERO			([1-9]) /* TODO : see need these + */
 DIGIT_ZERO				"0"
@@ -45,11 +49,21 @@ DIGIT					([0-9])
 /* Need for grammar */
 Have_sign				("+"|"-")?
 INT						{Have_sign}([0-9]+)
-/*
-{Have_sign}  ( {DIGIT_ZERO} | ( {DIGIT_MORE_ZERO} ({DIGIT})* ) )
-*/
 Expotential_part		{Have_sign}("e"|"E"){INT}
-FLOAT {Have_sign}((([0-9]+)"."([0-9]*))|("."([0-9]+))){Expotential_part}?
+FLOAT					{Have_sign}((([0-9]+)"."([0-9]*))|("."([0-9]+))){Expotential_part}?
+
+/*
+///////////////
+//		Арифметические знаки
+///////////////
+*/
+
+PLUS					"+"
+MINUS					"-"
+DIVIDE					"/"
+STAR					"*"
+
+ASSIGN					"="
 /* ({INT})"."({DIGIT})+ ({Have_sign} "e" | "E")? */
 		
 /**/
@@ -61,15 +75,16 @@ VARIABLE_SEPARATOR		","
 CHAR					\'.\'
 STRING					\"(.)*\"
 
-/*\" (CHAR)+ \"*/
+LOGIC					true|false
+
+
+Identificator			[a-zA-Z_][a-zA-Z0-9_]*
+/**/
 
 START_LIST_ARGUMENTS	"("
 END_LIST_ARGUMENTS		")"
 CASE_ENUMERATOR			":"
 UNDERSCORE_SYMBOL		"_"
-
-LOGIC					true|false
-
 
 %%
 
@@ -81,6 +96,10 @@ LOGIC					true|false
 {INT}			{ fprintf_s(yyout, "Integer "); return INT; }
 {FLOAT}			{ fprintf_s(yyout, "Float "); return FLOAT; }
 
+{PLUS}			{ fprintf_s(yyout, "Plus "); return PLUS; }
+{MINUS}			{ fprintf_s(yyout, "Minus "); return MINUS; }
+{DIVIDE}		{ fprintf_s(yyout, "Divide "); return DIVIDE; }
+{STAR}			{ fprintf_s(yyout, "Star "); return STAR; }
 
 ";"				{ fprintf_s(yyout, "Command separator "); return COMMAND_SEPARATOR; }
 ","				{ fprintf_s(yyout, "Variable separator ");  return VARIABLE_SEPARATOR; }
@@ -90,6 +109,9 @@ LOGIC					true|false
 
 
 {LOGIC}			{ fprintf_s(yyout, "Bool ");   return LOGIC; }
+
+{Identificator}			{ fprintf_s(yyout, "Identificator ");   return Identificator; }
+
 
 ("tchau"|"bye")"\n"   { return BYE; }
 .                     { yyerror();  }
@@ -102,6 +124,8 @@ void ParseFile(const char* inputFileName, const char* outputFileName)
 
 	fopen_s(&yyin, inputFileName, "r");
 	yyparse();
+
+	fclose(yyin);
 	fclose(yyout);
 }
 
@@ -109,6 +133,9 @@ int main(void)
 {
 	//ParseFile("text1.txt", "out1.txt");
 	//ParseFile("Literal1.txt", "outLiteral1.txt");
+
+	//ParseFile("Tests\\Identifier.txt", "Tests\\Output\\OutputIdentifier.txt");
+	//ParseFile("Tests\\Types.txt", "Tests\\Output\\OutputTypes.txt");
 
 	ParseFile("Tests\\Syntax\\Numbers.txt", "Tests\\OutputSyntax\\OutputNumbers.txt");
 }
