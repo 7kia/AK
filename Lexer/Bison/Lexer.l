@@ -89,9 +89,6 @@ NAME_CHAR			"char"
 NAME_STRING			"string"
 NAME_LOGIC			"bool"
 
-NAME_TYPE			(NAME_INTEGER)|(NAME_FLOAT)|(NAME_CHAR)|(NAME_STRING)|(NAME_LOGIC)
-
-
 LOGIC					true|false
 
 /*
@@ -104,16 +101,47 @@ PREFIX_SIGNED			"signed"
 PREFIX_UNSIGNED			"unsigned"
 PREFIX_LONG				"long"
 
-PREFIX_NUMERIC_TYPES	{PREFIX_SIGNED}|{PREFIX_UNSIGNED}|{PREFIX_LONG}
+PREFIX_NUMERIC_TYPES	(PREFIX_SIGNED)|(PREFIX_UNSIGNED)|(PREFIX_LONG)
 PREFIX_CONST			"const"
 
+
+/*PREFIX_TYPE				{PREFIX_CONST}?(PREFIX_NUMERIC_TYPES)? */
+
+/* DEFINITION_POINTER		((PREFIX_CONST)?STAR)?; */
+
+/*
+////////////////////////////////////////////////////////////////////
+//
+//
+//						Типы
+//
+//
+////////////////////////////////////////////////////////////////////
+*/
+
+/*
+////////////////////////////////////////////////////////////////////
+//
+//
+// Комманды
+//
+//
+////////////////////////////////////////////////////////////////////
+*/
+
+/*
+//////////////////////////////////
+//		Объявление указателя
+//////////////////////////////////
+*/
 /* Identificator and it used */
 Identificator			[a-zA-Z_][a-zA-Z0-9_]*
-ARRAY_ELEMENT			{Identificator}("["INT"]")+
+ARRAY_ELEMENT			(Identificator)("["INT"]")+
 
 /* TODO : not work */
-ADDRESED_OPERATION		({STAR}|{REFERENCE})* 
-/**/
+/* .                     { yyerror();  }
+*/
+/*  ADDRESED_OPERATION		({STAR}|{REFERENCE})* */
 
 START_LIST_ARGUMENTS	"("
 END_LIST_ARGUMENTS		")"
@@ -135,6 +163,9 @@ UNDERSCORE_SYMBOL		"_"
 {DIVIDE}		{ fprintf_s(yyout, "Divide "); return DIVIDE; }
 {STAR}			{ fprintf_s(yyout, "Star "); return STAR; }
 
+{ASSIGN}		{ fprintf_s(yyout, "Assign "); return ASSIGN; }
+
+
 ";"				{ fprintf_s(yyout, "Command separator "); return COMMAND_SEPARATOR; }
 ","				{ fprintf_s(yyout, "Variable separator ");  return VARIABLE_SEPARATOR; }
 
@@ -147,8 +178,6 @@ UNDERSCORE_SYMBOL		"_"
 {NAME_STRING}		{ fprintf_s(yyout, "string "); return NAME_STRING; }
 {NAME_LOGIC}		{ fprintf_s(yyout, "bool "); return NAME_LOGIC; }
 
-{NAME_TYPE}		{ fprintf_s(yyout, "Name type - "); return NAME_TYPE; }
-
 {LOGIC}			{ fprintf_s(yyout, "Bool ");   return LOGIC; }
 
 {PREFIX_SIGNED}			{ fprintf_s(yyout, "signed ");   return PREFIX_SIGNED; }
@@ -157,16 +186,15 @@ UNDERSCORE_SYMBOL		"_"
 
 
 {PREFIX_NUMERIC_TYPES}			{  return PREFIX_NUMERIC_TYPES; }
-{PREFIX_CONST}			{ fprintf_s(yyout, "const ");   return PREFIX_CONST; }
+{PREFIX_CONST}					{ fprintf_s(yyout, "const ");   return PREFIX_CONST; }
 
 
 {Identificator}			{ fprintf_s(yyout, "Identificator ");   return Identificator; }
 {ARRAY_ELEMENT}			{ fprintf_s(yyout, "Array element ");   return ARRAY_ELEMENT; }
-{ADDRESED_OPERATION}	{ fprintf_s(yyout, "Addressed operations ");   return ADDRESED_OPERATION; }
 
 ("tchau"|"bye")"\n"   { return BYE; }
-.                     { yyerror();  }
 
+[ \t\n]+	/* skip */;
 %%
 
 void ParseFile(const char* inputFileName, const char* outputFileName)
@@ -186,9 +214,9 @@ int main(void)
 	//ParseFile("Literal1.txt", "outLiteral1.txt");
 
 	//ParseFile("Tests\\Identifier.txt", "Tests\\Output\\OutputIdentifier.txt");
-	//ParseFile("Tests\\Types.txt", "Tests\\Output\\OutputTypes.txt");
+	ParseFile("Tests\\Types.txt", "Tests\\Output\\OutputTypes.txt");
 
-	ParseFile("Tests\\Syntax\\Numbers.txt", "Tests\\OutputSyntax\\OutputNumbers.txt");
+	//ParseFile("Tests\\Syntax\\Numbers.txt", "Tests\\OutputSyntax\\OutputNumbers.txt");
 }
 
 
@@ -197,7 +225,7 @@ int yywrap(void)
    return 0;
 }
 
-int yyerror(void)
+void yyerror (const char *s)  /* вызывается yyparse в случае ошибки */
 {
-    fprintf_s(yyout, "Error\n");
+    fprintf_s(yyout, s);
 }
