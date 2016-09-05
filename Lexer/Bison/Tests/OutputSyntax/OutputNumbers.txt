@@ -1,48 +1,22 @@
-
-Start main() 
-
-Integer Literal 
-Command separator 
-Float Literal 
-Command separator 
-Float Literal 
-Command separator 
-Float Literal 
-Command separator 
-
-Float Literal 
-Command separator 
-Float Literal 
-Command separator 
-
-Float Literal 
-Command separator 
-Float Literal 
-Command separator 
-Float Literal 
-Command separator 
-Float Literal 
-Command separator 
-Float Literal 
-Command separator 
-Float Literal 
-Command separator 
-Float Literal 
-Command separator 
-
-Integer Literal 
-Command separator 
-Integer Literal 
-Command separator 
-Float Literal 
-Command separator 
-Float Literal 
-Command separator 
-Float Literal 
-Command separator 
-
+int START_LIST_ARGUMENTS END_LIST_ARGUMENTS  Start main() 
+Integer Command separator 
+Float Command separator 
+Float Command separator 
+Float Command separator 
+Float Command separator 
+Float Command separator 
+Float Command separator 
+Float Command separator 
+Float Command separator 
+Float Command separator 
+Float Command separator 
+Float Command separator 
+Float Command separator 
+Integer Command separator 
+Integer Command separator 
+Float Command separator 
+Float Command separator 
+Float Command separator 
 Identificator Command separator 
-Identificator Error
-Error
-Error
-Float Error
+Identificator Assign Float Command separator 
+Identificator Minus syntax error

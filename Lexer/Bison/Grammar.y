@@ -176,7 +176,7 @@ Another_values_in_list	:
 						VARIABLE_SEPARATOR Value_in_list | /* nothing */
 						;
 
-Left_part_assign: Init_variable ;
+Left_part_assign: Init_variable | Variable ;
 Right_part_assign: Value | List_values ;
 /*----------------------------*/
 
