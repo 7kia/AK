@@ -101,7 +101,6 @@ PREFIX_SIGNED			"signed"
 PREFIX_UNSIGNED			"unsigned"
 PREFIX_LONG				"long"
 
-PREFIX_NUMERIC_TYPES	(PREFIX_SIGNED)|(PREFIX_UNSIGNED)|(PREFIX_LONG)
 PREFIX_CONST			"const"
 
 
@@ -185,7 +184,6 @@ UNDERSCORE_SYMBOL		"_"
 {PREFIX_LONG}			{ fprintf_s(yyout, "long ");   return PREFIX_LONG; }
 
 
-{PREFIX_NUMERIC_TYPES}			{  return PREFIX_NUMERIC_TYPES; }
 {PREFIX_CONST}					{ fprintf_s(yyout, "const ");   return PREFIX_CONST; }
 
 
