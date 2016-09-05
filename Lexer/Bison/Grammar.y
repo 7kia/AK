@@ -10,7 +10,6 @@ extern FILE *yyout;
 
 %}
 
-%token NAME_MAIN_FUNCTION
 %token BYE
 
 %token START_BLOCK
@@ -70,12 +69,8 @@ extern FILE *yyout;
 %%
 
 program: 
-         myProgram
+        Have_function_block
         ;
-
-myProgram:
-		Type_initialization NAME_MAIN_FUNCTION List_arguments commandBlock
-		;
 
 
 /*
@@ -88,11 +83,9 @@ myProgram:
 ////////////////////////////////////////////////////////////////////
 */
 commandBlock:
-		START_BLOCK							{   fprintf_s(yyout, " Start main() \n");   }
+		START_BLOCK							{   fprintf_s(yyout, "\n Start block code \n");   }
 		commands
-		END_BLOCK							{ 	fprintf_s(yyout, " End main() \n");
-											 	fclose(yyout);
-												return; } /* TODO : see need delete fclose()*/
+		END_BLOCK							{ 	fprintf_s(yyout, "\n End block code \n"); } /* TODO : see need delete fclose()*/
 		;
 
 
@@ -105,7 +98,7 @@ command:
 		;
 
 commandContent:
-			Assign_for_variable | Variable | Value
+			Assign_for_variable | Variable | Value | Return_function
 			;
 
 Variable: 
@@ -208,7 +201,7 @@ Function_block : Definition_function Other_function_imp_or_init;
 
 Function_imp_or_init : Function_implementation | Function_init;
 Definition_function : Function_imp_or_init COMMAND_SEPARATOR;
-Other_function_imp_or_init : Definition_function Other_function_imp_or_init | /* nothing */;
+Other_function_imp_or_init : /* nothing */ | Definition_function Other_function_imp_or_init;
 /* For main rule */
 Have_function_block : Function_block | /* nothing */;
 /*				*/
@@ -216,17 +209,32 @@ Function_init :
 				Type_initialization Function_name List_arguments/* TODO : add separator */
 				; 
 Function_name : Identificator ;
+
+/*
+///////////////////////////
+// Список значении для вызовов функции
+///////////////////////////
+*/
+List_values : 
+				START_LIST_ARGUMENTS Set_values END_LIST_ARGUMENTS
+				;
+/* Two low string equal Value  (VARIABLE_SEPARATOR Value )?*/
+Set_values : Value Other_values | /* nothing */;
+Other_values : VARIABLE_SEPARATOR Value Other_values | /* nothing */;
+/*
+///////////////////////////
+// Список значении для вызовов функции
+///////////////////////////
+*/
 List_arguments : 
 				START_LIST_ARGUMENTS Set_arguments END_LIST_ARGUMENTS
 				;
-/* Two low string equal Value  (VARIABLE_SEPARATOR Value )? */
-Set_arguments : Value Other_arguments | /* nothing */;
-Other_arguments : VARIABLE_SEPARATOR Value Other_arguments | /* nothing */;
+/* Two low string equal Value  (VARIABLE_SEPARATOR Value )?*/
+Set_arguments : Init_variable Other_arguments | /* nothing */;
+Other_arguments : VARIABLE_SEPARATOR Init_variable Other_arguments | /* nothing */;
 
 Call_function : Function_name List_arguments; 
 
 Function_implementation : Function_init commandBlock ;
 
-/*
 Return_function : NAME_RETURN Value;
-*/

@@ -150,7 +150,6 @@ UNDERSCORE_SYMBOL		"_"
 
 %%
 
-("main")       { return NAME_MAIN_FUNCTION;  }
 
 {START_BLOCK}	{ return START_BLOCK; }
 {END_BLOCK}		{ return END_BLOCK; }
@@ -216,8 +215,9 @@ int main(void)
 	//ParseFile("text1.txt", "out1.txt");
 	//ParseFile("Literal1.txt", "outLiteral1.txt");
 
-	ParseFile("Tests\\Identifier.txt", "Tests\\Output\\OutputIdentifier.txt");
+	//ParseFile("Tests\\Identifier.txt", "Tests\\Output\\OutputIdentifier.txt");
 	//ParseFile("Tests\\Types.txt", "Tests\\Output\\OutputTypes.txt");
+	ParseFile("Tests\\Functions.txt", "Tests\\Output\\OutputFunctions.txt");
 
 	//ParseFile("Tests\\Syntax\\Numbers.txt", "Tests\\OutputSyntax\\OutputNumbers.txt");
 }
