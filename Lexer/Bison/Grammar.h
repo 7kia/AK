@@ -69,8 +69,11 @@
      PREFIX_LONG = 285,
      PREFIX_CONST = 286,
      LOGIC = 287,
-     Identificator = 288,
-     ARRAY_ELEMENT = 289
+     NAME_RETURN = 288,
+     Identificator = 289,
+     ARRAY_ELEMENT = 290,
+     START_LIST_ARGUMENTS = 291,
+     END_LIST_ARGUMENTS = 292
    };
 #endif
 

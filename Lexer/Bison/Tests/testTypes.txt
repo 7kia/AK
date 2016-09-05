@@ -1,5 +1,0 @@
-signed int q = 1;
-unsigned int _q = -1;
-signed double fl = 3.14;
-unsigned double _fl = -3.14;
-string str1 = "this string";

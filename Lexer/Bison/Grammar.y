@@ -10,7 +10,7 @@ extern FILE *yyout;
 
 %}
 
-%token NAME_MAIN_FUNCTION "Function main"
+%token NAME_MAIN_FUNCTION
 %token BYE
 
 %token START_BLOCK
@@ -59,9 +59,14 @@ extern FILE *yyout;
 %token PREFIX_CONST
 
 %token LOGIC
+%token NAME_RETURN
 
 %token Identificator
 %token ARRAY_ELEMENT
+
+%token START_LIST_ARGUMENTS
+%token END_LIST_ARGUMENTS
+
 %%
 
 program: 
@@ -69,7 +74,7 @@ program:
         ;
 
 myProgram:
-		NAME_MAIN_FUNCTION  commandBlock
+		Type_initialization NAME_MAIN_FUNCTION List_arguments commandBlock
 		;
 
 
@@ -83,9 +88,9 @@ myProgram:
 ////////////////////////////////////////////////////////////////////
 */
 commandBlock:
-		START_BLOCK							{   fprintf_s(yyout, "Start main() \n");   }
+		START_BLOCK							{   fprintf_s(yyout, " Start main() \n");   }
 		commands
-		END_BLOCK							{ 	fprintf_s(yyout, "End main() \n");
+		END_BLOCK							{ 	fprintf_s(yyout, " End main() \n");
 											 	fclose(yyout);
 												return; } /* TODO : see need delete fclose()*/
 		;
@@ -154,7 +159,7 @@ Number : FLOAT | INT; /* TODO : неоднозначность */
 */
 
 Value:
-		Literal /* TODO : add <Call function> | <variable>   | <expression> | */
+		Call_function | Variable | Literal /* TODO : add <Call function> | <variable>   | <expression> | */
 	;
 
 Assign_for_variable:
@@ -188,4 +193,40 @@ Type_initialization :
 					NAME_TYPE  
 					DEFINITION_POINTER  
 					;
+/*
+////////////////////////////////////////////////////////////////////
+//
+//
+// Функции
+//
+//
+////////////////////////////////////////////////////////////////////
+*/
 
+/* Three low string equal (<function implementation> | <function init>)+*/
+Function_block : Definition_function Other_function_imp_or_init;
+
+Function_imp_or_init : Function_implementation | Function_init;
+Definition_function : Function_imp_or_init COMMAND_SEPARATOR;
+Other_function_imp_or_init : Definition_function Other_function_imp_or_init | /* nothing */;
+/* For main rule */
+Have_function_block : Function_block | /* nothing */;
+/*				*/
+Function_init : 
+				Type_initialization Function_name List_arguments/* TODO : add separator */
+				; 
+Function_name : Identificator ;
+List_arguments : 
+				START_LIST_ARGUMENTS Set_arguments END_LIST_ARGUMENTS
+				;
+/* Two low string equal Value  (VARIABLE_SEPARATOR Value )? */
+Set_arguments : Value Other_arguments | /* nothing */;
+Other_arguments : VARIABLE_SEPARATOR Value Other_arguments | /* nothing */;
+
+Call_function : Function_name List_arguments; 
+
+Function_implementation : Function_init commandBlock ;
+
+/*
+Return_function : NAME_RETURN Value;
+*/

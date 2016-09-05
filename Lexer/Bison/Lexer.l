@@ -91,6 +91,7 @@ NAME_LOGIC			"bool"
 
 LOGIC					true|false
 
+NAME_RETURN			"return"
 /*
 //////////////////////////////
 //		Префиксы типов
@@ -151,8 +152,8 @@ UNDERSCORE_SYMBOL		"_"
 
 ("main")       { return NAME_MAIN_FUNCTION;  }
 
-"{"				{ return START_BLOCK; }
-"}"				{ return END_BLOCK; }
+{START_BLOCK}	{ return START_BLOCK; }
+{END_BLOCK}		{ return END_BLOCK; }
 
 {INT}			{ fprintf_s(yyout, "Integer "); return INT; }
 {FLOAT}			{ fprintf_s(yyout, "Float "); return FLOAT; }
@@ -165,7 +166,7 @@ UNDERSCORE_SYMBOL		"_"
 {ASSIGN}		{ fprintf_s(yyout, "Assign "); return ASSIGN; }
 
 
-";"				{ fprintf_s(yyout, "Command separator "); return COMMAND_SEPARATOR; }
+";"				{ fprintf_s(yyout, "Command separator \n"); return COMMAND_SEPARATOR; }
 ","				{ fprintf_s(yyout, "Variable separator ");  return VARIABLE_SEPARATOR; }
 
 {CHAR}			{ fprintf_s(yyout, "Char "); return CHAR; }
@@ -177,7 +178,8 @@ UNDERSCORE_SYMBOL		"_"
 {NAME_STRING}		{ fprintf_s(yyout, "string "); return NAME_STRING; }
 {NAME_LOGIC}		{ fprintf_s(yyout, "bool "); return NAME_LOGIC; }
 
-{LOGIC}			{ fprintf_s(yyout, "Bool ");   return LOGIC; }
+{LOGIC}				{ fprintf_s(yyout, "Bool ");   return LOGIC; }
+{NAME_RETURN}		{ fprintf_s(yyout, " return ");   return NAME_RETURN; }
 
 {PREFIX_SIGNED}			{ fprintf_s(yyout, "signed ");   return PREFIX_SIGNED; }
 {PREFIX_UNSIGNED}		{ fprintf_s(yyout, "unsigned ");   return PREFIX_UNSIGNED; }
@@ -190,7 +192,10 @@ UNDERSCORE_SYMBOL		"_"
 {Identificator}			{ fprintf_s(yyout, "Identificator ");   return Identificator; }
 {ARRAY_ELEMENT}			{ fprintf_s(yyout, "Array element ");   return ARRAY_ELEMENT; }
 
-("tchau"|"bye")"\n"   { return BYE; }
+{START_LIST_ARGUMENTS}			{ fprintf_s(yyout, "START_LIST_ARGUMENTS ");   return START_LIST_ARGUMENTS; }
+{END_LIST_ARGUMENTS}			{ fprintf_s(yyout, "END_LIST_ARGUMENTS ");   return END_LIST_ARGUMENTS; }
+
+("tchau"|"bye")"\n"   { return BYE; /* TODO : delete */}
 
 [ \t\n]+	/* skip */;
 %%
@@ -211,8 +216,8 @@ int main(void)
 	//ParseFile("text1.txt", "out1.txt");
 	//ParseFile("Literal1.txt", "outLiteral1.txt");
 
-	//ParseFile("Tests\\Identifier.txt", "Tests\\Output\\OutputIdentifier.txt");
-	ParseFile("Tests\\Types.txt", "Tests\\Output\\OutputTypes.txt");
+	ParseFile("Tests\\Identifier.txt", "Tests\\Output\\OutputIdentifier.txt");
+	//ParseFile("Tests\\Types.txt", "Tests\\Output\\OutputTypes.txt");
 
 	//ParseFile("Tests\\Syntax\\Numbers.txt", "Tests\\OutputSyntax\\OutputNumbers.txt");
 }
