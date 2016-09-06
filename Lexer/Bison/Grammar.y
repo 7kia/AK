@@ -58,6 +58,12 @@ extern FILE *yyout;
 
 %token PREFIX_CONST
 
+%token IF_OPERATOR
+%token ELSE_OPERATOR
+%token SWITCH_OPERATOR
+%token CASE_OPERATOR
+%token CASE_ENUMERATOR
+
 %token LOGIC
 %token NAME_RETURN
 
@@ -101,7 +107,7 @@ command:
 		;
 
 commandContent:
-			Assign_for_variable | Value | Return_function
+			Assign_for_variable | Value | Any_branching | Return_function
 			;
 
 Variable: 
@@ -205,7 +211,9 @@ Function_init :
 				;
 Function_main : 
 				Type_initialization NAME_MAIN_FUNCTION List_arguments commandBlock 
-				{	fclose(yyout);
+				{	
+				 	fprintf_s(yyout, "\n End main() \n");
+					fclose(yyout);
 					return;
 				}
 				/* TODO : add separator */
@@ -219,6 +227,34 @@ Definition_function : Function_imp_or_init COMMAND_SEPARATOR;
 Other_function_imp_or_init : Definition_function Other_function_imp_or_init | /* nothing */;
 
 Function_name : Identificator ;
+/*
+////////////////////////////////////////////////////////////////////
+//
+// Условия
+//
+////////////////////////////////////////////////////////////////////
+*/
+Any_branching : Usual_branching | Switch_branching;
+
+/* TODO : переделать "(" <expression<bool>> ")" */ 
+Usual_branching : IF_OPERATOR Condition_part commandBlock Can_have_else_part ;
+
+Condition_part: List_values ;
+Can_have_else_part : /* nothing */ | Else_part;
+Else_part : ELSE_OPERATOR Else_content ;
+Else_content : Usual_branching | commandBlock Can_have_else_part;
+
+Switch_branching : SWITCH_OPERATOR Check_value Switch_block ;
+Check_value : START_LIST_ARGUMENTS Value END_LIST_ARGUMENTS; 
+
+Switch_block : START_BLOCK Body_switch END_BLOCK;
+Body_switch : /* nothing */ | Sequence_cases commandBlock Body_switch; /* (<all>)* */
+Sequence_cases : Case_sequence Other_sequence_cases ;/* (<all>)+ */
+Other_sequence_cases : Case_sequence Other_sequence_cases | /* nothing */ ; 
+Case_sequence : CASE_OPERATOR Value CASE_ENUMERATOR;
+
+// /\ должна ли быть именно *в Switch_block, то есть может ли switch быть пустым
+
 
 /*
 ///////////////////////////

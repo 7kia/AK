@@ -68,12 +68,17 @@
      PREFIX_UNSIGNED = 284,
      PREFIX_LONG = 285,
      PREFIX_CONST = 286,
-     LOGIC = 287,
-     NAME_RETURN = 288,
-     Identificator = 289,
-     ARRAY_ELEMENT = 290,
-     START_LIST_ARGUMENTS = 291,
-     END_LIST_ARGUMENTS = 292
+     IF_OPERATOR = 287,
+     ELSE_OPERATOR = 288,
+     SWITCH_OPERATOR = 289,
+     CASE_OPERATOR = 290,
+     CASE_ENUMERATOR = 291,
+     LOGIC = 292,
+     NAME_RETURN = 293,
+     Identificator = 294,
+     ARRAY_ELEMENT = 295,
+     START_LIST_ARGUMENTS = 296,
+     END_LIST_ARGUMENTS = 297
    };
 #endif
 

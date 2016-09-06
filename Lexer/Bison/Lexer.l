@@ -108,7 +108,18 @@ PREFIX_CONST			"const"
 /*PREFIX_TYPE				{PREFIX_CONST}?(PREFIX_NUMERIC_TYPES)? */
 
 /* DEFINITION_POINTER		((PREFIX_CONST)?STAR)?; */
+/*
+////////////////////////////////////////////////////////////////////
+//
+// Условия
+//
+////////////////////////////////////////////////////////////////////
+*/
 
+IF_OPERATOR				"if"
+ELSE_OPERATOR			"else"
+SWITCH_OPERATOR			"switch"
+CASE_OPERATOR			"case"
 /*
 ////////////////////////////////////////////////////////////////////
 //
@@ -150,9 +161,9 @@ UNDERSCORE_SYMBOL		"_"
 
 %%
 
-("main")		{ return NAME_MAIN_FUNCTION; }
+("main")		{ fprintf_s(yyout, " MAIN_FUNCTION "); return NAME_MAIN_FUNCTION; }
 
-{START_BLOCK}	{ return START_BLOCK; }
+{START_BLOCK}	{ return START_BLOCK;}
 {END_BLOCK}		{ return END_BLOCK; }
 
 {INT}			{ fprintf_s(yyout, "Integer "); return INT; }
@@ -188,6 +199,11 @@ UNDERSCORE_SYMBOL		"_"
 
 {PREFIX_CONST}					{ fprintf_s(yyout, "const ");   return PREFIX_CONST; }
 
+{IF_OPERATOR}					{ fprintf_s(yyout, "if ");   return IF_OPERATOR; }
+{ELSE_OPERATOR}					{ fprintf_s(yyout, "else ");   return ELSE_OPERATOR; }
+{SWITCH_OPERATOR}				{ fprintf_s(yyout, "switch ");   return SWITCH_OPERATOR; }
+{CASE_OPERATOR}					{ fprintf_s(yyout, "case ");   return CASE_OPERATOR; }
+{CASE_ENUMERATOR}					{ fprintf_s(yyout, " case_enumerator ");   return CASE_ENUMERATOR; }
 
 {Identificator}			{ fprintf_s(yyout, "Identificator ");   return Identificator; }
 {ARRAY_ELEMENT}			{ fprintf_s(yyout, "Array element ");   return ARRAY_ELEMENT; }
@@ -218,7 +234,8 @@ int main(void)
 
 	//ParseFile("Tests\\Identifier.txt", "Tests\\Output\\OutputIdentifier.txt");
 	//ParseFile("Tests\\Types.txt", "Tests\\Output\\OutputTypes.txt");
-	ParseFile("Tests\\Functions.txt", "Tests\\Output\\OutputFunctions.txt");
+	//ParseFile("Tests\\Functions.txt", "Tests\\Output\\OutputFunctions.txt");
+	ParseFile("Tests\\Conditions.txt", "Tests\\Output\\OutputConditions.txt");
 
 	//ParseFile("Tests\\Syntax\\Numbers.txt", "Tests\\OutputSyntax\\OutputNumbers.txt");
 }
