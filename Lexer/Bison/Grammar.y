@@ -64,6 +64,12 @@ extern FILE *yyout;
 %token CASE_OPERATOR
 %token CASE_ENUMERATOR
 
+%token WHILE_OPERATOR
+%token DO_OPERATOR
+%token FOR_OPERATOR
+%token BREAK_OPERATOR
+%token CONTINUE_OPERATOR
+
 %token LOGIC
 %token NAME_RETURN
 
@@ -107,7 +113,7 @@ command:
 		;
 
 commandContent:
-			Assign_for_variable | Value | Any_branching | Return_function
+			Assign_for_variable | Value | Any_branching | Any_loop | Any_interrupt_operator | Return_function
 			;
 
 Variable: 
@@ -258,6 +264,32 @@ Case_sequence : CASE_OPERATOR Value CASE_ENUMERATOR;
 
 // /\ должна ли быть именно *в Switch_block, то есть может ли switch быть пустым
 
+/*
+////////////////////////////////////////////////////////////////////
+//
+// Циклы
+//
+////////////////////////////////////////////////////////////////////
+*/
+Any_loop : Loop_with_precondition | Loop_with_postcondition | Loop_with_counter;
+// TODO : переделать "(" <expression<bool>> ")"
+Loop_with_precondition :  WHILE_OPERATOR Condition_part commandBlock;
+Condition_part :  START_LIST_ARGUMENTS Value END_LIST_ARGUMENTS; /* TODO : see correctness, was <expression<bool>> instead Value */
+
+Loop_with_postcondition :  DO_OPERATOR commandBlock WHILE_OPERATOR Condition_part ;
+
+Loop_with_counter :   FOR_OPERATOR  START_LIST_ARGUMENTS  Parameters_for END_LIST_ARGUMENTS   commandBlock;
+
+Parameters_for :  Start_value_for COMMAND_SEPARATOR Condition_end_for COMMAND_SEPARATOR Next_value_counter;
+Start_value_for :  Assign_for_variable ;/* TODO : see can replace on Assign_for_variable */
+Condition_end_for :  Value; /* TODO : see correctness */
+Next_value_counter :  Value; /* TODO : see correctness */
+
+
+Any_interrupt_operator :  CONTINUE_OPERATOR  | BREAK_OPERATOR ; 
+/*
+<reserve loop literal> :  WHILE_OPERATOR | DO_OPERATOR | FOR_OPERATOR | CONTINUE_OPERATOR |  BREAK_OPERATOR ;
+*/
 
 /*
 ///////////////////////////

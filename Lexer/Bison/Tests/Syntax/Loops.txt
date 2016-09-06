@@ -1,3 +1,6 @@
+signed int main()
+{
+
 while(false)
 {
 };
@@ -6,7 +9,9 @@ do{
 	continue;
 }while(false);
 
-for(signed int index = 1; index < 4; index = index + 1)
+for(signed int index = 1; index; index)
 {
 	break;
 };
+
+}

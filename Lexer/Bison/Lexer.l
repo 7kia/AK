@@ -123,6 +123,20 @@ CASE_OPERATOR			"case"
 /*
 ////////////////////////////////////////////////////////////////////
 //
+// Циклы
+//
+////////////////////////////////////////////////////////////////////
+*/
+
+WHILE_OPERATOR			"while"
+DO_OPERATOR				"do"
+FOR_OPERATOR			"for"
+BREAK_OPERATOR			"break"
+CONTINUE_OPERATOR		"continue"
+
+/*
+////////////////////////////////////////////////////////////////////
+//
 //
 //						Типы
 //
@@ -205,8 +219,14 @@ UNDERSCORE_SYMBOL		"_"
 {CASE_OPERATOR}					{ fprintf_s(yyout, "case ");   return CASE_OPERATOR; }
 {CASE_ENUMERATOR}					{ fprintf_s(yyout, " case_enumerator ");   return CASE_ENUMERATOR; }
 
-{Identificator}			{ fprintf_s(yyout, "Identificator ");   return Identificator; }
-{ARRAY_ELEMENT}			{ fprintf_s(yyout, "Array element ");   return ARRAY_ELEMENT; }
+{WHILE_OPERATOR}				{ fprintf_s(yyout, "while ");   return WHILE_OPERATOR; }
+{DO_OPERATOR}					{ fprintf_s(yyout, "do ");   return DO_OPERATOR; }
+{FOR_OPERATOR}					{ fprintf_s(yyout, "for ");   return FOR_OPERATOR; }
+{BREAK_OPERATOR}				{ fprintf_s(yyout, "break ");   return BREAK_OPERATOR; }
+{CONTINUE_OPERATOR}				{ fprintf_s(yyout, " continue ");   return CONTINUE_OPERATOR; }
+
+{Identificator}					{ fprintf_s(yyout, "Identificator ");   return Identificator; }
+{ARRAY_ELEMENT}					{ fprintf_s(yyout, "Array element ");   return ARRAY_ELEMENT; }
 
 {START_LIST_ARGUMENTS}			{ fprintf_s(yyout, "START_LIST_ARGUMENTS ");   return START_LIST_ARGUMENTS; }
 {END_LIST_ARGUMENTS}			{ fprintf_s(yyout, "END_LIST_ARGUMENTS ");   return END_LIST_ARGUMENTS; }
@@ -235,9 +255,11 @@ int main(void)
 	//ParseFile("Tests\\Identifier.txt", "Tests\\Output\\OutputIdentifier.txt");
 	//ParseFile("Tests\\Types.txt", "Tests\\Output\\OutputTypes.txt");
 	//ParseFile("Tests\\Functions.txt", "Tests\\Output\\OutputFunctions.txt");
-	ParseFile("Tests\\Conditions.txt", "Tests\\Output\\OutputConditions.txt");
+	//ParseFile("Tests\\Conditions.txt", "Tests\\Output\\OutputConditions.txt");
 
 	//ParseFile("Tests\\Syntax\\Numbers.txt", "Tests\\OutputSyntax\\OutputNumbers.txt");
+	ParseFile("Tests\\Syntax\\Loops.txt", "Tests\\OutputSyntax\\OutputLoops.txt");
+
 }
 
 
