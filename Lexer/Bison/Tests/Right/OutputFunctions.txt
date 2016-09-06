@@ -1,0 +1,29 @@
+signed int Identificator START_LIST_ARGUMENTS END_LIST_ARGUMENTS Command separator 
+unsigned float Identificator START_LIST_ARGUMENTS signed float Identificator END_LIST_ARGUMENTS Command separator 
+bool Identificator START_LIST_ARGUMENTS const signed int Identificator END_LIST_ARGUMENTS 
+==Start block code==
+signed float Identificator Assign Identificator Command separator 
+ return Bool Command separator 
+==End block code==
+Command separator 
+char Identificator START_LIST_ARGUMENTS unsigned int Identificator END_LIST_ARGUMENTS 
+==Start block code==
+signed float Identificator Assign Identificator Command separator 
+ return Identificator Command separator 
+==End block code==
+Command separator 
+bool Identificator START_LIST_ARGUMENTS unsigned int Identificator Variable separator const char Star Identificator Variable separator signed int Identificator END_LIST_ARGUMENTS 
+==Start block code==
+signed float Identificator Assign Identificator Command separator 
+ return Bool Command separator 
+==End block code==
+Command separator 
+signed int  MAIN_FUNCTION START_LIST_ARGUMENTS END_LIST_ARGUMENTS 
+==Start block code==
+signed int Identificator Assign Integer Command separator 
+Identificator START_LIST_ARGUMENTS Identificator END_LIST_ARGUMENTS Command separator 
+Identificator START_LIST_ARGUMENTS Identificator Variable separator String Variable separator Identificator END_LIST_ARGUMENTS Command separator 
+Identificator Command separator 
+==End block code==
+
+ End main() 

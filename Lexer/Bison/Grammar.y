@@ -92,9 +92,9 @@ program:
 ////////////////////////////////////////////////////////////////////
 */
 commandBlock:
-		START_BLOCK							{   fprintf_s(yyout, "\n Start block code \n");   }
+		START_BLOCK							{   fprintf_s(yyout, "\n==Start block code==\n");   }
 		commands
-		END_BLOCK							{ 	fprintf_s(yyout, "\n End block code \n"); } /* TODO : see need delete fclose()*/
+		END_BLOCK							{ 	fprintf_s(yyout, "==End block code==\n"); } /* TODO : see need delete fclose()*/
 		;
 
 
@@ -125,9 +125,12 @@ Variable:
 */
 
 NAME_TYPE	:
-		NAME_INTEGER | NAME_FLOAT | NAME_CHAR | NAME_STRING | NAME_LOGIC
+		NAME_CHAR | NAME_STRING | NAME_LOGIC
 		;
 
+NAME_NUMERIC_TYPES :
+		NAME_INTEGER | NAME_FLOAT /* TODO : see need there char */
+		;
 
 Literal :
 
@@ -137,9 +140,9 @@ Literal :
 		STRING
 		;
 
-PREFIX_TYPE	: Can_have_const Can_have_numeric_prefix ;
+PREFIX_TYPE	: Can_have_const Name_without_const ;
 Can_have_const :  /* nothing */ | PREFIX_CONST ;
-Can_have_numeric_prefix :  /* nothing */ | PREFIX_NUMERIC_TYPES Can_be_long;
+Name_without_const :  NAME_TYPE | PREFIX_NUMERIC_TYPES Can_be_long NAME_NUMERIC_TYPES;
 PREFIX_NUMERIC_TYPES	:  PREFIX_SIGNED | PREFIX_UNSIGNED ;
 Can_be_long : /* nothing */ | PREFIX_LONG;
 
@@ -192,8 +195,7 @@ Name_init_variable: ARRAY_ELEMENT | Variable ;
 /*                     		\/ Types.txt		*/
 
 Type_initialization :
-					PREFIX_TYPE  
-					NAME_TYPE  
+					PREFIX_TYPE    
 					DEFINITION_POINTER  
 					;
 /*

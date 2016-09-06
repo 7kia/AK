@@ -163,7 +163,7 @@ UNDERSCORE_SYMBOL		"_"
 
 ("main")		{ fprintf_s(yyout, " MAIN_FUNCTION "); return NAME_MAIN_FUNCTION; }
 
-{START_BLOCK}	{ return START_BLOCK;}
+{START_BLOCK}	{ return START_BLOCK; }
 {END_BLOCK}		{ return END_BLOCK; }
 
 {INT}			{ fprintf_s(yyout, "Integer "); return INT; }

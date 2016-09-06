@@ -1,0 +1,8 @@
+signed int  MAIN_FUNCTION START_LIST_ARGUMENTS END_LIST_ARGUMENTS 
+==Start block code==
+Identificator Command separator 
+Identificator Command separator 
+Identificator Command separator 
+Identificator Command separator 
+Identificator Command separator 
+Integer Identificator syntax error

@@ -1,4 +1,4 @@
-int main()
+signed int main()
 {
 0;
 .0;
