@@ -1,33 +1,28 @@
 Bison.exe Syntax\Loops.txt OutputSyntax\OutputLoops.txt
 IF ERRORLEVEL 1 GOTO err
+FC /b OutputSyntax\OutputLoops.txt RightSyntax\OutputLoops.txt
 
 Bison.exe Syntax\Numbers.txt OutputSyntax\OutputNumbers.txt
 IF ERRORLEVEL 1 GOTO err
+FC /b OutputSyntax\OutputNumbers.txt RightSyntax\OutputNumbers.txt
 
-####################################################
+Bison.exe Syntax\Conditions.txt OutputSyntax\OutputConditions.txt
+IF ERRORLEVEL 1 GOTO err
+FC /b OutputSyntax\OutputConditions.txt RightSyntax\OutputConditions.txt
+#=======================================================
 
 Bison.exe Identifier.txt Output\OutputIdentifier.txt
 IF ERRORLEVEL 1 GOTO err
+FC /b Output\OutputIdentifier.txt Right\OutputIdentifier.txt
 
 Bison.exe Types.txt Output\OutputTypes.txt
 IF ERRORLEVEL 1 GOTO err
+FC /b Output\OutputTypes.txt Right\OutputTypes.txt
 
 Bison.exe Functions.txt Output\OutputFunctions.txt
 IF ERRORLEVEL 1 GOTO err
-
-Bison.exe Conditions.txt Output\OutputConditions.txt
-IF ERRORLEVEL 1 GOTO err
+FC /b Output\OutputFunctions.txt Right\OutputFunctions.txt
 ####################################################
-# >> Degenerate1.txt
-Triangle.exe -1 2 3
-IF ERRORLEVEL 1 GOTO err
-FC /b Degenerate1.txt CheckData/degenerate1.txt
-
-
-# >> Obtuse2.txt
-Triangle.exe 3 5.19615 3
-IF ERRORLEVEL 1 GOTO err
-FC /b Obtuse2.txt CheckData/Obtuse2.txt
 
 ECHO Program testing succeeded :-) 
 PAUSE
