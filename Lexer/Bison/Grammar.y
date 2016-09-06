@@ -101,7 +101,7 @@ command:
 		;
 
 commandContent:
-			Assign_for_variable | Variable | Value | Return_function
+			Assign_for_variable | Value | Return_function
 			;
 
 Variable: 
@@ -243,7 +243,7 @@ List_arguments :
 Set_arguments : Init_variable Other_arguments | /* nothing */;
 Other_arguments : VARIABLE_SEPARATOR Init_variable Other_arguments | /* nothing */;
 
-Call_function : Function_name List_arguments; 
+Call_function : Function_name List_values; 
 
 Function_implementation : Function_main | Function_init commandBlock ;
 
