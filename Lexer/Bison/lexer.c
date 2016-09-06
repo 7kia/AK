@@ -1833,9 +1833,9 @@ int main(void)
 	//ParseFile("Literal1.txt", "outLiteral1.txt");
 
 	//ParseFile("Tests\\Identifier.txt", "Tests\\Output\\OutputIdentifier.txt");
-	//ParseFile("Tests\\Types.txt", "Tests\\Output\\OutputTypes.txt");
+	ParseFile("Tests\\Types.txt", "Tests\\Output\\OutputTypes.txt");
 	//ParseFile("Tests\\Functions.txt", "Tests\\Output\\OutputFunctions.txt");
-	ParseFile("Tests\\Conditions.txt", "Tests\\Output\\OutputConditions.txt");
+	//ParseFile("Tests\\Conditions.txt", "Tests\\Output\\OutputConditions.txt");
 
 	//ParseFile("Tests\\Syntax\\Numbers.txt", "Tests\\OutputSyntax\\OutputNumbers.txt");
 }

@@ -139,8 +139,9 @@ Literal :
 
 PREFIX_TYPE	: Can_have_const Can_have_numeric_prefix ;
 Can_have_const :  /* nothing */ | PREFIX_CONST ;
-Can_have_numeric_prefix :  /* nothing */ | PREFIX_NUMERIC_TYPES;
-PREFIX_NUMERIC_TYPES	:  PREFIX_SIGNED | PREFIX_UNSIGNED | PREFIX_LONG ;
+Can_have_numeric_prefix :  /* nothing */ | PREFIX_NUMERIC_TYPES Can_be_long;
+PREFIX_NUMERIC_TYPES	:  PREFIX_SIGNED | PREFIX_UNSIGNED ;
+Can_be_long : /* nothing */ | PREFIX_LONG;
 
 DEFINITION_POINTER	: /* nothing */ | Can_have_const STAR ;
 
