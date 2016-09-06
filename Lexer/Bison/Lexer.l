@@ -150,6 +150,7 @@ UNDERSCORE_SYMBOL		"_"
 
 %%
 
+("main")		{ return NAME_MAIN_FUNCTION; }
 
 {START_BLOCK}	{ return START_BLOCK; }
 {END_BLOCK}		{ return END_BLOCK; }

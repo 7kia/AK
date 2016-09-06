@@ -11,6 +11,7 @@ extern FILE *yyout;
 %}
 
 %token BYE
+%token NAME_MAIN_FUNCTION
 
 %token START_BLOCK
 %token END_BLOCK
@@ -69,7 +70,9 @@ extern FILE *yyout;
 %%
 
 program: 
-        Have_function_block
+        Function_block {	fclose(yyout);
+												return;
+												}
         ;
 
 
@@ -195,19 +198,26 @@ Type_initialization :
 //
 ////////////////////////////////////////////////////////////////////
 */
-
-/* Three low string equal (<function implementation> | <function init>)+*/
-Function_block : Definition_function Other_function_imp_or_init;
-
 Function_imp_or_init : Function_implementation | Function_init;
-Definition_function : Function_imp_or_init COMMAND_SEPARATOR;
-Other_function_imp_or_init : /* nothing */ | Definition_function Other_function_imp_or_init;
-/* For main rule */
-Have_function_block : Function_block | /* nothing */;
-/*				*/
+
 Function_init : 
 				Type_initialization Function_name List_arguments/* TODO : add separator */
+				;
+Function_main : 
+				Type_initialization NAME_MAIN_FUNCTION List_arguments commandBlock 
+				{	fclose(yyout);
+					return;
+				}
+				/* TODO : add separator */
+				;
+
+/* Three low string equal (<function implementation> | <function init>)+*/
+Function_block : 
+				Definition_function Other_function_imp_or_init;
 				; 
+Definition_function : Function_imp_or_init COMMAND_SEPARATOR;
+Other_function_imp_or_init : Definition_function Other_function_imp_or_init | /* nothing */;
+
 Function_name : Identificator ;
 
 /*
@@ -235,6 +245,6 @@ Other_arguments : VARIABLE_SEPARATOR Init_variable Other_arguments | /* nothing 
 
 Call_function : Function_name List_arguments; 
 
-Function_implementation : Function_init commandBlock ;
+Function_implementation : Function_main | Function_init commandBlock ;
 
 Return_function : NAME_RETURN Value;
