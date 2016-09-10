@@ -1,0 +1,13 @@
+signed int  MAIN_FUNCTION START_LIST_ARGUMENTS END_LIST_ARGUMENTS 
+==Start block code==
+Integer Plus Integer Command separator 
+Integer Minus Integer Command separator 
+Integer Star Integer Command separator 
+Integer Divide Integer Command separator 
+Integer Percent Integer Command separator 
+Integer < Integer Command separator 
+Integer > Integer Command separator 
+signed int Identificator Assign Integer Command separator 
+==End block code==
+
+ End main() 

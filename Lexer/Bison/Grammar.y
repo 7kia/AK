@@ -29,6 +29,10 @@ extern FILE *yyout;
 %token STAR
 %token PERCENT
 
+%token LESS
+%token MORE
+
+
 %token ASSIGN
 /* Need for grammar */
 %token Have_sign
@@ -173,15 +177,17 @@ Number : FLOAT | INT; /* TODO : неоднозначность */
 //						Выражения
 ////////////////////////////////////////////////////////////////////
 */
-Expression : Arithmetic_expression  ; /* | bool_expression*/
+Expression : Arithmetic_expression | Bool_expression ; /* | bool_expression*/
 
 Arithmetic_signs : PLUS | MINUS | STAR | DIVIDE | PERCENT ;
-Arithmetic_expression : Value Right_expression_part			  
-						;
+Arithmetic_expression : Value Right_arithmetic_expression_part ;
 
-Right_expression_part : /* nothing */ | Arithmetic_signs Arithmetic_expression ;
+Right_arithmetic_expression_part : /* nothing */ | Arithmetic_signs Arithmetic_expression ;
+
+
+Bool_signs : LESS | MORE ;
+Bool_expression : Value Right_bool_expression_part;
 /*
-Bool_expression : Value
 				| bool_expression '<' Value | bool_expression LESSOREQUALS Value
 				| bool_expression '>' Value | bool_expression MOREOREQUALS Value
 				| bool_expression EQUALS Value | bool_expression NOTEQUALS Value
@@ -189,6 +195,8 @@ Bool_expression : Value
 				| '!' bool_expression
 
 */
+
+Right_bool_expression_part : /* nothing */ | Bool_signs Bool_expression ;
 
 /*
 ////////////////////////////////////////////////////////////////////

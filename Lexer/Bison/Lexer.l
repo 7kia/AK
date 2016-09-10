@@ -64,6 +64,11 @@ DIVIDE					"/"
 STAR					"*"
 PERCENT					"%"
 
+LESS					"<"
+MORE					">"
+
+
+
 ASSIGN					"="		
 
 REFERENCE				"&"
@@ -189,6 +194,10 @@ UNDERSCORE_SYMBOL		"_"
 {DIVIDE}		{ fprintf_s(yyout, "Divide "); return DIVIDE; }
 {STAR}			{ fprintf_s(yyout, "Star "); return STAR; }
 {PERCENT}		{ fprintf_s(yyout, "Percent "); return PERCENT; }
+
+{LESS}			{ fprintf_s(yyout, "< "); return LESS; }
+{MORE}			{ fprintf_s(yyout, "> "); return MORE; }
+
 
 {ASSIGN}		{ fprintf_s(yyout, "Assign "); return ASSIGN; }
 
