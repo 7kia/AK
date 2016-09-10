@@ -32,7 +32,7 @@ extern FILE *yyout;
 %token LESS
 %token MORE
 
-
+%token NEGATION
 %token ASSIGN
 /* Need for grammar */
 %token Have_sign
@@ -186,7 +186,7 @@ Right_arithmetic_expression_part : /* nothing */ | Arithmetic_signs Arithmetic_e
 
 
 Bool_signs : LESS | MORE ;
-Bool_expression : Value Right_bool_expression_part;
+Bool_expression : NEGATION Value | Value Right_bool_expression_part;
 /*
 				| bool_expression '<' Value | bool_expression LESSOREQUALS Value
 				| bool_expression '>' Value | bool_expression MOREOREQUALS Value

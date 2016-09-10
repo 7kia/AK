@@ -66,12 +66,14 @@ PERCENT					"%"
 
 LESS					"<"
 MORE					">"
-
-
-
+NEGATION				"!"
 ASSIGN					"="		
 
 REFERENCE				"&"
+/*
+//			Двухсимвольные
+*/
+
 /*
 //////////////////////////////
 //		Разделители
@@ -195,10 +197,11 @@ UNDERSCORE_SYMBOL		"_"
 {STAR}			{ fprintf_s(yyout, "Star "); return STAR; }
 {PERCENT}		{ fprintf_s(yyout, "Percent "); return PERCENT; }
 
-{LESS}			{ fprintf_s(yyout, "< "); return LESS; }
-{MORE}			{ fprintf_s(yyout, "> "); return MORE; }
+{LESS}			{ fprintf_s(yyout, "Less "); return LESS; }
+{MORE}			{ fprintf_s(yyout, "More "); return MORE; }
 
 
+{NEGATION}		{ fprintf_s(yyout, "Negation "); return NEGATION; }
 {ASSIGN}		{ fprintf_s(yyout, "Assign "); return ASSIGN; }
 
 

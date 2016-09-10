@@ -5,8 +5,9 @@ Integer Minus Integer Command separator
 Integer Star Integer Command separator 
 Integer Divide Integer Command separator 
 Integer Percent Integer Command separator 
-Integer < Integer Command separator 
-Integer > Integer Command separator 
+Integer Less Integer Command separator 
+Integer More Integer Command separator 
+Negation Identificator Command separator 
 signed int Identificator Assign Integer Command separator 
 ==End block code==
 
