@@ -27,6 +27,7 @@ extern FILE *yyout;
 %token MINUS
 %token DIVIDE
 %token STAR
+%token PERCENT
 
 %token ASSIGN
 /* Need for grammar */
@@ -79,6 +80,13 @@ extern FILE *yyout;
 %token START_LIST_ARGUMENTS
 %token END_LIST_ARGUMENTS
 
+/* 
+	%left, %right, %nonassoc и %precedence управляют разрешением
+	приоритета операторов и правил ассоциативности
+*/
+
+
+
 %%
 
 program: 
@@ -113,7 +121,7 @@ command:
 		;
 
 commandContent:
-			Assign_for_variable | Value | Any_branching | Any_loop | Any_interrupt_operator | Return_function
+			Expression | Assign_for_variable |  Any_branching | Any_loop | Any_interrupt_operator | Return_function
 			;
 
 Variable: 
@@ -162,6 +170,28 @@ DEFINITION_POINTER	: /* nothing */ | Can_have_const STAR ;
 Number : FLOAT | INT; /* TODO : неоднозначность */
 /*
 ////////////////////////////////////////////////////////////////////
+//						Выражения
+////////////////////////////////////////////////////////////////////
+*/
+Expression : Arithmetic_expression  ; /* | bool_expression*/
+
+Arithmetic_signs : PLUS | MINUS | STAR | DIVIDE | PERCENT ;
+Arithmetic_expression : Value Right_expression_part			  
+						;
+
+Right_expression_part : /* nothing */ | Arithmetic_signs Arithmetic_expression ;
+/*
+Bool_expression : Value
+				| bool_expression '<' Value | bool_expression LESSOREQUALS Value
+				| bool_expression '>' Value | bool_expression MOREOREQUALS Value
+				| bool_expression EQUALS Value | bool_expression NOTEQUALS Value
+				| bool_expression AND Value | bool_expression OR Value
+				| '!' bool_expression
+
+*/
+
+/*
+////////////////////////////////////////////////////////////////////
 //
 //
 // Комманды
@@ -171,7 +201,7 @@ Number : FLOAT | INT; /* TODO : неоднозначность */
 */
 
 Value:
-		Call_function | Variable | Literal /* TODO : add <Call function> | <variable>   | <expression> | */
+		Call_function | Variable  | Literal /* TODO : add <Call function> | <variable>   | <expression> | */
 	;
 
 Assign_for_variable:

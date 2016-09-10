@@ -62,6 +62,7 @@ PLUS					"+"
 MINUS					"-"
 DIVIDE					"/"
 STAR					"*"
+PERCENT					"%"
 
 ASSIGN					"="		
 
@@ -187,6 +188,7 @@ UNDERSCORE_SYMBOL		"_"
 {MINUS}			{ fprintf_s(yyout, "Minus "); return MINUS; }
 {DIVIDE}		{ fprintf_s(yyout, "Divide "); return DIVIDE; }
 {STAR}			{ fprintf_s(yyout, "Star "); return STAR; }
+{PERCENT}		{ fprintf_s(yyout, "Percent "); return PERCENT; }
 
 {ASSIGN}		{ fprintf_s(yyout, "Assign "); return ASSIGN; }
 
@@ -247,8 +249,16 @@ void ParseFile(const char* inputFileName, const char* outputFileName)
 	fclose(yyout);
 }
 
-int main(void)
+static const int AMOUNT_ARGUMENTS = 3;
+
+
+int main(int argc, char *argv[])
 {
+
+	if (argc != AMOUNT_ARGUMENTS)
+	{
+		return 1;
+	}
 	//ParseFile("text1.txt", "out1.txt");
 	//ParseFile("Literal1.txt", "outLiteral1.txt");
 
@@ -258,8 +268,10 @@ int main(void)
 	//ParseFile("Tests\\Conditions.txt", "Tests\\Output\\OutputConditions.txt");
 
 	//ParseFile("Tests\\Syntax\\Numbers.txt", "Tests\\OutputSyntax\\OutputNumbers.txt");
-	ParseFile("Tests\\Syntax\\Loops.txt", "Tests\\OutputSyntax\\OutputLoops.txt");
+	//ParseFile("Tests\\Syntax\\Loops.txt", "Tests\\OutputSyntax\\OutputLoops.txt");
+	ParseFile(argv[1], argv[2]);
 
+	return 0;
 }
 
 

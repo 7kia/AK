@@ -20,4 +20,6 @@ Float Command separator
 Float Command separator 
 Identificator Command separator 
 Identificator Assign Float Command separator 
-Identificator Minus syntax error
+Identificator Minus Float Command separator 
+Identificator Divide Float Command separator 
+Identificator Float syntax error

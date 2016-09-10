@@ -9,6 +9,10 @@ FC /b OutputSyntax\OutputNumbers.txt RightSyntax\OutputNumbers.txt
 Bison.exe Syntax\Conditions.txt OutputSyntax\OutputConditions.txt
 IF ERRORLEVEL 1 GOTO err
 FC /b OutputSyntax\OutputConditions.txt RightSyntax\OutputConditions.txt
+
+Bison.exe Syntax\OneSymbolOperations.txt OutputSyntax\OutputOneSymbolOperations.txt
+IF ERRORLEVEL 1 GOTO err
+FC /b OutputSyntax\OutputOneSymbolOperations.txt RightSyntax\OutputOneSymbolOperations.txt
 #=======================================================
 
 Bison.exe Identifier.txt Output\OutputIdentifier.txt
