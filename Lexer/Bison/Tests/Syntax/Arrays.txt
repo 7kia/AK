@@ -1,22 +1,27 @@
+signed int main()
+{
+
 signed int g[1] = { 1 };
 unsigned int s[2] = { 4, 2 };
 
-const signed double j[2][2] = 
+const signed long float j[2][2] = 
 { 
 	{ 4., 3.} 
 	, { .23, .90 }
 };
 
-signed double matrix2[3][2] = 
+signed long float matrix2[3][2] = 
 {
 	{3.0, 8.5},
 	{2.3, 6.2},
 	{9.2, -1.5},
 };
 
-long signed double v[3][2][2] = 
+signed long float v[3][2][2] = 
 {
-	{ {4, 1} , {9.0 ,0.01} }
-	, { {9, 1} , {0, -4} }
-	, { {8 , 39} , {58, +12} }
+	{ {4, 1} , {9.0 , 0.01} },
+	 { {9, 1} , {0, -4} },
+	{ {8 , 39} , {58, +12} }
 };
+
+}

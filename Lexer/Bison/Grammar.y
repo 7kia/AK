@@ -34,6 +34,26 @@ extern FILE *yyout;
 
 %token NEGATION
 %token ASSIGN
+
+%token AMPERSAND
+/*
+//			Двухсимвольные
+*/
+%token PLUS_ASSIGN
+%token MINUS_ASSIGN
+%token MULTIPLY_ASSIGN
+%token DIVIDE_ASSIGN
+%token PERCENT_ASSIGN
+
+
+%token LOGIC_AND
+%token LOGIC_OR
+%token LESS_EQUAL
+%token MORE_EQUAL
+
+%token EQUAL
+%token NOT_EQUAL
+
 /* Need for grammar */
 %token Have_sign
 
@@ -41,6 +61,12 @@ extern FILE *yyout;
 
 %token COMMAND_SEPARATOR
 %token VARIABLE_SEPARATOR
+
+%token ONLY_STRING_COMMENT
+%token MULTI_STRING_COMMENT
+
+%token START_IDENTIFICATION
+%token END_IDENTIFICATION
 
 /*
 //////////////////////////////
@@ -79,7 +105,6 @@ extern FILE *yyout;
 %token NAME_RETURN
 
 %token Identificator
-%token ARRAY_ELEMENT
 
 %token START_LIST_ARGUMENTS
 %token END_LIST_ARGUMENTS
@@ -121,7 +146,7 @@ commands:
 		;
 
 command:
-		commandContent COMMAND_SEPARATOR /*  TODO : see Rule.txt */
+		commandContent COMMAND_SEPARATOR | ONLY_STRING_COMMENT/*  TODO : see Rule.txt */
 		;
 
 commandContent:
@@ -184,8 +209,7 @@ Arithmetic_expression : Value Right_arithmetic_expression_part ;
 
 Right_arithmetic_expression_part : /* nothing */ | Arithmetic_signs Arithmetic_expression ;
 
-
-Bool_signs : LESS | MORE ;
+Bool_signs : LESS | MORE | LOGIC_AND | LOGIC_OR | LESS_EQUAL | MORE_EQUAL | EQUAL | NOT_EQUAL;
 Bool_expression : NEGATION Value | Value Right_bool_expression_part;
 /*
 				| bool_expression '<' Value | bool_expression LESSOREQUALS Value
@@ -197,6 +221,17 @@ Bool_expression : NEGATION Value | Value Right_bool_expression_part;
 */
 
 Right_bool_expression_part : /* nothing */ | Bool_signs Bool_expression ;
+/*
+////////////////////////////////////////////////////////////////////
+//
+// Комментарии
+//
+////////////////////////////////////////////////////////////////////
+*/
+
+
+
+
 
 /*
 ////////////////////////////////////////////////////////////////////
@@ -213,21 +248,25 @@ Value:
 	;
 
 Assign_for_variable:
-					Left_part_assign ASSIGN Right_part_assign /* TODO : add  */
+					Left_part_assign Assigns Right_part_assign /* TODO : add  */
 					;
 
+Assigns : PLUS_ASSIGN | MINUS_ASSIGN | MULTIPLY_ASSIGN | DIVIDE_ASSIGN | PERCENT_ASSIGN | ASSIGN ;
+
 /*----------------------------*/
-List_values		: 
-				START_BLOCK Value_in_list Another_values_in_list END_BLOCK
+Init_list_values		: 
+				START_BLOCK { fprintf_s(yyout, "\nStart Init_list_values ");  }
+				Value_in_list Another_values_in_list 				
+				END_BLOCK { fprintf_s(yyout, "\nEnd Init_list_values ");  }
 				;
 
-Value_in_list	:	List_values | Value ;
+Value_in_list	:	Init_list_values | Value ;
 Another_values_in_list	:
-						VARIABLE_SEPARATOR Value_in_list | /* nothing */
+						VARIABLE_SEPARATOR Value_in_list Another_values_in_list | /* nothing */
 						;
 
 Left_part_assign: Init_variable | Variable ;
-Right_part_assign: Value | List_values ;
+Right_part_assign: Value | Init_list_values ;
 /*----------------------------*/
 
 Init_variable:
@@ -235,7 +274,10 @@ Init_variable:
 				 ; /* instead " " <common separator> */
 
 
-Name_init_variable: ARRAY_ELEMENT | Variable ;
+Array_element : Variable First_identification Other_identification;
+First_identification : START_IDENTIFICATION Value END_IDENTIFICATION ;
+Other_identification : First_identification Other_identification | /* nothing */ ;
+Name_init_variable: Array_element | Variable ;
 /*                     		\/ Types.txt		*/
 
 Type_initialization :
@@ -320,8 +362,8 @@ Loop_with_counter :   FOR_OPERATOR  START_LIST_ARGUMENTS  Parameters_for END_LIS
 
 Parameters_for :  Start_value_for COMMAND_SEPARATOR Condition_end_for COMMAND_SEPARATOR Next_value_counter;
 Start_value_for :  Assign_for_variable ;/* TODO : see can replace on Assign_for_variable */
-Condition_end_for :  Value; /* TODO : see correctness */
-Next_value_counter :  Value; /* TODO : see correctness */
+Condition_end_for :  Bool_expression ; /* TODO : see correctness */
+Next_value_counter :  Assign_for_variable | Arithmetic_expression; /* TODO : see correctness */
 
 
 Any_interrupt_operator :  CONTINUE_OPERATOR  | BREAK_OPERATOR ; 
@@ -335,7 +377,7 @@ Any_interrupt_operator :  CONTINUE_OPERATOR  | BREAK_OPERATOR ;
 ///////////////////////////
 */
 List_values : 
-				START_LIST_ARGUMENTS Set_values END_LIST_ARGUMENTS
+				START_LIST_ARGUMENTS Set_values END_LIST_ARGUMENTS 
 				;
 /* Two low string equal Value  (VARIABLE_SEPARATOR Value )?*/
 Set_values : Value Other_values | /* nothing */;

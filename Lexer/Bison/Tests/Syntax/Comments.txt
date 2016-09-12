@@ -1,4 +1,5 @@
-// one_string_comment
+signed int main()
+{
 
 /**/
 
@@ -19,3 +20,6 @@ fourthcontent
 // second_string_comment
 
 */
+
+// one_string_comment
+}

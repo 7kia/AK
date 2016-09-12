@@ -13,6 +13,14 @@ FC /b OutputSyntax\OutputConditions.txt RightSyntax\OutputConditions.txt
 Bison.exe Syntax\OneSymbolOperations.txt OutputSyntax\OutputOneSymbolOperations.txt
 IF ERRORLEVEL 1 GOTO err
 FC /b OutputSyntax\OutputOneSymbolOperations.txt RightSyntax\OutputOneSymbolOperations.txt
+
+Bison.exe Syntax\Comments.txt OutputSyntax\OutputComments.txt
+IF ERRORLEVEL 1 GOTO err
+FC /b OutputSyntax\OutputComments.txt RightSyntax\OutputComments.txt
+
+Bison.exe Syntax\Arrays.txt OutputSyntax\OutputArrays.txt
+IF ERRORLEVEL 1 GOTO err
+FC /b OutputSyntax\OutputArrays.txt RightSyntax\OutputArrays.txt
 #=======================================================
 
 Bison.exe Identifier.txt Output\OutputIdentifier.txt

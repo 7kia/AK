@@ -69,11 +69,45 @@ MORE					">"
 NEGATION				"!"
 ASSIGN					"="		
 
-REFERENCE				"&"
+AMPERSAND				"&"
 /*
 //			Двухсимвольные
 */
+PLUS_ASSIGN				"+="
+MINUS_ASSIGN			"-="
+MULTIPLY_ASSIGN			"*="
+DIVIDE_ASSIGN			"/="
+PERCENT_ASSIGN			"%="
 
+/*
+//			Битовые
+//  TODO : отсутствуют
+*/
+BIT_AND					"&"
+BIT_OR					"|"
+BIT_XOR					"^"
+BIT_LEFT_SHIFT			"<<"
+BIT_RIGHT_SHIFT			">>"
+
+BIT_AND_ASSIGN			"&="
+BIT_OR_ASSIGN			"|="
+BIT_XOR_ASSIGN			"^="
+BIT_LEFT_SHIFT_ASSIGN	"<<="
+BIT_RIGHT_SHIFT_ASSIGN	">>="
+
+INCREMENT				"++"
+DECREMENT				"--"
+
+/*
+//			Логические(кроме НЕ)
+*/
+LOGIC_AND				"&&"
+LOGIC_OR				"||"
+LESS_EQUAL				"<="
+MORE_EQUAL				">="
+
+EQUAL					"=="
+NOT_EQUAL				"!="
 /*
 //////////////////////////////
 //		Разделители
@@ -82,6 +116,18 @@ REFERENCE				"&"
 COMMAND_SEPARATOR		";"
 VARIABLE_SEPARATOR		","
 
+START_IDENTIFICATION	"["
+END_IDENTIFICATION		"]"
+
+/*
+//		Комментарии
+*/
+START_ONE_STRING_COMMENT "//"
+START_MULTI_STRING_COMMENT "\*"
+END_MULTI_STRING_COMMENT "*/"
+
+ONLY_STRING_COMMENT		{START_ONE_STRING_COMMENT}(.)\n
+MULTI_STRING_COMMENT	{START_MULTI_STRING_COMMENT}(.){END_MULTI_STRING_COMMENT}
 /**/
 /*
 //////////////////////////////
@@ -169,12 +215,11 @@ CONTINUE_OPERATOR		"continue"
 */
 /* Identificator and it used */
 Identificator			[a-zA-Z_][a-zA-Z0-9_]*
-ARRAY_ELEMENT			(Identificator)("["INT"]")+
 
 /* TODO : not work */
 /* .                     { yyerror();  }
 */
-/*  ADDRESED_OPERATION		({STAR}|{REFERENCE})* */
+/*  ADDRESED_OPERATION		({STAR}|{AMPERSAND})* */
 
 START_LIST_ARGUMENTS	"("
 END_LIST_ARGUMENTS		")"
@@ -182,6 +227,9 @@ CASE_ENUMERATOR			":"
 UNDERSCORE_SYMBOL		"_"
 
 %%
+{MULTI_STRING_COMMENT}				/* skip */;
+{ONLY_STRING_COMMENT}				/* skip */;
+
 
 ("main")		{ fprintf_s(yyout, " MAIN_FUNCTION "); return NAME_MAIN_FUNCTION; }
 
@@ -204,9 +252,28 @@ UNDERSCORE_SYMBOL		"_"
 {NEGATION}		{ fprintf_s(yyout, "Negation "); return NEGATION; }
 {ASSIGN}		{ fprintf_s(yyout, "Assign "); return ASSIGN; }
 
+{PLUS_ASSIGN}		{ fprintf_s(yyout, "+= "); return PLUS_ASSIGN; }
+{MINUS_ASSIGN}		{ fprintf_s(yyout, "-= "); return MINUS_ASSIGN; }
+{MULTIPLY_ASSIGN}		{ fprintf_s(yyout, "*= "); return MULTIPLY_ASSIGN; }
+{DIVIDE_ASSIGN}		{ fprintf_s(yyout, "/= "); return DIVIDE_ASSIGN; }
+{PERCENT_ASSIGN}		{ fprintf_s(yyout, "%= "); return PERCENT_ASSIGN; }
+
+{AMPERSAND}				{ fprintf_s(yyout, "& "); return AMPERSAND; }
+
+{LOGIC_AND}		{ fprintf_s(yyout, "&& "); return LOGIC_AND; }
+{LOGIC_OR}		{ fprintf_s(yyout, "|| "); return LOGIC_OR; }
+{LESS_EQUAL}		{ fprintf_s(yyout, "<= "); return LESS_EQUAL; }
+{MORE_EQUAL}		{ fprintf_s(yyout, ">= "); return MORE_EQUAL; }
+
+{EQUAL}					{ fprintf_s(yyout, "== "); return EQUAL; }
+{NOT_EQUAL}				{ fprintf_s(yyout, "!= "); return NOT_EQUAL; }
 
 ";"				{ fprintf_s(yyout, "Command separator \n"); return COMMAND_SEPARATOR; }
 ","				{ fprintf_s(yyout, "Variable separator ");  return VARIABLE_SEPARATOR; }
+
+{START_IDENTIFICATION}			{ fprintf_s(yyout, "[ ");  return START_IDENTIFICATION; }
+{END_IDENTIFICATION}			{ fprintf_s(yyout, "] ");  return END_IDENTIFICATION; }
+
 
 {CHAR}			{ fprintf_s(yyout, "Char "); return CHAR; }
 {STRING}		{ fprintf_s(yyout, "String "); return STRING; }
@@ -240,7 +307,6 @@ UNDERSCORE_SYMBOL		"_"
 {CONTINUE_OPERATOR}				{ fprintf_s(yyout, " continue ");   return CONTINUE_OPERATOR; }
 
 {Identificator}					{ fprintf_s(yyout, "Identificator ");   return Identificator; }
-{ARRAY_ELEMENT}					{ fprintf_s(yyout, "Array element ");   return ARRAY_ELEMENT; }
 
 {START_LIST_ARGUMENTS}			{ fprintf_s(yyout, "START_LIST_ARGUMENTS ");   return START_LIST_ARGUMENTS; }
 {END_LIST_ARGUMENTS}			{ fprintf_s(yyout, "END_LIST_ARGUMENTS ");   return END_LIST_ARGUMENTS; }
@@ -248,6 +314,8 @@ UNDERSCORE_SYMBOL		"_"
 ("tchau"|"bye")"\n"   { return BYE; /* TODO : delete */}
 
 [ \t\n]+	/* skip */;
+
+
 %%
 
 void ParseFile(const char* inputFileName, const char* outputFileName)
