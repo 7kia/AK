@@ -1,0 +1,5 @@
+printf(w);
+printf(w1);
+printf(x1);
+printf(m01923);
+printf(line9);

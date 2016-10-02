@@ -1,0 +1,24 @@
+signed int main(int argc)
+{
+// one_string_comment
+
+/**/
+
+/*
+*/
+
+/* content */
+
+/*second content
+*/
+
+/*
+third content
+*/
+
+/*
+fourthcontent
+// second_string_comment
+
+*/
+}

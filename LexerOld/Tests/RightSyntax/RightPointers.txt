@@ -1,0 +1,55 @@
+signed - Signed
+int - Integer
+varInt - Identifier
+= - Assign
+9 - Integer
+; - Semicolon
+
+signed - Signed
+int - Integer
+* - Star
+pInt - Identifier
+= - Assign
+& - Ampersand
+varInt - Identifier
+; - Semicolon
+
+
+printf - Print
+( - Left paren
+* - Star
+pInt - Identifier
+) - Right paren
+; - Semicolon
+
+
+unsigned - Unsigned
+int - Integer
+ar - Identifier
+[ - Left square brackets
+2 - Integer
+] - Right square brackets
+= - Assign
+{ - Left brace
+0 - Integer
+, - Comma
+1 - Integer
+} - Right brace
+; - Semicolon
+
+unsigned - Unsigned
+int - Integer
+* - Star
+pAr - Identifier
+= - Assign
+& - Ampersand
+ar - Identifier
+; - Semicolon
+
+printf - Print
+( - Left paren
+* - Star
+pAr - Identifier
+) - Right paren
+; - Semicolon
+// 0 - One strign comment

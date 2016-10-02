@@ -1,0 +1,59 @@
+0 - Integer
+; - Semicolon
+
+.0 - Double
+; - Semicolon
+
+0. - Double
+; - Semicolon
+
+0.1 - Double
+; - Semicolon
+
+- - Minus
+2.3 - Double
+; - Semicolon
+
++ - Plus
+1.1 - Double
+; - Semicolon
+
+1.2+e0 - Double
+; - Semicolon
+
+3.12-e1 - Double
+; - Semicolon
+
+0.09+E1 - Double
+; - Semicolon
+
+.1-E9 - Double
+; - Semicolon
+
+9.1-E349 - Double
+; - Semicolon
+
+.2 - Double
+
+.3 - Double
+
+
+
+
+
+
+d - Identifier
+.3 - Double
+; - Semicolon
+
+= - Assign
+.3 - Double
+; - Semicolon
+
+- - Minus
+.3 - Double
+; - Semicolon
+
+/ - Slash
+.3 - Double
+; - Semicolon

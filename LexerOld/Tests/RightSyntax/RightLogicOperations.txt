@@ -1,0 +1,22 @@
+printf - Print
+( - Left paren
+true - Bool
+&& - Logic and
+true - Bool
+) - Right paren
+; - Semicolon
+
+printf - Print
+( - Left paren
+true - Bool
+|| - Logic or
+true - Bool
+) - Right paren
+; - Semicolon
+
+printf - Print
+( - Left paren
+! - Not operator
+true - Bool
+) - Right paren
+; - Semicolon
