@@ -1,8 +1,0 @@
-'\n' - Char
-; - Semicolon
-
-'1' - Char
-; - Semicolon
-
-'\x001' - Char
-; - Semicolon

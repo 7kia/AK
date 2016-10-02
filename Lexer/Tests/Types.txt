@@ -1,0 +1,43 @@
+signed int main()
+{
+signed int i = 1;
+unsigned int *i = 1;
+signed float f = 0.0;
+char ch = 'f';
+string str = "this string";
+bool b = true;
+
+signed int q = 1;
+unsigned int _q = -1;
+signed float fl = 3.14;
+unsigned float _fl = -3.14;
+signed long int dc = 9;
+unsigned long int gvr = 9;
+signed long float gbr = 0.9;
+unsigned long float bgr = 0.9;
+
+const signed int i = 1;
+const unsigned int *i = 1;
+const signed float f = 0.0;
+const char ch = 'f';
+const string str = "this string";
+const bool b = true;
+const signed int const * id = 1;
+
+const signed int q = 1;
+const unsigned int _q = -1;
+const signed float fl = 3.14;
+const unsigned float _fl = -3.14;
+const signed long int dc = 9;
+const unsigned long int gvr = 9;
+const signed long float gbr = 0.9;
+const unsigned long float bgr = 0.9;
+
+signed char g = 's';
+signed string g1 = 'v';
+signed bool g3 = 'x';
+int q = 1;
+float f1 = 1;
+long int dc = 9;
+long float gbr = 0.9;
+}

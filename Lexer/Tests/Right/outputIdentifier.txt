@@ -1,30 +1,12 @@
-printf - Print
-( - Left paren
-w - Identifier
-) - Right paren
-; - Semicolon
-
-printf - Print
-( - Left paren
-w1 - Identifier
-) - Right paren
-; - Semicolon
-
-printf - Print
-( - Left paren
-x1 - Identifier
-) - Right paren
-; - Semicolon
-
-printf - Print
-( - Left paren
-m01923 - Identifier
-) - Right paren
-; - Semicolon
-
-printf - Print
-( - Left paren
-line9 - Identifier
-) - Right paren
-; - Semicolon
-
+signed int  MAIN_FUNCTION START_LIST_ARGUMENTS END_LIST_ARGUMENTS 
+==Start block code==
+Identificator Command separator 
+Identificator Command separator 
+Identificator Command separator 
+Identificator Command separator 
+Identificator Command separator 
+Identificator Command separator 
+Identificator Command separator 
+Identificator Command separator 
+Identificator Command separator 
+Integer Identificator syntax error

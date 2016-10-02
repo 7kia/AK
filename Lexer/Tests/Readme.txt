@@ -1,1 +1,0 @@
-Before testing create folders OutputPrograms and OutputSyntax

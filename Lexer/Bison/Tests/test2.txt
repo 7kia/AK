@@ -1,2 +1,0 @@
-signed double var = 2 + 2 * 2;
-printf(var);

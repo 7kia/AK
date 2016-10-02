@@ -1,8 +1,12 @@
-printf(2 < 3);
-printf(2 > 3);
-printf(2 + 3);
-printf(2 - 3);
-printf(2 * 3);
-printf(2 / 3);
-printf(4 % 3);
+signed int main()
+{
+2 + 3;
+2 - 3;
+2 * 3;
+2 / 3;
+4 % 3;
+2 < 3;
+2 > 3;
+!flag;
 signed int f = 1;
+}

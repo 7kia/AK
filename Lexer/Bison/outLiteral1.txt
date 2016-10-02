@@ -1,5 +1,0 @@
-
-Start main() 
-
-Error
-Command separator Error

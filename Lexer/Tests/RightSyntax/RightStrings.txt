@@ -1,8 +1,0 @@
-"" - String
-; - Semicolon
-
-"1" - String
-; - Semicolon
-
-"this string" - String
-; - Semicolon

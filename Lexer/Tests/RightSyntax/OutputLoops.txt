@@ -1,0 +1,21 @@
+signed int  MAIN_FUNCTION START_LIST_ARGUMENTS END_LIST_ARGUMENTS 
+==Start block code==
+while START_LIST_ARGUMENTS Bool END_LIST_ARGUMENTS 
+==Start block code==
+==End block code==
+Command separator 
+do 
+==Start block code==
+ continue Command separator 
+==End block code==
+while START_LIST_ARGUMENTS Bool END_LIST_ARGUMENTS Command separator 
+for START_LIST_ARGUMENTS signed int Identificator Assign Integer Command separator 
+Identificator Less Integer Command separator 
+Identificator += Integer END_LIST_ARGUMENTS 
+==Start block code==
+break Command separator 
+==End block code==
+Command separator 
+==End block code==
+
+ End main() 

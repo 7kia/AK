@@ -1,5 +1,0 @@
-true - Bool
-; - Semicolon
-
-false - Bool
-; - Semicolon

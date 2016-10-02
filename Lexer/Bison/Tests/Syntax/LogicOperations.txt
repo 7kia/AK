@@ -1,3 +1,0 @@
-printf(true && true);
-printf(true || true);
-printf(!true);

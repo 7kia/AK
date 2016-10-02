@@ -1,5 +1,5 @@
-printf(2 <= 3);
-printf(2 >= 3);
+signed int main ()
+{
 
 signed int t = 2;
 t += 3;
@@ -8,18 +8,30 @@ t *= 3;
 t /= 3;
 t %= 3;
 
-t &= 4;
-t |= 3;
-t ^= 3;
-t <<= 3;
-t >>= 3;
+//t & 4;
+//t | 3;
+//t ^ 3;
+//t << 3;
+//t >> 3;
+//t &= 4;
+//t |= 3;
+//t ^= 3;
+//t <<= 3;
+//t >>= 3;
 
 t++;
 ++t;
 --t;
 t--;
 
+true && true;
+true || true;
+2 <= 3;
+2 >= 3;
+
 if(true == true)
 {}
 else if(true != false)
 {}
+
+}

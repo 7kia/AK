@@ -1,0 +1,33 @@
+signed int joke();
+unsigned float joe(signed float i);
+
+bool superJoke2(const signed int fd)
+{
+	signed float work = fd;
+	return true;
+};
+
+char superJoke(unsigned int fd)
+{
+	signed float work = fd;
+	return fd;
+};
+
+bool severalArguments(unsigned int fd
+		, const char * arrayChar
+		, signed int new)
+{
+	signed float work = fd;
+	return false;
+};
+
+signed int main()
+{
+	signed int hp = 9;
+	superJoke(hp);
+	severalArguments(hp
+			, "sd"
+			, hp);
+	hp;
+
+};
