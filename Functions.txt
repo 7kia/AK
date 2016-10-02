@@ -6,7 +6,7 @@
 <function init> ::= <type initialization> <FunctionName> <list arguments> // TODO : add separator
 <FunctionName> ::= <identificator> ;
 <list arguments> ::= <Start list arguments> <set arguments> <End list arguments>;
-<set arguments> ::= <value>  (<variable separator> <value> )? ;
+<set arguments> ::= (<init variable> | <value>)  (<variable separator> <value> )? ;
 
 <Call function> ::= <FunctionName><list arguments>; 
 

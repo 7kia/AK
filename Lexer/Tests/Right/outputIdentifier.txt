@@ -9,4 +9,6 @@ Identificator Command separator
 Identificator Command separator 
 Identificator Command separator 
 Identificator Command separator 
+Integer Plus Identificator Command separator 
+Integer Plus Identificator Command separator 
 Integer Identificator syntax error
