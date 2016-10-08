@@ -260,7 +260,7 @@ Init_list_values		:
 				END_BLOCK { fprintf_s(yyout, "\nEnd Init_list_values ");  }
 				;
 
-Value_in_list	:	Init_list_values | Value ;
+Value_in_list	:	Value | Init_list_values ;
 Another_values_in_list	:
 						VARIABLE_SEPARATOR Value_in_list Another_values_in_list | /* nothing */
 						;
