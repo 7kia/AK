@@ -60,7 +60,7 @@ FLOAT					{Have_sign}((([0-9]+)"."([0-9]*))|("."([0-9]+))){Expotential_part}?
 
 PLUS					"+"
 MINUS					"-"
-DIVIDE					"/"
+DIVIDE					" /"
 STAR					"*"
 PERCENT					"%"
 
@@ -126,8 +126,8 @@ START_ONE_STRING_COMMENT "//"
 START_MULTI_STRING_COMMENT "\*"
 END_MULTI_STRING_COMMENT "*/"
 
-ONLY_STRING_COMMENT		{START_ONE_STRING_COMMENT}.\n
-MULTI_STRING_COMMENT	{START_MULTI_STRING_COMMENT}.{END_MULTI_STRING_COMMENT}
+ONLY_STRING_COMMENT		{START_ONE_STRING_COMMENT}[.]*"\n"
+MULTI_STRING_COMMENT	{START_MULTI_STRING_COMMENT}(.)*|[\n]*{END_MULTI_STRING_COMMENT}
 /**/
 /*
 //////////////////////////////
@@ -227,8 +227,8 @@ CASE_ENUMERATOR			":"
 UNDERSCORE_SYMBOL		"_"
 
 %%
-{MULTI_STRING_COMMENT}				/* skip */;
-{ONLY_STRING_COMMENT}				/* skip */;
+{MULTI_STRING_COMMENT}				{ fprintf_s(yyout, " Multi string comment \n"); return MULTI_STRING_COMMENT; };
+{ONLY_STRING_COMMENT}				{ fprintf_s(yyout, " Only string comment \n"); return ONLY_STRING_COMMENT; };
 
 
 ("main")		{ fprintf_s(yyout, " MAIN_FUNCTION "); return NAME_MAIN_FUNCTION; }
@@ -313,7 +313,7 @@ UNDERSCORE_SYMBOL		"_"
 
 ("tchau"|"bye")"\n"   { return BYE; /* TODO : delete */}
 
-[ \t\n]+	/* skip */;
+([ \t\n]+)	/* skip */;
 
 
 %%

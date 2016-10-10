@@ -146,11 +146,11 @@ commands:
 		;
 
 command:
-		commandContent COMMAND_SEPARATOR | ONLY_STRING_COMMENT/*  TODO : see Rule.txt */
+		ONLY_STRING_COMMENT | MULTI_STRING_COMMENT | commandContent COMMAND_SEPARATOR  /*  TODO : see Rule.txt */
 		;
 
 commandContent:
-			Expression | Assign_for_variable |  Any_branching | Any_loop | Any_interrupt_operator | Return_function
+			Expression | Assign_for_variable |  Any_branching | Any_loop | Any_interrupt_operator | Return_function | 
 			;
 
 Variable: 
