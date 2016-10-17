@@ -134,8 +134,8 @@ MULTI_STRING_COMMENT	{START_MULTI_STRING_COMMENT}(.)*|[\n]*{END_MULTI_STRING_COM
 //		“ипы и их имена
 //////////////////////////////
 */
-CHAR					\'.\'
-STRING					\"(.)*\"
+CHAR				\'.\'
+STRING				\"(.)*\"
 
 NAME_INTEGER		"int"
 NAME_FLOAT			"float"
@@ -143,7 +143,7 @@ NAME_CHAR			"char"
 NAME_STRING			"string"
 NAME_LOGIC			"bool"
 
-LOGIC					true|false
+LOGIC				true|false
 
 NAME_RETURN			"return"
 /*
@@ -159,9 +159,9 @@ PREFIX_LONG				"long"
 PREFIX_CONST			"const"
 
 
-/*PREFIX_TYPE				{PREFIX_CONST}?(PREFIX_NUMERIC_TYPES)? */
+/*PREFIX_TYPE			{PREFIX_CONST}?(PREFIX_NUMERIC_TYPES)? */
 
-/* DEFINITION_POINTER		((PREFIX_CONST)?STAR)?; */
+/* DEFINITION_POINTER	((PREFIX_CONST)?STAR)?; */
 /*
 ////////////////////////////////////////////////////////////////////
 //
@@ -227,69 +227,69 @@ CASE_ENUMERATOR			":"
 UNDERSCORE_SYMBOL		"_"
 
 %%
-{MULTI_STRING_COMMENT}				{ fprintf_s(yyout, " Multi string comment \n"); return MULTI_STRING_COMMENT; };
-{ONLY_STRING_COMMENT}				{ fprintf_s(yyout, " Only string comment \n"); return ONLY_STRING_COMMENT; };
+{MULTI_STRING_COMMENT}			{ fprintf_s(yyout, " Multi string comment \n"); return MULTI_STRING_COMMENT; };
+{ONLY_STRING_COMMENT}			{ fprintf_s(yyout, " Only string comment \n"); return ONLY_STRING_COMMENT; };
 
 
-("main")		{ fprintf_s(yyout, " MAIN_FUNCTION "); return NAME_MAIN_FUNCTION; }
+("main")						{ fprintf_s(yyout, " MAIN_FUNCTION "); return NAME_MAIN_FUNCTION; }
 
-{START_BLOCK}	{ return START_BLOCK; }
-{END_BLOCK}		{ return END_BLOCK; }
+{START_BLOCK}					{ return START_BLOCK; }
+{END_BLOCK}						{ return END_BLOCK; }
 
-{INT}			{ fprintf_s(yyout, "Integer "); return INT; }
-{FLOAT}			{ fprintf_s(yyout, "Float "); return FLOAT; }
+{INT}							{ fprintf_s(yyout, "Integer "); return INT; }
+{FLOAT}							{ fprintf_s(yyout, "Float "); return FLOAT; }
 
-{PLUS}			{ fprintf_s(yyout, "Plus "); return PLUS; }
-{MINUS}			{ fprintf_s(yyout, "Minus "); return MINUS; }
-{DIVIDE}		{ fprintf_s(yyout, "Divide "); return DIVIDE; }
-{STAR}			{ fprintf_s(yyout, "Star "); return STAR; }
-{PERCENT}		{ fprintf_s(yyout, "Percent "); return PERCENT; }
+{PLUS}							{ fprintf_s(yyout, "Plus "); return PLUS; }
+{MINUS}							{ fprintf_s(yyout, "Minus "); return MINUS; }
+{DIVIDE}						{ fprintf_s(yyout, "Divide "); return DIVIDE; }
+{STAR}							{ fprintf_s(yyout, "Star "); return STAR; }
+{PERCENT}						{ fprintf_s(yyout, "Percent "); return PERCENT; }
 
-{LESS}			{ fprintf_s(yyout, "Less "); return LESS; }
-{MORE}			{ fprintf_s(yyout, "More "); return MORE; }
+{LESS}							{ fprintf_s(yyout, "Less "); return LESS; }
+{MORE}							{ fprintf_s(yyout, "More "); return MORE; }
 
 
-{NEGATION}		{ fprintf_s(yyout, "Negation "); return NEGATION; }
-{ASSIGN}		{ fprintf_s(yyout, "Assign "); return ASSIGN; }
+{NEGATION}						{ fprintf_s(yyout, "Negation "); return NEGATION; }
+{ASSIGN}						{ fprintf_s(yyout, "Assign "); return ASSIGN; }
 
-{PLUS_ASSIGN}		{ fprintf_s(yyout, "+= "); return PLUS_ASSIGN; }
-{MINUS_ASSIGN}		{ fprintf_s(yyout, "-= "); return MINUS_ASSIGN; }
-{MULTIPLY_ASSIGN}		{ fprintf_s(yyout, "*= "); return MULTIPLY_ASSIGN; }
-{DIVIDE_ASSIGN}		{ fprintf_s(yyout, "/= "); return DIVIDE_ASSIGN; }
-{PERCENT_ASSIGN}		{ fprintf_s(yyout, "%= "); return PERCENT_ASSIGN; }
+{PLUS_ASSIGN}					{ fprintf_s(yyout, "+= "); return PLUS_ASSIGN; }
+{MINUS_ASSIGN}					{ fprintf_s(yyout, "-= "); return MINUS_ASSIGN; }
+{MULTIPLY_ASSIGN}				{ fprintf_s(yyout, "*= "); return MULTIPLY_ASSIGN; }
+{DIVIDE_ASSIGN}					{ fprintf_s(yyout, "/= "); return DIVIDE_ASSIGN; }
+{PERCENT_ASSIGN}				{ fprintf_s(yyout, "%= "); return PERCENT_ASSIGN; }
 
-{AMPERSAND}				{ fprintf_s(yyout, "& "); return AMPERSAND; }
+{AMPERSAND}						{ fprintf_s(yyout, "& "); return AMPERSAND; }
 
-{LOGIC_AND}		{ fprintf_s(yyout, "&& "); return LOGIC_AND; }
-{LOGIC_OR}		{ fprintf_s(yyout, "|| "); return LOGIC_OR; }
-{LESS_EQUAL}		{ fprintf_s(yyout, "<= "); return LESS_EQUAL; }
-{MORE_EQUAL}		{ fprintf_s(yyout, ">= "); return MORE_EQUAL; }
+{LOGIC_AND}						{ fprintf_s(yyout, "&& "); return LOGIC_AND; }
+{LOGIC_OR}						{ fprintf_s(yyout, "|| "); return LOGIC_OR; }
+{LESS_EQUAL}					{ fprintf_s(yyout, "<= "); return LESS_EQUAL; }
+{MORE_EQUAL}					{ fprintf_s(yyout, ">= "); return MORE_EQUAL; }
 
-{EQUAL}					{ fprintf_s(yyout, "== "); return EQUAL; }
-{NOT_EQUAL}				{ fprintf_s(yyout, "!= "); return NOT_EQUAL; }
+{EQUAL}							{ fprintf_s(yyout, "== "); return EQUAL; }
+{NOT_EQUAL}						{ fprintf_s(yyout, "!= "); return NOT_EQUAL; }
 
-";"				{ fprintf_s(yyout, "Command separator \n"); return COMMAND_SEPARATOR; }
-","				{ fprintf_s(yyout, "Variable separator ");  return VARIABLE_SEPARATOR; }
+";"								{ fprintf_s(yyout, "Command separator \n"); return COMMAND_SEPARATOR; }
+","								{ fprintf_s(yyout, "Variable separator ");  return VARIABLE_SEPARATOR; }
 
 {START_IDENTIFICATION}			{ fprintf_s(yyout, "[ ");  return START_IDENTIFICATION; }
 {END_IDENTIFICATION}			{ fprintf_s(yyout, "] ");  return END_IDENTIFICATION; }
 
 
-{CHAR}			{ fprintf_s(yyout, "Char "); return CHAR; }
-{STRING}		{ fprintf_s(yyout, "String "); return STRING; }
+{CHAR}							{ fprintf_s(yyout, "Char "); return CHAR; }
+{STRING}						{ fprintf_s(yyout, "String "); return STRING; }
 
-{NAME_INTEGER}		{ fprintf_s(yyout, "int "); return NAME_INTEGER; }
-{NAME_FLOAT}		{ fprintf_s(yyout, "float "); return NAME_FLOAT; }
-{NAME_CHAR}			{ fprintf_s(yyout, "char "); return NAME_CHAR; }
-{NAME_STRING}		{ fprintf_s(yyout, "string "); return NAME_STRING; }
-{NAME_LOGIC}		{ fprintf_s(yyout, "bool "); return NAME_LOGIC; }
+{NAME_INTEGER}					{ fprintf_s(yyout, "int "); return NAME_INTEGER; }
+{NAME_FLOAT}					{ fprintf_s(yyout, "float "); return NAME_FLOAT; }
+{NAME_CHAR}						{ fprintf_s(yyout, "char "); return NAME_CHAR; }
+{NAME_STRING}					{ fprintf_s(yyout, "string "); return NAME_STRING; }
+{NAME_LOGIC}					{ fprintf_s(yyout, "bool "); return NAME_LOGIC; }
 
-{LOGIC}				{ fprintf_s(yyout, "Bool ");   return LOGIC; }
-{NAME_RETURN}		{ fprintf_s(yyout, " return ");   return NAME_RETURN; }
+{LOGIC}							{ fprintf_s(yyout, "Bool ");   return LOGIC; }
+{NAME_RETURN}					{ fprintf_s(yyout, " return ");   return NAME_RETURN; }
 
-{PREFIX_SIGNED}			{ fprintf_s(yyout, "signed ");   return PREFIX_SIGNED; }
-{PREFIX_UNSIGNED}		{ fprintf_s(yyout, "unsigned ");   return PREFIX_UNSIGNED; }
-{PREFIX_LONG}			{ fprintf_s(yyout, "long ");   return PREFIX_LONG; }
+{PREFIX_SIGNED}					{ fprintf_s(yyout, "signed ");   return PREFIX_SIGNED; }
+{PREFIX_UNSIGNED}				{ fprintf_s(yyout, "unsigned ");   return PREFIX_UNSIGNED; }
+{PREFIX_LONG}					{ fprintf_s(yyout, "long ");   return PREFIX_LONG; }
 
 
 {PREFIX_CONST}					{ fprintf_s(yyout, "const ");   return PREFIX_CONST; }
@@ -298,7 +298,7 @@ UNDERSCORE_SYMBOL		"_"
 {ELSE_OPERATOR}					{ fprintf_s(yyout, "else ");   return ELSE_OPERATOR; }
 {SWITCH_OPERATOR}				{ fprintf_s(yyout, "switch ");   return SWITCH_OPERATOR; }
 {CASE_OPERATOR}					{ fprintf_s(yyout, "case ");   return CASE_OPERATOR; }
-{CASE_ENUMERATOR}					{ fprintf_s(yyout, " case_enumerator ");   return CASE_ENUMERATOR; }
+{CASE_ENUMERATOR}				{ fprintf_s(yyout, " case_enumerator ");   return CASE_ENUMERATOR; }
 
 {WHILE_OPERATOR}				{ fprintf_s(yyout, "while ");   return WHILE_OPERATOR; }
 {DO_OPERATOR}					{ fprintf_s(yyout, "do ");   return DO_OPERATOR; }
@@ -311,9 +311,7 @@ UNDERSCORE_SYMBOL		"_"
 {START_LIST_ARGUMENTS}			{ fprintf_s(yyout, "START_LIST_ARGUMENTS ");   return START_LIST_ARGUMENTS; }
 {END_LIST_ARGUMENTS}			{ fprintf_s(yyout, "END_LIST_ARGUMENTS ");   return END_LIST_ARGUMENTS; }
 
-("tchau"|"bye")"\n"   { return BYE; /* TODO : delete */}
-
-([ \t\n]+)	/* skip */;
+([ \t\n]+)						/* skip */;
 
 
 %%
@@ -339,16 +337,7 @@ int main(int argc, char *argv[])
 	{
 		return 1;
 	}
-	//ParseFile("text1.txt", "out1.txt");
-	//ParseFile("Literal1.txt", "outLiteral1.txt");
 
-	//ParseFile("Tests\\Identifier.txt", "Tests\\Output\\OutputIdentifier.txt");
-	//ParseFile("Tests\\Types.txt", "Tests\\Output\\OutputTypes.txt");
-	//ParseFile("Tests\\Functions.txt", "Tests\\Output\\OutputFunctions.txt");
-	//ParseFile("Tests\\Conditions.txt", "Tests\\Output\\OutputConditions.txt");
-
-	//ParseFile("Tests\\Syntax\\Numbers.txt", "Tests\\OutputSyntax\\OutputNumbers.txt");
-	//ParseFile("Tests\\Syntax\\Loops.txt", "Tests\\OutputSyntax\\OutputLoops.txt");
 	ParseFile(argv[1], argv[2]);
 
 	return 0;

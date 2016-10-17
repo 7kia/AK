@@ -119,9 +119,10 @@ extern FILE *yyout;
 %%
 
 program: 
-        Function_block {	fclose(yyout);
-												return;
-												}
+        Function_block	{	
+							fclose(yyout);
+							return;
+						}
         ;
 
 
@@ -244,7 +245,7 @@ Right_bool_expression_part : /* nothing */ | Bool_signs Bool_expression ;
 */
 
 Value:
-		Call_function | Variable  | Literal /* TODO : add <Call function> | <variable>   | <expression> | */
+		Call_function | Variable  | Literal /* TODO : add  <expression> | */
 	;
 
 Assign_for_variable:
