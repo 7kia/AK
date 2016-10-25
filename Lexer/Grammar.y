@@ -4,9 +4,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+// TODO : YYSTYPE - it is token
+#define YYSTYPE double
+
 extern int yylex();
 extern FILE *yyin;
 extern FILE *yyout;
+extern FILE *yyOutId;
 
 %}
 
@@ -120,7 +124,7 @@ extern FILE *yyout;
 
 program: 
         Function_block	{	
-							fclose(yyout);
+							fclose(yyOutId);
 							return;
 						}
         ;
@@ -136,9 +140,9 @@ program:
 ////////////////////////////////////////////////////////////////////
 */
 commandBlock:
-		START_BLOCK							{   fprintf_s(yyout, "\n==Start block code==\n");   }
+		START_BLOCK							{   fprintf_s(yyOutId, "\n==Start block code==\n");   }
 		commands
-		END_BLOCK							{ 	fprintf_s(yyout, "==End block code==\n"); } /* TODO : see need delete fclose()*/
+		END_BLOCK							{ 	fprintf_s(yyOutId, "==End block code==\n"); } /* TODO : see need delete fclose()*/
 		;
 
 
@@ -256,9 +260,9 @@ Assigns : PLUS_ASSIGN | MINUS_ASSIGN | MULTIPLY_ASSIGN | DIVIDE_ASSIGN | PERCENT
 
 /*----------------------------*/
 Init_list_values		: 
-				START_BLOCK { fprintf_s(yyout, "\nStart Init_list_values ");  }
+				START_BLOCK { fprintf_s(yyOutId, "\nStart Init_list_values ");  }
 				Value_in_list Another_values_in_list 				
-				END_BLOCK { fprintf_s(yyout, "\nEnd Init_list_values ");  }
+				END_BLOCK { fprintf_s(yyOutId, "\nEnd Init_list_values ");  }
 				;
 
 Value_in_list	:	Value | Init_list_values ;
@@ -302,8 +306,8 @@ Function_init :
 Function_main : 
 				Type_initialization NAME_MAIN_FUNCTION List_arguments commandBlock 
 				{	
-				 	fprintf_s(yyout, "\n End main() \n");
-					fclose(yyout);
+				 	fprintf_s(yyOutId, "\n End main() \n");
+					fclose(yyOutId);
 					return;
 				}
 				/* TODO : add separator */

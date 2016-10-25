@@ -2,6 +2,10 @@ signed int main()
 {
 //
 
+//
+// one_string_comment
+//
+
 /**/
 
 /*

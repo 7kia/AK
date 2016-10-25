@@ -35,10 +35,10 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="Grammar.c">
+    <ClCompile Include="lexer.c">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="lexer.c">
+    <ClCompile Include="Grammar.c">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>

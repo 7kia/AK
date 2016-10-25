@@ -30,6 +30,9 @@
     <ClInclude Include="Lexer.h">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
+    <ClInclude Include="Token.h">
+      <Filter>Файлы исходного кода</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -43,11 +46,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Grammar.y">
-      <Filter>Файлы исходного кода</Filter>
-    </None>
     <None Include="Lexer.l">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Grammar.y">
+      <Filter>Файлы ресурсов</Filter>
     </None>
   </ItemGroup>
 </Project>

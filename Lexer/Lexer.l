@@ -7,6 +7,8 @@
 extern int yylex();
 extern FILE *yyin;
 extern FILE *yyout;
+FILE *yyOutId = nullptr;
+
 #include "Lexer.h"
 #include "Grammar.h"
 
@@ -227,107 +229,108 @@ CASE_ENUMERATOR			":"
 UNDERSCORE_SYMBOL		"_"
 
 %%
-{MULTI_STRING_COMMENT}			{ fprintf_s(yyout, " Multi string comment \n"); return MULTI_STRING_COMMENT; };
-{ONLY_STRING_COMMENT}			{ fprintf_s(yyout, " Only string comment \n"); return ONLY_STRING_COMMENT; };
+{MULTI_STRING_COMMENT}			{ fprintf_s(yyOutId, " Multi string comment \n"); return MULTI_STRING_COMMENT; };
+{ONLY_STRING_COMMENT}			{ fprintf_s(yyOutId, " Only string comment \n"); return ONLY_STRING_COMMENT; };
 
 
-("main")						{ fprintf_s(yyout, " MAIN_FUNCTION "); return NAME_MAIN_FUNCTION; }
+("main")						{ fprintf_s(yyOutId, " MAIN_FUNCTION "); return NAME_MAIN_FUNCTION; }
 
 {START_BLOCK}					{ return START_BLOCK; }
 {END_BLOCK}						{ return END_BLOCK; }
 
-{INT}							{ fprintf_s(yyout, "Integer "); return INT; }
-{FLOAT}							{ fprintf_s(yyout, "Float "); return FLOAT; }
+{INT}							{ fprintf_s(yyOutId, "Integer "); return INT; }
+{FLOAT}							{ fprintf_s(yyOutId, "Float "); return FLOAT; }
 
-{PLUS}							{ fprintf_s(yyout, "Plus "); return PLUS; }
-{MINUS}							{ fprintf_s(yyout, "Minus "); return MINUS; }
-{DIVIDE}						{ fprintf_s(yyout, "Divide "); return DIVIDE; }
-{STAR}							{ fprintf_s(yyout, "Star "); return STAR; }
-{PERCENT}						{ fprintf_s(yyout, "Percent "); return PERCENT; }
+{PLUS}							{ fprintf_s(yyOutId, "Plus "); return PLUS; }
+{MINUS}							{ fprintf_s(yyOutId, "Minus "); return MINUS; }
+{DIVIDE}						{ fprintf_s(yyOutId, "Divide "); return DIVIDE; }
+{STAR}							{ fprintf_s(yyOutId, "Star "); return STAR; }
+{PERCENT}						{ fprintf_s(yyOutId, "Percent "); return PERCENT; }
 
-{LESS}							{ fprintf_s(yyout, "Less "); return LESS; }
-{MORE}							{ fprintf_s(yyout, "More "); return MORE; }
-
-
-{NEGATION}						{ fprintf_s(yyout, "Negation "); return NEGATION; }
-{ASSIGN}						{ fprintf_s(yyout, "Assign "); return ASSIGN; }
-
-{PLUS_ASSIGN}					{ fprintf_s(yyout, "+= "); return PLUS_ASSIGN; }
-{MINUS_ASSIGN}					{ fprintf_s(yyout, "-= "); return MINUS_ASSIGN; }
-{MULTIPLY_ASSIGN}				{ fprintf_s(yyout, "*= "); return MULTIPLY_ASSIGN; }
-{DIVIDE_ASSIGN}					{ fprintf_s(yyout, "/= "); return DIVIDE_ASSIGN; }
-{PERCENT_ASSIGN}				{ fprintf_s(yyout, "%= "); return PERCENT_ASSIGN; }
-
-{AMPERSAND}						{ fprintf_s(yyout, "& "); return AMPERSAND; }
-
-{LOGIC_AND}						{ fprintf_s(yyout, "&& "); return LOGIC_AND; }
-{LOGIC_OR}						{ fprintf_s(yyout, "|| "); return LOGIC_OR; }
-{LESS_EQUAL}					{ fprintf_s(yyout, "<= "); return LESS_EQUAL; }
-{MORE_EQUAL}					{ fprintf_s(yyout, ">= "); return MORE_EQUAL; }
-
-{EQUAL}							{ fprintf_s(yyout, "== "); return EQUAL; }
-{NOT_EQUAL}						{ fprintf_s(yyout, "!= "); return NOT_EQUAL; }
-
-";"								{ fprintf_s(yyout, "Command separator \n"); return COMMAND_SEPARATOR; }
-","								{ fprintf_s(yyout, "Variable separator ");  return VARIABLE_SEPARATOR; }
-
-{START_IDENTIFICATION}			{ fprintf_s(yyout, "[ ");  return START_IDENTIFICATION; }
-{END_IDENTIFICATION}			{ fprintf_s(yyout, "] ");  return END_IDENTIFICATION; }
+{LESS}							{ fprintf_s(yyOutId, "Less "); return LESS; }
+{MORE}							{ fprintf_s(yyOutId, "More "); return MORE; }
 
 
-{CHAR}							{ fprintf_s(yyout, "Char "); return CHAR; }
-{STRING}						{ fprintf_s(yyout, "String "); return STRING; }
+{NEGATION}						{ fprintf_s(yyOutId, "Negation "); return NEGATION; }
+{ASSIGN}						{ fprintf_s(yyOutId, "Assign "); return ASSIGN; }
 
-{NAME_INTEGER}					{ fprintf_s(yyout, "int "); return NAME_INTEGER; }
-{NAME_FLOAT}					{ fprintf_s(yyout, "float "); return NAME_FLOAT; }
-{NAME_CHAR}						{ fprintf_s(yyout, "char "); return NAME_CHAR; }
-{NAME_STRING}					{ fprintf_s(yyout, "string "); return NAME_STRING; }
-{NAME_LOGIC}					{ fprintf_s(yyout, "bool "); return NAME_LOGIC; }
+{PLUS_ASSIGN}					{ fprintf_s(yyOutId, "+= "); return PLUS_ASSIGN; }
+{MINUS_ASSIGN}					{ fprintf_s(yyOutId, "-= "); return MINUS_ASSIGN; }
+{MULTIPLY_ASSIGN}				{ fprintf_s(yyOutId, "*= "); return MULTIPLY_ASSIGN; }
+{DIVIDE_ASSIGN}					{ fprintf_s(yyOutId, "/= "); return DIVIDE_ASSIGN; }
+{PERCENT_ASSIGN}				{ fprintf_s(yyOutId, "%= "); return PERCENT_ASSIGN; }
 
-{LOGIC}							{ fprintf_s(yyout, "Bool ");   return LOGIC; }
-{NAME_RETURN}					{ fprintf_s(yyout, " return ");   return NAME_RETURN; }
+{AMPERSAND}						{ fprintf_s(yyOutId, "& "); return AMPERSAND; }
 
-{PREFIX_SIGNED}					{ fprintf_s(yyout, "signed ");   return PREFIX_SIGNED; }
-{PREFIX_UNSIGNED}				{ fprintf_s(yyout, "unsigned ");   return PREFIX_UNSIGNED; }
-{PREFIX_LONG}					{ fprintf_s(yyout, "long ");   return PREFIX_LONG; }
+{LOGIC_AND}						{ fprintf_s(yyOutId, "&& "); return LOGIC_AND; }
+{LOGIC_OR}						{ fprintf_s(yyOutId, "|| "); return LOGIC_OR; }
+{LESS_EQUAL}					{ fprintf_s(yyOutId, "<= "); return LESS_EQUAL; }
+{MORE_EQUAL}					{ fprintf_s(yyOutId, ">= "); return MORE_EQUAL; }
+
+{EQUAL}							{ fprintf_s(yyOutId, "== "); return EQUAL; }
+{NOT_EQUAL}						{ fprintf_s(yyOutId, "!= "); return NOT_EQUAL; }
+
+";"								{ fprintf_s(yyOutId, "Command separator \n"); return COMMAND_SEPARATOR; }
+","								{ fprintf_s(yyOutId, "Variable separator ");  return VARIABLE_SEPARATOR; }
+
+{START_IDENTIFICATION}			{ fprintf_s(yyOutId, "[ ");  return START_IDENTIFICATION; }
+{END_IDENTIFICATION}			{ fprintf_s(yyOutId, "] ");  return END_IDENTIFICATION; }
 
 
-{PREFIX_CONST}					{ fprintf_s(yyout, "const ");   return PREFIX_CONST; }
+{CHAR}							{ fprintf_s(yyOutId, "Char "); return CHAR; }
+{STRING}						{ fprintf_s(yyOutId, "String "); return STRING; }
 
-{IF_OPERATOR}					{ fprintf_s(yyout, "if ");   return IF_OPERATOR; }
-{ELSE_OPERATOR}					{ fprintf_s(yyout, "else ");   return ELSE_OPERATOR; }
-{SWITCH_OPERATOR}				{ fprintf_s(yyout, "switch ");   return SWITCH_OPERATOR; }
-{CASE_OPERATOR}					{ fprintf_s(yyout, "case ");   return CASE_OPERATOR; }
-{CASE_ENUMERATOR}				{ fprintf_s(yyout, " case_enumerator ");   return CASE_ENUMERATOR; }
+{NAME_INTEGER}					{ fprintf_s(yyOutId, "int "); return NAME_INTEGER; }
+{NAME_FLOAT}					{ fprintf_s(yyOutId, "float "); return NAME_FLOAT; }
+{NAME_CHAR}						{ fprintf_s(yyOutId, "char "); return NAME_CHAR; }
+{NAME_STRING}					{ fprintf_s(yyOutId, "string "); return NAME_STRING; }
+{NAME_LOGIC}					{ fprintf_s(yyOutId, "bool "); return NAME_LOGIC; }
 
-{WHILE_OPERATOR}				{ fprintf_s(yyout, "while ");   return WHILE_OPERATOR; }
-{DO_OPERATOR}					{ fprintf_s(yyout, "do ");   return DO_OPERATOR; }
-{FOR_OPERATOR}					{ fprintf_s(yyout, "for ");   return FOR_OPERATOR; }
-{BREAK_OPERATOR}				{ fprintf_s(yyout, "break ");   return BREAK_OPERATOR; }
-{CONTINUE_OPERATOR}				{ fprintf_s(yyout, " continue ");   return CONTINUE_OPERATOR; }
+{LOGIC}							{ fprintf_s(yyOutId, "Bool ");   return LOGIC; }
+{NAME_RETURN}					{ fprintf_s(yyOutId, " return ");   return NAME_RETURN; }
 
-{Identificator}					{ fprintf_s(yyout, "Identificator ");   return Identificator; }
+{PREFIX_SIGNED}					{ fprintf_s(yyOutId, "signed ");   return PREFIX_SIGNED; }
+{PREFIX_UNSIGNED}				{ fprintf_s(yyOutId, "unsigned ");   return PREFIX_UNSIGNED; }
+{PREFIX_LONG}					{ fprintf_s(yyOutId, "long ");   return PREFIX_LONG; }
 
-{START_LIST_ARGUMENTS}			{ fprintf_s(yyout, "START_LIST_ARGUMENTS ");   return START_LIST_ARGUMENTS; }
-{END_LIST_ARGUMENTS}			{ fprintf_s(yyout, "END_LIST_ARGUMENTS ");   return END_LIST_ARGUMENTS; }
+
+{PREFIX_CONST}					{ fprintf_s(yyOutId, "const ");   return PREFIX_CONST; }
+
+{IF_OPERATOR}					{ fprintf_s(yyOutId, "if ");   return IF_OPERATOR; }
+{ELSE_OPERATOR}					{ fprintf_s(yyOutId, "else ");   return ELSE_OPERATOR; }
+{SWITCH_OPERATOR}				{ fprintf_s(yyOutId, "switch ");   return SWITCH_OPERATOR; }
+{CASE_OPERATOR}					{ fprintf_s(yyOutId, "case ");   return CASE_OPERATOR; }
+{CASE_ENUMERATOR}				{ fprintf_s(yyOutId, " case_enumerator ");   return CASE_ENUMERATOR; }
+
+{WHILE_OPERATOR}				{ fprintf_s(yyOutId, "while ");   return WHILE_OPERATOR; }
+{DO_OPERATOR}					{ fprintf_s(yyOutId, "do ");   return DO_OPERATOR; }
+{FOR_OPERATOR}					{ fprintf_s(yyOutId, "for ");   return FOR_OPERATOR; }
+{BREAK_OPERATOR}				{ fprintf_s(yyOutId, "break ");   return BREAK_OPERATOR; }
+{CONTINUE_OPERATOR}				{ fprintf_s(yyOutId, " continue ");   return CONTINUE_OPERATOR; }
+
+{Identificator}					{ fprintf_s(yyOutId, "Identificator ");   return Identificator; }
+
+{START_LIST_ARGUMENTS}			{ fprintf_s(yyOutId, "START_LIST_ARGUMENTS ");   return START_LIST_ARGUMENTS; }
+{END_LIST_ARGUMENTS}			{ fprintf_s(yyOutId, "END_LIST_ARGUMENTS ");   return END_LIST_ARGUMENTS; }
 
 ([ \t\n]+)						/* skip */;
 
 
 %%
 
-void ParseFile(const char* inputFileName, const char* outputFileName)
+void ParseFile(const char* inputFileName, const char* outputFileName, const char* outputIdFileName)
 {
-	fopen_s(&yyout, outputFileName, "w");
+	fopen_s(&yyOutId, outputFileName, "w");
+	fopen_s(&yyout, outputIdFileName, "w");
 
 	fopen_s(&yyin, inputFileName, "r");
 	yyparse();
 
 	fclose(yyin);
-	fclose(yyout);
+	fclose(yyOutId);
 }
 
-static const int AMOUNT_ARGUMENTS = 3;
+static const int AMOUNT_ARGUMENTS = 4;
 
 
 int main(int argc, char *argv[])
@@ -338,7 +341,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	ParseFile(argv[1], argv[2]);
+	ParseFile(argv[1], argv[2], argv[3]);
 
 	return 0;
 }
@@ -351,5 +354,5 @@ int yywrap(void)
 
 void yyerror (const char *s)  /* вызывается yyparse в случае ошибки */
 {
-    fprintf_s(yyout, s);
+    fprintf_s(yyOutId, s);
 }

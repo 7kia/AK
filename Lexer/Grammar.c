@@ -72,9 +72,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+// TODO : YYSTYPE - it is token
+#define YYSTYPE double
+
 extern int yylex();
 extern FILE *yyin;
 extern FILE *yyout;
+extern FILE *yyOutId;
 
 
 
@@ -520,21 +524,21 @@ static const yytype_int16 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   122,   122,   139,   139,   146,   146,   150,   150,   150,
-     154,   154,   154,   154,   154,   154,   154,   158,   172,   172,
-     172,   176,   176,   181,   182,   183,   184,   187,   188,   188,
-     189,   189,   190,   190,   191,   191,   193,   193,   200,   200,
-     206,   206,   208,   208,   208,   208,   208,   209,   211,   211,
-     213,   213,   213,   213,   213,   213,   213,   213,   214,   214,
-     224,   224,   248,   248,   248,   252,   255,   255,   255,   255,
-     255,   255,   259,   259,   264,   264,   266,   266,   269,   269,
-     270,   270,   274,   278,   279,   280,   280,   281,   281,   285,
-     297,   297,   300,   303,   314,   316,   317,   317,   319,   327,
-     327,   330,   332,   333,   333,   334,   335,   335,   337,   338,
-     340,   341,   341,   342,   343,   343,   344,   355,   355,   355,
-     357,   358,   360,   362,   364,   365,   366,   367,   367,   370,
-     370,   381,   384,   384,   385,   385,   392,   395,   395,   396,
-     396,   398,   400,   400,   402
+       0,   126,   126,   143,   143,   150,   150,   154,   154,   154,
+     158,   158,   158,   158,   158,   158,   158,   162,   176,   176,
+     176,   180,   180,   185,   186,   187,   188,   191,   192,   192,
+     193,   193,   194,   194,   195,   195,   197,   197,   204,   204,
+     210,   210,   212,   212,   212,   212,   212,   213,   215,   215,
+     217,   217,   217,   217,   217,   217,   217,   217,   218,   218,
+     228,   228,   252,   252,   252,   256,   259,   259,   259,   259,
+     259,   259,   263,   263,   268,   268,   270,   270,   273,   273,
+     274,   274,   278,   282,   283,   284,   284,   285,   285,   289,
+     301,   301,   304,   307,   318,   320,   321,   321,   323,   331,
+     331,   334,   336,   337,   337,   338,   339,   339,   341,   342,
+     344,   345,   345,   346,   347,   347,   348,   359,   359,   359,
+     361,   362,   364,   366,   368,   369,   370,   371,   371,   374,
+     374,   385,   388,   388,   389,   389,   396,   399,   399,   400,
+     400,   402,   404,   404,   406
 };
 #endif
 
@@ -1614,36 +1618,36 @@ yyreduce:
         case 2:
 
     {	
-							fclose(yyout);
+							fclose(yyOutId);
 							return;
 						;}
     break;
 
   case 3:
 
-    {   fprintf_s(yyout, "\n==Start block code==\n");   ;}
+    {   fprintf_s(yyOutId, "\n==Start block code==\n");   ;}
     break;
 
   case 4:
 
-    { 	fprintf_s(yyout, "==End block code==\n"); ;}
+    { 	fprintf_s(yyOutId, "==End block code==\n"); ;}
     break;
 
   case 72:
 
-    { fprintf_s(yyout, "\nStart Init_list_values ");  ;}
+    { fprintf_s(yyOutId, "\nStart Init_list_values ");  ;}
     break;
 
   case 73:
 
-    { fprintf_s(yyout, "\nEnd Init_list_values ");  ;}
+    { fprintf_s(yyOutId, "\nEnd Init_list_values ");  ;}
     break;
 
   case 93:
 
     {	
-				 	fprintf_s(yyout, "\n End main() \n");
-					fclose(yyout);
+				 	fprintf_s(yyOutId, "\n End main() \n");
+					fclose(yyOutId);
 					return;
 				;}
     break;
