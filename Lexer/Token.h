@@ -2,6 +2,7 @@
 
 #include "Grammar.h"
 #include <assert.h>
+#include <string>
 
 class SToken
 {
@@ -9,6 +10,7 @@ public:
 	SToken();
 	~SToken();
 	SToken(const SToken &token);
+	SToken& operator=(const SToken &token);// TODO: check correctness
 //////////////////////////////////////////////////////////////////////
 // Data
 public:

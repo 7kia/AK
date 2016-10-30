@@ -474,11 +474,10 @@ char *yytext;
 extern int yylex();
 extern FILE *yyin;
 extern FILE *yyout;
-FILE *yyOutId = 0;
+FILE *yyOutId = nullptr;
 
 #include "Lexer.h"
 #include "Grammar.h"
-
 /*
 ////////////////////////////////////////////////////////////////////
 //
@@ -1646,7 +1645,7 @@ FILE *file;
 #if YY_NEVER_INTERACTIVE
 	b->yy_is_interactive = 0;
 #else
-	b->yy_is_interactive = file ? (isatty( _fileno(file) ) > 0) : 0;
+	b->yy_is_interactive = file ? (isatty( fileno(file) ) > 0) : 0;
 #endif
 #endif
 	}

@@ -14,6 +14,39 @@ extern FILE *yyOutId;
 
 %}
 
+/*
+//
+//
+///////////////////////////////////////////
+//
+//
+//
+*/
+/*** yacc/bison Declarations ***/
+
+/* Require bison 2.3 or later */
+%require "2.3"
+
+/* add debug output code to generated parser. disable this for release
+ * versions. */
+%debug
+
+
+
+/* write out a header file containing the token defines */
+%defines
+
+/* use newer C++ skeleton file */
+%skeleton "lalr1.cc" 
+/*
+//
+//
+///////////////////////////////////////////
+//
+//
+//
+*/
+
 %token BYE
 %token NAME_MAIN_FUNCTION
 

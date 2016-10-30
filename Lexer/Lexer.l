@@ -11,7 +11,6 @@ FILE *yyOutId = nullptr;
 
 #include "Lexer.h"
 #include "Grammar.h"
-
 %}
 
 /*

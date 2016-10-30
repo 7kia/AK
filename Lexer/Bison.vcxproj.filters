@@ -33,13 +33,19 @@
     <ClInclude Include="Token.h">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
-    <ClInclude Include="CalcParser.h">
-      <Filter>Файлы исходного кода</Filter>
-    </ClInclude>
     <ClInclude Include="Compile.h">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
     <ClInclude Include="Converter.h">
+      <Filter>Файлы исходного кода</Filter>
+    </ClInclude>
+    <ClInclude Include="location.hh">
+      <Filter>Файлы исходного кода</Filter>
+    </ClInclude>
+    <ClInclude Include="position.hh">
+      <Filter>Файлы исходного кода</Filter>
+    </ClInclude>
+    <ClInclude Include="stack.hh">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
   </ItemGroup>
@@ -51,9 +57,6 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="Grammar.c">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="CalcParser.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="Compile.cpp">
