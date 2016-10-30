@@ -12,66 +12,7 @@ extern FILE *yyin;
 extern FILE *yyout;
 extern FILE *yyOutId;
 
-
-#include "driver.h"
-#include "Lexer.h"
-
-/* this "connects" the bison parser in the driver to the flex scanner class
- * object. it defines the yylex() function call to pull the next token from the
- * current lexer object of the driver context. */
-#undef yylex
-#define yylex driver.lexer->lex
-
 %}
-
-/*** yacc/bison Declarations ***/
-
-/* Require bison 2.3 or later */
-%require "2.3"
-
-/* add debug output code to generated parser. disable this for release
- * versions. */
-%debug
-
-/* start symbol is named "start" */
-%start program
-
-/* write out a header file containing the token defines */
-%defines
-
-/* use newer C++ skeleton file */
-%skeleton "lalr1.cc"
-
-/* namespace to enclose parser in */
-%name-prefix="example"
-
-/* set the parser's class identifier */
-%define "parser_class_name" "Parser"
-
-/* keep track of the current position within the input */
-%locations
-%initial-action
-{
-    // initialize the initial location object
-    @$.begin.filename = @$.end.filename = &driver.streamname;
-};
-
-/* The driver is passed by reference to the parser and to the scanner. This
- * provides a simple but effective pure interface, not relying on global
- * variables. */
-%parse-param { class Driver& driver }
-
-/* verbose error messages */
-%error-verbose
-
-/*
-//
-//
-///////////////////////////////////////////
-//
-//
-//
-*/
 
 %token BYE
 %token NAME_MAIN_FUNCTION
@@ -463,17 +404,3 @@ Call_function : Function_name List_values;
 Function_implementation : Function_main | Function_init commandBlock ;
 
 Return_function : NAME_RETURN Value;
-
- /*** 
- ================================================================================================================================
- END EXAMPLE - Change the example grammar rules above 
- ================================================================================================================================
- ***/
-
-%% /*** Additional Code ***/
-
-void example::Parser::error(const Parser::location_type& l,
-			    const std::string& m)
-{
-    driver.error(l, m);
-}

@@ -12,7 +12,7 @@ CConverter::CConverter()
 {
 }
 
-SToken CConverter::Convert(yytokentype id, const std::string & data)
+SToken CConverter::Convert(TokenType id, const std::string & data)
 {
 	m_sources = data;
 	m_peep = m_sources;
@@ -48,18 +48,18 @@ SToken CConverter::Convert(yytokentype id, const std::string & data)
 			}
 		}
 
-		result.id = yytokentype::FLOAT;
+		result.id = TokenType::FLOAT;
 		return result;
 	}
 	else if (!intValue.empty())
 	{
 
 		result.stringValue = intValue;
-		result.id = yytokentype::INT;
+		result.id = TokenType::INT;
 		return result;
 	}
 	//}
-	result.id = yytokentype::BYE;
+	result.id = TokenType::BYE;
 	assert(false);
 	return result;
 }

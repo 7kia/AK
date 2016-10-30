@@ -45,13 +45,13 @@
 
 
 
-namespace yy {
+namespace example {
 
   class position;
   class location;
 
 
-} // yy
+} // example
 
 
 #include "location.hh"
@@ -66,7 +66,7 @@ namespace yy {
 # undef YYERROR_VERBOSE
 # define YYERROR_VERBOSE 1
 #else
-# define YYERROR_VERBOSE 0
+# define YYERROR_VERBOSE 1
 #endif
 
 /* Enabling the token table.  */
@@ -95,11 +95,11 @@ do {							\
 
 
 
-namespace yy {
+namespace example {
 
 
   /// A Bison parser.
-  class parser
+  class Parser
   {
   public:
     /// Symbol semantic values.
@@ -186,8 +186,8 @@ namespace yy {
     typedef token::yytokentype token_type;
 
     /// Build a parser object.
-    parser ();
-    virtual ~parser ();
+    Parser (class Driver& driver_yyarg);
+    virtual ~Parser ();
 
     /// Parse.
     /// \returns  0 iff parsing succeeded.
@@ -216,7 +216,7 @@ namespace yy {
     /// Generate an error message.
     /// \param state   the state where the error occurred.
     /// \param tok     the lookahead token.
-    virtual std::string yysyntax_error_ (int yystate);
+    virtual std::string yysyntax_error_ (int yystate, int tok);
 
 #if YYDEBUG
     /// \brief Report a symbol value on the debug stream.
@@ -345,10 +345,12 @@ namespace yy {
     static const unsigned int yyuser_token_number_max_;
     static const token_number_type yyundef_token_;
 
+    /* User arguments.  */
+    class Driver& driver;
   };
 
 
-} // yy
+} // example
 
 
 

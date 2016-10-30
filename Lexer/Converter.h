@@ -13,7 +13,7 @@ class CConverter
 public:
     CConverter();// TODO : see need it
 
-	SToken		Convert(yytokentype id, const std::string &data);
+	SToken		Convert(TokenType id, const std::string &data);
 	bool		IsEndLine() const;
 private:
 	std::string							ParseInt();

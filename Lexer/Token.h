@@ -4,6 +4,9 @@
 #include <assert.h>
 #include <string>
 
+using TokenType = example::Parser::token_type;
+
+
 class SToken
 {
 public:
@@ -17,7 +20,7 @@ public:
     // position in source code.
     size_t position = 0;
 
-	yytokentype id;
+	TokenType id;
 	union
 	{
 		// token value (always 0 for most tokens).

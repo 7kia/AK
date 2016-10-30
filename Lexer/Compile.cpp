@@ -20,16 +20,16 @@ void CCompile::Add(SToken token)
 	switch (token.id)
 	{
 
-	case INT:
+	case TokenType::INT:
 		assert(false);
 		break;
-	case FLOAT:
+	case TokenType::FLOAT:
 		m_output << " Float = " << token.doubleValue << std::endl;
 		break;
-	case CHAR:
+	case TokenType::CHAR:
 		assert(false);
 		break;
-	case STRING:
+	case TokenType::STRING:
 		assert(false);
 		break;
 

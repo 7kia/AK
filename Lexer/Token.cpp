@@ -18,17 +18,17 @@ SToken::SToken(const SToken & token)
 	switch (id)
 	{
 
-	case yy::parser::token_type::INT:
+	case TokenType::INT:
 		assert(false);
 		break;
-	case FLOAT:
+	case TokenType::FLOAT:
 		doubleValue = token.doubleValue;
 		break;
 
-	case CHAR:
+	case TokenType::CHAR:
 		assert(false);
 		break;
-	case STRING:
+	case TokenType::STRING:
 		assert(false);
 		break;
 	
@@ -47,17 +47,17 @@ SToken& SToken::operator=(const SToken & token)
 	switch (id)
 	{
 
-	case INT:
+	case TokenType::INT:
 		assert(false);
 		break;
-	case FLOAT:
+	case TokenType::FLOAT:
 		doubleValue = token.doubleValue;
 		break;
 
-	case CHAR:
+	case TokenType::CHAR:
 		assert(false);
 		break;
-	case STRING:
+	case TokenType::STRING:
 		assert(false);
 		break;
 
