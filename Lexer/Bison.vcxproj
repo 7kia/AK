@@ -153,6 +153,7 @@
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="location.hh" />
     <ClInclude Include="position.hh" />
+    <ClInclude Include="scanner.h" />
     <ClInclude Include="stack.hh" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

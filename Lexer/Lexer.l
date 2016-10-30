@@ -8,7 +8,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+extern FILE *yyin;
+extern FILE *yyout;
+FILE *yyOutId = nullptr;
+
 #include "Grammar.h"
+#include "scanner.h"
 
 /* import the parser's token type into a local typedef */
 typedef example::Parser::token token;
@@ -61,7 +66,6 @@ using namespace std;
     yylloc->step();
 %}
 
- /*** BEGIN EXAMPLE - Change the example lexer rules below ***/
 
 [0-9]+ {
     yylval->integerVal = atoi(yytext);
@@ -96,7 +100,17 @@ using namespace std;
 
  /*** END EXAMPLE - Change the example lexer rules above ***/
 
-%% /*** Additional Code ***/
+%% 
+
+/*
+//
+//
+//
+//Additional Code
+//
+//
+//
+*/
 
 namespace example {
 
