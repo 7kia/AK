@@ -286,23 +286,63 @@ UNDERSCORE_SYMBOL		"_"
 {MULTI_STRING_COMMENT}	 
 {
 	fprintf_s(yyOutId, " Multi string comment \n");
-    yylval->integerVal = atoi(yytext);
+    yylval->stringVal = std::string(yytext, yyleng);
     return token::MULTI_STRING_COMMENT;
 }
 
-{ONLY_STRING_COMMENT}			{ fprintf_s(yyOutId, " Only string comment \n"); return ONLY_STRING_COMMENT; };
+{ONLY_STRING_COMMENT}
+{
+	fprintf_s(yyOutId, " Only string comment \n"); 
+    yylval->stringVal = std::string(yytext, yyleng);
+    return token::ONLY_STRING_COMMENT;
+}
 
 
-("main")						{ fprintf_s(yyOutId, " MAIN_FUNCTION "); return NAME_MAIN_FUNCTION; }
+("main")
+{
+	fprintf_s(yyOutId, " MAIN_FUNCTION ");
+    yylval->stringVal = std::string(yytext, yyleng);
+    return token::NAME_MAIN_FUNCTION;
+}
 
-{START_BLOCK}					{ return START_BLOCK; }
-{END_BLOCK}						{ return END_BLOCK; }
+{START_BLOCK}
+{
+	fprintf_s(yyOutId, "\n==Start block code==\n");
+    yylval->stringVal = std::string(yytext, yyleng);
+    return token::START_BLOCK;
+}
+{END_BLOCK}
+{
+	fprintf_s(yyOutId, "==End block code==\n");
+    yylval->stringVal = std::string(yytext, yyleng);
+    return token::END_BLOCK;
+}
 
-{INT}							{ fprintf_s(yyOutId, "Integer "); return INT; }
-{FLOAT}							{ fprintf_s(yyOutId, "Float "); return FLOAT; }
+{INT}
+{
+	fprintf_s(yyOutId, "Integer ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::INT;
+}
+{FLOAT}
+{
+	fprintf_s(yyOutId, "Float ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::FLOAT;
+}
 
-{PLUS}							{ fprintf_s(yyOutId, "Plus "); return PLUS; }
+{PLUS}
+{
+	fprintf_s(yyOutId, "Plus ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::PLUS;
+}
 {MINUS}							{ fprintf_s(yyOutId, "Minus "); return MINUS; }
+{
+	fprintf_s(yyOutId, "Plus ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::PLUS;
+}
 {DIVIDE}						{ fprintf_s(yyOutId, "Divide "); return DIVIDE; }
 {STAR}							{ fprintf_s(yyOutId, "Star "); return STAR; }
 {PERCENT}						{ fprintf_s(yyOutId, "Percent "); return PERCENT; }
