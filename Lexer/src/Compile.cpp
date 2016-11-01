@@ -1,9 +1,6 @@
-#include "stdafx.h"
-
-
 #include "Compile.h"
-#include "Lexer.h"
-#include "Grammar.h"
+#include "../Lexer.h"
+#include "../Grammar.h"
 
 CCompile::CCompile(std::ostream &output)
 	: m_output(output)

@@ -12,7 +12,11 @@ extern int yylex();
 
 #include "src/driver.h"
 #include "Lexer.h"
+#include "usedFiles.h"
 
+extern std::fstream yyin;
+extern std::ifstream yyout;
+extern std::ifstream yyOutId;
 /* this "connects" the bison parser in the driver to the flex scanner class
  * object. it defines the yylex() function call to pull the next token from the
  * current lexer object of the driver context. */
@@ -194,10 +198,7 @@ extern int yylex();
 %%
 
 program: 
-        Function_block	{	
-							fclose(yyOutId);
-							exit(0);
-						}
+        Function_block	{ exit(0); }
         ;
 
 
@@ -211,9 +212,9 @@ program:
 ////////////////////////////////////////////////////////////////////
 */
 commandBlock:
-		START_BLOCK							{   fprintf_s(yyOutId, "\n==Start block code==\n");   }
+		START_BLOCK
 		commands
-		END_BLOCK							{ 	fprintf_s(yyOutId, "==End block code==\n"); } /* TODO : see need delete fclose()*/
+		END_BLOCK
 		;
 
 
@@ -334,9 +335,9 @@ Assigns : PLUS_ASSIGN | MINUS_ASSIGN | MULTIPLY_ASSIGN | DIVIDE_ASSIGN | PERCENT
 
 /*----------------------------*/
 Init_list_values		: 
-				START_BLOCK { fprintf_s(yyOutId, "\nStart Init_list_values ");  }
+				START_BLOCK { yyOutId << "\nStart Init_list_values ";  }
 				Value_in_list Another_values_in_list 				
-				END_BLOCK { fprintf_s(yyOutId, "\nEnd Init_list_values ");  }
+				END_BLOCK { yyOutId << "\nEnd Init_list_values ";  }
 				;
 
 Value_in_list	:	Value | Init_list_values ;
@@ -380,9 +381,8 @@ Function_init :
 Function_main : 
 				Type_initialization NAME_MAIN_FUNCTION List_arguments commandBlock 
 				{	
-				 	fprintf_s(yyOutId, "\n End main() \n");
-					fclose(yyOutId);
-					exit(0);
+				 	yyOutId << "\n End main() \n";
+					
 				}
 				/* TODO : add separator */
 				;

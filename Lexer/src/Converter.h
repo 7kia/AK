@@ -5,8 +5,8 @@
 #include <map>
 #include <functional>
 #include <boost/utility/string_ref.hpp>
-#include "Grammar.h"
-#include "Token.h"
+#include "../Lexer.h"
+#include "../Token.h"
 
 class CConverter
 {

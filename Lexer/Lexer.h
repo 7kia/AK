@@ -24,6 +24,7 @@
 #endif
 
 #include "Grammar.h"
+#include "usedFiles.h"
 
 namespace example {
 
