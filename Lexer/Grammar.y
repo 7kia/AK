@@ -225,7 +225,10 @@ commands:
 		;
 
 command:
-		ONLY_STRING_COMMENT | MULTI_STRING_COMMENT | commandContent COMMAND_SEPARATOR  /*  TODO : see Rule.txt */
+		ONLY_STRING_COMMENT 
+		| MULTI_STRING_COMMENT 
+		| commandContent 
+		COMMAND_SEPARATOR  /*  TODO : see Rule.txt */
 		;
 
 commandContent:

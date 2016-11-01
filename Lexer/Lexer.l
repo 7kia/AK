@@ -53,8 +53,6 @@ using namespace std;
 %option stack
 
 
-
-
 /*
 ////////////////////////////////////////////////////////////////////
 //
@@ -169,7 +167,7 @@ START_ONE_STRING_COMMENT "//"
 START_MULTI_STRING_COMMENT "\*"
 END_MULTI_STRING_COMMENT "*/"
 
-ONLY_STRING_COMMENT		{START_ONE_STRING_COMMENT}[.]*"\n"
+ONLY_STRING_COMMENT		{START_ONE_STRING_COMMENT}(.)*"\n"
 MULTI_STRING_COMMENT	{START_MULTI_STRING_COMMENT}(.)*|[\n]*{END_MULTI_STRING_COMMENT}
 /* */
 /*  “ипы и их имена  */
@@ -253,13 +251,12 @@ UNDERSCORE_SYMBOL		"_"
 
 
 
-
-
 /* The following paragraph suffices to track locations accurately. Each time
  * yylex is invoked, the begin position is moved onto the end position. */
 %{
 #define YY_USER_ACTION  yylloc->columns(yyleng);
 %}
+
 
 %% /*** Regular Expressions Part ***/
 
@@ -274,14 +271,18 @@ UNDERSCORE_SYMBOL		"_"
 
 {MULTI_STRING_COMMENT}	 
 {
-	/*fprintf(yyOutId, " Multi string comment \n");*/
+	/*
+	fprintf(yyOutId, " Multi string comment \n");
+	*/
     yylval->stringVal = std::string(yytext, yyleng);
     return token::MULTI_STRING_COMMENT;
 }
 
 {ONLY_STRING_COMMENT}
 {
+	/*
 	fprintf_s(yyOutId, " Only string comment \n"); 
+	*/
     yylval->stringVal = std::string(yytext, yyleng);
     return token::ONLY_STRING_COMMENT;
 }
@@ -289,76 +290,114 @@ UNDERSCORE_SYMBOL		"_"
 
 ("main")
 {
+	/*
 	fprintf_s(yyOutId, " MAIN_FUNCTION ");
+	*/
     yylval->stringVal = std::string(yytext, yyleng);
     return token::NAME_MAIN_FUNCTION;
 }
 
 {START_BLOCK}
 {
+	/*
 	fprintf_s(yyOutId, "\n==Start block code==\n");
+	*/
     yylval->stringVal = std::string(yytext, yyleng);
     return token::START_BLOCK;
 }
 {END_BLOCK}
 {
+	/*
 	fprintf_s(yyOutId, "==End block code==\n");
+	*/
     yylval->stringVal = std::string(yytext, yyleng);
     return token::END_BLOCK;
 }
 
 {INT}
 {
+	/*
 	fprintf_s(yyOutId, "Integer ");
+
+	*/
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::INT;
 }
 {FLOAT}
 {
+	/*
 	fprintf_s(yyOutId, "Float ");
+
+	*/
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::FLOAT;
 }
 
 {PLUS}
 {
+	/*
 	fprintf_s(yyOutId, "Plus ");
+
+	*/
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::PLUS;
 }
 {MINUS}
 {
+	
+		/*
 	fprintf_s(yyOutId, "Plus ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::PLUS;
 }
 {DIVIDE}
 {
+		/*
 	fprintf_s(yyOutId, "Divide ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::DIVIDE;
 }
 {STAR}
 {
+		/*
 	fprintf_s(yyOutId, "Star ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::STAR;
 }
 {PERCENT}
 {
+	/*
 	fprintf_s(yyOutId, "Percent ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::PERCENT;
 }
 {LESS}
 {
+	/*
 	fprintf_s(yyOutId, "Less ");
+
+	*/
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::LESS;
 }
 {MORE}
 {
+	/*
 	fprintf_s(yyOutId, "More ");
+
+	*/
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::MORE;
 }
@@ -366,13 +405,21 @@ UNDERSCORE_SYMBOL		"_"
 
 {NEGATION}
 {
+	/*
 	fprintf_s(yyOutId, "Negation ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::NEGATION;
 }
 {ASSIGN}
 {
+	/*
 	fprintf_s(yyOutId, "Assign ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::ASSIGN;
 }
@@ -381,31 +428,51 @@ UNDERSCORE_SYMBOL		"_"
 
 {PLUS_ASSIGN}
 {
+	/*
 	fprintf_s(yyOutId, "+= ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::PLUS_ASSIGN;
 }
 {MINUS_ASSIGN}
 {
+	/*
 	fprintf_s(yyOutId, "-= ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::MINUS_ASSIGN;
 }
 {MULTIPLY_ASSIGN}
 {
+	/*
 	fprintf_s(yyOutId, "*= ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::MULTIPLY_ASSIGN;
 }
 {DIVIDE_ASSIGN}					{ fprintf_s(yyOutId, "/= "); return DIVIDE_ASSIGN; }
 {
+	/*
 	fprintf_s(yyOutId, "/= ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::DIVIDE_ASSIGN;
 }
 {PERCENT_ASSIGN}
 {
+	/*
 	fprintf_s(yyOutId, "%= ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::PERCENT_ASSIGN;
 }
@@ -414,7 +481,11 @@ UNDERSCORE_SYMBOL		"_"
 
 {AMPERSAND}
 {
+	/*
 	fprintf_s(yyOutId, "AMPERSAND ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::AMPERSAND;
 }
@@ -422,25 +493,41 @@ UNDERSCORE_SYMBOL		"_"
 
 {LOGIC_AND}
 {
+	/*
 	fprintf_s(yyOutId, "&& ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::LOGIC_AND;
 }
 {LOGIC_OR}
 {
+	/*
 	fprintf_s(yyOutId, "|| ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::LOGIC_OR;
 }
 {LESS_EQUAL}
 {
+	/*
 	fprintf_s(yyOutId, "<= ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::LESS_EQUAL;
 }
 {MORE_EQUAL}
 {
+	/*
 	fprintf_s(yyOutId, ">= ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::MORE_EQUAL;
 }
@@ -448,13 +535,21 @@ UNDERSCORE_SYMBOL		"_"
 
 {EQUAL}
 {
+	/*
 	fprintf_s(yyOutId, "== ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::EQUAL;
 }
 {NOT_EQUAL}
 {
+	/*
 	fprintf_s(yyOutId, "!= ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::NOT_EQUAL;
 }
@@ -462,13 +557,21 @@ UNDERSCORE_SYMBOL		"_"
 
 ";"
 {
+	/*
 	fprintf_s(yyOutId, "Command separator \n");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::COMMAND_SEPARATOR;
 }
 ","
 {
+	/*
 	fprintf_s(yyOutId, "Variable separator ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::VARIABLE_SEPARATOR;
 }
@@ -477,26 +580,42 @@ UNDERSCORE_SYMBOL		"_"
 
 {START_IDENTIFICATION}
 {
+	/*
 	fprintf_s(yyOutId, "[ ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::START_IDENTIFICATION;
 }
 {END_IDENTIFICATION}
 {
+	/*
 	fprintf_s(yyOutId, "] ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::END_IDENTIFICATION;
 }
 
 {CHAR}
 {
+	/*
 	fprintf_s(yyOutId, "Char ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::CHAR;
 }
 {STRING}
 {
+	/*
 	fprintf_s(yyOutId, "String ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);
     return token::STRING;
 }
@@ -505,31 +624,51 @@ UNDERSCORE_SYMBOL		"_"
 
 {NAME_INTEGER}
 {
+	/*
 	fprintf_s(yyOutId, "int ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::NAME_INTEGER;
 }
 {NAME_FLOAT}
 {
+	/*
 	fprintf_s(yyOutId, "float ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::NAME_FLOAT;
 }
 {NAME_CHAR}
 {
+	/*
 	fprintf_s(yyOutId, "char ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::NAME_CHAR;
 }
 {NAME_STRING}
 {
+	/*
 	fprintf_s(yyOutId, "string ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::NAME_STRING;
 }
 {NAME_LOGIC}
 {
+	/*
 	fprintf_s(yyOutId, "bool ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::NAME_LOGIC;
 }
@@ -538,13 +677,21 @@ UNDERSCORE_SYMBOL		"_"
 
 {LOGIC}
 {
+	/*
 	fprintf_s(yyOutId, "Bool ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::LOGIC;
 }
 {NAME_RETURN}
 {
+	/*
 	fprintf_s(yyOutId, " return ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::NAME_RETURN;
 }
@@ -552,19 +699,31 @@ UNDERSCORE_SYMBOL		"_"
 
 {PREFIX_SIGNED}
 {
+	/*
 	fprintf_s(yyOutId, "signed ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::PREFIX_SIGNED;
 }
 {PREFIX_UNSIGNED}
 {
+	/*
 	fprintf_s(yyOutId, "unsigned ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::PREFIX_UNSIGNED;
 }
 {PREFIX_LONG}
 {
+	/*
 	fprintf_s(yyOutId, "long ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::PREFIX_LONG;
 }
@@ -574,7 +733,11 @@ UNDERSCORE_SYMBOL		"_"
 
 {PREFIX_CONST}
 {
+	/*
 	fprintf_s(yyOutId, "const ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::PREFIX_CONST;
 }
@@ -583,31 +746,51 @@ UNDERSCORE_SYMBOL		"_"
 
 {IF_OPERATOR}
 {
+	/*
 	fprintf_s(yyOutId, "if ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::IF_OPERATOR;
 }
 {ELSE_OPERATOR}
 {
+	/*
 	fprintf_s(yyOutId, "else ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::ELSE_OPERATOR;
 }
 {SWITCH_OPERATOR}
 {
+	/*
 	fprintf_s(yyOutId, "switch ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::SWITCH_OPERATOR;
 }
 {CASE_OPERATOR}
 {
+	/*
 	fprintf_s(yyOutId, "case ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::CASE_OPERATOR;
 }
 {CASE_ENUMERATOR}
 {
+	/*
 	fprintf_s(yyOutId, "case_enumerator ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::CASE_ENUMERATOR;
 }
@@ -616,31 +799,51 @@ UNDERSCORE_SYMBOL		"_"
 
 {WHILE_OPERATOR}
 {
+	/*
 	fprintf_s(yyOutId, "while ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::WHILE_OPERATOR;
 }
 {DO_OPERATOR}
 {
+	/*
 	fprintf_s(yyOutId, "do ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::DO_OPERATOR;
 }
 {FOR_OPERATOR}
 {
+	/*
 	fprintf_s(yyOutId, "for ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::FOR_OPERATOR;
 }
 {BREAK_OPERATOR}
 {
+	/*
 	fprintf_s(yyOutId, "break ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::BREAK_OPERATOR;
 }
 {CONTINUE_OPERATOR}
 {
+	/*
 	fprintf_s(yyOutId, "continue ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::CONTINUE_OPERATOR;
 }
@@ -648,7 +851,11 @@ UNDERSCORE_SYMBOL		"_"
 
 {Identificator}
 {
+	/*
 	fprintf_s(yyOutId, "Identificator ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::Identificator;
 }
@@ -656,13 +863,20 @@ UNDERSCORE_SYMBOL		"_"
 
 {START_LIST_ARGUMENTS}
 {
+	/*
 	fprintf_s(yyOutId, "START_LIST_ARGUMENTS ");
+
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::START_LIST_ARGUMENTS;
 }
 {END_LIST_ARGUMENTS}
 {
+	/*
 	fprintf_s(yyOutId, "END_LIST_ARGUMENTS ");
+	*/
+
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::END_LIST_ARGUMENTS;
 }
