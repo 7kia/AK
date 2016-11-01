@@ -22,7 +22,7 @@
 #undef yyFlexLexer
 #endif
 
-#include "Grammar.h"
+#include "../Grammar.h"
 
 namespace example {
 

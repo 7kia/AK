@@ -3,17 +3,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "usedFiles.h"
 // TODO : YYSTYPE - it is token
 #define YYSTYPE double
 
 extern int yylex();
-extern FILE *yyin;
-extern FILE *yyout;
-extern FILE *yyOutId;
 
 
-#include "driver.h"
+#include "src/driver.h"
 #include "Lexer.h"
 
 /* this "connects" the bison parser in the driver to the flex scanner class
@@ -385,7 +382,7 @@ Function_main :
 				{	
 				 	fprintf_s(yyOutId, "\n End main() \n");
 					fclose(yyOutId);
-					return;
+					exit(0);
 				}
 				/* TODO : add separator */
 				;

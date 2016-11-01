@@ -59,7 +59,7 @@ SToken CConverter::Convert(TokenType id, const std::string & data)
 		return result;
 	}
 	//}
-	result.id = TokenType::BYE;
+	result.id = TokenType::END;
 	assert(false);
 	return result;
 }

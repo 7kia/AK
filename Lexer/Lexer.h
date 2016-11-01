@@ -58,7 +58,5 @@ namespace example {
 
 } // namespace example
 
-
-void ParseFile(const char* inputFileName, const char* outputFileName);
 #endif // EXAMPLE_SCANNER_H
 

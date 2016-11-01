@@ -318,21 +318,6 @@ UNDERSCORE_SYMBOL		"_"
 
 %%
 
-void ParseFile(const char* inputFileName, const char* outputFileName, const char* outputIdFileName)
-{
-	fopen_s(&yyOutId, outputFileName, "w");
-	fopen_s(&yyout, outputIdFileName, "w");
-
-	fopen_s(&yyin, inputFileName, "r");
-	yyparse();
-
-	fclose(yyin);
-	fclose(yyOutId);
-}
-
-static const int AMOUNT_ARGUMENTS = 4;
-
-
 int main(int argc, char *argv[])
 {
 

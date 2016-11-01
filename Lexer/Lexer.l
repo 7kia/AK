@@ -8,10 +8,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-extern FILE *yyin;
-extern FILE *yyout;
-FILE *yyOutId = nullptr;
-
 #include "Grammar.h"
 #include "scanner.h"
 
@@ -266,17 +262,8 @@ UNDERSCORE_SYMBOL		"_"
 
  /*** BEGIN EXAMPLE - Change the example lexer rules below ***/
 
- 	/*
-{ONLY_STRING_COMMENT}
-{
-	/*
-	fprintf_s(yyOutId, " Only string comment \n");
-	TODO : rewrite
-	*/
-    yylval->stringVal = new std::string(yytext, yyleng);
-    return token::ONLY_STRING_COMMENT;
-}
-	*/
+
+
 {MULTI_STRING_COMMENT}	 {
 	/*
 	fprintf(yyOutId, " Multi string comment \n");

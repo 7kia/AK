@@ -16,6 +16,9 @@
     <Filter Include="Файлы ресурсов\buffers">
       <UniqueIdentifier>{c92822ab-8c15-4b4c-acb3-a328ef6aa323}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы исходного кода\src">
+      <UniqueIdentifier>{fbfae5ac-0a4f-4048-ae8f-f7e4d4ab24f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -36,12 +39,6 @@
     <ClInclude Include="Token.h">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
-    <ClInclude Include="Compile.h">
-      <Filter>Файлы исходного кода</Filter>
-    </ClInclude>
-    <ClInclude Include="Converter.h">
-      <Filter>Файлы исходного кода</Filter>
-    </ClInclude>
     <ClInclude Include="location.hh">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
@@ -51,24 +48,30 @@
     <ClInclude Include="stack.hh">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
-    <ClInclude Include="FlexLexer.h">
+    <ClInclude Include="src\Compile.h">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Converter.h">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\driver.h">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scanner.h">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\expression.h">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
-    <ClInclude Include="driver.h">
-      <Filter>Файлы исходного кода</Filter>
-    </ClInclude>
-    <ClInclude Include="scanner.h">
+    <ClInclude Include="usedFiles.h">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="Compile.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="Converter.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="Token.cpp">
@@ -80,7 +83,16 @@
     <ClCompile Include="lexer.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="driver.cc">
+    <ClCompile Include="src\Compile.cpp">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Converter.cpp">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\driver.cc">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
