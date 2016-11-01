@@ -199,7 +199,7 @@ extern FILE *yyOutId;
 program: 
         Function_block	{	
 							fclose(yyOutId);
-							return;
+							exit(0);
 						}
         ;
 

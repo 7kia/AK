@@ -174,8 +174,11 @@
     <ClCompile Include="Token.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="buffer1.l" />
+    <None Include="buffer2.l" />
     <None Include="Grammar.y" />
     <None Include="Lexer.l" />
+    <None Include="Lexer2.l" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

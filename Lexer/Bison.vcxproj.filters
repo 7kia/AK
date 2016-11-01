@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Файлы ресурсов\buffers">
+      <UniqueIdentifier>{c92822ab-8c15-4b4c-acb3-a328ef6aa323}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -87,6 +90,15 @@
     </None>
     <None Include="Grammar.y">
       <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Lexer2.l">
+      <Filter>Файлы ресурсов\buffers</Filter>
+    </None>
+    <None Include="buffer2.l">
+      <Filter>Файлы ресурсов\buffers</Filter>
+    </None>
+    <None Include="buffer1.l">
+      <Filter>Файлы ресурсов\buffers</Filter>
     </None>
   </ItemGroup>
 </Project>

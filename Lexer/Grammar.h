@@ -69,7 +69,7 @@ namespace example {
 
     int  				integerValue;
     double 				doubleValue;
-    std::string*		stringVal;
+    std::string			stringVal;
     
 
 

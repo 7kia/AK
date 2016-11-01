@@ -31,7 +31,7 @@ using namespace std;
 
 %}
 
-/*** Flex Declarations and Options ***/
+/* Flex Declarations and Options ***/
 
 /* enable c++ scanner class generation */
 %option c++
@@ -52,11 +52,8 @@ using namespace std;
 /* enables the use of start condition stacks */
 %option stack
 
-/* The following paragraph suffices to track locations accurately. Each time
- * yylex is invoked, the begin position is moved onto the end position. */
-%{
-#define YY_USER_ACTION  yylloc->columns(yyleng);
-%}
+
+
 
 /*
 ////////////////////////////////////////////////////////////////////
@@ -155,9 +152,9 @@ MORE_EQUAL				">="
 EQUAL					"=="
 NOT_EQUAL				"!="
 /*
-//////////////////////////////
+// ////////////////////////////
 //		Разделители
-//////////////////////////////
+// ////////////////////////////
 */
 COMMAND_SEPARATOR		";"
 VARIABLE_SEPARATOR		","
@@ -174,12 +171,8 @@ END_MULTI_STRING_COMMENT "*/"
 
 ONLY_STRING_COMMENT		{START_ONE_STRING_COMMENT}[.]*"\n"
 MULTI_STRING_COMMENT	{START_MULTI_STRING_COMMENT}(.)*|[\n]*{END_MULTI_STRING_COMMENT}
-/**/
-/*
-//////////////////////////////
-//		Типы и их имена
-//////////////////////////////
-*/
+/* */
+/*  Типы и их имена  */
 CHAR				\'.\'
 STRING				\"(.)*\"
 
@@ -192,11 +185,6 @@ NAME_LOGIC			"bool"
 LOGIC				true|false
 
 NAME_RETURN			"return"
-/*
-//////////////////////////////
-//		Префиксы типов
-//////////////////////////////
-*/
 
 PREFIX_SIGNED			"signed"
 PREFIX_UNSIGNED			"unsigned"
@@ -205,27 +193,16 @@ PREFIX_LONG				"long"
 PREFIX_CONST			"const"
 
 
-/*PREFIX_TYPE			{PREFIX_CONST}?(PREFIX_NUMERIC_TYPES)? */
-
-/* DEFINITION_POINTER	((PREFIX_CONST)?STAR)?; */
-/*
-////////////////////////////////////////////////////////////////////
-//
-// Условия
-//
-////////////////////////////////////////////////////////////////////
-*/
-
 IF_OPERATOR				"if"
 ELSE_OPERATOR			"else"
 SWITCH_OPERATOR			"switch"
 CASE_OPERATOR			"case"
 /*
-////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////
 //
 // Циклы
 //
-////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////
 */
 
 WHILE_OPERATOR			"while"
@@ -235,34 +212,24 @@ BREAK_OPERATOR			"break"
 CONTINUE_OPERATOR		"continue"
 
 /*
-////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////
 //
 //
 //						Типы
 //
 //
-////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////
 */
 
 /*
-////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////
 //
 //
 // Комманды
 //
 //
-////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////
 */
-
-
-%% /*** Regular Expressions Part ***/
-
- /* code to place at the beginning of yylex() */
-%{
-    // reset location
-    yylloc->step();
-%}
-
 
 /*
 //////////////////////////////////
@@ -282,10 +249,32 @@ END_LIST_ARGUMENTS		")"
 CASE_ENUMERATOR			":"
 UNDERSCORE_SYMBOL		"_"
 
-%%
+
+
+
+
+
+
+/* The following paragraph suffices to track locations accurately. Each time
+ * yylex is invoked, the begin position is moved onto the end position. */
+%{
+#define YY_USER_ACTION  yylloc->columns(yyleng);
+%}
+
+%% /*** Regular Expressions Part ***/
+
+ /* code to place at the beginning of yylex() */
+%{
+    // reset location
+    yylloc->step();
+%}
+
+ /*** BEGIN EXAMPLE - Change the example lexer rules below ***/
+
+
 {MULTI_STRING_COMMENT}	 
 {
-	fprintf_s(yyOutId, " Multi string comment \n");
+	/*fprintf(yyOutId, " Multi string comment \n");*/
     yylval->stringVal = std::string(yytext, yyleng);
     return token::MULTI_STRING_COMMENT;
 }
@@ -337,81 +326,347 @@ UNDERSCORE_SYMBOL		"_"
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::PLUS;
 }
-{MINUS}							{ fprintf_s(yyOutId, "Minus "); return MINUS; }
+{MINUS}
 {
 	fprintf_s(yyOutId, "Plus ");
     yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
     return token::PLUS;
 }
-{DIVIDE}						{ fprintf_s(yyOutId, "Divide "); return DIVIDE; }
-{STAR}							{ fprintf_s(yyOutId, "Star "); return STAR; }
-{PERCENT}						{ fprintf_s(yyOutId, "Percent "); return PERCENT; }
+{DIVIDE}
+{
+	fprintf_s(yyOutId, "Divide ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::DIVIDE;
+}
+{STAR}
+{
+	fprintf_s(yyOutId, "Star ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::STAR;
+}
+{PERCENT}
+{
+	fprintf_s(yyOutId, "Percent ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::PERCENT;
+}
+{LESS}
+{
+	fprintf_s(yyOutId, "Less ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::LESS;
+}
+{MORE}
+{
+	fprintf_s(yyOutId, "More ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::MORE;
+}
 
-{LESS}							{ fprintf_s(yyOutId, "Less "); return LESS; }
-{MORE}							{ fprintf_s(yyOutId, "More "); return MORE; }
+
+{NEGATION}
+{
+	fprintf_s(yyOutId, "Negation ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::NEGATION;
+}
+{ASSIGN}
+{
+	fprintf_s(yyOutId, "Assign ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::ASSIGN;
+}
 
 
-{NEGATION}						{ fprintf_s(yyOutId, "Negation "); return NEGATION; }
-{ASSIGN}						{ fprintf_s(yyOutId, "Assign "); return ASSIGN; }
 
-{PLUS_ASSIGN}					{ fprintf_s(yyOutId, "+= "); return PLUS_ASSIGN; }
-{MINUS_ASSIGN}					{ fprintf_s(yyOutId, "-= "); return MINUS_ASSIGN; }
-{MULTIPLY_ASSIGN}				{ fprintf_s(yyOutId, "*= "); return MULTIPLY_ASSIGN; }
+{PLUS_ASSIGN}
+{
+	fprintf_s(yyOutId, "+= ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::PLUS_ASSIGN;
+}
+{MINUS_ASSIGN}
+{
+	fprintf_s(yyOutId, "-= ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::MINUS_ASSIGN;
+}
+{MULTIPLY_ASSIGN}
+{
+	fprintf_s(yyOutId, "*= ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::MULTIPLY_ASSIGN;
+}
 {DIVIDE_ASSIGN}					{ fprintf_s(yyOutId, "/= "); return DIVIDE_ASSIGN; }
-{PERCENT_ASSIGN}				{ fprintf_s(yyOutId, "%= "); return PERCENT_ASSIGN; }
-
-{AMPERSAND}						{ fprintf_s(yyOutId, "& "); return AMPERSAND; }
-
-{LOGIC_AND}						{ fprintf_s(yyOutId, "&& "); return LOGIC_AND; }
-{LOGIC_OR}						{ fprintf_s(yyOutId, "|| "); return LOGIC_OR; }
-{LESS_EQUAL}					{ fprintf_s(yyOutId, "<= "); return LESS_EQUAL; }
-{MORE_EQUAL}					{ fprintf_s(yyOutId, ">= "); return MORE_EQUAL; }
-
-{EQUAL}							{ fprintf_s(yyOutId, "== "); return EQUAL; }
-{NOT_EQUAL}						{ fprintf_s(yyOutId, "!= "); return NOT_EQUAL; }
-
-";"								{ fprintf_s(yyOutId, "Command separator \n"); return COMMAND_SEPARATOR; }
-","								{ fprintf_s(yyOutId, "Variable separator ");  return VARIABLE_SEPARATOR; }
-
-{START_IDENTIFICATION}			{ fprintf_s(yyOutId, "[ ");  return START_IDENTIFICATION; }
-{END_IDENTIFICATION}			{ fprintf_s(yyOutId, "] ");  return END_IDENTIFICATION; }
+{
+	fprintf_s(yyOutId, "/= ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::DIVIDE_ASSIGN;
+}
+{PERCENT_ASSIGN}
+{
+	fprintf_s(yyOutId, "%= ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::PERCENT_ASSIGN;
+}
 
 
-{CHAR}							{ fprintf_s(yyOutId, "Char "); return CHAR; }
-{STRING}						{ fprintf_s(yyOutId, "String "); return STRING; }
 
-{NAME_INTEGER}					{ fprintf_s(yyOutId, "int "); return NAME_INTEGER; }
-{NAME_FLOAT}					{ fprintf_s(yyOutId, "float "); return NAME_FLOAT; }
-{NAME_CHAR}						{ fprintf_s(yyOutId, "char "); return NAME_CHAR; }
-{NAME_STRING}					{ fprintf_s(yyOutId, "string "); return NAME_STRING; }
-{NAME_LOGIC}					{ fprintf_s(yyOutId, "bool "); return NAME_LOGIC; }
-
-{LOGIC}							{ fprintf_s(yyOutId, "Bool ");   return LOGIC; }
-{NAME_RETURN}					{ fprintf_s(yyOutId, " return ");   return NAME_RETURN; }
-
-{PREFIX_SIGNED}					{ fprintf_s(yyOutId, "signed ");   return PREFIX_SIGNED; }
-{PREFIX_UNSIGNED}				{ fprintf_s(yyOutId, "unsigned ");   return PREFIX_UNSIGNED; }
-{PREFIX_LONG}					{ fprintf_s(yyOutId, "long ");   return PREFIX_LONG; }
+{AMPERSAND}
+{
+	fprintf_s(yyOutId, "AMPERSAND ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::AMPERSAND;
+}
 
 
-{PREFIX_CONST}					{ fprintf_s(yyOutId, "const ");   return PREFIX_CONST; }
+{LOGIC_AND}
+{
+	fprintf_s(yyOutId, "&& ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::LOGIC_AND;
+}
+{LOGIC_OR}
+{
+	fprintf_s(yyOutId, "|| ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::LOGIC_OR;
+}
+{LESS_EQUAL}
+{
+	fprintf_s(yyOutId, "<= ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::LESS_EQUAL;
+}
+{MORE_EQUAL}
+{
+	fprintf_s(yyOutId, ">= ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::MORE_EQUAL;
+}
 
-{IF_OPERATOR}					{ fprintf_s(yyOutId, "if ");   return IF_OPERATOR; }
-{ELSE_OPERATOR}					{ fprintf_s(yyOutId, "else ");   return ELSE_OPERATOR; }
-{SWITCH_OPERATOR}				{ fprintf_s(yyOutId, "switch ");   return SWITCH_OPERATOR; }
-{CASE_OPERATOR}					{ fprintf_s(yyOutId, "case ");   return CASE_OPERATOR; }
-{CASE_ENUMERATOR}				{ fprintf_s(yyOutId, " case_enumerator ");   return CASE_ENUMERATOR; }
 
-{WHILE_OPERATOR}				{ fprintf_s(yyOutId, "while ");   return WHILE_OPERATOR; }
-{DO_OPERATOR}					{ fprintf_s(yyOutId, "do ");   return DO_OPERATOR; }
-{FOR_OPERATOR}					{ fprintf_s(yyOutId, "for ");   return FOR_OPERATOR; }
-{BREAK_OPERATOR}				{ fprintf_s(yyOutId, "break ");   return BREAK_OPERATOR; }
-{CONTINUE_OPERATOR}				{ fprintf_s(yyOutId, " continue ");   return CONTINUE_OPERATOR; }
+{EQUAL}
+{
+	fprintf_s(yyOutId, "== ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::EQUAL;
+}
+{NOT_EQUAL}
+{
+	fprintf_s(yyOutId, "!= ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::NOT_EQUAL;
+}
 
-{Identificator}					{ fprintf_s(yyOutId, "Identificator ");   return Identificator; }
 
-{START_LIST_ARGUMENTS}			{ fprintf_s(yyOutId, "START_LIST_ARGUMENTS ");   return START_LIST_ARGUMENTS; }
-{END_LIST_ARGUMENTS}			{ fprintf_s(yyOutId, "END_LIST_ARGUMENTS ");   return END_LIST_ARGUMENTS; }
+";"
+{
+	fprintf_s(yyOutId, "Command separator \n");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::COMMAND_SEPARATOR;
+}
+","
+{
+	fprintf_s(yyOutId, "Variable separator ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::VARIABLE_SEPARATOR;
+}
+
+
+
+{START_IDENTIFICATION}
+{
+	fprintf_s(yyOutId, "[ ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::START_IDENTIFICATION;
+}
+{END_IDENTIFICATION}
+{
+	fprintf_s(yyOutId, "] ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::END_IDENTIFICATION;
+}
+
+{CHAR}
+{
+	fprintf_s(yyOutId, "Char ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::CHAR;
+}
+{STRING}
+{
+	fprintf_s(yyOutId, "String ");
+    yylval->stringVal = std::string(yytext, yyleng);
+    return token::STRING;
+}
+
+
+
+{NAME_INTEGER}
+{
+	fprintf_s(yyOutId, "int ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::NAME_INTEGER;
+}
+{NAME_FLOAT}
+{
+	fprintf_s(yyOutId, "float ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::NAME_FLOAT;
+}
+{NAME_CHAR}
+{
+	fprintf_s(yyOutId, "char ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::NAME_CHAR;
+}
+{NAME_STRING}
+{
+	fprintf_s(yyOutId, "string ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::NAME_STRING;
+}
+{NAME_LOGIC}
+{
+	fprintf_s(yyOutId, "bool ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::NAME_LOGIC;
+}
+
+
+
+{LOGIC}
+{
+	fprintf_s(yyOutId, "Bool ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::LOGIC;
+}
+{NAME_RETURN}
+{
+	fprintf_s(yyOutId, " return ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::NAME_RETURN;
+}
+
+
+{PREFIX_SIGNED}
+{
+	fprintf_s(yyOutId, "signed ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::PREFIX_SIGNED;
+}
+{PREFIX_UNSIGNED}
+{
+	fprintf_s(yyOutId, "unsigned ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::PREFIX_UNSIGNED;
+}
+{PREFIX_LONG}
+{
+	fprintf_s(yyOutId, "long ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::PREFIX_LONG;
+}
+
+
+
+
+{PREFIX_CONST}
+{
+	fprintf_s(yyOutId, "const ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::PREFIX_CONST;
+}
+
+
+
+{IF_OPERATOR}
+{
+	fprintf_s(yyOutId, "if ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::IF_OPERATOR;
+}
+{ELSE_OPERATOR}
+{
+	fprintf_s(yyOutId, "else ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::ELSE_OPERATOR;
+}
+{SWITCH_OPERATOR}
+{
+	fprintf_s(yyOutId, "switch ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::SWITCH_OPERATOR;
+}
+{CASE_OPERATOR}
+{
+	fprintf_s(yyOutId, "case ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::CASE_OPERATOR;
+}
+{CASE_ENUMERATOR}
+{
+	fprintf_s(yyOutId, "case_enumerator ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::CASE_ENUMERATOR;
+}
+
+
+
+{WHILE_OPERATOR}
+{
+	fprintf_s(yyOutId, "while ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::WHILE_OPERATOR;
+}
+{DO_OPERATOR}
+{
+	fprintf_s(yyOutId, "do ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::DO_OPERATOR;
+}
+{FOR_OPERATOR}
+{
+	fprintf_s(yyOutId, "for ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::FOR_OPERATOR;
+}
+{BREAK_OPERATOR}
+{
+	fprintf_s(yyOutId, "break ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::BREAK_OPERATOR;
+}
+{CONTINUE_OPERATOR}
+{
+	fprintf_s(yyOutId, "continue ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::CONTINUE_OPERATOR;
+}
+
+
+{Identificator}
+{
+	fprintf_s(yyOutId, "Identificator ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::Identificator;
+}
+
+
+{START_LIST_ARGUMENTS}
+{
+	fprintf_s(yyOutId, "START_LIST_ARGUMENTS ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::START_LIST_ARGUMENTS;
+}
+{END_LIST_ARGUMENTS}
+{
+	fprintf_s(yyOutId, "END_LIST_ARGUMENTS ");
+    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    return token::END_LIST_ARGUMENTS;
+}
+
 
 ([ \t\n]+)						/* skip */;
 
