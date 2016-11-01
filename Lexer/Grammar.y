@@ -64,6 +64,21 @@ extern FILE *yyOutId;
 /* verbose error messages */
 %error-verbose
 
+
+ /*** BEGIN EXAMPLE - Change the example grammar's tokens below ***/
+/*	
+//
+// There value token 
+//
+*/
+%union {
+
+    int  				integerValue;
+    double 				doubleValue;
+    std::string*		stringVal;
+    
+}
+
 /*
 //
 //

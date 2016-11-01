@@ -62,7 +62,19 @@ namespace example {
   public:
     /// Symbol semantic values.
 #ifndef YYSTYPE
-    typedef int semantic_type;
+    union semantic_type
+    {
+
+
+
+    int  				integerValue;
+    double 				doubleValue;
+    std::string*		stringVal;
+    
+
+
+
+    };
 #else
     typedef YYSTYPE semantic_type;
 #endif
