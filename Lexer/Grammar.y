@@ -88,7 +88,7 @@ extern FILE *yyOutId;
 //
 */
 
-%token BYE
+%token END  0  "end of file"
 %token NAME_MAIN_FUNCTION
 
 %token START_BLOCK

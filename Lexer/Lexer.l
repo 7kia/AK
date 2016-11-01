@@ -168,8 +168,8 @@ START_ONE_STRING_COMMENT "//"
 START_MULTI_STRING_COMMENT "\*"
 END_MULTI_STRING_COMMENT "*/"
 
-ONLY_STRING_COMMENT		{START_ONE_STRING_COMMENT}(.)*"\n"
-MULTI_STRING_COMMENT	{START_MULTI_STRING_COMMENT}(.)*|[\n]*{END_MULTI_STRING_COMMENT}
+ONLY_STRING_COMMENT		{START_ONE_STRING_COMMENT}(.)*[\n]?
+MULTI_STRING_COMMENT	{START_MULTI_STRING_COMMENT}((.)*|[\n]*){END_MULTI_STRING_COMMENT}
 /* */
 /*  “ипы и их имена  */
 CHAR				\'.\'
@@ -266,8 +266,17 @@ UNDERSCORE_SYMBOL		"_"
 
  /*** BEGIN EXAMPLE - Change the example lexer rules below ***/
 
- 
-
+ 	/*
+{ONLY_STRING_COMMENT}
+{
+	/*
+	fprintf_s(yyOutId, " Only string comment \n");
+	TODO : rewrite
+	*/
+    yylval->stringVal = new std::string(yytext, yyleng);
+    return token::ONLY_STRING_COMMENT;
+}
+	*/
 {MULTI_STRING_COMMENT}	 {
 	/*
 	fprintf(yyOutId, " Multi string comment \n");
@@ -276,14 +285,6 @@ UNDERSCORE_SYMBOL		"_"
     return token::MULTI_STRING_COMMENT;
 }
 
-{ONLY_STRING_COMMENT}
-{
-	/*
-	fprintf_s(yyOutId, " Only string comment \n");
-	*/
-    yylval->stringVal = new std::string(yytext, yyleng);
-    return token::ONLY_STRING_COMMENT;
-}
 
 
 "main" {
