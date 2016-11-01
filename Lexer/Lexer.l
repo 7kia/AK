@@ -53,6 +53,7 @@ using namespace std;
 %option stack
 
 
+
 /*
 ////////////////////////////////////////////////////////////////////
 //
@@ -248,9 +249,6 @@ CASE_ENUMERATOR			":"
 UNDERSCORE_SYMBOL		"_"
 
 
-
-
-
 /* The following paragraph suffices to track locations accurately. Each time
  * yylex is invoked, the begin position is moved onto the end position. */
 %{
@@ -268,621 +266,568 @@ UNDERSCORE_SYMBOL		"_"
 
  /*** BEGIN EXAMPLE - Change the example lexer rules below ***/
 
+ 
 
-{MULTI_STRING_COMMENT}	 
-{
+{MULTI_STRING_COMMENT}	 {
 	/*
 	fprintf(yyOutId, " Multi string comment \n");
 	*/
-    yylval->stringVal = std::string(yytext, yyleng);
+    yylval->stringVal = new std::string(yytext, yyleng);
     return token::MULTI_STRING_COMMENT;
 }
 
 {ONLY_STRING_COMMENT}
 {
 	/*
-	fprintf_s(yyOutId, " Only string comment \n"); 
+	fprintf_s(yyOutId, " Only string comment \n");
 	*/
-    yylval->stringVal = std::string(yytext, yyleng);
+    yylval->stringVal = new std::string(yytext, yyleng);
     return token::ONLY_STRING_COMMENT;
 }
 
 
-("main")
-{
+"main" {
 	/*
 	fprintf_s(yyOutId, " MAIN_FUNCTION ");
 	*/
-    yylval->stringVal = std::string(yytext, yyleng);
+    yylval->stringVal = new std::string(yytext, yyleng);
     return token::NAME_MAIN_FUNCTION;
 }
 
-{START_BLOCK}
-{
+{START_BLOCK} {
 	/*
 	fprintf_s(yyOutId, "\n==Start block code==\n");
 	*/
-    yylval->stringVal = std::string(yytext, yyleng);
+    yylval->stringVal = new std::string(yytext, yyleng);
     return token::START_BLOCK;
 }
-{END_BLOCK}
-{
+{END_BLOCK} {
 	/*
 	fprintf_s(yyOutId, "==End block code==\n");
 	*/
-    yylval->stringVal = std::string(yytext, yyleng);
+    yylval->stringVal = new std::string(yytext, yyleng);
     return token::END_BLOCK;
 }
 
-{INT}
-{
+{INT} {
 	/*
 	fprintf_s(yyOutId, "Integer ");
 
 	*/
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::INT;
 }
-{FLOAT}
-{
+{FLOAT} {
 	/*
 	fprintf_s(yyOutId, "Float ");
 
 	*/
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::FLOAT;
 }
 
-{PLUS}
-{
+{PLUS} {
 	/*
 	fprintf_s(yyOutId, "Plus ");
 
 	*/
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::PLUS;
 }
-{MINUS}
-{
+{MINUS} {
 	
 		/*
 	fprintf_s(yyOutId, "Plus ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::PLUS;
 }
-{DIVIDE}
-{
+{DIVIDE} {
 		/*
 	fprintf_s(yyOutId, "Divide ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::DIVIDE;
 }
-{STAR}
-{
+{STAR} {
 		/*
 	fprintf_s(yyOutId, "Star ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::STAR;
 }
-{PERCENT}
-{
+{PERCENT} {
 	/*
 	fprintf_s(yyOutId, "Percent ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::PERCENT;
 }
-{LESS}
-{
+{LESS} {
 	/*
 	fprintf_s(yyOutId, "Less ");
 
 	*/
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::LESS;
 }
-{MORE}
-{
+{MORE} {
 	/*
 	fprintf_s(yyOutId, "More ");
 
 	*/
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::MORE;
 }
 
 
-{NEGATION}
-{
+{NEGATION} {
 	/*
 	fprintf_s(yyOutId, "Negation ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::NEGATION;
 }
-{ASSIGN}
-{
+{ASSIGN} {
 	/*
 	fprintf_s(yyOutId, "Assign ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::ASSIGN;
 }
 
 
 
-{PLUS_ASSIGN}
-{
+{PLUS_ASSIGN} {
 	/*
 	fprintf_s(yyOutId, "+= ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::PLUS_ASSIGN;
 }
-{MINUS_ASSIGN}
-{
+{MINUS_ASSIGN} {
 	/*
 	fprintf_s(yyOutId, "-= ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::MINUS_ASSIGN;
 }
-{MULTIPLY_ASSIGN}
-{
+{MULTIPLY_ASSIGN} {
 	/*
 	fprintf_s(yyOutId, "*= ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::MULTIPLY_ASSIGN;
 }
-{DIVIDE_ASSIGN}					{ fprintf_s(yyOutId, "/= "); return DIVIDE_ASSIGN; }
-{
+{DIVIDE_ASSIGN} {
 	/*
 	fprintf_s(yyOutId, "/= ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::DIVIDE_ASSIGN;
 }
-{PERCENT_ASSIGN}
-{
+{PERCENT_ASSIGN} {
 	/*
 	fprintf_s(yyOutId, "%= ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::PERCENT_ASSIGN;
 }
 
 
 
-{AMPERSAND}
-{
+{AMPERSAND} {
 	/*
 	fprintf_s(yyOutId, "AMPERSAND ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::AMPERSAND;
 }
 
 
-{LOGIC_AND}
-{
+{LOGIC_AND} {
 	/*
 	fprintf_s(yyOutId, "&& ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::LOGIC_AND;
 }
-{LOGIC_OR}
-{
+{LOGIC_OR} {
 	/*
 	fprintf_s(yyOutId, "|| ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::LOGIC_OR;
 }
-{LESS_EQUAL}
-{
+{LESS_EQUAL} {
 	/*
 	fprintf_s(yyOutId, "<= ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::LESS_EQUAL;
 }
-{MORE_EQUAL}
-{
+{MORE_EQUAL} {
 	/*
 	fprintf_s(yyOutId, ">= ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::MORE_EQUAL;
 }
 
 
-{EQUAL}
-{
+{EQUAL} {
 	/*
 	fprintf_s(yyOutId, "== ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::EQUAL;
 }
-{NOT_EQUAL}
-{
+{NOT_EQUAL} {
 	/*
 	fprintf_s(yyOutId, "!= ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::NOT_EQUAL;
 }
 
 
-";"
-{
+";" {
 	/*
 	fprintf_s(yyOutId, "Command separator \n");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::COMMAND_SEPARATOR;
 }
-","
-{
+"," {
 	/*
 	fprintf_s(yyOutId, "Variable separator ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::VARIABLE_SEPARATOR;
 }
 
 
 
-{START_IDENTIFICATION}
-{
+{START_IDENTIFICATION} {
 	/*
 	fprintf_s(yyOutId, "[ ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::START_IDENTIFICATION;
 }
-{END_IDENTIFICATION}
-{
+{END_IDENTIFICATION} {
 	/*
 	fprintf_s(yyOutId, "] ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::END_IDENTIFICATION;
 }
 
-{CHAR}
-{
+{CHAR} {
 	/*
 	fprintf_s(yyOutId, "Char ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::CHAR;
 }
-{STRING}
-{
+{STRING} {
 	/*
 	fprintf_s(yyOutId, "String ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);
+    yylval->stringVal = new std::string(yytext, yyleng);
     return token::STRING;
 }
 
 
 
-{NAME_INTEGER}
-{
+{NAME_INTEGER} {
 	/*
 	fprintf_s(yyOutId, "int ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::NAME_INTEGER;
 }
-{NAME_FLOAT}
-{
+{NAME_FLOAT} {
 	/*
 	fprintf_s(yyOutId, "float ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::NAME_FLOAT;
 }
-{NAME_CHAR}
-{
+{NAME_CHAR} {
 	/*
 	fprintf_s(yyOutId, "char ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::NAME_CHAR;
 }
-{NAME_STRING}
-{
+{NAME_STRING} {
 	/*
 	fprintf_s(yyOutId, "string ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::NAME_STRING;
 }
-{NAME_LOGIC}
-{
+{NAME_LOGIC} {
 	/*
 	fprintf_s(yyOutId, "bool ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::NAME_LOGIC;
 }
 
 
 
-{LOGIC}
-{
+{LOGIC} {
 	/*
 	fprintf_s(yyOutId, "Bool ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::LOGIC;
 }
-{NAME_RETURN}
-{
+{NAME_RETURN} {
 	/*
 	fprintf_s(yyOutId, " return ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::NAME_RETURN;
 }
 
 
-{PREFIX_SIGNED}
-{
+{PREFIX_SIGNED} {
 	/*
 	fprintf_s(yyOutId, "signed ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::PREFIX_SIGNED;
 }
-{PREFIX_UNSIGNED}
-{
+{PREFIX_UNSIGNED} {
 	/*
 	fprintf_s(yyOutId, "unsigned ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::PREFIX_UNSIGNED;
 }
-{PREFIX_LONG}
-{
+{PREFIX_LONG} {
 	/*
 	fprintf_s(yyOutId, "long ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::PREFIX_LONG;
 }
 
 
 
 
-{PREFIX_CONST}
-{
+{PREFIX_CONST} {
 	/*
 	fprintf_s(yyOutId, "const ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::PREFIX_CONST;
 }
 
 
 
-{IF_OPERATOR}
-{
+{IF_OPERATOR} {
 	/*
 	fprintf_s(yyOutId, "if ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::IF_OPERATOR;
 }
-{ELSE_OPERATOR}
-{
+{ELSE_OPERATOR} {
 	/*
 	fprintf_s(yyOutId, "else ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::ELSE_OPERATOR;
 }
-{SWITCH_OPERATOR}
-{
+{SWITCH_OPERATOR} {
 	/*
 	fprintf_s(yyOutId, "switch ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::SWITCH_OPERATOR;
 }
-{CASE_OPERATOR}
-{
+{CASE_OPERATOR} {
 	/*
 	fprintf_s(yyOutId, "case ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::CASE_OPERATOR;
 }
-{CASE_ENUMERATOR}
-{
+{CASE_ENUMERATOR} {
 	/*
 	fprintf_s(yyOutId, "case_enumerator ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::CASE_ENUMERATOR;
 }
 
 
 
-{WHILE_OPERATOR}
-{
+{WHILE_OPERATOR} {
 	/*
 	fprintf_s(yyOutId, "while ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::WHILE_OPERATOR;
 }
-{DO_OPERATOR}
-{
+{DO_OPERATOR} {
 	/*
 	fprintf_s(yyOutId, "do ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::DO_OPERATOR;
 }
-{FOR_OPERATOR}
-{
+{FOR_OPERATOR} {
 	/*
 	fprintf_s(yyOutId, "for ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::FOR_OPERATOR;
 }
-{BREAK_OPERATOR}
-{
+{BREAK_OPERATOR} {
 	/*
 	fprintf_s(yyOutId, "break ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::BREAK_OPERATOR;
 }
-{CONTINUE_OPERATOR}
-{
+{CONTINUE_OPERATOR} {
 	/*
 	fprintf_s(yyOutId, "continue ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::CONTINUE_OPERATOR;
 }
 
 
-{Identificator}
-{
+{Identificator} {
 	/*
 	fprintf_s(yyOutId, "Identificator ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::Identificator;
 }
 
 
-{START_LIST_ARGUMENTS}
-{
+{START_LIST_ARGUMENTS} {
 	/*
 	fprintf_s(yyOutId, "START_LIST_ARGUMENTS ");
 
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::START_LIST_ARGUMENTS;
 }
-{END_LIST_ARGUMENTS}
-{
+{END_LIST_ARGUMENTS} {
 	/*
 	fprintf_s(yyOutId, "END_LIST_ARGUMENTS ");
 	*/
 
-    yylval->stringVal = std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::END_LIST_ARGUMENTS;
 }
 
 
-([ \t\n]+)						/* skip */;
+ /* gobble up white-spaces */
+[ \t\r]+ {
+    yylloc->step();
+}
 
  /*** END EXAMPLE - Change the example lexer rules above ***/
 

@@ -75,7 +75,7 @@ extern FILE *yyOutId;
 
     int  				integerValue;
     double 				doubleValue;
-    std::string			stringVal;
+    std::string*		stringVal;
     
 }
 

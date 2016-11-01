@@ -85,12 +85,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Lexer.l">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
-    <None Include="Grammar.y">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
     <None Include="Lexer2.l">
       <Filter>Файлы ресурсов\buffers</Filter>
     </None>
@@ -99,6 +93,12 @@
     </None>
     <None Include="buffer1.l">
       <Filter>Файлы ресурсов\buffers</Filter>
+    </None>
+    <None Include="Lexer.l">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Grammar.y">
+      <Filter>Файлы ресурсов</Filter>
     </None>
   </ItemGroup>
 </Project>
