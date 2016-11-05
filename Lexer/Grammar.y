@@ -1,5 +1,7 @@
 
 %{
+
+#include "stdafx.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,7 +10,6 @@
 #define YYSTYPE double
 
 extern int yylex();
-
 
 #include "src/driver.h"
 #include "Lexer.h"

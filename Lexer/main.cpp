@@ -1,4 +1,5 @@
 // $Id: exprtest.cc 18 2007-08-19 19:51:52Z tb $
+#include "stdafx.h"
 
 #include <iostream>
 #include <fstream>

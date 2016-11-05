@@ -3,6 +3,7 @@
 
 %{ /*** C/C++ Declarations ***/
 
+
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
@@ -814,6 +815,11 @@ UNDERSCORE_SYMBOL		"_"
 
 [ \t\r]+ {
     yylloc->step();
+}
+
+ /* gobble up end-of-lines */
+\n {
+    yylloc->lines(yyleng); yylloc->step();
 }
 
  /*** END EXAMPLE - Change the example lexer rules above ***/

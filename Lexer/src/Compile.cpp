@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "Compile.h"
 #include "../Lexer.h"
 #include "../Grammar.h"

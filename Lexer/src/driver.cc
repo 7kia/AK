@@ -1,8 +1,11 @@
 // $Id: driver.cc 39 2008-08-03 10:07:15Z tb $
 /** \file driver.cc Implementation of the example::Driver class. */
 
+#include "stdafx.h"
+
 #include <fstream>
 #include <sstream>
+
 
 #include "driver.h"
 #include "scanner.h"
@@ -21,8 +24,8 @@ bool Driver::parse_stream(std::istream& in, const std::string& sname)
 {
     streamname = sname;
 
-	std::fstream outFile(m_outFileName);
-	std::fstream fileIds(m_fileIds);
+	std::ofstream outFile(m_outFileName);
+	std::ofstream fileIds(m_fileIds);
     Scanner scanner(&in, &outFile, &fileIds);
     scanner.set_debug(trace_scanning);
     this->lexer = &scanner;
