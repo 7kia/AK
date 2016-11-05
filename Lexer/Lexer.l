@@ -267,7 +267,7 @@ UNDERSCORE_SYMBOL		"_"
 
 {MULTI_STRING_COMMENT}	 {
 	// TODO : see need write id's 
-	yyOutId <<" Multi string comment \n";
+	*yyOutId <<" Multi string comment \n";
     yylval->stringVal = new std::string(yytext, yyleng);
     return token::MULTI_STRING_COMMENT;
 }
@@ -276,7 +276,7 @@ UNDERSCORE_SYMBOL		"_"
 
 "main" {
 	
-	yyOutId << " MAIN_FUNCTION ";
+	*yyOutId << " MAIN_FUNCTION ";
 	
     yylval->stringVal = new std::string(yytext, yyleng);
     return token::NAME_MAIN_FUNCTION;
@@ -284,14 +284,14 @@ UNDERSCORE_SYMBOL		"_"
 
 {START_BLOCK} {
 	
-	yyOutId << "\n==Start block code==\n";
+	*yyOutId << "\n==Start block code==\n";
 	
     yylval->stringVal = new std::string(yytext, yyleng);
     return token::START_BLOCK;
 }
 {END_BLOCK} {
 	
-	yyOutId << "==End block code==\n";
+	*yyOutId << "==End block code==\n";
 	
     yylval->stringVal = new std::string(yytext, yyleng);
     return token::END_BLOCK;
@@ -299,7 +299,7 @@ UNDERSCORE_SYMBOL		"_"
 
 {INT} {
 	
-	yyOutId << "Integer ";
+	*yyOutId << "Integer ";
 
 	
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
@@ -307,7 +307,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {FLOAT} {
 	
-	yyOutId << "Float ";
+	*yyOutId << "Float ";
 
 	
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
@@ -316,7 +316,7 @@ UNDERSCORE_SYMBOL		"_"
 
 {PLUS} {
 	
-	yyOutId << "Plus ";
+	*yyOutId << "Plus ";
 
 	
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
@@ -325,7 +325,7 @@ UNDERSCORE_SYMBOL		"_"
 {MINUS} {
 	
 		
-	yyOutId << "Plus ";
+	*yyOutId << "Plus ";
 
 	
 
@@ -334,7 +334,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {DIVIDE} {
 		
-	yyOutId << "Divide ";
+	*yyOutId << "Divide ";
 
 	
 
@@ -343,7 +343,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {STAR} {
 		
-	yyOutId << "Star ";
+	*yyOutId << "Star ";
 
 	
 
@@ -352,7 +352,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {PERCENT} {
 	
-	yyOutId << "Percent ";
+	*yyOutId << "Percent ";
 
 	
 
@@ -361,7 +361,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {LESS} {
 	
-	yyOutId << "Less ";
+	*yyOutId << "Less ";
 
 	
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
@@ -369,7 +369,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {MORE} {
 	
-	yyOutId << "More ";
+	*yyOutId << "More ";
 
 	
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
@@ -379,7 +379,7 @@ UNDERSCORE_SYMBOL		"_"
 
 {NEGATION} {
 	
-	yyOutId << "Negation ";
+	*yyOutId << "Negation ";
 
 	
 
@@ -388,7 +388,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {ASSIGN} {
 	
-	yyOutId << "Assign ";
+	*yyOutId << "Assign ";
 
 	
 
@@ -400,7 +400,7 @@ UNDERSCORE_SYMBOL		"_"
 
 {PLUS_ASSIGN} {
 	
-	yyOutId << "+= ";
+	*yyOutId << "+= ";
 
 	
 
@@ -409,7 +409,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {MINUS_ASSIGN} {
 	
-	yyOutId << "-= ";
+	*yyOutId << "-= ";
 
 	
 
@@ -418,7 +418,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {MULTIPLY_ASSIGN} {
 	
-	yyOutId << "*= ";
+	*yyOutId << "*= ";
 
 	
 
@@ -427,7 +427,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {DIVIDE_ASSIGN} {
 	
-	yyOutId << "/= ";
+	*yyOutId << "/= ";
 
 	
 
@@ -436,7 +436,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {PERCENT_ASSIGN} {
 	
-	yyOutId << "%= ";
+	*yyOutId << "%= ";
 
 	
 
@@ -448,7 +448,7 @@ UNDERSCORE_SYMBOL		"_"
 
 {AMPERSAND} {
 	
-	yyOutId << "AMPERSAND ";
+	*yyOutId << "AMPERSAND ";
 
 	
 
@@ -459,7 +459,7 @@ UNDERSCORE_SYMBOL		"_"
 
 {LOGIC_AND} {
 	
-	yyOutId << "&& ";
+	*yyOutId << "&& ";
 
 	
 
@@ -468,7 +468,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {LOGIC_OR} {
 	
-	yyOutId << "|| ";
+	*yyOutId << "|| ";
 
 	
 
@@ -477,7 +477,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {LESS_EQUAL} {
 	
-	yyOutId << "<= ";
+	*yyOutId << "<= ";
 
 	
 
@@ -486,7 +486,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {MORE_EQUAL} {
 	
-	yyOutId << ">= ";
+	*yyOutId << ">= ";
 
 	
 
@@ -497,7 +497,7 @@ UNDERSCORE_SYMBOL		"_"
 
 {EQUAL} {
 	
-	yyOutId << "== ";
+	*yyOutId << "== ";
 
 	
 
@@ -506,7 +506,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {NOT_EQUAL} {
 	
-	yyOutId << "!= ";
+	*yyOutId << "!= ";
 
 	
 
@@ -517,7 +517,7 @@ UNDERSCORE_SYMBOL		"_"
 
 ";" {
 	
-	yyOutId << "Command separator \n";
+	*yyOutId << "Command separator \n";
 
 	
 
@@ -526,7 +526,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 "," {
 	
-	yyOutId << "Variable separator ";
+	*yyOutId << "Variable separator ";
 
 	
 
@@ -538,7 +538,7 @@ UNDERSCORE_SYMBOL		"_"
 
 {START_IDENTIFICATION} {
 	
-	yyOutId << "[ ";
+	*yyOutId << "[ ";
 
 	
 
@@ -547,7 +547,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {END_IDENTIFICATION} {
 	
-	yyOutId << "] ";
+	*yyOutId << "] ";
 
 	
 
@@ -557,7 +557,7 @@ UNDERSCORE_SYMBOL		"_"
 
 {CHAR} {
 	
-	yyOutId << "Char ";
+	*yyOutId << "Char ";
 
 	
 
@@ -566,7 +566,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {STRING} {
 	
-	yyOutId << "String ";
+	*yyOutId << "String ";
 
 	
 
@@ -578,7 +578,7 @@ UNDERSCORE_SYMBOL		"_"
 
 {NAME_INTEGER} {
 	
-	yyOutId << "int ";
+	*yyOutId << "int ";
 
 	
 
@@ -587,7 +587,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {NAME_FLOAT} {
 	
-	yyOutId << "float ";
+	*yyOutId << "float ";
 
 	
 
@@ -596,7 +596,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {NAME_CHAR} {
 	
-	yyOutId << "char ";
+	*yyOutId << "char ";
 
 	
 
@@ -605,7 +605,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {NAME_STRING} {
 	
-	yyOutId << "string ";
+	*yyOutId << "string ";
 
 	
 
@@ -614,7 +614,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {NAME_LOGIC} {
 	
-	yyOutId << "bool ";
+	*yyOutId << "bool ";
 
 	
 
@@ -626,7 +626,7 @@ UNDERSCORE_SYMBOL		"_"
 
 {LOGIC} {
 	
-	yyOutId << "Bool ";
+	*yyOutId << "Bool ";
 
 	
 
@@ -635,7 +635,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {NAME_RETURN} {
 	
-	yyOutId << " return ";
+	*yyOutId << " return ";
 
 	
 
@@ -646,7 +646,7 @@ UNDERSCORE_SYMBOL		"_"
 
 {PREFIX_SIGNED} {
 	
-	yyOutId << "signed ";
+	*yyOutId << "signed ";
 
 	
 
@@ -655,7 +655,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {PREFIX_UNSIGNED} {
 	
-	yyOutId << "unsigned ";
+	*yyOutId << "unsigned ";
 
 	
 
@@ -664,7 +664,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {PREFIX_LONG} {
 	
-	yyOutId << "long ";
+	*yyOutId << "long ";
 
 	
 
@@ -677,7 +677,7 @@ UNDERSCORE_SYMBOL		"_"
 
 {PREFIX_CONST} {
 	
-	yyOutId << "const ";
+	*yyOutId << "const ";
 
 	
 
@@ -689,7 +689,7 @@ UNDERSCORE_SYMBOL		"_"
 
 {IF_OPERATOR} {
 	
-	yyOutId << "if ";
+	*yyOutId << "if ";
 
 	
 
@@ -698,7 +698,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {ELSE_OPERATOR} {
 	
-	yyOutId << "else ";
+	*yyOutId << "else ";
 
 	
 
@@ -707,7 +707,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {SWITCH_OPERATOR} {
 	
-	yyOutId << "switch ";
+	*yyOutId << "switch ";
 
 	
 
@@ -716,7 +716,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {CASE_OPERATOR} {
 	
-	yyOutId << "case ";
+	*yyOutId << "case ";
 
 	
 
@@ -725,7 +725,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {CASE_ENUMERATOR} {
 	
-	yyOutId << "case_enumerator ";
+	*yyOutId << "case_enumerator ";
 
 	
 
@@ -737,7 +737,7 @@ UNDERSCORE_SYMBOL		"_"
 
 {WHILE_OPERATOR} {
 	
-	yyOutId << "while ";
+	*yyOutId << "while ";
 
 	
 
@@ -746,7 +746,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {DO_OPERATOR} {
 	
-	yyOutId << "do ";
+	*yyOutId << "do ";
 
 	
 
@@ -755,7 +755,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {FOR_OPERATOR} {
 	
-	yyOutId << "for ";
+	*yyOutId << "for ";
 
 	
 
@@ -764,7 +764,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {BREAK_OPERATOR} {
 	
-	yyOutId << "break ";
+	*yyOutId << "break ";
 
 	
 
@@ -773,7 +773,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {CONTINUE_OPERATOR} {
 	
-	yyOutId << "continue ";
+	*yyOutId << "continue ";
 
 	
 
@@ -784,7 +784,7 @@ UNDERSCORE_SYMBOL		"_"
 
 {Identificator} {
 	
-	yyOutId << "Identificator ";
+	*yyOutId << "Identificator ";
 
 	
 
@@ -795,7 +795,7 @@ UNDERSCORE_SYMBOL		"_"
 
 {START_LIST_ARGUMENTS} {
 	
-	yyOutId << "START_LIST_ARGUMENTS ";
+	*yyOutId << "START_LIST_ARGUMENTS ";
 
 	
 
@@ -804,7 +804,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 {END_LIST_ARGUMENTS} {
 	
-	yyOutId << "END_LIST_ARGUMENTS ";
+	*yyOutId << "END_LIST_ARGUMENTS ";
 	
 
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
@@ -832,11 +832,14 @@ UNDERSCORE_SYMBOL		"_"
 
 namespace example {
 
-Scanner::Scanner(std::istream* in,
-		 std::ostream* out)
+Scanner::Scanner(std::istream* in
+				, std::ostream* out
+				, std::ostream* outId)
     : ExampleFlexLexer(in, out)
+	, yyOutId(outId)
 {
 }
+
 
 Scanner::~Scanner()
 {

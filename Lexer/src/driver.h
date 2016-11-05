@@ -55,7 +55,9 @@ public:
      * @param filename	input file name
      * @return		true if successfully parsed
      */
-    bool parse_file(const std::string& filename);
+    bool parse_file(const std::string &filename
+					, const std::string &outFileName
+					, const std::string &idsFileName);
 
     // To demonstrate pure handling of parse errors, instead of
     // simply dumping them on the standard error output, we will pass
@@ -76,6 +78,11 @@ public:
     /** Reference to the calculator context filled during parsing of the
      * expressions. */
     class CalcContext& calc;
+
+	/** Name file where will write recognize ids
+	* expressions. */
+	std::string m_fileIds;
+	std::string m_outFileName;
 };
 
 } // namespace example

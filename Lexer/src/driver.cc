@@ -14,13 +14,16 @@ Driver::Driver(class CalcContext& _calc)
       trace_parsing(false),
       calc(_calc)
 {
+
 }
 
 bool Driver::parse_stream(std::istream& in, const std::string& sname)
 {
     streamname = sname;
 
-    Scanner scanner(&in);
+	std::fstream outFile(m_outFileName);
+	std::fstream fileIds(m_fileIds);
+    Scanner scanner(&in, &outFile, &fileIds);
     scanner.set_debug(trace_scanning);
     this->lexer = &scanner;
 
@@ -29,8 +32,12 @@ bool Driver::parse_stream(std::istream& in, const std::string& sname)
     return (parser.parse() == 0);
 }
 
-bool Driver::parse_file(const std::string &filename)
+bool Driver::parse_file(const std::string &filename
+						, const std::string &outFileName
+						, const std::string &idsFileName)
 {
+	m_outFileName = outFileName;
+	m_fileIds = idsFileName;
     std::ifstream in(filename.c_str());
     if (!in.good()) return false;
     return parse_stream(in, filename);
