@@ -66,6 +66,12 @@
     <ClInclude Include="main.h">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CalcContext.h">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

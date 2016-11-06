@@ -150,7 +150,9 @@
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="location.hh" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="position.hh" />
+    <ClInclude Include="src\CalcContext.h" />
     <ClInclude Include="src\Compile.h" />
     <ClInclude Include="src\Converter.h" />
     <ClInclude Include="src\driver.h" />
