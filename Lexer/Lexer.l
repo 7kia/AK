@@ -819,7 +819,7 @@ UNDERSCORE_SYMBOL		"_"
 
  /* gobble up end-of-lines */
 \n {
-    yylloc->lines(yyleng); yylloc->step();
+    yylloc->step();
 }
 
  /*** END EXAMPLE - Change the example lexer rules above ***/

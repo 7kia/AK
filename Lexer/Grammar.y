@@ -73,7 +73,8 @@ extern int yylex();
 
     int  				integerValue;
     double 				doubleValue;
-    std::string*		stringVal;
+	bool				boolValue;
+    std::string*		stringVal;// TODO : see need separately char
     
 }
 
@@ -332,9 +333,9 @@ Assigns : PLUS_ASSIGN | MINUS_ASSIGN | MULTIPLY_ASSIGN | DIVIDE_ASSIGN | PERCENT
 
 /*----------------------------*/
 Init_list_values		: 
-				START_BLOCK { yyOutId << "\nStart Init_list_values ";  }
+				START_BLOCK { driver.m_idsFile << "\nStart Init_list_values ";  }
 				Value_in_list Another_values_in_list 				
-				END_BLOCK { yyOutId << "\nEnd Init_list_values ";  }
+				END_BLOCK { driver.m_idsFile << "\nEnd Init_list_values ";  }
 				;
 
 Value_in_list	:	Value | Init_list_values ;
@@ -378,7 +379,7 @@ Function_init :
 Function_main : 
 				Type_initialization NAME_MAIN_FUNCTION List_arguments commandBlock 
 				{	
-				 	yyOutId << "\n End main() \n";
+				 	driver.m_idsFile << "\n End main() \n";
 					
 				}
 				/* TODO : add separator */

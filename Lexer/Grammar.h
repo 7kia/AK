@@ -69,7 +69,8 @@ namespace example {
 
     int  				integerValue;
     double 				doubleValue;
-    std::string*		stringVal;
+	bool				boolValue;
+    std::string*		stringVal;// TODO : see need separately char
     
 
 

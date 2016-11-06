@@ -164,7 +164,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Grammar.cpp" />
-    <ClCompile Include="lexer.cpp" />
+    <ClCompile Include="lexer.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\Compile.cpp" />
     <ClCompile Include="src\Converter.cpp" />

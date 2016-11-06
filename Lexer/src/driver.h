@@ -5,6 +5,7 @@
 
 #include <string>
 #include <vector>
+#include <fstream>
 
 // forward declaration
 class CalcContext;
@@ -83,6 +84,10 @@ public:
 	* expressions. */
 	std::string m_fileIds;
 	std::string m_outFileName;
+
+	std::ofstream m_outFile;
+	std::ofstream m_idsFile;
+
 };
 
 } // namespace example

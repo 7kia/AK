@@ -24,9 +24,10 @@ bool Driver::parse_stream(std::istream& in, const std::string& sname)
 {
     streamname = sname;
 
-	std::ofstream outFile(m_outFileName);
-	std::ofstream fileIds(m_fileIds);
-    Scanner scanner(&in, &outFile, &fileIds);
+	m_outFile.open(m_outFileName);
+	m_idsFile.open(m_fileIds);
+
+    Scanner scanner(&in, &m_outFile, &m_idsFile);
     scanner.set_debug(trace_scanning);
     this->lexer = &scanner;
 
@@ -55,11 +56,13 @@ bool Driver::parse_string(const std::string &input, const std::string& sname)
 void Driver::error(const class location& l,
 		   const std::string& m)
 {
+	*lexer->yyOutId << l << ": " << m << std::endl;
     std::cerr << l << ": " << m << std::endl;
 }
 
 void Driver::error(const std::string& m)
 {
+	*lexer->yyOutId << m << std::endl;
     std::cerr << m << std::endl;
 }
 
