@@ -66,6 +66,12 @@
     <ClInclude Include="..\stack.hh">
       <Filter>TestClasses</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\CalcContext.h">
+      <Filter>TestClasses\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Node.h">
+      <Filter>TestClasses\src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

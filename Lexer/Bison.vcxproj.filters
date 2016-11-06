@@ -66,10 +66,10 @@
     <ClInclude Include="main.h">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
-    <ClInclude Include="Node.h">
+    <ClInclude Include="src\CalcContext.h">
       <Filter>Файлы исходного кода\src</Filter>
     </ClInclude>
-    <ClInclude Include="src\CalcContext.h">
+    <ClInclude Include="src\Node.h">
       <Filter>Файлы исходного кода\src</Filter>
     </ClInclude>
   </ItemGroup>

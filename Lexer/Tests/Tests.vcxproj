@@ -155,10 +155,12 @@
     <ClInclude Include="..\Lexer.h" />
     <ClInclude Include="..\location.hh" />
     <ClInclude Include="..\position.hh" />
+    <ClInclude Include="..\src\CalcContext.h" />
     <ClInclude Include="..\src\Compile.h" />
     <ClInclude Include="..\src\Converter.h" />
     <ClInclude Include="..\src\driver.h" />
     <ClInclude Include="..\src\expression.h" />
+    <ClInclude Include="..\src\Node.h" />
     <ClInclude Include="..\src\scanner.h" />
     <ClInclude Include="..\stack.hh" />
     <ClInclude Include="FunctionsForTests.h" />
