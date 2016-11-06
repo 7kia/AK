@@ -160,7 +160,6 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Token.h" />
-    <ClInclude Include="usedFiles.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Grammar.cpp" />

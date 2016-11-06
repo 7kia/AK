@@ -11,7 +11,6 @@
 
 #include "Grammar.h"
 #include "src/scanner.h"
-#include "usedFiles.h"
 
 /* import the parser's token type into a local typedef */
 typedef example::Parser::token token;
@@ -303,32 +302,27 @@ UNDERSCORE_SYMBOL		"_"
 	*yyOutId << "Integer ";
 
 	
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->integerVal = atoi(yytext);
     return token::INT;
 }
 {FLOAT} {
 	
 	*yyOutId << "Float ";
-
 	
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    yylval->doubleVal = atof(yytext);
     return token::FLOAT;
 }
 
 {PLUS} {
 	
 	*yyOutId << "Plus ";
-
 	
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::PLUS;
 }
 {MINUS} {
 	
-		
-	*yyOutId << "Plus ";
-
-	
+	*yyOutId << "Minus ";
 
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::PLUS;
@@ -337,16 +331,12 @@ UNDERSCORE_SYMBOL		"_"
 		
 	*yyOutId << "Divide ";
 
-	
-
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::DIVIDE;
 }
 {STAR} {
 		
 	*yyOutId << "Star ";
-
-	
 
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::STAR;
@@ -355,15 +345,12 @@ UNDERSCORE_SYMBOL		"_"
 	
 	*yyOutId << "Percent ";
 
-	
-
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::PERCENT;
 }
 {LESS} {
 	
 	*yyOutId << "Less ";
-
 	
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::LESS;
@@ -371,7 +358,6 @@ UNDERSCORE_SYMBOL		"_"
 {MORE} {
 	
 	*yyOutId << "More ";
-
 	
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::MORE;
@@ -382,16 +368,12 @@ UNDERSCORE_SYMBOL		"_"
 	
 	*yyOutId << "Negation ";
 
-	
-
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::NEGATION;
 }
 {ASSIGN} {
 	
 	*yyOutId << "Assign ";
-
-	
 
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::ASSIGN;
@@ -403,16 +385,12 @@ UNDERSCORE_SYMBOL		"_"
 	
 	*yyOutId << "+= ";
 
-	
-
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::PLUS_ASSIGN;
 }
 {MINUS_ASSIGN} {
 	
 	*yyOutId << "-= ";
-
-	
 
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::MINUS_ASSIGN;
@@ -421,8 +399,6 @@ UNDERSCORE_SYMBOL		"_"
 	
 	*yyOutId << "*= ";
 
-	
-
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::MULTIPLY_ASSIGN;
 }
@@ -430,16 +406,12 @@ UNDERSCORE_SYMBOL		"_"
 	
 	*yyOutId << "/= ";
 
-	
-
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::DIVIDE_ASSIGN;
 }
 {PERCENT_ASSIGN} {
 	
 	*yyOutId << "%= ";
-
-	
 
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::PERCENT_ASSIGN;
@@ -451,8 +423,6 @@ UNDERSCORE_SYMBOL		"_"
 	
 	*yyOutId << "AMPERSAND ";
 
-	
-
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::AMPERSAND;
 }
@@ -462,16 +432,12 @@ UNDERSCORE_SYMBOL		"_"
 	
 	*yyOutId << "&& ";
 
-	
-
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::LOGIC_AND;
 }
 {LOGIC_OR} {
 	
 	*yyOutId << "|| ";
-
-	
 
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::LOGIC_OR;
@@ -480,16 +446,12 @@ UNDERSCORE_SYMBOL		"_"
 	
 	*yyOutId << "<= ";
 
-	
-
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::LESS_EQUAL;
 }
 {MORE_EQUAL} {
 	
 	*yyOutId << ">= ";
-
-	
 
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::MORE_EQUAL;
@@ -500,16 +462,12 @@ UNDERSCORE_SYMBOL		"_"
 	
 	*yyOutId << "== ";
 
-	
-
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::EQUAL;
 }
 {NOT_EQUAL} {
 	
 	*yyOutId << "!= ";
-
-	
 
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::NOT_EQUAL;
@@ -520,16 +478,12 @@ UNDERSCORE_SYMBOL		"_"
 	
 	*yyOutId << "Command separator \n";
 
-	
-
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::COMMAND_SEPARATOR;
 }
 "," {
 	
 	*yyOutId << "Variable separator ";
-
-	
 
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::VARIABLE_SEPARATOR;
@@ -541,8 +495,6 @@ UNDERSCORE_SYMBOL		"_"
 	
 	*yyOutId << "[ ";
 
-	
-
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::START_IDENTIFICATION;
 }
@@ -551,7 +503,6 @@ UNDERSCORE_SYMBOL		"_"
 	*yyOutId << "] ";
 
 	
-
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::END_IDENTIFICATION;
 }
@@ -560,16 +511,12 @@ UNDERSCORE_SYMBOL		"_"
 	
 	*yyOutId << "Char ";
 
-	
-
     yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::CHAR;
 }
 {STRING} {
 	
 	*yyOutId << "String ";
-
-	
 
     yylval->stringVal = new std::string(yytext, yyleng);
     return token::STRING;
@@ -628,10 +575,16 @@ UNDERSCORE_SYMBOL		"_"
 {LOGIC} {
 	
 	*yyOutId << "Bool ";
-
 	
-
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+	if(std::string(yytext, yyleng) == "true")
+	{
+		yylval->boolValue = true;
+	}
+	else if(std::string(yytext, yyleng) == "false")
+	{
+		yylval->boolValue = false;
+	}
+   
     return token::LOGIC;
 }
 {NAME_RETURN} {
@@ -812,15 +765,11 @@ UNDERSCORE_SYMBOL		"_"
     return token::END_LIST_ARGUMENTS;
 }
 
-
-[ \t\r]+ {
-    yylloc->step();
-}
-
  /* gobble up end-of-lines */
-\n {
+[ \t\r\n]+ {
     yylloc->step();
 }
+
 
  /*** END EXAMPLE - Change the example lexer rules above ***/
 

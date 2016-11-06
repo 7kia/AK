@@ -16,10 +16,10 @@ void CompareFiles(const string & first, const string & second)
 
 void RunLexer(const std::string &inputFileName
 			, const std::string &outputFileName
-			, const std::string &outputIdFileName)
+			, const std::string &outputIdFileName
+			, example::Driver & driver)
 {
-	CalcContext calc;
-	example::Driver driver(calc);
+
 	driver.parse_file(inputFileName, outputFileName, outputIdFileName);
 }
 
@@ -41,14 +41,19 @@ std::string	GetAbsolutePath(const std::string & name
 }
 
 
-void TestLexer(const std::string & nameFile, const std::string & folder)
+void TestLexer(const std::string & nameFile
+			, const std::string & folder
+			, example::Driver & driver)
 {
 	
 	std::string nameInputFile = GetAbsolutePath(nameFile, folder, "", "");
 	std::string nameOutputFile = GetAbsolutePath(nameFile, folder, TestNameFiles::nameOutputFile, "");
 	std::string nameOutputIdsFile = GetAbsolutePath(nameFile, folder, TestNameFiles::nameOutputFile, "Id");
 
-	BOOST_REQUIRE_NO_THROW(RunLexer(nameInputFile, nameOutputFile, nameOutputIdsFile));
+	BOOST_REQUIRE_NO_THROW(RunLexer(nameInputFile
+									, nameOutputFile
+									, nameOutputIdsFile
+									, driver));
 
 	std::string nameRightFile = GetAbsolutePath(nameFile, folder, PREFIX_RIGHT_DATA, "");
 	std::string nameRightIdFile = GetAbsolutePath(nameFile, folder, PREFIX_RIGHT_DATA, "Id");

@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "usedFiles.h"
+
 // TODO : YYSTYPE - it is token
 #define YYSTYPE double
 

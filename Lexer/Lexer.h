@@ -24,7 +24,6 @@
 #endif
 
 #include "Grammar.h"
-#include "usedFiles.h"
 namespace example {
 
 	/** Scanner is a derived class to add some extra function to the scanner

@@ -66,9 +66,6 @@
     <ClInclude Include="main.h">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
-    <ClInclude Include="usedFiles.h">
-      <Filter>Файлы исходного кода</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
