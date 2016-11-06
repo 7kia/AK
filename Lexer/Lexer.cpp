@@ -397,8 +397,8 @@ typedef unsigned char YY_CHAR;
 	(yy_c_buf_p) = yy_cp;
 
 /* %% [4.0] data tables for the DFA and the user's section 1 definitions go here */
-#define YY_NUM_RULES 59
-#define YY_END_OF_BUFFER 60
+#define YY_NUM_RULES 58
+#define YY_END_OF_BUFFER 59
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -406,25 +406,25 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static yyconst flex_int16_t yy_accept[157] =
+static yyconst flex_int16_t yy_accept[158] =
     {   0,
-        0,    0,   60,   59,   58,   58,   14,   59,   11,   21,
-       59,   56,   57,   10,    7,   29,    8,   59,   59,    5,
-       49,   28,   12,   15,   13,   55,   30,   31,   55,   55,
-       55,   55,   55,   55,   55,   55,   55,   55,   55,   55,
-       55,    3,   59,    4,   58,    9,   27,    0,   33,   20,
-       22,    0,    0,    0,    0,   18,    0,    5,   16,   17,
-        6,   19,    6,   24,   26,   25,   55,   55,   55,   55,
-       55,   55,   51,   55,   55,   55,   55,   45,   55,   55,
-       55,   55,   55,   55,   55,   55,   55,   55,   23,   32,
-        0,    1,    0,    0,    6,   55,   55,   55,   55,   55,
+        0,    0,   59,   58,   57,   57,   13,   58,   10,   20,
+       58,   55,   56,    9,    6,   28,    7,   58,   58,    4,
+       48,   27,   11,   14,   12,   54,   29,   30,   54,   54,
+       54,   54,   54,   54,   54,   54,   54,   54,   54,   54,
+       54,    2,   58,    3,   57,    8,   26,    0,   32,   19,
+       21,    0,    0,    0,    0,   17,    0,    4,   15,   16,
+        5,   57,   18,    5,   23,   25,   24,   54,   54,   54,
+       54,   54,   54,   50,   54,   54,   54,   54,   44,   54,
+       54,   54,   54,   54,   54,   54,   54,   54,   54,   22,
+       31,   57,    0,    0,   57,   57,    5,   54,   54,   54,
 
-       55,   55,   55,   52,   34,   55,   55,   55,   55,   55,
-       55,   55,   55,   55,    1,    0,    6,   38,   55,   48,
-       36,   55,   55,   46,   55,   55,   43,    2,   55,   55,
-       55,   55,   39,   55,   55,   53,   44,   55,   35,   55,
-       55,   55,   55,   55,   50,   55,   40,   41,   37,   47,
-       55,   55,   55,   54,   42,    0
+       54,   54,   54,   54,   54,   51,   33,   54,   54,   54,
+       54,   54,   54,   54,   54,   54,    0,    5,   37,   54,
+       47,   35,   54,   54,   45,   54,   54,   42,    1,   54,
+       54,   54,   54,   38,   54,   54,   52,   43,   54,   34,
+       54,   54,   54,   54,   54,   49,   54,   39,   40,   36,
+       46,   54,   54,   54,   53,   41,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -468,49 +468,51 @@ static yyconst flex_int32_t yy_meta[50] =
         3,    3,    3,    3,    3,    3,    1,    1,    1
     } ;
 
-static yyconst flex_int16_t yy_base[161] =
+static yyconst flex_int16_t yy_base[163] =
     {   0,
-        0,    0,  208,  209,   48,   51,  185,  200,  183,  196,
-        0,  209,  209,   53,   41,  209,   42,  185,  180,   51,
-      209,  209,  179,  178,  177,    0,  209,  209,   20,   38,
-      157,  159,   42,   38,  155,  167,  162,   38,  151,  152,
-      156,  209,  142,  209,   83,  209,  209,  183,  182,  209,
-      209,  178,   69,   85,   86,   87,  168,   75,  209,  209,
-       87,  209,   91,  209,  209,  209,    0,  144,  152,  140,
-      154,  141,    0,  137,  141,  137,  135,    0,  132,  135,
-      138,  129,  138,  129,  134,  124,  125,  131,  209,  209,
-      149,   89,   82,   95,  102,  127,  136,  131,  120,   33,
+        0,    0,  213,  214,   48,   51,  190,  205,  188,  201,
+        0,  214,  214,   53,   41,  214,   42,  190,   44,   51,
+      214,  214,  185,  184,  183,    0,  214,  214,   29,   44,
+      163,  165,   45,   41,  161,  173,  168,   44,  157,  158,
+      162,  214,  148,  214,   74,  214,  214,  189,  188,  214,
+      214,  184,   79,   81,   84,   86,  174,   76,  214,  214,
+       82,  188,  214,   90,  214,  214,  214,    0,  149,  157,
+      145,  159,  146,    0,  142,  146,  142,  140,    0,  137,
+      140,  143,  134,  143,  134,  139,  129,  130,  136,  214,
+      214,   99,   74,  103,  168,  214,  110,  132,  141,  136,
 
-      129,  117,  131,    0,    0,  124,  117,  111,  115,  118,
-      109,  120,  115,  112,  209,  131,  130,    0,  110,    0,
-        0,  102,  109,    0,  112,   95,    0,    0,   94,  101,
-       92,  101,    0,   96,   97,    0,    0,   88,    0,   86,
-       94,   90,   87,   81,    0,   73,    0,    0,    0,    0,
-       79,   64,   64,    0,    0,  209,  134,  137,  140,   91
+      125,   66,  134,  122,  136,    0,    0,  129,  122,  116,
+      120,  123,  114,  125,  120,  117,  129,  126,    0,  104,
+        0,    0,   96,  103,    0,  106,   93,    0,    0,   94,
+      102,   93,  102,    0,   97,   98,    0,    0,   89,    0,
+       87,   95,   90,   85,   79,    0,   72,    0,    0,    0,
+        0,   81,   80,   73,    0,    0,  214,  142,  145,  148,
+       59,  151
     } ;
 
-static yyconst flex_int16_t yy_def[161] =
+static yyconst flex_int16_t yy_def[163] =
     {   0,
-      156,    1,  156,  156,  156,  156,  156,  157,  156,  156,
-      158,  156,  156,  159,  156,  156,  156,  156,  156,  156,
-      156,  156,  156,  156,  156,  160,  156,  156,  160,  160,
-      160,  160,  160,  160,  160,  160,  160,  160,  160,  160,
-      160,  156,  156,  156,  156,  156,  156,  157,  157,  156,
-      156,  156,  159,  156,  159,  159,  156,  156,  156,  156,
-      156,  156,  156,  156,  156,  156,  160,  160,  160,  160,
-      160,  160,  160,  160,  160,  160,  160,  160,  160,  160,
-      160,  160,  160,  160,  160,  160,  160,  160,  156,  156,
-      156,  159,  156,  156,  156,  160,  160,  160,  160,  160,
+      157,    1,  157,  157,  157,  157,  157,  158,  157,  157,
+      159,  157,  157,  160,  157,  157,  157,  157,  157,  157,
+      157,  157,  157,  157,  157,  161,  157,  157,  161,  161,
+      161,  161,  161,  161,  161,  161,  161,  161,  161,  161,
+      161,  157,  157,  157,  157,  157,  157,  158,  158,  157,
+      157,  157,  160,  160,  160,  160,  157,  157,  157,  157,
+      157,  162,  157,  157,  157,  157,  157,  161,  161,  161,
+      161,  161,  161,  161,  161,  161,  161,  161,  161,  161,
+      161,  161,  161,  161,  161,  161,  161,  161,  161,  157,
+      157,  160,  157,  157,  162,  157,  157,  161,  161,  161,
 
-      160,  160,  160,  160,  160,  160,  160,  160,  160,  160,
-      160,  160,  160,  160,  156,  156,  156,  160,  160,  160,
-      160,  160,  160,  160,  160,  160,  160,  160,  160,  160,
-      160,  160,  160,  160,  160,  160,  160,  160,  160,  160,
-      160,  160,  160,  160,  160,  160,  160,  160,  160,  160,
-      160,  160,  160,  160,  160,    0,  156,  156,  156,  156
+      161,  161,  161,  161,  161,  161,  161,  161,  161,  161,
+      161,  161,  161,  161,  161,  161,  157,  157,  161,  161,
+      161,  161,  161,  161,  161,  161,  161,  161,  161,  161,
+      161,  161,  161,  161,  161,  161,  161,  161,  161,  161,
+      161,  161,  161,  161,  161,  161,  161,  161,  161,  161,
+      161,  161,  161,  161,  161,  161,    0,  157,  157,  157,
+      157,  157
     } ;
 
-static yyconst flex_int16_t yy_nxt[259] =
+static yyconst flex_int16_t yy_nxt[264] =
     {   0,
         4,    5,    5,    6,    7,    8,    9,   10,   11,   12,
        13,   14,   15,   16,   17,   18,   19,   20,   21,   22,
@@ -518,31 +520,32 @@ static yyconst flex_int16_t yy_nxt[259] =
        31,   32,   33,   26,   26,   34,   26,   35,   36,   26,
        26,   37,   38,   39,   40,   41,   42,   43,   44,   45,
        45,   45,   45,   45,   45,   54,   57,   57,   58,   58,
-       68,   69,   59,   60,   55,   70,   63,   46,   58,   75,
-       78,  156,   71,   83,   56,  122,  123,   79,   72,   76,
-       55,   84,   77,   85,   45,   45,   45,   54,  156,  156,
-       63,  156,   58,   67,  155,  154,   91,   55,   55,   93,
+       62,   68,   59,   60,   55,   63,   64,   46,   58,   69,
+       70,   71,   76,   79,   56,   45,   45,   45,   72,   84,
+       80,   54,   77,   54,   73,   78,   54,   85,   54,   86,
+       55,   64,   55,   58,   93,   55,   93,   55,   94,   61,
 
-       55,   93,   92,   93,   61,   93,   94,  116,   95,  116,
-      153,   94,  117,   94,   93,   94,   93,  152,   94,   95,
-      151,  150,   94,  149,  148,  147,   94,  146,  145,  144,
-      143,  142,  141,   94,   48,  140,   48,   52,  139,   52,
-       53,   53,   53,  133,  138,  137,  136,  117,  117,  135,
-      134,  133,  132,  131,  130,  129,  128,  127,  126,  125,
-      124,  121,  120,  119,  118,  115,  114,  113,  112,  111,
-      110,  109,  108,  107,  106,  105,  104,  103,  102,  101,
-      100,   99,   98,   97,   96,   61,   90,   49,   49,   89,
-       88,   87,   86,   82,   81,   80,   74,   73,   66,   65,
+       92,   54,   93,  156,   93,   94,   94,   97,  123,  124,
+       55,  155,  154,   94,   94,  117,  153,  117,  152,  151,
+      118,   94,   93,  150,   93,  149,  148,   97,  147,  146,
+      145,  144,  143,  142,   94,  141,  140,  134,  139,  138,
+      137,   94,   48,  118,   48,   52,  118,   52,   53,   53,
+       53,   95,   95,   95,  136,  135,  134,  133,  132,  131,
+      130,  129,  128,  127,  126,  125,  122,  121,  120,  119,
+       96,  116,  115,  114,  113,  112,  111,  110,  109,  108,
+      107,  106,  105,  104,  103,  102,  101,  100,   99,   98,
+       96,   61,   91,   49,   49,   90,   89,   88,   87,   83,
 
-       64,   62,   61,   51,   50,   49,   47,  156,    3,  156,
-      156,  156,  156,  156,  156,  156,  156,  156,  156,  156,
-      156,  156,  156,  156,  156,  156,  156,  156,  156,  156,
-      156,  156,  156,  156,  156,  156,  156,  156,  156,  156,
-      156,  156,  156,  156,  156,  156,  156,  156,  156,  156,
-      156,  156,  156,  156,  156,  156,  156,  156
+       82,   81,   75,   74,   67,   66,   65,   61,   51,   50,
+       49,   47,  157,    3,  157,  157,  157,  157,  157,  157,
+      157,  157,  157,  157,  157,  157,  157,  157,  157,  157,
+      157,  157,  157,  157,  157,  157,  157,  157,  157,  157,
+      157,  157,  157,  157,  157,  157,  157,  157,  157,  157,
+      157,  157,  157,  157,  157,  157,  157,  157,  157,  157,
+      157,  157,  157
     } ;
 
-static yyconst flex_int16_t yy_chk[259] =
+static yyconst flex_int16_t yy_chk[264] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -550,38 +553,39 @@ static yyconst flex_int16_t yy_chk[259] =
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    5,
         5,    5,    6,    6,    6,   14,   15,   17,   15,   17,
-       29,   29,   15,   17,   14,   30,   20,    6,   20,   33,
-       34,   53,   30,   38,   14,  100,  100,   34,   30,   33,
-       53,   38,   33,   38,   45,   45,   45,   54,   55,   56,
-       58,   92,   58,  160,  153,  152,   54,   55,   56,   61,
+       19,  161,   15,   17,   14,   19,   20,    6,   20,   29,
+       29,   30,   33,   34,   14,   45,   45,   45,   30,   38,
+       34,   53,   33,   54,   30,   33,   55,   38,   56,   38,
+       53,   58,   54,   58,   61,   55,   61,   56,   93,   61,
 
-       92,   61,   55,   63,   61,   63,   93,   94,   63,   94,
-      151,   61,   94,   93,   95,   63,   95,  146,   61,   95,
-      144,  143,   63,  142,  141,  140,   95,  138,  135,  134,
-      132,  131,  130,   95,  157,  129,  157,  158,  126,  158,
-      159,  159,  159,  125,  123,  122,  119,  117,  116,  114,
-      113,  112,  111,  110,  109,  108,  107,  106,  103,  102,
-      101,   99,   98,   97,   96,   91,   88,   87,   86,   85,
-       84,   83,   82,   81,   80,   79,   77,   76,   75,   74,
-       72,   71,   70,   69,   68,   57,   52,   49,   48,   43,
-       41,   40,   39,   37,   36,   35,   32,   31,   25,   24,
+       55,   92,   64,  154,   64,   93,   61,   64,  102,  102,
+       92,  153,  152,   61,   64,   94,  147,   94,  145,  144,
+       94,   64,   97,  143,   97,  142,  141,   97,  139,  136,
+      135,  133,  132,  131,   97,  130,  127,  126,  124,  123,
+      120,   97,  158,  118,  158,  159,  117,  159,  160,  160,
+      160,  162,  162,  162,  116,  115,  114,  113,  112,  111,
+      110,  109,  108,  105,  104,  103,  101,  100,   99,   98,
+       95,   89,   88,   87,   86,   85,   84,   83,   82,   81,
+       80,   78,   77,   76,   75,   73,   72,   71,   70,   69,
+       62,   57,   52,   49,   48,   43,   41,   40,   39,   37,
 
-       23,   19,   18,   10,    9,    8,    7,    3,  156,  156,
-      156,  156,  156,  156,  156,  156,  156,  156,  156,  156,
-      156,  156,  156,  156,  156,  156,  156,  156,  156,  156,
-      156,  156,  156,  156,  156,  156,  156,  156,  156,  156,
-      156,  156,  156,  156,  156,  156,  156,  156,  156,  156,
-      156,  156,  156,  156,  156,  156,  156,  156
+       36,   35,   32,   31,   25,   24,   23,   18,   10,    9,
+        8,    7,    3,  157,  157,  157,  157,  157,  157,  157,
+      157,  157,  157,  157,  157,  157,  157,  157,  157,  157,
+      157,  157,  157,  157,  157,  157,  157,  157,  157,  157,
+      157,  157,  157,  157,  157,  157,  157,  157,  157,  157,
+      157,  157,  157,  157,  157,  157,  157,  157,  157,  157,
+      157,  157,  157
     } ;
 
-static yyconst flex_int16_t yy_rule_linenum[59] =
+static yyconst flex_int16_t yy_rule_linenum[58] =
     {   0,
-      269,  278,  286,  293,  301,  309,  317,  324,  331,  338,
-      345,  352,  359,  368,  375,  385,  392,  399,  406,  413,
-      423,  432,  439,  446,  453,  462,  469,  478,  485,  495,
-      502,  511,  518,  528,  537,  546,  555,  564,  576,  591,
-      602,  611,  620,  633,  645,  654,  663,  672,  681,  693,
-      702,  711,  720,  729,  740,  751,  760,  770
+      267,  275,  282,  290,  298,  306,  313,  320,  327,  334,
+      341,  348,  357,  364,  374,  381,  388,  395,  402,  412,
+      421,  428,  435,  442,  451,  458,  467,  474,  484,  491,
+      500,  507,  517,  526,  535,  544,  553,  565,  580,  591,
+      600,  609,  622,  634,  643,  652,  661,  670,  682,  691,
+      700,  709,  718,  729,  740,  749,  759
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -938,13 +942,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 157 )
+				if ( yy_current_state >= 158 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_current_state != 156 );
+		while ( yy_current_state != 157 );
 		yy_cp = (yy_last_accepting_cpos);
 		yy_current_state = (yy_last_accepting_state);
 
@@ -963,12 +967,12 @@ do_action:	/* This label is used only to access EOF actions. */
 			{
 			if ( yy_act == 0 )
 				std::cerr << "--scanner backing up\n";
-			else if ( yy_act < 59 )
+			else if ( yy_act < 58 )
 				std::cerr << "--accepting rule at line " << yy_rule_linenum[yy_act] <<
 				         "(\"" << yytext << "\")\n";
-			else if ( yy_act == 59 )
+			else if ( yy_act == 58 )
 				std::cerr << "--accepting default rule (\"" << yytext << "\")\n";
-			else if ( yy_act == 60 )
+			else if ( yy_act == 59 )
 				std::cerr << "--(end of buffer or a NUL)\n";
 			else
 				std::cerr << "--EOF (start condition " << YY_START << ")\n";
@@ -985,46 +989,36 @@ do_action:	/* This label is used only to access EOF actions. */
 			goto yy_find_action;
 
 case 1:
-/* rule 1 can match eol */
 YY_RULE_SETUP
 {
-	// TODO : see need write id's 
-	*yyOutId <<" Multi string comment \n";
-    yylval->stringVal = new std::string(yytext, yyleng);
-    return token::MULTI_STRING_COMMENT;
+	
+	*yyOutId << " MAIN_FUNCTION ";
+	
+    ////yylval->stringVal = new std::string(yytext, yyleng);
+    return token::NAME_MAIN_FUNCTION;
 }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << " MAIN_FUNCTION ";
+	*yyOutId << "\n==Start block code==\n";
 	
-    yylval->stringVal = new std::string(yytext, yyleng);
-    return token::NAME_MAIN_FUNCTION;
+    //yylval->stringVal = new std::string(yytext, yyleng);
+    return token::START_BLOCK;
 }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "\n==Start block code==\n";
-	
-    yylval->stringVal = new std::string(yytext, yyleng);
-    return token::START_BLOCK;
-}
-	YY_BREAK
-case 4:
-YY_RULE_SETUP
-{
-	
 	*yyOutId << "==End block code==\n";
 	
-    yylval->stringVal = new std::string(yytext, yyleng);
+    //yylval->stringVal = new std::string(yytext, yyleng);
     return token::END_BLOCK;
 }
 	YY_BREAK
-case 5:
+case 4:
 YY_RULE_SETUP
 {
 	
@@ -1034,7 +1028,7 @@ YY_RULE_SETUP
     return token::INT;
 }
 	YY_BREAK
-case 6:
+case 5:
 YY_RULE_SETUP
 {
 	
@@ -1044,257 +1038,257 @@ YY_RULE_SETUP
     return token::FLOAT;
 }
 	YY_BREAK
-case 7:
+case 6:
 YY_RULE_SETUP
 {
 	
 	*yyOutId << "Plus ";
 	
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::PLUS;
+}
+	YY_BREAK
+case 7:
+YY_RULE_SETUP
+{
+	
+	*yyOutId << "Minus ";
+
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::PLUS;
 }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 {
-	
-	*yyOutId << "Plus ";
+		
+	*yyOutId << "Divide ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::PLUS;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::DIVIDE;
 }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 {
 		
-	*yyOutId << "Divide ";
+	*yyOutId << "Star ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::DIVIDE;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::STAR;
 }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 {
-		
-	*yyOutId << "Star ";
+	
+	*yyOutId << "Percent ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::STAR;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::PERCENT;
 }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "Percent ";
-
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::PERCENT;
+	*yyOutId << "Less ";
+	
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::LESS;
 }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "Less ";
+	*yyOutId << "More ";
 	
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::LESS;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::MORE;
 }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "More ";
-	
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::MORE;
+	*yyOutId << "Negation ";
+
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::NEGATION;
 }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "Negation ";
+	*yyOutId << "Assign ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::NEGATION;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::ASSIGN;
 }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "Assign ";
+	*yyOutId << "+= ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::ASSIGN;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::PLUS_ASSIGN;
 }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "+= ";
+	*yyOutId << "-= ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::PLUS_ASSIGN;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::MINUS_ASSIGN;
 }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "-= ";
+	*yyOutId << "*= ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::MINUS_ASSIGN;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::MULTIPLY_ASSIGN;
 }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "*= ";
+	*yyOutId << "/= ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::MULTIPLY_ASSIGN;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::DIVIDE_ASSIGN;
 }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "/= ";
+	*yyOutId << "%= ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::DIVIDE_ASSIGN;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::PERCENT_ASSIGN;
 }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "%= ";
+	*yyOutId << "AMPERSAND ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::PERCENT_ASSIGN;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::AMPERSAND;
 }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "AMPERSAND ";
+	*yyOutId << "&& ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::AMPERSAND;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::LOGIC_AND;
 }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "&& ";
+	*yyOutId << "|| ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::LOGIC_AND;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::LOGIC_OR;
 }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "|| ";
+	*yyOutId << "<= ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::LOGIC_OR;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::LESS_EQUAL;
 }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "<= ";
+	*yyOutId << ">= ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::LESS_EQUAL;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::MORE_EQUAL;
 }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << ">= ";
+	*yyOutId << "== ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::MORE_EQUAL;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::EQUAL;
 }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "== ";
+	*yyOutId << "!= ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::EQUAL;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::NOT_EQUAL;
 }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "!= ";
+	*yyOutId << "Command separator \n";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::NOT_EQUAL;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::COMMAND_SEPARATOR;
 }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "Command separator \n";
+	*yyOutId << "Variable separator ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::COMMAND_SEPARATOR;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::VARIABLE_SEPARATOR;
 }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "Variable separator ";
+	*yyOutId << "[ ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::VARIABLE_SEPARATOR;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::START_IDENTIFICATION;
 }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "[ ";
-
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::START_IDENTIFICATION;
-}
-	YY_BREAK
-case 31:
-YY_RULE_SETUP
-{
-	
 	*yyOutId << "] ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::END_IDENTIFICATION;
 }
 	YY_BREAK
-case 32:
+case 31:
 YY_RULE_SETUP
 {
 	
@@ -1304,7 +1298,7 @@ YY_RULE_SETUP
     return token::CHAR;
 }
 	YY_BREAK
-case 33:
+case 32:
 YY_RULE_SETUP
 {
 	
@@ -1314,57 +1308,57 @@ YY_RULE_SETUP
     return token::STRING;
 }
 	YY_BREAK
-case 34:
+case 33:
 YY_RULE_SETUP
 {
 	
 	*yyOutId << "int ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::NAME_INTEGER;
+}
+	YY_BREAK
+case 34:
+YY_RULE_SETUP
+{
+	
+	*yyOutId << "float ";
+
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::NAME_FLOAT;
 }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "float ";
+	*yyOutId << "char ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::NAME_FLOAT;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::NAME_CHAR;
 }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "char ";
+	*yyOutId << "string ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::NAME_CHAR;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::NAME_STRING;
 }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "string ";
-
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::NAME_STRING;
-}
-	YY_BREAK
-case 38:
-YY_RULE_SETUP
-{
-	
 	*yyOutId << "bool ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::NAME_LOGIC;
 }
 	YY_BREAK
-case 39:
+case 38:
 YY_RULE_SETUP
 {
 	
@@ -1382,196 +1376,196 @@ YY_RULE_SETUP
     return token::LOGIC;
 }
 	YY_BREAK
-case 40:
+case 39:
 YY_RULE_SETUP
 {
 	
 	*yyOutId << " return ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::NAME_RETURN;
+}
+	YY_BREAK
+case 40:
+YY_RULE_SETUP
+{
+	
+	*yyOutId << "signed ";
+
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::PREFIX_SIGNED;
 }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "signed ";
+	*yyOutId << "unsigned ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::PREFIX_SIGNED;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::PREFIX_UNSIGNED;
 }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "unsigned ";
+	*yyOutId << "long ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::PREFIX_UNSIGNED;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::PREFIX_LONG;
 }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "long ";
+	*yyOutId << "const ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::PREFIX_LONG;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::PREFIX_CONST;
 }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "const ";
+	*yyOutId << "if ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::PREFIX_CONST;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::IF_OPERATOR;
 }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "if ";
+	*yyOutId << "else ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::IF_OPERATOR;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::ELSE_OPERATOR;
 }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "else ";
+	*yyOutId << "switch ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::ELSE_OPERATOR;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::SWITCH_OPERATOR;
 }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "switch ";
+	*yyOutId << "case ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::SWITCH_OPERATOR;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::CASE_OPERATOR;
 }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "case ";
+	*yyOutId << "case_enumerator ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::CASE_OPERATOR;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::CASE_ENUMERATOR;
 }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "case_enumerator ";
+	*yyOutId << "while ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::CASE_ENUMERATOR;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::WHILE_OPERATOR;
 }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "while ";
+	*yyOutId << "do ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::WHILE_OPERATOR;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::DO_OPERATOR;
 }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "do ";
+	*yyOutId << "for ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::DO_OPERATOR;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::FOR_OPERATOR;
 }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "for ";
+	*yyOutId << "break ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::FOR_OPERATOR;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::BREAK_OPERATOR;
 }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "break ";
+	*yyOutId << "continue ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::BREAK_OPERATOR;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::CONTINUE_OPERATOR;
 }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "continue ";
+	*yyOutId << "Identificator ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::CONTINUE_OPERATOR;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::Identificator;
 }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "Identificator ";
+	*yyOutId << "START_LIST_ARGUMENTS ";
 
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::Identificator;
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::START_LIST_ARGUMENTS;
 }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
 {
 	
-	*yyOutId << "START_LIST_ARGUMENTS ";
-
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::START_LIST_ARGUMENTS;
-}
-	YY_BREAK
-case 57:
-YY_RULE_SETUP
-{
-	
 	*yyOutId << "END_LIST_ARGUMENTS ";
 	
-    yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::END_LIST_ARGUMENTS;
 }
 	YY_BREAK
 /* gobble up end-of-lines */
-case 58:
-/* rule 58 can match eol */
+case 57:
+/* rule 57 can match eol */
 YY_RULE_SETUP
 {
     yylloc->step();
 }
 	YY_BREAK
 /*** END EXAMPLE - Change the example lexer rules above ***/
-case 59:
+case 58:
 YY_RULE_SETUP
 ECHO;
 	YY_BREAK
@@ -1976,7 +1970,7 @@ int yyFlexLexer::yy_get_next_buffer()
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 157 )
+			if ( yy_current_state >= 158 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -2009,11 +2003,11 @@ int yyFlexLexer::yy_get_next_buffer()
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 157 )
+		if ( yy_current_state >= 158 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 156);
+	yy_is_jam = (yy_current_state == 157);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }

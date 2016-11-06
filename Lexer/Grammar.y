@@ -7,7 +7,7 @@
 #include <string.h>
 
 // TODO : YYSTYPE - it is token
-#define YYSTYPE double
+//#define YYSTYPE double
 
 extern int yylex();
 
@@ -75,7 +75,6 @@ extern int yylex();
     double 				doubleValue;
 	bool				boolValue;
     std::string*		stringVal;// TODO : see need separately char
-    
 }
 
 /*
@@ -102,7 +101,7 @@ extern int yylex();
 
 %token PLUS
 %token MINUS
-%token DIVIDE
+%token DIVIDE 
 %token STAR
 %token PERCENT
 
@@ -150,10 +149,6 @@ extern int yylex();
 //		Типы и их имена
 //////////////////////////////
 */
-/* Text */
-%token CHAR					/* Планируется добавить поддержку unicode , чтобы русские символы отображались */
-%token STRING
-
 %token NAME_INTEGER
 %token NAME_FLOAT
 %token NAME_CHAR
@@ -191,7 +186,19 @@ extern int yylex();
 	приоритета операторов и правил ассоциативности
 */
 
+/* Block type nodes
+%type <calcnode>	constant variable
 
+*/
+
+/* Планируется добавить поддержку unicode , чтобы русские символы отображались */
+%token <stringVal> 	STRING		"string"
+%token <stringVal> 	CHAR		"char"
+
+/* Block destructors
+%destructor { delete $$; } STRING
+*/
+%destructor { delete $$; } STRING CHAR
 
 %%
 
@@ -221,9 +228,7 @@ commands:
 		;
 
 command:
-		ONLY_STRING_COMMENT 
-		| MULTI_STRING_COMMENT 
-		| commandContent 
+		commandContent 
 		COMMAND_SEPARATOR  /*  TODO : see Rule.txt */
 		;
 

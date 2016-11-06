@@ -71,7 +71,6 @@ namespace example {
     double 				doubleValue;
 	bool				boolValue;
     std::string*		stringVal;// TODO : see need separately char
-    
 
 
 
@@ -124,32 +123,32 @@ namespace example {
      MULTI_STRING_COMMENT = 292,
      START_IDENTIFICATION = 293,
      END_IDENTIFICATION = 294,
-     CHAR = 295,
-     STRING = 296,
-     NAME_INTEGER = 297,
-     NAME_FLOAT = 298,
-     NAME_CHAR = 299,
-     NAME_STRING = 300,
-     NAME_LOGIC = 301,
-     PREFIX_SIGNED = 302,
-     PREFIX_UNSIGNED = 303,
-     PREFIX_LONG = 304,
-     PREFIX_CONST = 305,
-     IF_OPERATOR = 306,
-     ELSE_OPERATOR = 307,
-     SWITCH_OPERATOR = 308,
-     CASE_OPERATOR = 309,
-     CASE_ENUMERATOR = 310,
-     WHILE_OPERATOR = 311,
-     DO_OPERATOR = 312,
-     FOR_OPERATOR = 313,
-     BREAK_OPERATOR = 314,
-     CONTINUE_OPERATOR = 315,
-     LOGIC = 316,
-     NAME_RETURN = 317,
-     Identificator = 318,
-     START_LIST_ARGUMENTS = 319,
-     END_LIST_ARGUMENTS = 320
+     NAME_INTEGER = 295,
+     NAME_FLOAT = 296,
+     NAME_CHAR = 297,
+     NAME_STRING = 298,
+     NAME_LOGIC = 299,
+     PREFIX_SIGNED = 300,
+     PREFIX_UNSIGNED = 301,
+     PREFIX_LONG = 302,
+     PREFIX_CONST = 303,
+     IF_OPERATOR = 304,
+     ELSE_OPERATOR = 305,
+     SWITCH_OPERATOR = 306,
+     CASE_OPERATOR = 307,
+     CASE_ENUMERATOR = 308,
+     WHILE_OPERATOR = 309,
+     DO_OPERATOR = 310,
+     FOR_OPERATOR = 311,
+     BREAK_OPERATOR = 312,
+     CONTINUE_OPERATOR = 313,
+     LOGIC = 314,
+     NAME_RETURN = 315,
+     Identificator = 316,
+     START_LIST_ARGUMENTS = 317,
+     END_LIST_ARGUMENTS = 318,
+     STRING = 319,
+     CHAR = 320
    };
 
     };
