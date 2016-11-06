@@ -187,7 +187,7 @@ extern int yylex();
 */
 
 /* Block type nodes
-%type <calcnode>	constant variable
+%type <calcnode>	constant Variable
 
 */
 
@@ -238,6 +238,19 @@ commandContent:
 
 Variable: 
 		Identificator /*  TODO : see ADDRESED_OPERATION*/
+		{
+			if (!driver.calc.existsVariable(*$1)) 
+			{
+				error(yyloc, std::string("Unknown variable \"") + *$1 + "\"");
+				delete $1;
+				YYERROR;
+			}
+			else 
+			{
+				$$ = new CNConstant( driver.calc.getVariable(*$1) );
+				delete $1;
+			}
+		}
 		;
 
 		/*
@@ -279,7 +292,15 @@ DEFINITION_POINTER	: /* nothing */ | Can_have_const STAR ;
 //						Числа
 ////////////////////////////////////////////////////////////////////
 */
-Number : FLOAT | INT; /* TODO : неоднозначность */
+Number : FLOAT 
+			{
+				$$ = new CNConstant($1);
+			}
+		| INT
+			{
+				$$ = new CNConstant($1);
+			}
+		; /* TODO : неоднозначность */
 /*
 ////////////////////////////////////////////////////////////////////
 //						Выражения
@@ -304,6 +325,109 @@ Bool_expression : NEGATION Value | Value Right_bool_expression_part;
 */
 
 Right_bool_expression_part : /* nothing */ | Bool_signs Bool_expression ;
+
+
+/*//////////////////////////////////////////*/
+/*					New code				*/
+
+
+atomexpr : Number
+			{
+				$$ = $1;
+			}
+         | Variable
+			{
+				$$ = $1;
+			}
+         | '(' expr ')'
+			{
+				$$ = $2;
+			}
+
+powexpr	: atomexpr
+          {
+	      $$ = $1;
+	  }
+        | atomexpr '^' powexpr
+          {
+	      $$ = new CNPower($1, $3);
+	  }
+
+unaryexpr : powexpr
+            {
+		$$ = $1;
+	    }
+          | '+' powexpr
+            {
+		$$ = $2;
+	    }
+          | '-' powexpr
+            {
+		$$ = new CNNegate($2);
+	    }
+
+mulexpr : unaryexpr
+          {
+	      $$ = $1;
+	  }
+        | mulexpr '*' unaryexpr
+          {
+	      $$ = new CNMultiply($1, $3);
+	  }
+        | mulexpr '/' unaryexpr
+          {
+	      $$ = new CNDivide($1, $3);
+	  }
+        | mulexpr '%' unaryexpr
+          {
+	      $$ = new CNModulo($1, $3);
+	  }
+
+addexpr : mulexpr
+          {
+	      $$ = $1;
+	  }
+        | addexpr '+' mulexpr
+          {
+	      $$ = new CNAdd($1, $3);
+	  }
+        | addexpr '-' mulexpr
+          {
+	      $$ = new CNSubtract($1, $3);
+	  }
+
+expr	: addexpr
+          {
+	      $$ = $1;
+	  }
+
+assignment : STRING '=' expr
+             {
+		 driver.calc.variables[*$1] = $3->evaluate();
+		 std::cout << "Setting variable " << *$1
+			   << " = " << driver.calc.variables[*$1] << "\n";
+		 delete $1;
+		 delete $3;
+	     }
+
+start	: /* empty */
+        | start ';'
+        | start EOL
+	| start assignment ';'
+	| start assignment EOL
+	| start assignment END
+        | start expr ';'
+          {
+	      driver.calc.expressions.push_back($2);
+	  }
+        | start expr EOL
+          {
+	      driver.calc.expressions.push_back($2);
+	  }
+        | start expr END
+          {
+	      driver.calc.expressions.push_back($2);
+	  }
 /*
 ////////////////////////////////////////////////////////////////////
 //
