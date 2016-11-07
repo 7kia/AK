@@ -33,12 +33,6 @@
     <ClInclude Include="Grammar.h">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
-    <ClInclude Include="Lexer.h">
-      <Filter>Файлы исходного кода</Filter>
-    </ClInclude>
-    <ClInclude Include="Token.h">
-      <Filter>Файлы исходного кода</Filter>
-    </ClInclude>
     <ClInclude Include="location.hh">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
@@ -47,12 +41,6 @@
     </ClInclude>
     <ClInclude Include="stack.hh">
       <Filter>Файлы исходного кода</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Compile.h">
-      <Filter>Файлы исходного кода\src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Converter.h">
-      <Filter>Файлы исходного кода\src</Filter>
     </ClInclude>
     <ClInclude Include="src\driver.h">
       <Filter>Файлы исходного кода\src</Filter>
@@ -77,20 +65,11 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="Token.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="Grammar.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="lexer.cpp">
       <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Compile.cpp">
-      <Filter>Файлы исходного кода\src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Converter.cpp">
-      <Filter>Файлы исходного кода\src</Filter>
     </ClCompile>
     <ClCompile Include="src\driver.cc">
       <Filter>Файлы исходного кода\src</Filter>

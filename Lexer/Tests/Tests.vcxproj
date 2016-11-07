@@ -156,8 +156,6 @@
     <ClInclude Include="..\location.hh" />
     <ClInclude Include="..\position.hh" />
     <ClInclude Include="..\src\CalcContext.h" />
-    <ClInclude Include="..\src\Compile.h" />
-    <ClInclude Include="..\src\Converter.h" />
     <ClInclude Include="..\src\driver.h" />
     <ClInclude Include="..\src\expression.h" />
     <ClInclude Include="..\src\Node.h" />
@@ -171,10 +169,7 @@
   <ItemGroup>
     <ClCompile Include="..\Grammar.cpp" />
     <ClCompile Include="..\Lexer.cpp" />
-    <ClCompile Include="..\src\Compile.cpp" />
-    <ClCompile Include="..\src\Converter.cpp" />
     <ClCompile Include="..\src\driver.cc" />
-    <ClCompile Include="..\Token.cpp" />
     <ClCompile Include="FunctionsForTests.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

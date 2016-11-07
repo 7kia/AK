@@ -36,12 +36,6 @@
     <ClInclude Include="TestsLexer.h">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Compile.h">
-      <Filter>TestClasses\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Converter.h">
-      <Filter>TestClasses\src</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\driver.h">
       <Filter>TestClasses\src</Filter>
     </ClInclude>
@@ -83,17 +77,8 @@
     <ClCompile Include="TestsLexer.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Compile.cpp">
-      <Filter>TestClasses\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Converter.cpp">
-      <Filter>TestClasses\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\driver.cc">
       <Filter>TestClasses\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Token.cpp">
-      <Filter>TestClasses</Filter>
     </ClCompile>
     <ClCompile Include="..\Grammar.cpp">
       <Filter>TestClasses</Filter>

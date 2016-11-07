@@ -7,7 +7,7 @@
 #include "main.h"
 #include "src/driver.h"
 #include "src/CalcContext.h"
-#include "src/Compile.h"
+#include "src/scanner.h"
 
 int main(int argc, char *argv[])
 {
