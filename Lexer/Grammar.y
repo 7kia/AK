@@ -386,7 +386,7 @@ powexpr	: atomexpr
 	  }
         | atomexpr POWER powexpr
           {
-	      $$ = new CNPower($1, $3);
+	      $$ = new CNPower(dynamic_cast<CalcNode*>($1), dynamic_cast<CalcNode*>($3));
 	  }
 
 unaryexpr : powexpr
@@ -399,7 +399,7 @@ unaryexpr : powexpr
 	    }
           | MINUS powexpr
             {
-		$$ = new CNNegate($2);
+		$$ = new CNNegate(dynamic_cast<CalcNode*>($2));
 	    }
 
 mulexpr : unaryexpr
@@ -408,15 +408,15 @@ mulexpr : unaryexpr
 			}
 			| mulexpr STAR unaryexpr
 			{
-				$$ = new CNMultiply($1, $3);
+				$$ = new CNMultiply(dynamic_cast<CalcNode*>($1), dynamic_cast<CalcNode*>($3));
 			}
 			| mulexpr DIVIDE unaryexpr
 			{
-				$$ = new CNDivide($1, $3);
+				$$ = new CNDivide(dynamic_cast<CalcNode*>($1), dynamic_cast<CalcNode*>($3));
 			}
 			| mulexpr PERCENT unaryexpr
 			{
-				$$ = new CNModulo($1, $3);
+				$$ = new CNModulo(dynamic_cast<CalcNode*>($1), dynamic_cast<CalcNode*>($3));
 			}
 
 addexpr : mulexpr
@@ -425,11 +425,11 @@ addexpr : mulexpr
 			}
 			| addexpr PLUS mulexpr
 			{
-				$$ = new CNAdd($1, $3);
+				$$ = new CNAdd(dynamic_cast<CalcNode*>($1), dynamic_cast<CalcNode*>($3));
 			}
 			| addexpr MINUS mulexpr
 			{
-				$$ = new CNSubtract($1, $3);
+				$$ = new CNSubtract(dynamic_cast<CalcNode*>($1), dynamic_cast<CalcNode*>($3));
 			}
 
 Arithmetic_expression	: addexpr
