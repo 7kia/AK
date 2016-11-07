@@ -152,6 +152,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="position.hh" />
     <ClInclude Include="src\CalcContext.h" />
+    <ClInclude Include="src\CharNodes.h" />
     <ClInclude Include="src\Compile.h" />
     <ClInclude Include="src\Converter.h" />
     <ClInclude Include="src\driver.h" />

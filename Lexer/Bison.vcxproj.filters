@@ -72,6 +72,9 @@
     <ClInclude Include="src\Node.h">
       <Filter>Файлы исходного кода\src</Filter>
     </ClInclude>
+    <ClInclude Include="src\CharNodes.h">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

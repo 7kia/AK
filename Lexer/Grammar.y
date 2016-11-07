@@ -13,6 +13,7 @@ extern int yylex();
 
 #include "src/driver.h"
 #include "Lexer.h"
+#include "src/CalcContext.h"
 
 /* this "connects" the bison parser in the driver to the flex scanner class
  * object. it defines the yylex() function call to pull the next token from the
@@ -75,6 +76,7 @@ extern int yylex();
     double 				doubleValue;
 	bool				boolValue;
     std::string*		stringVal;// TODO : see need separately char
+	class CNode*		calcnode;
 }
 
 /*
@@ -96,15 +98,12 @@ extern int yylex();
 %token DIGIT_ZERO				
 %token DIGIT					
 
-%token INT
-%token FLOAT
-
 %token PLUS
 %token MINUS
 %token DIVIDE 
 %token STAR
 %token PERCENT
-
+%token POWER
 %token LESS
 %token MORE
 
@@ -173,10 +172,7 @@ extern int yylex();
 %token BREAK_OPERATOR
 %token CONTINUE_OPERATOR
 
-%token LOGIC
 %token NAME_RETURN
-
-%token Identificator
 
 %token START_LIST_ARGUMENTS
 %token END_LIST_ARGUMENTS
@@ -192,13 +188,32 @@ extern int yylex();
 */
 
 /* Планируется добавить поддержку unicode , чтобы русские символы отображались */
-%token <stringVal> 	STRING		"string"
-%token <stringVal> 	CHAR		"char"
+%token <stringVal> 		STRING		"string"
+%token <stringVal>		CHAR		"char"
+%token <boolValue> 		LOGIC		"bool"
+%token <integerValue>	INT			"int"
+%token <doubleValue>	FLOAT		"float"
+%token <stringVal>		Identificator "Id"
+
+
+%type <calcnode>	Variable
+%type <calcnode>	atomexpr powexpr unaryexpr mulexpr addexpr Arithmetic_expression
+
+%type <calcnode>	Left_part_assign Right_part_assign Value
+%type <calcnode>	Call_function
+%type <calcnode>	Literal Number
 
 /* Block destructors
 %destructor { delete $$; } STRING
 */
 %destructor { delete $$; } STRING CHAR
+%destructor { delete $$; } LOGIC
+%destructor { delete $$; } Variable
+%destructor { delete $$; } atomexpr powexpr unaryexpr mulexpr addexpr Arithmetic_expression
+
+%destructor { delete $$; } Left_part_assign Right_part_assign Value
+%destructor { delete $$; } Call_function 
+%destructor { delete $$; } Literal Number
 
 %%
 
@@ -255,6 +270,20 @@ Variable:
 
 		/*
 ////////////////////////////////////////////////////////////////////
+//						Числа
+////////////////////////////////////////////////////////////////////
+*/
+Number : FLOAT 
+			{
+				$$ = new CNConstant($1);
+			}
+		| INT
+			{
+				$$ = new CNConstant($1);
+			}
+		; /* TODO : неоднозначность */
+		/*
+////////////////////////////////////////////////////////////////////
 //
 //
 //						Типы
@@ -272,11 +301,22 @@ NAME_NUMERIC_TYPES :
 		;
 
 Literal :
-
-		Number | 
-		LOGIC |
-		CHAR | 
-		STRING
+		Number 
+			{
+				$$ = $1;
+			}
+		| LOGIC 
+			{
+				$$ = new CNBool($1);
+			}
+		| CHAR 
+			{
+				$$ = new CNChar($1);
+			}
+		| STRING
+			{
+				$$ = new CNConstant($1);
+			}
 		;
 
 Prefix_type	: Can_have_const Name_without_const ;
@@ -287,29 +327,20 @@ Can_be_long : /* nothing */ | PREFIX_LONG;
 
 DEFINITION_POINTER	: /* nothing */ | Can_have_const STAR ;
 
-/*
-////////////////////////////////////////////////////////////////////
-//						Числа
-////////////////////////////////////////////////////////////////////
-*/
-Number : FLOAT 
-			{
-				$$ = new CNConstant($1);
-			}
-		| INT
-			{
-				$$ = new CNConstant($1);
-			}
-		; /* TODO : неоднозначность */
+
 /*
 ////////////////////////////////////////////////////////////////////
 //						Выражения
 ////////////////////////////////////////////////////////////////////
 */
-Expression : Arithmetic_expression | Bool_expression ; /* | bool_expression*/
+Expression : Arithmetic_expression 
+					{
+						driver.calc.expressions.push_back($1);
+					}
+				| Bool_expression ; /* | bool_expression*/
 
 Arithmetic_signs : PLUS | MINUS | STAR | DIVIDE | PERCENT ;
-Arithmetic_expression : Value Right_arithmetic_expression_part ;
+//Arithmetic_expression : Value Right_arithmetic_expression_part ;
 
 Right_arithmetic_expression_part : /* nothing */ | Arithmetic_signs Arithmetic_expression ;
 
@@ -330,7 +361,12 @@ Right_bool_expression_part : /* nothing */ | Bool_signs Bool_expression ;
 /*//////////////////////////////////////////*/
 /*					New code				*/
 
-
+/*
+В каждом действии псевдопеременная $$ обозначает семантическое значение группы,
+ которую собирает это правило. Присвоение $$ значения -- основная работа 
+ большинства действий. На семантические значения компонентов правила можно 
+ ссылаться как на $1, $2 и т.д.
+*/
 atomexpr : Number
 			{
 				$$ = $1;
@@ -339,7 +375,7 @@ atomexpr : Number
 			{
 				$$ = $1;
 			}
-         | '(' expr ')'
+         | START_LIST_ARGUMENTS Arithmetic_expression END_LIST_ARGUMENTS
 			{
 				$$ = $2;
 			}
@@ -348,7 +384,7 @@ powexpr	: atomexpr
           {
 	      $$ = $1;
 	  }
-        | atomexpr '^' powexpr
+        | atomexpr POWER powexpr
           {
 	      $$ = new CNPower($1, $3);
 	  }
@@ -357,77 +393,50 @@ unaryexpr : powexpr
             {
 		$$ = $1;
 	    }
-          | '+' powexpr
+          | PLUS powexpr
             {
 		$$ = $2;
 	    }
-          | '-' powexpr
+          | MINUS powexpr
             {
 		$$ = new CNNegate($2);
 	    }
 
 mulexpr : unaryexpr
-          {
-	      $$ = $1;
-	  }
-        | mulexpr '*' unaryexpr
-          {
-	      $$ = new CNMultiply($1, $3);
-	  }
-        | mulexpr '/' unaryexpr
-          {
-	      $$ = new CNDivide($1, $3);
-	  }
-        | mulexpr '%' unaryexpr
-          {
-	      $$ = new CNModulo($1, $3);
-	  }
+			{
+				$$ = $1;
+			}
+			| mulexpr STAR unaryexpr
+			{
+				$$ = new CNMultiply($1, $3);
+			}
+			| mulexpr DIVIDE unaryexpr
+			{
+				$$ = new CNDivide($1, $3);
+			}
+			| mulexpr PERCENT unaryexpr
+			{
+				$$ = new CNModulo($1, $3);
+			}
 
 addexpr : mulexpr
-          {
-	      $$ = $1;
-	  }
-        | addexpr '+' mulexpr
-          {
-	      $$ = new CNAdd($1, $3);
-	  }
-        | addexpr '-' mulexpr
-          {
-	      $$ = new CNSubtract($1, $3);
-	  }
+			{
+				$$ = $1;
+			}
+			| addexpr PLUS mulexpr
+			{
+				$$ = new CNAdd($1, $3);
+			}
+			| addexpr MINUS mulexpr
+			{
+				$$ = new CNSubtract($1, $3);
+			}
 
-expr	: addexpr
-          {
-	      $$ = $1;
-	  }
+Arithmetic_expression	: addexpr
+			{
+				$$ = $1;
+			}
 
-assignment : STRING '=' expr
-             {
-		 driver.calc.variables[*$1] = $3->evaluate();
-		 std::cout << "Setting variable " << *$1
-			   << " = " << driver.calc.variables[*$1] << "\n";
-		 delete $1;
-		 delete $3;
-	     }
-
-start	: /* empty */
-        | start ';'
-        | start EOL
-	| start assignment ';'
-	| start assignment EOL
-	| start assignment END
-        | start expr ';'
-          {
-	      driver.calc.expressions.push_back($2);
-	  }
-        | start expr EOL
-          {
-	      driver.calc.expressions.push_back($2);
-	  }
-        | start expr END
-          {
-	      driver.calc.expressions.push_back($2);
-	  }
 /*
 ////////////////////////////////////////////////////////////////////
 //
@@ -455,7 +464,15 @@ Value:
 	;
 
 Assign_for_variable:
-					Left_part_assign Assigns Right_part_assign /* TODO : add  */
+					Left_part_assign Assigns Right_part_assign 
+					{
+							driver.calc.variables[*$1] = $3->evaluate();
+							yyout << "Setting variable " << *$1
+								<< " = " << driver.calc.variables[*$1] << "\n";
+							delete $1;
+							delete $3;
+					}
+					/* TODO : add  */
 					;
 
 Assigns : PLUS_ASSIGN | MINUS_ASSIGN | MULTIPLY_ASSIGN | DIVIDE_ASSIGN | PERCENT_ASSIGN | ASSIGN ;

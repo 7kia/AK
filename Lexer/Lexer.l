@@ -95,13 +95,15 @@ FLOAT					{Have_sign}((([0-9]+)"."([0-9]*))|("."([0-9]+))){Expotential_part}?
 //////////////////////////////
 //			Операции
 //////////////////////////////
+// TODO : was DIVIDE	" /"
 */
 
 PLUS					"+"
 MINUS					"-"
-DIVIDE					" /"
+DIVIDE					"/"
 STAR					"*"
 PERCENT					"%"
+POWER					"^"
 
 LESS					"<"
 MORE					">"
@@ -118,21 +120,6 @@ MULTIPLY_ASSIGN			"*="
 DIVIDE_ASSIGN			"/="
 PERCENT_ASSIGN			"%="
 
-/*
-//			Битовые
-//  TODO : отсутствуют
-*/
-BIT_AND					"&"
-BIT_OR					"|"
-BIT_XOR					"^"
-BIT_LEFT_SHIFT			"<<"
-BIT_RIGHT_SHIFT			">>"
-
-BIT_AND_ASSIGN			"&="
-BIT_OR_ASSIGN			"|="
-BIT_XOR_ASSIGN			"^="
-BIT_LEFT_SHIFT_ASSIGN	"<<="
-BIT_RIGHT_SHIFT_ASSIGN	">>="
 
 INCREMENT				"++"
 DECREMENT				"--"
@@ -337,6 +324,13 @@ UNDERSCORE_SYMBOL		"_"
 
     //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::PERCENT;
+}
+{POWER} {
+	
+	*yyOutId << "Power ";
+
+    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+    return token::POWER;
 }
 {LESS} {
 	
