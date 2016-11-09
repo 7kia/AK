@@ -53,7 +53,7 @@ public:
     CValue operator +()const;
     CValue operator -()const;
     CValue operator !()const;
-    CValue operator <(const CValue &other)const;
+    CValue operator <(const CValue &other)const;// TODO : add > <= >=
     CValue operator ==(const CValue &other)const;
     CValue operator &&(const CValue &other)const;
     CValue operator ||(const CValue &other)const;

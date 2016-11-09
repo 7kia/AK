@@ -7,7 +7,6 @@
 #include "main.h"
 #include "src/driver.h"
 #include "src/CalcContext.h"
-#include "src/Compile.h"
 
 int main(int argc, char *argv[])
 {

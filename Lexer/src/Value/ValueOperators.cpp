@@ -44,14 +44,24 @@ CValue CValue::operator !() const
 
 CValue CValue::operator <(const CValue &other) const
 {
-	if (AreBothValues<int>(*this, other))
+	const auto &leftType = m_value.type();
+	const auto &rightType = other.m_value.type();
+
+	bool leftIsInt = (leftType == typeid(int));
+	bool leftIsDouble = (leftType == typeid(double));
+	bool rightIsInt = (rightType == typeid(int));
+	bool rightIsDouble = (rightType == typeid(double));
+
+	if (leftIsInt && rightIsInt)
 	{
 		return Value(AsInt() < other.AsInt());
 	}
-	if (AreBothValues<double>(*this, other))
+	if (((leftIsInt || rightIsInt) && (leftIsDouble || rightIsDouble))
+		|| (leftIsDouble && rightIsDouble))
 	{
 		return Value(AsDouble() < other.AsDouble());
 	}
+
 	if (AreBothValues<std::string>(*this, other))
 	{
 		return Value(AsString() < other.AsString());
@@ -61,14 +71,24 @@ CValue CValue::operator <(const CValue &other) const
 
 CValue CValue::operator ==(const CValue &other) const
 {
-	if (AreBothValues<int>(*this, other))
+	const auto &leftType = m_value.type();
+	const auto &rightType = other.m_value.type();
+
+	bool leftIsInt = (leftType == typeid(int));
+	bool leftIsDouble = (leftType == typeid(double));
+	bool rightIsInt = (rightType == typeid(int));
+	bool rightIsDouble = (rightType == typeid(double));
+
+	if (leftIsInt && rightIsInt)
 	{
 		return Value(AsInt() == other.AsInt());
 	}
-	if (AreBothValues<double>(*this, other))
+	if (((leftIsInt || rightIsInt) && (leftIsDouble || rightIsDouble))
+		|| (leftIsDouble && rightIsDouble))
 	{
-		return Value(FuzzyEquals(AsDouble(), other.AsDouble()));
+		Value(FuzzyEquals(AsDouble(), other.AsDouble()));
 	}
+
 	if (AreBothValues<std::string>(*this, other))
 	{
 		return Value(AsString() == other.AsString());

@@ -19,6 +19,9 @@
     <Filter Include="Файлы исходного кода\src">
       <UniqueIdentifier>{fbfae5ac-0a4f-4048-ae8f-f7e4d4ab24f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы исходного кода\src\Value">
+      <UniqueIdentifier>{c88b8575-fd6e-4dee-a944-f4148c265b20}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -33,12 +36,6 @@
     <ClInclude Include="Grammar.h">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
-    <ClInclude Include="Lexer.h">
-      <Filter>Файлы исходного кода</Filter>
-    </ClInclude>
-    <ClInclude Include="Token.h">
-      <Filter>Файлы исходного кода</Filter>
-    </ClInclude>
     <ClInclude Include="location.hh">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
@@ -47,12 +44,6 @@
     </ClInclude>
     <ClInclude Include="stack.hh">
       <Filter>Файлы исходного кода</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Compile.h">
-      <Filter>Файлы исходного кода\src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Converter.h">
-      <Filter>Файлы исходного кода\src</Filter>
     </ClInclude>
     <ClInclude Include="src\driver.h">
       <Filter>Файлы исходного кода\src</Filter>
@@ -75,12 +66,12 @@
     <ClInclude Include="src\CharNodes.h">
       <Filter>Файлы исходного кода\src</Filter>
     </ClInclude>
+    <ClInclude Include="src\Value\Value.h">
+      <Filter>Файлы исходного кода\src\Value</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="Token.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="Grammar.cpp">
@@ -89,17 +80,20 @@
     <ClCompile Include="lexer.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="src\Compile.cpp">
-      <Filter>Файлы исходного кода\src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Converter.cpp">
-      <Filter>Файлы исходного кода\src</Filter>
-    </ClCompile>
     <ClCompile Include="src\driver.cc">
       <Filter>Файлы исходного кода\src</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Value\Value.cpp">
+      <Filter>Файлы исходного кода\src\Value</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Value\ValueOperators.cpp">
+      <Filter>Файлы исходного кода\src\Value</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Value\ConvertToValue.cpp">
+      <Filter>Файлы исходного кода\src\Value</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

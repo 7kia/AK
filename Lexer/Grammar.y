@@ -12,7 +12,7 @@
 extern int yylex();
 
 #include "src/driver.h"
-#include "Lexer.h"
+#include "src/scanner.h"
 #include "src/CalcContext.h"
 
 /* this "connects" the bison parser in the driver to the flex scanner class
@@ -311,11 +311,11 @@ Literal :
 			}
 		| CHAR 
 			{
-				$$ = new CNChar($1);
+				$$ = new CNChar(*$1);
 			}
 		| STRING
 			{
-				$$ = new CNConstant($1);
+				$$ = new CNString(*$1);
 			}
 		;
 
@@ -466,8 +466,8 @@ Value:
 Assign_for_variable:
 					Left_part_assign Assigns Right_part_assign 
 					{
-							driver.calc.variables[*$1] = $3->evaluate();
-							yyout << "Setting variable " << *$1
+							driver.calc.variables[*$1] = static_cast<CalcNode*>($3)->evaluate();// TODO : delete cast
+							driver.m_outFile << "Setting variable " << *$1
 								<< " = " << driver.calc.variables[*$1] << "\n";
 							delete $1;
 							delete $3;
