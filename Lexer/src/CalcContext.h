@@ -47,13 +47,13 @@ public:
 // Data
 public:
 	/// type of the variable storage
-	typedef std::map<std::string, double> variablemap_type;
+	typedef std::map<std::string, CNode> variablemap_type;
 
 	/// variable storage. maps variable string to doubles
 	variablemap_type		variables;
 
 	/// array of unassigned expressions found by the parser. these are then
 	/// outputted to the user.
-	std::vector<CalcNode*>	expressions;
+	std::vector<CNode*>	expressions;
 
 };
