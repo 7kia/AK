@@ -14,7 +14,7 @@ extern int yylex();
 #include "src/driver.h"
 #include "src/scanner.h"
 #include "src/AST/ASTNodes.h"
-
+#include "src/ScannerPrivate.h"
 /* this "connects" the bison parser in the driver to the flex scanner class
  * object. it defines the yylex() function call to pull the next token from the
  * current lexer object of the driver context. */

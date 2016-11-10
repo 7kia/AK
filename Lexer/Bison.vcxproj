@@ -159,6 +159,7 @@
     <ClInclude Include="src\expression.h" />
     <ClInclude Include="src\Node.h" />
     <ClInclude Include="src\scanner.h" />
+    <ClInclude Include="src\ScannerPrivate.h" />
     <ClInclude Include="src\Value\Value.h" />
     <ClInclude Include="stack.hh" />
     <ClInclude Include="stdafx.h" />

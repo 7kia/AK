@@ -6,7 +6,7 @@
 
 #include "main.h"
 #include "src/driver.h"
-#include "src/AST.h"
+#include "src/AST/AST.h"
 
 int main(int argc, char *argv[])
 {

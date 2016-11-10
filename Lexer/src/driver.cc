@@ -8,7 +8,7 @@
 
 
 #include "driver.h"
-#include "AST.h"
+#include "AST/AST.h"
 #include "scanner.h"
 
 namespace example {
@@ -29,6 +29,10 @@ bool Driver::parse_stream(std::istream& in, const std::string& sname)
 	m_idsFile.open(m_fileIds);
 	
     Scanner scanner(&in, &m_outFile, &m_idsFile);
+	calc.SetOutputStream(m_outFile);
+	calc.SetErrorStream(m_outFile);
+	calc.SetStringPool(m_stringPool);
+
     scanner.set_debug(trace_scanning);
     this->lexer = &scanner;
 
@@ -61,6 +65,7 @@ bool Driver::parse_file(const std::string &filename
 						, const std::string &outFileName
 						, const std::string &idsFileName)
 {
+
 	m_outFileName = outFileName;
 	m_fileIds = idsFileName;
     std::ifstream in(filename.c_str());

@@ -73,7 +73,11 @@ public:
      * e.g. to a dialog box. */
     void error(const std::string& m);
 
-
+///////////////////////////////////////////////////////////////
+// Data
+public:
+    class Scanner* lexer;
+    class CAST& calc;
 
 	/** Name file where will write recognize ids
 	* expressions. */
@@ -83,9 +87,7 @@ public:
 	std::ofstream m_outFile;
 	std::ofstream m_idsFile;
 private:
-    class CAST& calc;
 	CStringPool m_stringPool;
-    class Scanner* lexer;
 
 };
 
