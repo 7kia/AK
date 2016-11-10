@@ -13,7 +13,7 @@ extern int yylex();
 
 #include "src/driver.h"
 #include "src/scanner.h"
-#include "src/CalcContext.h"
+#include "src/AST.h"
 
 /* this "connects" the bison parser in the driver to the flex scanner class
  * object. it defines the yylex() function call to pull the next token from the
@@ -311,7 +311,8 @@ Literal :
 			}
 		| CHAR 
 			{
-				$$ = new CNChar(*$1);
+				char value = (*$1)[0];// TODO : rewrite, add char to union /\ //
+				$$ = new CNChar(value);
 			}
 		| STRING
 			{
@@ -460,7 +461,7 @@ Arithmetic_expression	: addexpr
 */
 
 Value:
-		Call_function | Variable  | Literal /* TODO : add  <expression> | */
+		Call_function | Variable  | Literal /* TODO : type Value =  CNFunction || CValue */
 	;
 
 Assign_for_variable:
@@ -497,11 +498,11 @@ Init_variable:
 				 Type_initialization Name_init_variable
 				 ; /* instead " " <common separator> */
 
-
+Name_init_variable:  Variable | Array_element;
 Array_element : Variable First_identification Other_identification;
 First_identification : START_IDENTIFICATION Value END_IDENTIFICATION ;
 Other_identification : First_identification Other_identification | /* nothing */ ;
-Name_init_variable: Array_element | Variable ;
+
 /*                     		\/ Types.txt		*/
 
 Type_initialization :

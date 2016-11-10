@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Node.h"
+#include "Value\Value.h"
 
 /** Calculation node always returning a constant value. */
 class CNConstant : public CalcNode

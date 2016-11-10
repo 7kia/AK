@@ -22,6 +22,9 @@
     <Filter Include="Файлы исходного кода\src\Value">
       <UniqueIdentifier>{c88b8575-fd6e-4dee-a944-f4148c265b20}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы исходного кода\src\AST">
+      <UniqueIdentifier>{0abbebad-dc0f-41d6-b224-139fad11a686}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -57,9 +60,6 @@
     <ClInclude Include="main.h">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
-    <ClInclude Include="src\CalcContext.h">
-      <Filter>Файлы исходного кода\src</Filter>
-    </ClInclude>
     <ClInclude Include="src\Node.h">
       <Filter>Файлы исходного кода\src</Filter>
     </ClInclude>
@@ -68,6 +68,12 @@
     </ClInclude>
     <ClInclude Include="src\Value\Value.h">
       <Filter>Файлы исходного кода\src\Value</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AST.h">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AST\ASTNodes.h">
+      <Filter>Файлы исходного кода\src\AST</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -94,6 +100,12 @@
     </ClCompile>
     <ClCompile Include="src\Value\ConvertToValue.cpp">
       <Filter>Файлы исходного кода\src\Value</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AST\ASTNodes.cpp">
+      <Filter>Файлы исходного кода\src\AST</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AST.cpp">
+      <Filter>Файлы исходного кода\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

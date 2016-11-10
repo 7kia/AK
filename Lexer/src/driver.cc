@@ -8,12 +8,12 @@
 
 
 #include "driver.h"
-#include "CalcContext.h"
+#include "AST.h"
 #include "scanner.h"
 
 namespace example {
 
-Driver::Driver(class CalcContext& _calc)
+Driver::Driver(class CAST& _calc)
     : trace_scanning(false),
       trace_parsing(false),
       calc(_calc)

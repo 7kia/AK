@@ -6,11 +6,11 @@
 
 #include "main.h"
 #include "src/driver.h"
-#include "src/CalcContext.h"
+#include "src/AST.h"
 
 int main(int argc, char *argv[])
 {
-	CalcContext calc;
+	CAST calc;
 	example::Driver driver(calc);
 	bool readfile = false;
 

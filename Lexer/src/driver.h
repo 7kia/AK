@@ -8,7 +8,7 @@
 #include <fstream>
 
 // forward declaration
-class CalcContext;
+class CAST;
 
 /** The example namespace is used to encapsulate the three parser classes
  * example::Parser, example::Scanner and example::Driver */
@@ -24,7 +24,7 @@ class Driver
 {
 public:
     /// construct a new parser driver context
-    Driver(class CalcContext& calc);
+    Driver(class CAST& calc);
 
     /// enable debug output in the flex scanner
     bool trace_scanning;
@@ -78,7 +78,7 @@ public:
 
     /** Reference to the calculator context filled during parsing of the
      * expressions. */
-    class CalcContext& calc;
+    class CAST& calc;
 
 	/** Name file where will write recognize ids
 	* expressions. */
