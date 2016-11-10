@@ -56,6 +56,8 @@ namespace example {
 		/** Enable debug output (via arg_yyout) if compiled into the scanner. */
 		void set_debug(bool b);
 
+
+		FLEX_STD ostream* yyout;
 		FLEX_STD ostream* yyOutId;	// output sink for default LexerOutput
 	};
 

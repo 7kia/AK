@@ -69,7 +69,7 @@ public:
 
     // Прямое приведение типов,
     // Выбрасывает boost::bad_get в случае несоответствия типа ожидаемому.
-	evaluate()
+
 
     bool AsBool()const;
     const std::string & AsString()const;

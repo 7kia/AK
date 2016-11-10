@@ -69,10 +69,16 @@
     <ClInclude Include="src\Value\Value.h">
       <Filter>Файлы исходного кода\src\Value</Filter>
     </ClInclude>
-    <ClInclude Include="src\AST.h">
-      <Filter>Файлы исходного кода\src</Filter>
-    </ClInclude>
     <ClInclude Include="src\AST\ASTNodes.h">
+      <Filter>Файлы исходного кода\src\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AST\VariablesScope.h">
+      <Filter>Файлы исходного кода\src\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AST\AST.h">
+      <Filter>Файлы исходного кода\src\Value</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AST\StringPool.h">
       <Filter>Файлы исходного кода\src\AST</Filter>
     </ClInclude>
   </ItemGroup>
@@ -104,8 +110,14 @@
     <ClCompile Include="src\AST\ASTNodes.cpp">
       <Filter>Файлы исходного кода\src\AST</Filter>
     </ClCompile>
-    <ClCompile Include="src\AST.cpp">
-      <Filter>Файлы исходного кода\src</Filter>
+    <ClCompile Include="src\AST\VariablesScope.cpp">
+      <Filter>Файлы исходного кода\src\AST</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AST\AST.cpp">
+      <Filter>Файлы исходного кода\src\Value</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AST\StringPool.cpp">
+      <Filter>Файлы исходного кода\src\AST</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

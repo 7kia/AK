@@ -77,13 +77,13 @@ bool Driver::parse_string(const std::string &input, const std::string& sname)
 void Driver::error(const class location& l,
 		   const std::string& m)
 {
-	*lexer->yyOutId << l << ": " << m << std::endl;
+	*lexer->yyout << l << ": " << m << std::endl;// TODO : yyout can be error(see Flex class
     std::cerr << l << ": " << m << std::endl;
 }
 
 void Driver::error(const std::string& m)
 {
-	*lexer->yyOutId << m << std::endl;
+	*lexer->yyout << m << std::endl;
     std::cerr << m << std::endl;
 }
 

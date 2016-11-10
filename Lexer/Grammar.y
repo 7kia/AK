@@ -13,7 +13,7 @@ extern int yylex();
 
 #include "src/driver.h"
 #include "src/scanner.h"
-#include "src/AST.h"
+#include "src/AST/ASTNodes.h"
 
 /* this "connects" the bison parser in the driver to the flex scanner class
  * object. it defines the yylex() function call to pull the next token from the
@@ -262,7 +262,7 @@ Variable:
 			}
 			else 
 			{
-				$$ = new CNConstant( driver.calc.getVariable(*$1) );
+				$$ = new CValue( driver.calc.getVariable(*$1) );
 				delete $1;
 			}
 		}
@@ -275,11 +275,11 @@ Variable:
 */
 Number : FLOAT 
 			{
-				$$ = new CNConstant($1);
+				$$ = new CValue($1);
 			}
 		| INT
 			{
-				$$ = new CNConstant($1);
+				$$ = new CValue($1);
 			}
 		; /* TODO : неоднозначность */
 		/*
@@ -307,16 +307,16 @@ Literal :
 			}
 		| LOGIC 
 			{
-				$$ = new CNBool($1);
+				$$ = new CValue($1);
 			}
 		| CHAR 
 			{
 				char value = (*$1)[0];// TODO : rewrite, add char to union /\ //
-				$$ = new CNChar(value);
+				$$ = new CValue(value);
 			}
 		| STRING
 			{
-				$$ = new CNString(*$1);
+				$$ = new CValue(*$1);
 			}
 		;
 

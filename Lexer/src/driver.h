@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include "AST/StringPool.h"
 
 // forward declaration
 class CAST;
@@ -72,13 +73,7 @@ public:
      * e.g. to a dialog box. */
     void error(const std::string& m);
 
-    /** Pointer to the current lexer instance, this is used to connect the
-     * parser to the scanner. It is used in the yylex macro. */
-    class Scanner* lexer;
 
-    /** Reference to the calculator context filled during parsing of the
-     * expressions. */
-    class CAST& calc;
 
 	/** Name file where will write recognize ids
 	* expressions. */
@@ -87,6 +82,10 @@ public:
 
 	std::ofstream m_outFile;
 	std::ofstream m_idsFile;
+private:
+    class CAST& calc;
+	CStringPool m_stringPool;
+    class Scanner* lexer;
 
 };
 
