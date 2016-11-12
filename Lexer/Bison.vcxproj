@@ -190,6 +190,7 @@
     <None Include="buffer1.l" />
     <None Include="buffer2.l" />
     <None Include="Grammar.y" />
+    <None Include="Grammar8.y" />
     <None Include="Lexer.l" />
     <None Include="Lexer2.l" />
   </ItemGroup>

@@ -67,7 +67,7 @@ private:
 	std::vector<std::unique_ptr<IFunctionAST>> m_builtins;
 	std::vector<std::unique_ptr<CVariablesScope>> m_scopes;
 
-	CStringPool *m_pool;
+	CStringPool *m_pool;// TOOD : see ncan rewrite with & insteat *
 	std::ostream *m_output;
 	std::ostream *m_errors;
 };

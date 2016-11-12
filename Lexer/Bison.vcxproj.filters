@@ -139,5 +139,8 @@
     <None Include="Grammar.y">
       <Filter>Файлы ресурсов</Filter>
     </None>
+    <None Include="Grammar8.y">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -7,9 +7,10 @@
 #include <vector>
 #include <fstream>
 #include "AST/StringPool.h"
+#include "AST/ASTNodes.h"
+#include "AST/AST.h"
 
 // forward declaration
-class CAST;
 
 /** The example namespace is used to encapsulate the three parser classes
  * example::Parser, example::Scanner and example::Driver */
@@ -25,7 +26,7 @@ class Driver
 {
 public:
     /// construct a new parser driver context
-    Driver(class CAST& calc);
+    Driver();
 
     /// enable debug output in the flex scanner
     bool trace_scanning;
@@ -76,18 +77,20 @@ public:
 ///////////////////////////////////////////////////////////////
 // Data
 public:
-    class Scanner* lexer;
-    class CAST& calc;
+    class Scanner*	lexer;
+
+	CAST			m_globalAst;
+    CProgramAst		m_ast;
 
 	/** Name file where will write recognize ids
 	* expressions. */
-	std::string m_fileIds;
-	std::string m_outFileName;
+	std::string		m_fileIds;
+	std::string		m_outFileName;
 
-	std::ofstream m_outFile;
-	std::ofstream m_idsFile;
+	std::ofstream	m_outFile;
+	std::ofstream	m_idsFile;
 private:
-	CStringPool m_stringPool;
+	CStringPool		m_stringPool;
 
 };
 

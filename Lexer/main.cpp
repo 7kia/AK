@@ -10,8 +10,7 @@
 
 int main(int argc, char *argv[])
 {
-	CAST calc;
-	example::Driver driver(calc);
+	example::Driver driver;
 	bool readfile = false;
 
 	//Tests/Syntax/Comments.txt Tests/OutputSyntax/OutputIdComments.txt  Tests/OutputSyntax/OutputComments.txt

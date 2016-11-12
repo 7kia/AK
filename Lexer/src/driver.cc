@@ -13,10 +13,10 @@
 
 namespace example {
 
-Driver::Driver(class CAST& _calc)
-    : trace_scanning(false),
-      trace_parsing(false),
-      calc(_calc)
+Driver::Driver()
+    : trace_scanning(false)
+	, trace_parsing(false)
+	, m_ast(m_globalAst)
 {
 
 }
@@ -29,9 +29,6 @@ bool Driver::parse_stream(std::istream& in, const std::string& sname)
 	m_idsFile.open(m_fileIds);
 	
     Scanner scanner(&in, &m_outFile, &m_idsFile);
-	calc.SetOutputStream(m_outFile);
-	calc.SetErrorStream(m_outFile);
-	calc.SetStringPool(m_stringPool);
 
     scanner.set_debug(trace_scanning);
     this->lexer = &scanner;
@@ -41,18 +38,18 @@ bool Driver::parse_stream(std::istream& in, const std::string& sname)
 
 	// \/\/					\/\/
 	// TODO : rewrite the code block
-	calc.clearExpressions();
+	m_ast.clearExpressions();
 	bool result = (parser.parse() == 0);
 	if (result)
 	{
 		m_outFile << "Expressions:" << std::endl;
-		for (unsigned int ei = 0; ei < calc.expressions.size(); ++ei)
+		for (unsigned int ei = 0; ei < m_ast.expressions.size(); ++ei)
 		{
 			m_outFile << "[" << ei << "]:" << std::endl;
 			m_outFile << "tree:" << std::endl;
-			calc.expressions[ei]->print(m_outFile);
+			m_ast.expressions[ei]->print(m_outFile);
 			m_outFile << "evaluated: "
-				<< calc.expressions[ei]->evaluate()
+				<< m_ast.expressions[ei]->evaluate()
 				<< std::endl;
 		}
 	}

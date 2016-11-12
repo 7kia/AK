@@ -8,7 +8,7 @@
 #include "Scanner.h"
 #include "AST/ASTNodes.h"
 
-namespace parser_private
+namespace scanner_private
 {
 
 // Создаёт новый узел AST из списка аргументов начиная со 2-го.

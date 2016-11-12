@@ -15,6 +15,8 @@ extern int yylex();
 #include "src/scanner.h"
 #include "src/AST/ASTNodes.h"
 #include "src/ScannerPrivate.h"
+
+using namespace scanner_private;
 /* this "connects" the bison parser in the driver to the flex scanner class
  * object. it defines the yylex() function call to pull the next token from the
  * current lexer object of the driver context. */
@@ -77,6 +79,14 @@ extern int yylex();
 	bool				boolValue;
     std::string*		stringVal;// TODO : see need separately char
 	class CNode*		calcnode;
+
+	ExpressionListPtr	pExpList;
+	StatementListPtr	pStatList;
+	StatementPtr		pStat;
+	ExpressionPtr		pExp;
+	FunctionPtr			pFunc;
+	NamesList			nameList;
+	NamesListPtr		pNameList;
 }
 
 /*
@@ -196,24 +206,23 @@ extern int yylex();
 %token <stringVal>		Identificator "Id"
 
 
-%type <calcnode>	Variable
 %type <calcnode>	atomexpr powexpr unaryexpr mulexpr addexpr Arithmetic_expression
 
-%type <calcnode>	Left_part_assign Right_part_assign Value
+%type <calcnode>	Left_part_assign Right_part_assign
 %type <calcnode>	Call_function
-%type <calcnode>	Literal Number
+
+%type <pStat> commandContent
 
 /* Block destructors
 %destructor { delete $$; } STRING
 */
 %destructor { delete $$; } STRING CHAR
 %destructor { delete $$; } LOGIC
-%destructor { delete $$; } Variable
 %destructor { delete $$; } atomexpr powexpr unaryexpr mulexpr addexpr Arithmetic_expression
 
-%destructor { delete $$; } Left_part_assign Right_part_assign Value
+%destructor { delete $$; } Left_part_assign Right_part_assign
 %destructor { delete $$; } Call_function 
-%destructor { delete $$; } Literal Number
+
 
 %%
 
@@ -244,6 +253,9 @@ commands:
 
 command:
 		commandContent 
+		{
+			lexer->AddStatement(Take($1));
+		}
 		COMMAND_SEPARATOR  /*  TODO : see Rule.txt */
 		;
 
@@ -251,37 +263,14 @@ commandContent:
 			Expression | Assign_for_variable |  Any_branching | Any_loop | Any_interrupt_operator | Return_function | 
 			;
 
-Variable: 
-		Identificator /*  TODO : see ADDRESED_OPERATION*/
-		{
-			if (!driver.calc.existsVariable(*$1)) 
-			{
-				error(yyloc, std::string("Unknown variable \"") + *$1 + "\"");
-				delete $1;
-				YYERROR;
-			}
-			else 
-			{
-				$$ = new CValue( driver.calc.getVariable(*$1) );
-				delete $1;
-			}
-		}
-		;
+
 
 		/*
 ////////////////////////////////////////////////////////////////////
 //						„исла
 ////////////////////////////////////////////////////////////////////
 */
-Number : FLOAT 
-			{
-				$$ = new CValue($1);
-			}
-		| INT
-			{
-				$$ = new CValue($1);
-			}
-		; /* TODO : неоднозначность */
+
 		/*
 ////////////////////////////////////////////////////////////////////
 //
@@ -300,25 +289,6 @@ NAME_NUMERIC_TYPES :
 		NAME_INTEGER | NAME_FLOAT /* TODO : see need there char */
 		;
 
-Literal :
-		Number 
-			{
-				$$ = $1;
-			}
-		| LOGIC 
-			{
-				$$ = new CValue($1);
-			}
-		| CHAR 
-			{
-				char value = (*$1)[0];// TODO : rewrite, add char to union /\ //
-				$$ = new CValue(value);
-			}
-		| STRING
-			{
-				$$ = new CValue(*$1);
-			}
-		;
 
 Prefix_type	: Can_have_const Name_without_const ;
 Can_have_const :  /* nothing */ | PREFIX_CONST ;
@@ -368,74 +338,81 @@ Right_bool_expression_part : /* nothing */ | Bool_signs Bool_expression ;
  большинства действий. Ќа семантические значени€ компонентов правила можно 
  ссылатьс€ как на $1, $2 и т.д.
 */
-atomexpr : Number
-			{
-				$$ = $1;
-			}
-         | Variable
-			{
-				$$ = $1;
-			}
-         | START_LIST_ARGUMENTS Arithmetic_expression END_LIST_ARGUMENTS
-			{
-				$$ = $2;
-			}
-
-powexpr	: atomexpr
-          {
-	      $$ = $1;
-	  }
-        | atomexpr POWER powexpr
-          {
-	      $$ = new CNPower(dynamic_cast<CalcNode*>($1), dynamic_cast<CalcNode*>($3));
-	  }
-
-unaryexpr : powexpr
-            {
-		$$ = $1;
-	    }
-          | PLUS powexpr
-            {
-		$$ = $2;
-	    }
-          | MINUS powexpr
-            {
-		$$ = new CNNegate(dynamic_cast<CalcNode*>($2));
-	    }
-
-mulexpr : unaryexpr
-			{
-				$$ = $1;
-			}
-			| mulexpr STAR unaryexpr
-			{
-				$$ = new CNMultiply(dynamic_cast<CalcNode*>($1), dynamic_cast<CalcNode*>($3));
-			}
-			| mulexpr DIVIDE unaryexpr
-			{
-				$$ = new CNDivide(dynamic_cast<CalcNode*>($1), dynamic_cast<CalcNode*>($3));
-			}
-			| mulexpr PERCENT unaryexpr
-			{
-				$$ = new CNModulo(dynamic_cast<CalcNode*>($1), dynamic_cast<CalcNode*>($3));
-			}
-
-addexpr : mulexpr
-			{
-				$$ = $1;
-			}
-			| addexpr PLUS mulexpr
-			{
-				$$ = new CNAdd(dynamic_cast<CalcNode*>($1), dynamic_cast<CalcNode*>($3));
-			}
-			| addexpr MINUS mulexpr
-			{
-				$$ = new CNSubtract(dynamic_cast<CalcNode*>($1), dynamic_cast<CalcNode*>($3));
-			}
 
 Arithmetic_expression	: addexpr
 			{
 				$$ = $1;
+			}
+
+/* TODO */
+
+
+Expression :  
+
+			START_LIST_ARGUMENTS Expression END_LIST_ARGUMENTS
+			{
+				MovePointer($2, $$);
+			}
+			| Expression LESS Expression
+			{
+				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Less, Take($3));
+			}
+			| Expression EQUALS Expression
+			{
+				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Equals, Take($2));
+			}
+			| Expression PLUS Expression
+			{
+				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Add, Take($2));
+			}
+			| Expression MINUS Expression
+			{
+				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Substract, Take($2));
+			}
+			| Expression STAR Expression
+			{
+				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Multiply, Take($2));
+			}
+			| Expression SLASH Expression
+			{
+				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Divide, Take($2));
+			}
+			| Expression PERCENT Expression
+			{
+				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Modulo, Take($2));
+			}
+
+			| PLUS Expression
+			{
+				EmplaceAST<CUnaryExpressionAST>($$, UnaryOperation::Plus, Take($1));
+			}
+			| MINUS Expression
+			{
+				EmplaceAST<CUnaryExpressionAST>($$, UnaryOperation::Minus, Take($1));
+			}
+
+
+			/*  TODO : see need transfer to Literal */
+			| FLOAT 
+			{
+				EmplaceAST<CLiteralAST>($$, CValue::FromDouble($1));
+			}
+			| INT
+			{
+				EmplaceAST<CLiteralAST>($$, CValue::FromInt($1));
+			}
+			| STRING
+			{
+				EmplaceAST<CLiteralAST>($$, pParse->GetStringLiteral($1.stringId));
+			}
+			| LOGIC 
+			{
+				EmplaceAST<CLiteralAST>($$, CValue::FromBoolean($1.boolValue));
+			}
+
+			| Identificator /*  TODO : see ADDRESED_OPERATION*/
+			{
+				EmplaceAST<CVariableRefAST>($$, $1.stringId);
 			}
 
 /*
@@ -460,18 +437,12 @@ Arithmetic_expression	: addexpr
 ////////////////////////////////////////////////////////////////////
 */
 
-Value:
-		Call_function | Variable  | Literal /* TODO : type Value =  CNFunction || CValue */
-	;
+
 
 Assign_for_variable:
 					Left_part_assign Assigns Right_part_assign 
 					{
-							driver.calc.variables[*$1] = static_cast<CalcNode*>($3)->evaluate();// TODO : delete cast
-							driver.m_outFile << "Setting variable " << *$1
-								<< " = " << driver.calc.variables[*$1] << "\n";
-							delete $1;
-							delete $3;
+						EmplaceAST<CAssignAST>($$, $1.stringId, Take($3));
 					}
 					/* TODO : add  */
 					;
@@ -618,7 +589,11 @@ List_arguments :
 Set_arguments : Init_variable Other_arguments | /* nothing */;
 Other_arguments : VARIABLE_SEPARATOR Init_variable Other_arguments | /* nothing */;
 
-Call_function : Function_name List_values; 
+Call_function : Function_name List_values 
+{
+    auto pList = Take($2);
+    EmplaceAST<CCallAST>($$, $1.stringId, std::move(*pList));
+}; 
 
 Function_implementation : Function_main | Function_init commandBlock ;
 
