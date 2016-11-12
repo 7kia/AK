@@ -206,23 +206,20 @@ using namespace scanner_private;
 %token <stringVal>		Identificator "Id"
 
 
-%type <calcnode>	atomexpr powexpr unaryexpr mulexpr addexpr Arithmetic_expression
 
 %type <calcnode>	Left_part_assign Right_part_assign
-%type <calcnode>	Call_function
 
-%type <pStat> commandContent
+%type <pStat>		commandContent
+%type <pExp>		Expression
 
 /* Block destructors
 %destructor { delete $$; } STRING
 */
 %destructor { delete $$; } STRING CHAR
 %destructor { delete $$; } LOGIC
-%destructor { delete $$; } atomexpr powexpr unaryexpr mulexpr addexpr Arithmetic_expression
 
 %destructor { delete $$; } Left_part_assign Right_part_assign
-%destructor { delete $$; } Call_function 
-
+%destructor { delete $$; }		Expression
 
 %%
 
@@ -248,7 +245,8 @@ commandBlock:
 
 
 commands:
-		command commands | /* nothing */
+		command commands 
+		| /* nothing */
 		;
 
 command:
@@ -304,29 +302,7 @@ DEFINITION_POINTER	: /* nothing */ | Can_have_const STAR ;
 //						Выражения
 ////////////////////////////////////////////////////////////////////
 */
-Expression : Arithmetic_expression 
-					{
-						driver.calc.expressions.push_back($1);
-					}
-				| Bool_expression ; /* | bool_expression*/
 
-Arithmetic_signs : PLUS | MINUS | STAR | DIVIDE | PERCENT ;
-//Arithmetic_expression : Value Right_arithmetic_expression_part ;
-
-Right_arithmetic_expression_part : /* nothing */ | Arithmetic_signs Arithmetic_expression ;
-
-Bool_signs : LESS | MORE | LOGIC_AND | LOGIC_OR | LESS_EQUAL | MORE_EQUAL | EQUAL | NOT_EQUAL;
-Bool_expression : NEGATION Value | Value Right_bool_expression_part;
-/*
-				| bool_expression '<' Value | bool_expression LESSOREQUALS Value
-				| bool_expression '>' Value | bool_expression MOREOREQUALS Value
-				| bool_expression EQUALS Value | bool_expression NOTEQUALS Value
-				| bool_expression AND Value | bool_expression OR Value
-				| '!' bool_expression
-
-*/
-
-Right_bool_expression_part : /* nothing */ | Bool_signs Bool_expression ;
 
 
 /*//////////////////////////////////////////*/
@@ -339,17 +315,22 @@ Right_bool_expression_part : /* nothing */ | Bool_signs Bool_expression ;
  ссылаться как на $1, $2 и т.д.
 */
 
-Arithmetic_expression	: addexpr
+Expression :  
+			Identificator START_LIST_ARGUMENTS END_LIST_ARGUMENTS
 			{
-				$$ = $1;
+				EmplaceAST<CCallAST>($$, $1.stringId, ExpressionList());
+			}
+			| Identificator START_LIST_ARGUMENTS Expression END_LIST_ARGUMENTS
+			{
+				auto pList = Take($3);
+				EmplaceAST<CCallAST>($$, $1.stringId, std::move(*pList));
+			}
+			| START_LIST_ARGUMENTS Expression END_LIST_ARGUMENTS
+			{
+				MovePointer($2, $$);
 			}
 
-/* TODO */
-
-
-Expression :  
-
-			START_LIST_ARGUMENTS Expression END_LIST_ARGUMENTS
+			| START_LIST_ARGUMENTS Expression END_LIST_ARGUMENTS
 			{
 				MovePointer($2, $$);
 			}
@@ -357,38 +338,38 @@ Expression :
 			{
 				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Less, Take($3));
 			}
-			| Expression EQUALS Expression
+			| Expression EQUAL Expression
 			{
-				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Equals, Take($2));
+				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Equals, Take($3));
 			}
 			| Expression PLUS Expression
 			{
-				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Add, Take($2));
+				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Add, Take($3));
 			}
 			| Expression MINUS Expression
 			{
-				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Substract, Take($2));
+				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Substract, Take($3));
 			}
 			| Expression STAR Expression
 			{
-				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Multiply, Take($2));
+				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Multiply, Take($3));
 			}
-			| Expression SLASH Expression
+			| Expression DIVIDE Expression
 			{
-				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Divide, Take($2));
+				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Divide, Take($3));
 			}
 			| Expression PERCENT Expression
 			{
-				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Modulo, Take($2));
+				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Modulo, Take($3));
 			}
 
 			| PLUS Expression
 			{
-				EmplaceAST<CUnaryExpressionAST>($$, UnaryOperation::Plus, Take($1));
+				EmplaceAST<CUnaryExpressionAST>($$, UnaryOperation::Plus, Take($2));
 			}
 			| MINUS Expression
 			{
-				EmplaceAST<CUnaryExpressionAST>($$, UnaryOperation::Minus, Take($1));
+				EmplaceAST<CUnaryExpressionAST>($$, UnaryOperation::Minus, Take($2));
 			}
 
 
@@ -456,13 +437,13 @@ Init_list_values		:
 				END_BLOCK { driver.m_idsFile << "\nEnd Init_list_values ";  }
 				;
 
-Value_in_list	:	Value | Init_list_values ;
+Value_in_list	:	Expression | Init_list_values ;
 Another_values_in_list	:
 						VARIABLE_SEPARATOR Value_in_list Another_values_in_list | /* nothing */
 						;
 
 Left_part_assign: Init_variable | Variable ;
-Right_part_assign: Value | Init_list_values ;
+Right_part_assign: Expression | Init_list_values ;
 /*----------------------------*/
 
 Init_variable:
@@ -471,7 +452,7 @@ Init_variable:
 
 Name_init_variable:  Variable | Array_element;
 Array_element : Variable First_identification Other_identification;
-First_identification : START_IDENTIFICATION Value END_IDENTIFICATION ;
+First_identification : START_IDENTIFICATION Expression END_IDENTIFICATION ;
 Other_identification : First_identification Other_identification | /* nothing */ ;
 
 /*                     		\/ Types.txt		*/
@@ -529,13 +510,13 @@ Else_part : ELSE_OPERATOR Else_content ;
 Else_content : Usual_branching | commandBlock Can_have_else_part;
 
 Switch_branching : SWITCH_OPERATOR Check_value Switch_block ;
-Check_value : START_LIST_ARGUMENTS Value END_LIST_ARGUMENTS; 
+Check_value : START_LIST_ARGUMENTS Expression END_LIST_ARGUMENTS; 
 
 Switch_block : START_BLOCK Body_switch END_BLOCK;
 Body_switch : /* nothing */ | Sequence_cases commandBlock Body_switch; /* (<all>)* */
 Sequence_cases : Case_sequence Other_sequence_cases ;/* (<all>)+ */
 Other_sequence_cases : Case_sequence Other_sequence_cases | /* nothing */ ; 
-Case_sequence : CASE_OPERATOR Value CASE_ENUMERATOR;
+Case_sequence : CASE_OPERATOR Expression CASE_ENUMERATOR;
 
 // /\ должна ли быть именно *в Switch_block, то есть может ли switch быть пустым
 
@@ -549,7 +530,7 @@ Case_sequence : CASE_OPERATOR Value CASE_ENUMERATOR;
 Any_loop : Loop_with_precondition | Loop_with_postcondition | Loop_with_counter;
 // TODO : переделать "(" <expression<bool>> ")"
 Loop_with_precondition :  WHILE_OPERATOR Condition_part commandBlock;
-Condition_part :  START_LIST_ARGUMENTS Value END_LIST_ARGUMENTS; /* TODO : see correctness, was <expression<bool>> instead Value */
+Condition_part :  START_LIST_ARGUMENTS Expression END_LIST_ARGUMENTS; /* TODO : see correctness, was <expression<bool>> instead Expression */
 
 Loop_with_postcondition :  DO_OPERATOR commandBlock WHILE_OPERATOR Condition_part ;
 
@@ -557,8 +538,8 @@ Loop_with_counter :   FOR_OPERATOR  START_LIST_ARGUMENTS  Parameters_for END_LIS
 
 Parameters_for :  Start_value_for COMMAND_SEPARATOR Condition_end_for COMMAND_SEPARATOR Next_value_counter;
 Start_value_for :  Assign_for_variable ;/* TODO : see can replace on Assign_for_variable */
-Condition_end_for :  Bool_expression ; /* TODO : see correctness */
-Next_value_counter :  Assign_for_variable | Arithmetic_expression; /* TODO : see correctness */
+Condition_end_for :  Expression ; /* TODO : see correctness */
+Next_value_counter :  Assign_for_variable | Expression; /* TODO : see correctness */
 
 
 Any_interrupt_operator :  CONTINUE_OPERATOR  | BREAK_OPERATOR ; 
@@ -574,9 +555,9 @@ Any_interrupt_operator :  CONTINUE_OPERATOR  | BREAK_OPERATOR ;
 List_values : 
 				START_LIST_ARGUMENTS Set_values END_LIST_ARGUMENTS 
 				;
-/* Two low string equal Value  (VARIABLE_SEPARATOR Value )?*/
-Set_values : Value Other_values | /* nothing */;
-Other_values : VARIABLE_SEPARATOR Value Other_values | /* nothing */;
+/* Two low string equal Expression  (VARIABLE_SEPARATOR Expression )?*/
+Set_values : Expression Other_values | /* nothing */;
+Other_values : VARIABLE_SEPARATOR Expression Other_values | /* nothing */;
 /*
 ///////////////////////////
 // Список значении для вызовов функции
@@ -589,15 +570,9 @@ List_arguments :
 Set_arguments : Init_variable Other_arguments | /* nothing */;
 Other_arguments : VARIABLE_SEPARATOR Init_variable Other_arguments | /* nothing */;
 
-Call_function : Function_name List_values 
-{
-    auto pList = Take($2);
-    EmplaceAST<CCallAST>($$, $1.stringId, std::move(*pList));
-}; 
-
 Function_implementation : Function_main | Function_init commandBlock ;
 
-Return_function : NAME_RETURN Value;
+Return_function : NAME_RETURN Expression;
 
  /*** 
  ================================================================================================================================
