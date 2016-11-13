@@ -593,8 +593,8 @@ static yyconst flex_int16_t yy_rule_linenum[64] =
       408,  417,  424,  431,  438,  447,  454,  463,  470,  480,
       487,  496,  503,  513,  522,  531,  540,  549,  561,  576,
       587,  596,  605,  618,  630,  639,  648,  657,  666,  678,
-      687,  696,  705,  714,  725,  728,  731,  734,  737,  742,
-      753,  762,  774
+      687,  696,  705,  714,  725,  728,  731,  734,  737,  743,
+      754,  763,  775
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -1570,6 +1570,7 @@ case 59:
 /* rule 59 can match eol */
 YY_RULE_SETUP
 {
+ yylloc->step();
  return token::NEWLINE;
  }
 	YY_BREAK

@@ -735,6 +735,7 @@ UNDERSCORE_SYMBOL		"_"
  return token::FUNCTION;
  }
  \n      {
+ yylloc->step();
  return token::NEWLINE;
  }
 

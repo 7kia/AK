@@ -223,13 +223,13 @@ using namespace scanner_private;
 
 epsilon : /*empty*/
 
-constant : BOOL | NUMBER | STRING
+constant : BOOL | INT | FLOAT | STRING
 
 variable : ID
 
-function_call : ID '(' expression_list ')'
+function_call : ID START_LIST_ARGUMENTS expression_list END_LIST_ARGUMENTS
 
-expression : constant | variable | '(' expression ')'
+expression : constant | variable | START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS
         | PLUS expression | MINUS expression | NOT expression
         | expression LESS expression | expression EQUALS expression
         | expression AND expression | expression OR expression
@@ -238,10 +238,10 @@ expression : constant | variable | '(' expression ')'
         | expression PERCENT expression
         | function_call
 
-expression_list : epsilon | expression | expression_list ',' expression
+expression_list : epsilon | expression | expression_list VARIABLE_SEPARATOR expression
 
 statement : PRINT expression_list
-          | variable '=' expression
+          | variable ASSIGN expression
           | NAME_RETURN expression
           | IF_OPERATOR expression block
           | IF_OPERATOR expression NEWLINE statement_list ELSE_OPERATOR block
@@ -260,8 +260,8 @@ block : NEWLINE BLOCK_END
 
 parameter_list : ID | parameter_list ID
 
-function_declaration : FUNCTION ID '(' parameter_list ')' block
-                     | FUNCTION ID '(' ')' block
+function_declaration : FUNCTION ID START_LIST_ARGUMENTS parameter_list END_LIST_ARGUMENTS block
+                     | FUNCTION ID START_LIST_ARGUMENTS END_LIST_ARGUMENTS block
 
 toplevel_statement : function_declaration | statement
 
