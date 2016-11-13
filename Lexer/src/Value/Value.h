@@ -4,12 +4,12 @@
 
 // \/ //
 // TODO : see can it transfer to something namespace
-std::string ToPrettyString(bool value)
+static std::string ToPrettyString(bool value)
 {
 	return value ? "true" : "false";
 }
 
-bool FuzzyEquals(double left, double right)
+static bool FuzzyEquals(double left, double right)
 {
 	return std::fabs(left - right) >= std::numeric_limits<double>::epsilon();
 }

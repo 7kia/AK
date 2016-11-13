@@ -2,6 +2,14 @@
 
 #include "Value.h"
 
+
+template<class TType>
+bool CValue::AreBothValues(const CValue &left, const CValue &right)
+{
+	return (left.m_value.type() == typeid(TType))
+		&& (right.m_value.type() == typeid(TType));
+}
+
 CValue::operator bool() const
 {
 	return ConvertToBool();

@@ -1545,32 +1545,32 @@ YY_RULE_SETUP
 case 55:
 YY_RULE_SETUP
 {
-  return NUMBER;
+  return token::NUMBER;
  }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
 {
- return PRINT;
+ return token::PRINT;
  }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
 {
- return BLOCK_END;
+ return token::BLOCK_END;
  }
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
 { 
- return FUNCTION;
+ return token::FUNCTION;
  }
 	YY_BREAK
 case 59:
 /* rule 59 can match eol */
 YY_RULE_SETUP
 {
- return NEWLINE;
+ return token::NEWLINE;
  }
 	YY_BREAK
 /* /\\\\ */

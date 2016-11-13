@@ -78,7 +78,7 @@ using namespace scanner_private;
 	bool				boolValue;
     std::string*		stringVal;// TODO : see need separately char
 	class CNode*		calcnode;
-
+	/*
 	ExpressionListPtr	pExpList;
 	StatementListPtr	pStatList;
 	StatementPtr		pStat;
@@ -86,6 +86,7 @@ using namespace scanner_private;
 	FunctionPtr			pFunc;
 	NamesList			nameList;
 	NamesListPtr		pNameList;
+	*/
 }
 
 /*
@@ -99,6 +100,9 @@ using namespace scanner_private;
 %token NEWLINE  "end of line"
 %token NUMBER   "Number constant"
 %token STRING   "String constant"
+%token FLOAT "float"
+%token INT "integer"
+%token CHAR "char"
 %token BOOL     "Bool constant"
 %token BLOCK_END "end"
 %token FUNCTION "def"

@@ -38,21 +38,7 @@ bool Driver::parse_stream(std::istream& in, const std::string& sname)
 
 	// \/\/					\/\/
 	// TODO : rewrite the code block
-	m_ast.clearExpressions();
-	bool result = (parser.parse() == 0);
-	if (result)
-	{
-		m_outFile << "Expressions:" << std::endl;
-		for (unsigned int ei = 0; ei < m_ast.expressions.size(); ++ei)
-		{
-			m_outFile << "[" << ei << "]:" << std::endl;
-			m_outFile << "tree:" << std::endl;
-			m_ast.expressions[ei]->print(m_outFile);
-			m_outFile << "evaluated: "
-				<< m_ast.expressions[ei]->evaluate()
-				<< std::endl;
-		}
-	}
+	
 
     return (parser.parse() == 0);
 	// /\/\					/\/\ /

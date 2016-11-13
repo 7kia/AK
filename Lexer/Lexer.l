@@ -723,19 +723,19 @@ UNDERSCORE_SYMBOL		"_"
 
 
  {NUMBER} {
-  return NUMBER;
+  return token::NUMBER;
  }
  print   {
- return PRINT;
+ return token::PRINT;
  }
  end    {
- return BLOCK_END;
+ return token::BLOCK_END;
  }
  def     { 
- return FUNCTION;
+ return token::FUNCTION;
  }
  \n      {
- return NEWLINE;
+ return token::NEWLINE;
  }
 
  /* /\\\\ */

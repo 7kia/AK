@@ -107,12 +107,6 @@ double CValue::AsDouble() const
     return boost::get<double>(m_value);
 }
 
-template<class TType>
-bool CValue::AreBothValues(const CValue &left, const CValue &right)
-{
-    return (left.m_value.type() == typeid(TType))
-            && (right.m_value.type() == typeid(TType));
-}
 
 CValue CValue::GenerateError(const CValue &value, const char *description)
 {
