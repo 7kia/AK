@@ -1,4 +1,3 @@
-
 %{
 
 #include "stdafx.h"
@@ -97,6 +96,14 @@ using namespace scanner_private;
 //
 //
 */
+%token NEWLINE  "end of line"
+%token NUMBER   "Number constant"
+%token STRING   "String constant"
+%token BOOL     "Bool constant"
+%token BLOCK_END "end"
+%token FUNCTION "def"
+%token PRINT    "print"
+/*TODO : delete /\\\ */
 
 %token END  0  "end of file"
 %token NAME_MAIN_FUNCTION
@@ -153,6 +160,7 @@ using namespace scanner_private;
 %token START_IDENTIFICATION
 %token END_IDENTIFICATION
 
+%token ID "ID"
 /*
 //////////////////////////////
 //		Типы и их имена
@@ -191,10 +199,10 @@ using namespace scanner_private;
 	%left, %right, %nonassoc и %precedence управляют разрешением
 	приоритета операторов и правил ассоциативности
 */
-%left '<' EQUALS
+%left LESS EQUALS
 %left AND OR NOT
-%left '+' '-'
-%left '*' '/' '%'
+%left PLUS MINUS
+%left STAR DIVIDE PERCENT
 
 /* Block type nodes
 %type <calcnode>	constant Variable
@@ -209,362 +217,62 @@ using namespace scanner_private;
 
 %%
 
-program: 
-        Function_block	{ exit(0); }
-        ;
+epsilon : /*empty*/
+
+constant : BOOL | NUMBER | STRING
+
+variable : ID
+
+function_call : ID '(' expression_list ')'
+
+expression : constant | variable | '(' expression ')'
+        | PLUS expression | MINUS expression | NOT expression
+        | expression LESS expression | expression EQUALS expression
+        | expression AND expression | expression OR expression
+        | expression PLUS expression | expression MINUS expression
+        | expression STAR expression | expression DIVIDE expression
+        | expression PERCENT expression
+        | function_call
+
+expression_list : epsilon | expression | expression_list ',' expression
+
+statement : PRINT expression_list
+          | variable '=' expression
+          | NAME_RETURN expression
+          | IF_OPERATOR expression block
+          | IF_OPERATOR expression NEWLINE statement_list ELSE_OPERATOR block
+          | IF_OPERATOR expression NEWLINE ELSE_OPERATOR block
+          | WHILE_OPERATOR expression block
+          | DO_OPERATOR NEWLINE statement_list WHILE_OPERATOR expression BLOCK_END
+          | DO_OPERATOR NEWLINE WHILE_OPERATOR expression BLOCK_END
+
+statement_line : error NEWLINE | statement NEWLINE
+
+statement_list : statement_line | statement_list statement_line
+
+block : NEWLINE statement_list BLOCK_END
+
+block : NEWLINE BLOCK_END
+
+parameter_list : ID | parameter_list ID
+
+function_declaration : FUNCTION ID '(' parameter_list ')' block
+                     | FUNCTION ID '(' ')' block
+
+toplevel_statement : function_declaration | statement
+
+toplevel_line : NEWLINE | toplevel_statement NEWLINE | error NEWLINE
+
+toplevel_list : toplevel_line | toplevel_list toplevel_line
+
+program : toplevel_list
 
 
-/*
-////////////////////////////////////////////////////////////////////
-//
-//
-//		Основа
-//
-//
-////////////////////////////////////////////////////////////////////
-*/
-commandBlock:
-		START_BLOCK
-		commands
-		END_BLOCK
-		;
-
-
-commands:
-		command commands 
-		| /* nothing */
-		;
-
-command:
-		commandContent 
-		{
-			lexer->AddStatement(Take($1));
-		}
-		COMMAND_SEPARATOR  /*  TODO : see Rule.txt */
-		;
-
-commandContent:
-			Expression | Assign_for_variable |  Any_branching | Any_loop | Any_interrupt_operator | Return_function | 
-			;
-
-
-
-		/*
-////////////////////////////////////////////////////////////////////
-//						Числа
-////////////////////////////////////////////////////////////////////
-*/
-
-		/*
-////////////////////////////////////////////////////////////////////
-//
-//
-//						Типы
-//
-//
-////////////////////////////////////////////////////////////////////
-*/
-
-NAME_TYPE	:
-		NAME_CHAR | NAME_STRING | NAME_LOGIC
-		;
-
-NAME_NUMERIC_TYPES :
-		NAME_INTEGER | NAME_FLOAT /* TODO : see need there char */
-		;
-
-
-Prefix_type	: Can_have_const Name_without_const ;
-Can_have_const :  /* nothing */ | PREFIX_CONST ;
-Name_without_const :  NAME_TYPE | PREFIX_NUMERIC_TYPES Can_be_long NAME_NUMERIC_TYPES;
-PREFIX_NUMERIC_TYPES	:  PREFIX_SIGNED | PREFIX_UNSIGNED ;
-Can_be_long : /* nothing */ | PREFIX_LONG;
-
-DEFINITION_POINTER	: /* nothing */ | Can_have_const STAR ;
-
-
-/*
-////////////////////////////////////////////////////////////////////
-//						Выражения
-////////////////////////////////////////////////////////////////////
-*/
-
-
-
-/*//////////////////////////////////////////*/
-/*					New code				*/
-
-/*
-В каждом действии псевдопеременная $$ обозначает семантическое значение группы,
- которую собирает это правило. Присвоение $$ значения -- основная работа 
- большинства действий. На семантические значения компонентов правила можно 
- ссылаться как на $1, $2 и т.д.
-*/
-
-Expression :  
-			ID START_LIST_ARGUMENTS END_LIST_ARGUMENTS
-			{
-				EmplaceAST<CCallAST>($$, $1.stringId, ExpressionList());
-			}
-			| ID START_LIST_ARGUMENTS Expression END_LIST_ARGUMENTS
-			{
-				auto pList = Take($3);
-				EmplaceAST<CCallAST>($$, $1.stringId, std::move(*pList));
-			}
-			| START_LIST_ARGUMENTS Expression END_LIST_ARGUMENTS
-			{
-				MovePointer($2, $$);
-			}
-
-			| START_LIST_ARGUMENTS Expression END_LIST_ARGUMENTS
-			{
-				MovePointer($2, $$);
-			}
-			| Expression LESS Expression
-			{
-				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Less, Take($3));
-			}
-			| Expression EQUAL Expression
-			{
-				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Equals, Take($3));
-			}
-			| Expression PLUS Expression
-			{
-				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Add, Take($3));
-			}
-			| Expression MINUS Expression
-			{
-				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Substract, Take($3));
-			}
-			| Expression STAR Expression
-			{
-				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Multiply, Take($3));
-			}
-			| Expression DIVIDE Expression
-			{
-				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Divide, Take($3));
-			}
-			| Expression PERCENT Expression
-			{
-				EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Modulo, Take($3));
-			}
-
-			| PLUS Expression
-			{
-				EmplaceAST<CUnaryExpressionAST>($$, UnaryOperation::Plus, Take($2));
-			}
-			| MINUS Expression
-			{
-				EmplaceAST<CUnaryExpressionAST>($$, UnaryOperation::Minus, Take($2));
-			}
-
-
-			/*  TODO : see need transfer to Literal */
-			| FLOAT 
-			{
-				EmplaceAST<CLiteralAST>($$, CValue::FromDouble($1));
-			}
-			| INT
-			{
-				EmplaceAST<CLiteralAST>($$, CValue::FromInt($1));
-			}
-			| STRING
-			{
-				EmplaceAST<CLiteralAST>($$, pParse->GetStringLiteral($1.stringId));
-			}
-			| BOOL 
-			{
-				EmplaceAST<CLiteralAST>($$, CValue::FromBoolean($1.boolValue));
-			}
-
-			| ID /*  TODO : see ADDRESED_OPERATION*/
-			{
-				EmplaceAST<CVariableRefAST>($$, $1.stringId);
-			}
-
-/*
-////////////////////////////////////////////////////////////////////
-//
-// Комментарии
-//
-////////////////////////////////////////////////////////////////////
-*/
-
-
-
-
-
-/*
-////////////////////////////////////////////////////////////////////
-//
-//
-// Комманды
-//
-//
-////////////////////////////////////////////////////////////////////
-*/
-
-
-
-Assign_for_variable:
-					Left_part_assign Assigns Right_part_assign 
-					{
-						EmplaceAST<CAssignAST>($$, $1.stringId, Take($3));
-					}
-					/* TODO : add  */
-					;
-
-Assigns : PLUS_ASSIGN | MINUS_ASSIGN | MULTIPLY_ASSIGN | DIVIDE_ASSIGN | PERCENT_ASSIGN | ASSIGN ;
-
-/*----------------------------*/
-Init_list_values		: 
-				START_BLOCK { driver.m_idsFile << "\nStart Init_list_values ";  }
-				Value_in_list Another_values_in_list 				
-				END_BLOCK { driver.m_idsFile << "\nEnd Init_list_values ";  }
-				;
-
-Value_in_list	:	Expression | Init_list_values ;
-Another_values_in_list	:
-						VARIABLE_SEPARATOR Value_in_list Another_values_in_list | /* nothing */
-						;
-
-Left_part_assign: Init_variable | Variable ;
-Right_part_assign: Expression | Init_list_values ;
-/*----------------------------*/
-
-Init_variable:
-				 Type_initialization Name_init_variable
-				 ; /* instead " " <common separator> */
-
-Name_init_variable:  Variable | Array_element;
-Array_element : Variable First_identification Other_identification;
-First_identification : START_IDENTIFICATION Expression END_IDENTIFICATION ;
-Other_identification : First_identification Other_identification | /* nothing */ ;
-
-/*                     		\/ Types.txt		*/
-
-Type_initialization :
-					Prefix_type    
-					DEFINITION_POINTER  
-					;
-/*
-////////////////////////////////////////////////////////////////////
-//
-//
-// Функции
-//
-//
-////////////////////////////////////////////////////////////////////
-*/
-Function_imp_or_init : Function_implementation | Function_init;
-
-Function_init : 
-				Type_initialization Function_name List_arguments/* TODO : add separator */
-				;
-Function_main : 
-				Type_initialization NAME_MAIN_FUNCTION List_arguments commandBlock 
-				{	
-				 	driver.m_idsFile << "\n End main() \n";
-					
-				}
-				/* TODO : add separator */
-				;
-
-/* Three low string equal (<function implementation> | <function init>)+*/
-Function_block : 
-				Definition_function Other_function_imp_or_init;
-				; 
-Definition_function : Function_imp_or_init COMMAND_SEPARATOR;
-Other_function_imp_or_init : Definition_function Other_function_imp_or_init | /* nothing */;
-
-Function_name : ID ;
-/*
-////////////////////////////////////////////////////////////////////
-//
-// Условия
-//
-////////////////////////////////////////////////////////////////////
-*/
-Any_branching : Usual_branching | Switch_branching;
-
-/* TODO : переделать "(" <expression<bool>> ")" */ 
-Usual_branching : IF_OPERATOR Condition_part commandBlock Can_have_else_part ;
-
-Condition_part: List_values ;
-Can_have_else_part : /* nothing */ | Else_part;
-Else_part : ELSE_OPERATOR Else_content ;
-Else_content : Usual_branching | commandBlock Can_have_else_part;
-
-Switch_branching : SWITCH_OPERATOR Check_value Switch_block ;
-Check_value : START_LIST_ARGUMENTS Expression END_LIST_ARGUMENTS; 
-
-Switch_block : START_BLOCK Body_switch END_BLOCK;
-Body_switch : /* nothing */ | Sequence_cases commandBlock Body_switch; /* (<all>)* */
-Sequence_cases : Case_sequence Other_sequence_cases ;/* (<all>)+ */
-Other_sequence_cases : Case_sequence Other_sequence_cases | /* nothing */ ; 
-Case_sequence : CASE_OPERATOR Expression CASE_ENUMERATOR;
-
-// /\ должна ли быть именно *в Switch_block, то есть может ли switch быть пустым
-
-/*
-////////////////////////////////////////////////////////////////////
-//
-// Циклы
-//
-////////////////////////////////////////////////////////////////////
-*/
-Any_loop : Loop_with_precondition | Loop_with_postcondition | Loop_with_counter;
-// TODO : переделать "(" <expression<bool>> ")"
-Loop_with_precondition :  WHILE_OPERATOR Condition_part commandBlock;
-Condition_part :  START_LIST_ARGUMENTS Expression END_LIST_ARGUMENTS; /* TODO : see correctness, was <expression<bool>> instead Expression */
-
-Loop_with_postcondition :  DO_OPERATOR commandBlock WHILE_OPERATOR Condition_part ;
-
-Loop_with_counter :   FOR_OPERATOR  START_LIST_ARGUMENTS  Parameters_for END_LIST_ARGUMENTS   commandBlock;
-
-Parameters_for :  Start_value_for COMMAND_SEPARATOR Condition_end_for COMMAND_SEPARATOR Next_value_counter;
-Start_value_for :  Assign_for_variable ;/* TODO : see can replace on Assign_for_variable */
-Condition_end_for :  Expression ; /* TODO : see correctness */
-Next_value_counter :  Assign_for_variable | Expression; /* TODO : see correctness */
-
-
-Any_interrupt_operator :  CONTINUE_OPERATOR  | BREAK_OPERATOR ; 
-/*
-<reserve loop literal> :  WHILE_OPERATOR | DO_OPERATOR | FOR_OPERATOR | CONTINUE_OPERATOR |  BREAK_OPERATOR ;
-*/
-
-/*
-///////////////////////////
-// Список значении для вызовов функции
-///////////////////////////
-*/
-List_values : 
-				START_LIST_ARGUMENTS Set_values END_LIST_ARGUMENTS 
-				;
-/* Two low string equal Expression  (VARIABLE_SEPARATOR Expression )?*/
-Set_values : Expression Other_values | /* nothing */;
-Other_values : VARIABLE_SEPARATOR Expression Other_values | /* nothing */;
-/*
-///////////////////////////
-// Список значении для вызовов функции
-///////////////////////////
-*/
-List_arguments : 
-				START_LIST_ARGUMENTS Set_arguments END_LIST_ARGUMENTS
-				;
-/* Two low string equal Value  (VARIABLE_SEPARATOR Value )?*/
-Set_arguments : Init_variable Other_arguments | /* nothing */;
-Other_arguments : VARIABLE_SEPARATOR Init_variable Other_arguments | /* nothing */;
-
-Function_implementation : Function_main | Function_init commandBlock ;
-
-Return_function : NAME_RETURN Expression;
-
- /*** 
- ================================================================================================================================
- END EXAMPLE - Change the example grammar rules above 
- ================================================================================================================================
- ***/
+/*** 
+================================================================================================================================
+END EXAMPLE - Change the example grammar rules above 
+================================================================================================================================
+***/
 
 %% /*** Additional Code ***/
 

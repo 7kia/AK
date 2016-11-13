@@ -722,6 +722,23 @@ UNDERSCORE_SYMBOL		"_"
 }
 
 
+ {NUMBER} {
+  return NUMBER;
+ }
+ print   {
+ return PRINT;
+ }
+ end    {
+ return BLOCK_END;
+ }
+ def     { 
+ return FUNCTION;
+ }
+ \n      {
+ return NEWLINE;
+ }
+
+ /* /\\\\ */
 {ID} {
 	
 	*yyOutId << "ID ";
@@ -752,7 +769,9 @@ UNDERSCORE_SYMBOL		"_"
 }
 
  /* gobble up end-of-lines */
-[ \t\r\n]+|{ONLY_STRING_COMMENT}|{MULTI_STRING_COMMENT} {
+  /*  TODO : \n transfer */
+
+[ \t\r]+|{ONLY_STRING_COMMENT}|{MULTI_STRING_COMMENT} {
     yylloc->step();
 }
 

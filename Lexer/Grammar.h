@@ -73,6 +73,14 @@ namespace example {
     std::string*		stringVal;// TODO : see need separately char
 	class CNode*		calcnode;
 
+	ExpressionListPtr	pExpList;
+	StatementListPtr	pStatList;
+	StatementPtr		pStat;
+	ExpressionPtr		pExp;
+	FunctionPtr			pFunc;
+	NamesList			nameList;
+	NamesListPtr		pNameList;
+
 
 
     };
@@ -87,70 +95,76 @@ namespace example {
       /* Tokens.  */
    enum yytokentype {
      END = 0,
-     NAME_MAIN_FUNCTION = 258,
-     START_BLOCK = 259,
-     END_BLOCK = 260,
-     DIGIT_MORE_ZERO = 261,
-     DIGIT_ZERO = 262,
-     DIGIT = 263,
-     PLUS = 264,
-     MINUS = 265,
-     DIVIDE = 266,
-     STAR = 267,
-     PERCENT = 268,
-     POWER = 269,
-     LESS = 270,
-     MORE = 271,
-     NEGATION = 272,
-     ASSIGN = 273,
-     AMPERSAND = 274,
-     PLUS_ASSIGN = 275,
-     MINUS_ASSIGN = 276,
-     MULTIPLY_ASSIGN = 277,
-     DIVIDE_ASSIGN = 278,
-     PERCENT_ASSIGN = 279,
-     LOGIC_AND = 280,
-     LOGIC_OR = 281,
-     LESS_EQUAL = 282,
-     MORE_EQUAL = 283,
-     EQUAL = 284,
-     NOT_EQUAL = 285,
-     Have_sign = 286,
-     REFERENCE = 287,
-     COMMAND_SEPARATOR = 288,
-     VARIABLE_SEPARATOR = 289,
-     ONLY_STRING_COMMENT = 290,
-     MULTI_STRING_COMMENT = 291,
-     START_IDENTIFICATION = 292,
-     END_IDENTIFICATION = 293,
-     NAME_INTEGER = 294,
-     NAME_FLOAT = 295,
-     NAME_CHAR = 296,
-     NAME_STRING = 297,
-     NAME_LOGIC = 298,
-     PREFIX_SIGNED = 299,
-     PREFIX_UNSIGNED = 300,
-     PREFIX_LONG = 301,
-     PREFIX_CONST = 302,
-     IF_OPERATOR = 303,
-     ELSE_OPERATOR = 304,
-     SWITCH_OPERATOR = 305,
-     CASE_OPERATOR = 306,
-     CASE_ENUMERATOR = 307,
-     WHILE_OPERATOR = 308,
-     DO_OPERATOR = 309,
-     FOR_OPERATOR = 310,
-     BREAK_OPERATOR = 311,
-     CONTINUE_OPERATOR = 312,
-     NAME_RETURN = 313,
-     START_LIST_ARGUMENTS = 314,
-     END_LIST_ARGUMENTS = 315,
-     STRING = 316,
-     CHAR = 317,
-     LOGIC = 318,
-     INT = 319,
-     FLOAT = 320,
-     Identificator = 321
+     NEWLINE = 258,
+     NUMBER = 259,
+     STRING = 260,
+     BOOL = 261,
+     BLOCK_END = 262,
+     FUNCTION = 263,
+     PRINT = 264,
+     NAME_MAIN_FUNCTION = 265,
+     START_BLOCK = 266,
+     END_BLOCK = 267,
+     DIGIT_MORE_ZERO = 268,
+     DIGIT_ZERO = 269,
+     DIGIT = 270,
+     PLUS = 271,
+     MINUS = 272,
+     DIVIDE = 273,
+     STAR = 274,
+     PERCENT = 275,
+     POWER = 276,
+     LESS = 277,
+     MORE = 278,
+     NEGATION = 279,
+     ASSIGN = 280,
+     AMPERSAND = 281,
+     PLUS_ASSIGN = 282,
+     MINUS_ASSIGN = 283,
+     MULTIPLY_ASSIGN = 284,
+     DIVIDE_ASSIGN = 285,
+     PERCENT_ASSIGN = 286,
+     LOGIC_AND = 287,
+     LOGIC_OR = 288,
+     LESS_EQUAL = 289,
+     MORE_EQUAL = 290,
+     EQUAL = 291,
+     NOT_EQUAL = 292,
+     Have_sign = 293,
+     REFERENCE = 294,
+     COMMAND_SEPARATOR = 295,
+     VARIABLE_SEPARATOR = 296,
+     ONLY_STRING_COMMENT = 297,
+     MULTI_STRING_COMMENT = 298,
+     START_IDENTIFICATION = 299,
+     END_IDENTIFICATION = 300,
+     ID = 301,
+     NAME_INTEGER = 302,
+     NAME_FLOAT = 303,
+     NAME_CHAR = 304,
+     NAME_STRING = 305,
+     NAME_LOGIC = 306,
+     PREFIX_SIGNED = 307,
+     PREFIX_UNSIGNED = 308,
+     PREFIX_LONG = 309,
+     PREFIX_CONST = 310,
+     IF_OPERATOR = 311,
+     ELSE_OPERATOR = 312,
+     SWITCH_OPERATOR = 313,
+     CASE_OPERATOR = 314,
+     CASE_ENUMERATOR = 315,
+     WHILE_OPERATOR = 316,
+     DO_OPERATOR = 317,
+     FOR_OPERATOR = 318,
+     BREAK_OPERATOR = 319,
+     CONTINUE_OPERATOR = 320,
+     NAME_RETURN = 321,
+     START_LIST_ARGUMENTS = 322,
+     END_LIST_ARGUMENTS = 323,
+     EQUALS = 324,
+     NOT = 325,
+     OR = 326,
+     AND = 327
    };
 
     };
@@ -237,7 +251,7 @@ namespace example {
     /* Tables.  */
     /// For a state, the index in \a yytable_ of its portion.
     static const short int yypact_[];
-    static const short int yypact_ninf_;
+    static const signed char yypact_ninf_;
 
     /// For a state, default reduction number.
     /// Unless\a  yytable_ specifies something else to do.
@@ -245,17 +259,17 @@ namespace example {
     static const unsigned char yydefact_[];
 
     static const short int yypgoto_[];
-    static const short int yydefgoto_[];
+    static const signed char yydefgoto_[];
 
     /// What to do in a state.
     /// \a yytable_[yypact_[s]]: what to do in state \a s.
     /// - if positive, shift that token.
     /// - if negative, reduce the rule which number is the opposite.
     /// - if zero, do what YYDEFACT says.
-    static const short int yytable_[];
-    static const short int yytable_ninf_;
+    static const signed char yytable_[];
+    static const signed char yytable_ninf_;
 
-    static const unsigned char yycheck_[];
+    static const signed char yycheck_[];
 
     /// For a state, its accessing symbol.
     static const unsigned char yystos_[];
@@ -273,11 +287,11 @@ namespace example {
     static const char* const yytname_[];
 #if YYDEBUG
     /// A type to store symbol numbers and -1.
-    typedef short int rhs_number_type;
+    typedef signed char rhs_number_type;
     /// A `-1'-separated list of the rules' RHS.
     static const rhs_number_type yyrhs_[];
     /// For each rule, the index of the first RHS symbol in \a yyrhs_.
-    static const unsigned short int yyprhs_[];
+    static const unsigned char yyprhs_[];
     /// For each rule, its source line number.
     static const unsigned short int yyrline_[];
     /// For each scanner token number, its symbol number.
