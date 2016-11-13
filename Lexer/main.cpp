@@ -10,7 +10,13 @@
 
 int main(int argc, char *argv[])
 {
-	example::Driver driver;
+	std::ofstream	outFile;
+	std::ofstream	idsFile;
+
+	outFile.open(argv[2]);
+	idsFile.open(argv[3]);
+
+	example::Driver driver(outFile, outFile, idsFile);
 	bool readfile = false;
 
 	//Tests/Syntax/Comments.txt Tests/OutputSyntax/OutputIdComments.txt  Tests/OutputSyntax/OutputComments.txt
@@ -20,7 +26,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	driver.parse_file(argv[1], argv[2], argv[3]);
+	driver.parse_file(argv[1]);
 
 	return 0;
 }

@@ -10,15 +10,21 @@ CStringPool::CStringPool()
 
 unsigned CStringPool::Insert(const std::string &str)
 {
-    auto it = m_mapping.find(str);
-    if (it != m_mapping.end())
-    {
-        return it->second;
-    }
-
+	if (m_mapping.size())
+	{
+		auto it = m_mapping.find(str);
+		if (it != m_mapping.end())
+		{
+			return it->second;
+		}
+	}
+	
+	
+    
+	// TODO : see why not work map
     auto nextId = unsigned(m_pool.size());
     m_pool.push_back(str);
-    m_mapping[str] = nextId;
+	//m_mapping[str] = nextId;
     return nextId;
 }
 

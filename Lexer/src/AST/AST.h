@@ -24,16 +24,14 @@ class IFunctionAST;
 class CAST
 {
 public:
-	CAST();
+	CAST(std::ostream &output
+		, std::ostream &errors
+		, CStringPool &pool);
 	~CAST();
 //////////////////////////////////////////////////////////////////////
 // Methods
 	// TODO : restyle
 public:
-	void SetOutputStream(std::ostream &output);
-	void SetErrorStream(std::ostream &errors);
-	void SetStringPool(CStringPool & pool);
-
 	void DefineVariable(unsigned nameId, const CValue &value);
 	void AssignVariable(unsigned nameId, const CValue &value);
 	CValue GetVariableValue(unsigned nameId)const;
@@ -67,7 +65,7 @@ private:
 	std::vector<std::unique_ptr<IFunctionAST>> m_builtins;
 	std::vector<std::unique_ptr<CVariablesScope>> m_scopes;
 
-	CStringPool *m_pool;// TOOD : see ncan rewrite with & insteat *
-	std::ostream *m_output;
-	std::ostream *m_errors;
+	CStringPool &m_pool;// TOOD : see ncan rewrite with & insteat *
+	std::ostream &m_output;
+	std::ostream &m_errors;
 };

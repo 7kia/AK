@@ -71,7 +71,12 @@ namespace
 
 }
 
-CAST::CAST()
+CAST::CAST(std::ostream &output
+		, std::ostream &errors
+		, CStringPool &pool)
+	: m_pool(pool)
+	, m_output(output)
+	, m_errors(errors)
 {
 	AddBuiltin("sin", std::unique_ptr<IFunctionAST>(new CSinFunction));
 	AddBuiltin("rand", std::unique_ptr<IFunctionAST>(new CRandFunction));
@@ -79,21 +84,6 @@ CAST::CAST()
 
 CAST::~CAST()
 {
-}
-
-void CAST::SetOutputStream(std::ostream & output)
-{
-	m_output = &output;
-}
-
-void CAST::SetErrorStream(std::ostream & errors)
-{
-	m_errors = &errors;
-}
-
-void CAST::SetStringPool(CStringPool & pool)
-{
-	m_pool = &pool;
 }
 
 void CAST::DefineVariable(unsigned nameId, const CValue &value)
@@ -125,7 +115,7 @@ CValue CAST::GetVariableValue(unsigned nameId) const
 	{
 		return *pScope->GetVariableValue(nameId);
 	}
-	return CValue::FromErrorMessage("unknown variable " + m_pool->GetString(nameId));
+	return CValue::FromErrorMessage("unknown variable " + m_pool.GetString(nameId));
 }
 
 void CAST::PushScope(std::unique_ptr<CVariablesScope> &&scope)
@@ -167,14 +157,14 @@ void CAST::AddFunction(unsigned nameId, IFunctionAST *function)
 
 std::string CAST::GetStringLiteral(unsigned stringId) const
 {
-	return m_pool->GetString(stringId);
+	return m_pool.GetString(stringId);
 }
 
 void CAST::PrintResult(CValue const& value)
 {
 	try
 	{
-		*m_output << "  " << value.ToString() << std::endl;
+		m_output << "  " << value.ToString() << std::endl;
 	}
 	catch (const std::exception &ex)
 	{
@@ -184,7 +174,7 @@ void CAST::PrintResult(CValue const& value)
 
 void CAST::PrintError(const std::string &message)
 {
-	*m_errors << "  Error: " << message << std::endl;
+	m_errors << "  Error: " << message << std::endl;
 }
 
 bool CAST::ValidateValue(const CValue &value)
@@ -227,6 +217,6 @@ CVariablesScope *CAST::FindScopeWithVariable(unsigned nameId) const
 void CAST::AddBuiltin(const std::string &name, std::unique_ptr<IFunctionAST> &&function)
 {
 	m_builtins.emplace_back(std::move(function));
-	unsigned nameRand = m_pool->Insert(name);
+	unsigned nameRand = m_pool.Insert(name);
 	m_functions[nameRand] = m_builtins.back().get();
 }

@@ -13,9 +13,14 @@
 
 namespace example {
 
-Driver::Driver()
+Driver::Driver(std::ostream &output
+			, std::ostream &errors
+			, std::ostream &ids)
     : trace_scanning(false)
 	, trace_parsing(false)
+	, m_outFile(output)
+	, m_idsFile(ids)
+	, m_globalAst(output, errors, m_stringPool)
 	, m_ast(m_globalAst)
 {
 
@@ -25,8 +30,6 @@ bool Driver::parse_stream(std::istream& in, const std::string& sname)
 {
     streamname = sname;
 
-	m_outFile.open(m_outFileName);
-	m_idsFile.open(m_fileIds);
 	
     Scanner scanner(&in, &m_outFile, &m_idsFile);
 
@@ -44,13 +47,8 @@ bool Driver::parse_stream(std::istream& in, const std::string& sname)
 	// /\/\					/\/\ /
 }
 
-bool Driver::parse_file(const std::string &filename
-						, const std::string &outFileName
-						, const std::string &idsFileName)
+bool Driver::parse_file(const std::string &filename)
 {
-
-	m_outFileName = outFileName;
-	m_fileIds = idsFileName;
     std::ifstream in(filename.c_str());
     if (!in.good()) return false;
     return parse_stream(in, filename);

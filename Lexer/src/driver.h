@@ -26,7 +26,9 @@ class Driver
 {
 public:
     /// construct a new parser driver context
-    Driver();
+    Driver(std::ostream &output
+			, std::ostream &errors
+			, std::ostream &ids);
 
     /// enable debug output in the flex scanner
     bool trace_scanning;
@@ -58,9 +60,7 @@ public:
      * @param filename	input file name
      * @return		true if successfully parsed
      */
-    bool parse_file(const std::string &filename
-					, const std::string &outFileName
-					, const std::string &idsFileName);
+    bool parse_file(const std::string &filename);
 
     // To demonstrate pure handling of parse errors, instead of
     // simply dumping them on the standard error output, we will pass
@@ -84,11 +84,9 @@ public:
 
 	/** Name file where will write recognize ids
 	* expressions. */
-	std::string		m_fileIds;
-	std::string		m_outFileName;
+	std::ostream	&m_outFile;
+	std::ostream	&m_idsFile;
 
-	std::ofstream	m_outFile;
-	std::ofstream	m_idsFile;
 private:
 	CStringPool		m_stringPool;
 
