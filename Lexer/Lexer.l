@@ -91,7 +91,9 @@ INT						{Have_sign}([0-9]+)
 Expotential_part		{Have_sign}("e"|"E"){INT}
 FLOAT					{Have_sign}((([0-9]+)"."([0-9]*))|("."([0-9]+))){Expotential_part}?
 
-/*
+NUMBER [0-9].?[0-9]*
+
+/* TODO : number delete
 //////////////////////////////
 //			Операции
 //////////////////////////////
@@ -165,7 +167,7 @@ NAME_CHAR			"char"
 NAME_STRING			"string"
 NAME_LOGIC			"bool"
 
-LOGIC				true|false
+BOOL				true|false
 
 NAME_RETURN			"return"
 
@@ -219,8 +221,8 @@ CONTINUE_OPERATOR		"continue"
 //		Объявление указателя
 //////////////////////////////////
 */
-/* Identificator and it used */
-Identificator			[a-zA-Z_][a-zA-Z0-9_]*
+/* ID and it used */
+ID			[a-zA-Z_][a-zA-Z0-9_]*
 
 /* TODO : not work */
 /* .                     { yyerror();  }
@@ -556,7 +558,7 @@ UNDERSCORE_SYMBOL		"_"
 
 
 
-{LOGIC} {
+{BOOL} {
 	
 	*yyOutId << "Bool ";
 	
@@ -569,7 +571,7 @@ UNDERSCORE_SYMBOL		"_"
 		yylval->boolValue = false;
 	}
    
-    return token::LOGIC;
+    return token::BOOL;
 }
 {NAME_RETURN} {
 	
@@ -720,14 +722,14 @@ UNDERSCORE_SYMBOL		"_"
 }
 
 
-{Identificator} {
+{ID} {
 	
-	*yyOutId << "Identificator ";
+	*yyOutId << "ID ";
 
 	
 
     //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::Identificator;
+    return token::ID;
 }
 
 

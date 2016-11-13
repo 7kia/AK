@@ -191,35 +191,21 @@ using namespace scanner_private;
 	%left, %right, %nonassoc и %precedence управл€ют разрешением
 	приоритета операторов и правил ассоциативности
 */
+%left '<' EQUALS
+%left AND OR NOT
+%left '+' '-'
+%left '*' '/' '%'
 
 /* Block type nodes
 %type <calcnode>	constant Variable
 
 */
 
-/* ѕланируетс€ добавить поддержку unicode , чтобы русские символы отображались */
-%token <stringVal> 		STRING		"string"
-%token <stringVal>		CHAR		"char"
-%token <boolValue> 		LOGIC		"bool"
-%token <integerValue>	INT			"int"
-%token <doubleValue>	FLOAT		"float"
-%token <stringVal>		Identificator "Id"
-
-
-
-%type <calcnode>	Left_part_assign Right_part_assign
-
-%type <pStat>		commandContent
-%type <pExp>		Expression
 
 /* Block destructors
 %destructor { delete $$; } STRING
 */
-%destructor { delete $$; } STRING CHAR
-%destructor { delete $$; } LOGIC
 
-%destructor { delete $$; } Left_part_assign Right_part_assign
-%destructor { delete $$; }		Expression
 
 %%
 
@@ -316,11 +302,11 @@ DEFINITION_POINTER	: /* nothing */ | Can_have_const STAR ;
 */
 
 Expression :  
-			Identificator START_LIST_ARGUMENTS END_LIST_ARGUMENTS
+			ID START_LIST_ARGUMENTS END_LIST_ARGUMENTS
 			{
 				EmplaceAST<CCallAST>($$, $1.stringId, ExpressionList());
 			}
-			| Identificator START_LIST_ARGUMENTS Expression END_LIST_ARGUMENTS
+			| ID START_LIST_ARGUMENTS Expression END_LIST_ARGUMENTS
 			{
 				auto pList = Take($3);
 				EmplaceAST<CCallAST>($$, $1.stringId, std::move(*pList));
@@ -386,12 +372,12 @@ Expression :
 			{
 				EmplaceAST<CLiteralAST>($$, pParse->GetStringLiteral($1.stringId));
 			}
-			| LOGIC 
+			| BOOL 
 			{
 				EmplaceAST<CLiteralAST>($$, CValue::FromBoolean($1.boolValue));
 			}
 
-			| Identificator /*  TODO : see ADDRESED_OPERATION*/
+			| ID /*  TODO : see ADDRESED_OPERATION*/
 			{
 				EmplaceAST<CVariableRefAST>($$, $1.stringId);
 			}
@@ -491,7 +477,7 @@ Function_block :
 Definition_function : Function_imp_or_init COMMAND_SEPARATOR;
 Other_function_imp_or_init : Definition_function Other_function_imp_or_init | /* nothing */;
 
-Function_name : Identificator ;
+Function_name : ID ;
 /*
 ////////////////////////////////////////////////////////////////////
 //
