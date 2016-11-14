@@ -77,7 +77,10 @@ using namespace scanner_private;
     double 				doubleValue;
 	bool				boolValue;
     std::string*		stringVal;// TODO : see need separately char
-	class CNode*		calcnode;
+	unsigned int		stringId;
+
+	FunctionPtr pFunction;
+	StatementPtr pStatetment;
 	/*
 	ExpressionListPtr	pExpList;
 	StatementListPtr	pStatList;
@@ -86,7 +89,7 @@ using namespace scanner_private;
 	FunctionPtr			pFunc;
 	NamesList			nameList;
 	NamesListPtr		pNameList;
-	*/
+	//*/
 }
 
 /*
@@ -99,11 +102,7 @@ using namespace scanner_private;
 */
 %token NEWLINE  "end of line"
 %token NUMBER   "Number constant"
-%token STRING   "String constant"
-%token FLOAT "float"
-%token INT "integer"
-%token CHAR "char"
-%token BOOL     "Bool constant"
+
 %token BLOCK_END "end"
 %token FUNCTION "def"
 %token PRINT    "print"
@@ -164,7 +163,6 @@ using namespace scanner_private;
 %token START_IDENTIFICATION
 %token END_IDENTIFICATION
 
-%token ID "ID"
 /*
 //////////////////////////////
 //		“ипы и их имена
@@ -212,12 +210,26 @@ using namespace scanner_private;
 %type <calcnode>	constant Variable
 
 */
+%token <stringVal> 		STRING		"string"
+%token <doubleValue>	FLOAT		"float"
+%token <integerValue>	INT			"int"
+%token <stringVal>		CHAR		"char"
+%token <boolValue> 		BOOL		"bool"
+%token <stringId> ID "Id"
 
+%type <FunctionPtr> function_declaration
+%type <StatementPtr> statement statement_line
+%type <StatementListPtr> statement_list
+%type <NamesListPtr> parameter_list 
 
 /* Block destructors
 %destructor { delete $$; } STRING
 */
-
+%destructor { delete $$; } STRING CHAR
+%destructor { delete $$; } function_declaration
+%destructor { delete $$; } statement statement_line
+%destructor { delete $$; } statement_list
+%destructor { delete $$; } parameter_list
 
 %%
 
@@ -252,18 +264,53 @@ statement : PRINT expression_list
 
 statement_line : error NEWLINE | statement NEWLINE
 
-statement_list : statement_line | statement_list statement_line
+statement_list : statement_line 
+					{
+						CreateList($$, $1);
+					}
+				| statement_list statement_line
+					{
+						ConcatList($$, $1, $2);
+					}
 
 block : NEWLINE statement_list BLOCK_END
 
 block : NEWLINE BLOCK_END
 
-parameter_list : ID | parameter_list ID
+parameter_list : ID 
+					{
+						auto list = Make<NamesList>();
+						list->emplace_back( driver.m_stringPool.GetString($1));
+						$$ = list.release();
+					}
+				| parameter_list VARIABLE_SEPARATOR ID
+				{
+					auto pList = Take($1);
+					pList->emplace_back(driver.m_stringPool.GetString($2));
+					$$ = pList.release();
+				}
 
 function_declaration : FUNCTION ID START_LIST_ARGUMENTS parameter_list END_LIST_ARGUMENTS block
-                     | FUNCTION ID START_LIST_ARGUMENTS END_LIST_ARGUMENTS block
+						{
+							auto pParameters = Take($4);
+							auto pBody = Take(%6);
+							EmplaceAST<CFunctionAST>($$, driver.m_stringPool.GetString($2), std::move(*pParameters), std::move(*pBody));
+						}
 
-toplevel_statement : function_declaration | statement
+                     | FUNCTION ID START_LIST_ARGUMENTS END_LIST_ARGUMENTS block
+						
+{
+							auto pBody = Take($5);
+							EmplaceAST<CFunctionAST>($$, driver.m_stringPool.GetString($2), std::vector<unsigned>(), std::move(*pBody));
+						}
+toplevel_statement : function_declaration 
+					{
+						 driver.m_ast.AddFunction(Take($1));
+					}
+					| statement
+					{
+						driver.m_ast.AddStatement(Take($1));
+					}
 
 toplevel_line : NEWLINE | toplevel_statement NEWLINE | error NEWLINE
 

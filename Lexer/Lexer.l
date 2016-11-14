@@ -744,9 +744,7 @@ UNDERSCORE_SYMBOL		"_"
 	
 	*yyOutId << "ID ";
 
-	
-
-    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+	yylval->stringId = m_pool.Insert(std::string(yytext, yyleng));
     return token::ID;
 }
 
@@ -793,11 +791,13 @@ UNDERSCORE_SYMBOL		"_"
 
 namespace example {
 
-Scanner::Scanner(std::istream* in
+Scanner::Scanner(CStringPool & pool
+				, std::istream* in
 				, std::ostream* out
 				, std::ostream* outId)
     : ExampleFlexLexer(in, out)
 	, yyOutId(outId)
+	, m_pool(pool)
 {
 }
 

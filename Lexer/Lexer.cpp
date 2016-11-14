@@ -594,7 +594,7 @@ static yyconst flex_int16_t yy_rule_linenum[64] =
       487,  496,  503,  513,  522,  531,  540,  549,  561,  576,
       587,  596,  605,  618,  630,  639,  648,  657,  666,  678,
       687,  696,  705,  714,  725,  728,  731,  734,  737,  743,
-      754,  763,  775
+      752,  761,  773
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -1581,7 +1581,7 @@ YY_RULE_SETUP
 	
 	*yyOutId << "ID ";
 
-    //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
+	yylval->stringId = m_pool.Insert(std::string(yytext, yyleng));
     return token::ID;
 }
 	YY_BREAK
@@ -2670,11 +2670,13 @@ void Examplefree (void * ptr )
 
 namespace example {
 
-Scanner::Scanner(std::istream* in
+Scanner::Scanner(CStringPool & pool
+				, std::istream* in
 				, std::ostream* out
 				, std::ostream* outId)
     : ExampleFlexLexer(in, out)
 	, yyOutId(outId)
+	, m_pool(pool)
 {
 }
 

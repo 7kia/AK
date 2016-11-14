@@ -10,12 +10,16 @@ class IExpressionAST;
 class IStatementAST;
 class IFunctionAST;
 
-using IExpressionASTUniquePtr = std::unique_ptr<IExpressionAST>;
-using IStatementASTUniquePtr = std::unique_ptr<IStatementAST>;
-using IFunctionASTUniquePtr = std::unique_ptr<IFunctionAST>;
-using ExpressionList = std::vector<IExpressionASTUniquePtr>;
-using StatementsList = std::vector<IStatementASTUniquePtr>;
-using FunctionList = std::vector<IFunctionASTUniquePtr>;
+namespace ASTNodesNamespace
+{
+	using IExpressionASTUniquePtr = std::unique_ptr<IExpressionAST>;
+	using IStatementASTUniquePtr = std::unique_ptr<IStatementAST>;
+	using IFunctionASTUniquePtr = std::unique_ptr<IFunctionAST>;
+	using ExpressionList = std::vector<IExpressionASTUniquePtr>;
+	using StatementsList = std::vector<IStatementASTUniquePtr>;
+	using FunctionList = std::vector<IFunctionASTUniquePtr>;
+}
+
 
 struct SErrorValue
 {
@@ -57,13 +61,13 @@ enum class BinaryOperation
 class CBinaryExpressionAST : public IExpressionAST
 {
 public:
-	CBinaryExpressionAST(IExpressionASTUniquePtr && left, BinaryOperation op, IExpressionASTUniquePtr && right);
+	CBinaryExpressionAST(ASTNodesNamespace::IExpressionASTUniquePtr && left, BinaryOperation op, ASTNodesNamespace::IExpressionASTUniquePtr && right);
 	CValue Evaluate(CAST & context)const override;
 
 private:
-	IExpressionASTUniquePtr m_left;
+	ASTNodesNamespace::IExpressionASTUniquePtr m_left;
 	const BinaryOperation m_operation;
-	IExpressionASTUniquePtr m_right;
+	ASTNodesNamespace::IExpressionASTUniquePtr m_right;
 };
 
 enum class UnaryOperation
@@ -75,12 +79,12 @@ enum class UnaryOperation
 class CUnaryExpressionAST : public IExpressionAST
 {
 public:
-	CUnaryExpressionAST(UnaryOperation op, IExpressionASTUniquePtr && value);
+	CUnaryExpressionAST(UnaryOperation op, ASTNodesNamespace::IExpressionASTUniquePtr && value);
 	CValue Evaluate(CAST & context)const override;
 
 private:
 	const UnaryOperation m_operation;
-	IExpressionASTUniquePtr m_expr;
+	ASTNodesNamespace::IExpressionASTUniquePtr m_expr;
 };
 
 class CLiteralAST : public IExpressionAST
@@ -96,12 +100,12 @@ private:
 class CCallAST : public IExpressionAST
 {
 public:
-	CCallAST(unsigned nameId, ExpressionList &&arguments);
+	CCallAST(unsigned nameId, ASTNodesNamespace::ExpressionList &&arguments);
 	CValue Evaluate(CAST & context)const override;
 
 private:
 	const unsigned m_nameId;
-	ExpressionList m_arguments;
+	ASTNodesNamespace::ExpressionList m_arguments;
 };
 
 class CVariableRefAST : public IExpressionAST
@@ -117,88 +121,88 @@ private:
 class CPrintAST : public IStatementAST
 {
 public:
-	CPrintAST(IExpressionASTUniquePtr && expr);
+	CPrintAST(ASTNodesNamespace::IExpressionASTUniquePtr && expr);
 
 protected:
 	void Execute(CAST & context)const override;
 
 private:
-	IExpressionASTUniquePtr m_expr;
+	ASTNodesNamespace::IExpressionASTUniquePtr m_expr;
 };
 
 class CAssignAST : public IStatementAST
 {
 public:
-	CAssignAST(unsigned nameId, IExpressionASTUniquePtr && value);
+	CAssignAST(unsigned nameId, ASTNodesNamespace::IExpressionASTUniquePtr && value);
 
 protected:
 	void Execute(CAST &context)const override;
 
 private:
 	const unsigned m_nameId;
-	IExpressionASTUniquePtr m_value;
+	ASTNodesNamespace::IExpressionASTUniquePtr m_value;
 };
 
 class CReturnAST : public IStatementAST
 {
 public:
-	CReturnAST(IExpressionASTUniquePtr && value);
+	CReturnAST(ASTNodesNamespace::IExpressionASTUniquePtr && value);
 
 protected:
 	void Execute(CAST &context)const override;
 
 private:
-	IExpressionASTUniquePtr m_value;
+	ASTNodesNamespace::IExpressionASTUniquePtr m_value;
 };
 
 class CWhileAst : public IStatementAST
 {
 public:
-	CWhileAst(IExpressionASTUniquePtr && condition,
-		StatementsList && body = StatementsList());
+	CWhileAst(ASTNodesNamespace::IExpressionASTUniquePtr && condition,
+		ASTNodesNamespace::StatementsList && body = ASTNodesNamespace::StatementsList());
 
 protected:
 	void Execute(CAST &context) const override;
 
 private:
-	IExpressionASTUniquePtr m_condition;
-	StatementsList m_body;
+	ASTNodesNamespace::IExpressionASTUniquePtr m_condition;
+	ASTNodesNamespace::StatementsList m_body;
 };
 
 class CRepeatAst : public IStatementAST
 {
 public:
-	CRepeatAst(IExpressionASTUniquePtr && condition,
-		StatementsList && body = StatementsList());
+	CRepeatAst(ASTNodesNamespace::IExpressionASTUniquePtr && condition,
+		ASTNodesNamespace::StatementsList && body = ASTNodesNamespace::StatementsList());
 
 protected:
 	void Execute(CAST &context) const override;
 
 private:
-	IExpressionASTUniquePtr m_condition;
-	StatementsList m_body;
+	ASTNodesNamespace::IExpressionASTUniquePtr m_condition;
+	ASTNodesNamespace::StatementsList m_body;
 };
 
 class CIfAst : public IStatementAST
 {
 public:
-	CIfAst(IExpressionASTUniquePtr && condition,
-		StatementsList && thenBody = StatementsList(),
-		StatementsList && elseBody = StatementsList());
+	CIfAst(ASTNodesNamespace::IExpressionASTUniquePtr && condition,
+		ASTNodesNamespace::StatementsList && thenBody = ASTNodesNamespace::StatementsList(),
+		ASTNodesNamespace::StatementsList && elseBody = ASTNodesNamespace::StatementsList());
 
 protected:
 	void Execute(CAST &context) const override;
 
 private:
-	IExpressionASTUniquePtr m_condition;
-	StatementsList m_thenBody;
-	StatementsList m_elseBody;
+	ASTNodesNamespace::IExpressionASTUniquePtr m_condition;
+	ASTNodesNamespace::StatementsList m_thenBody;
+	ASTNodesNamespace::StatementsList m_elseBody;
 };
 
 class CFunctionAST : public IFunctionAST
 {
 public:
-	CFunctionAST(unsigned nameId, std::vector<unsigned> argumentNames, StatementsList && body);
+	CFunctionAST(unsigned nameId, std::vector<unsigned> argumentNames, ASTNodesNamespace::StatementsList && body);
 
 	unsigned GetNameId()const override;
 
@@ -208,7 +212,7 @@ protected:
 private:
 	unsigned m_nameId;
 	std::vector<unsigned> m_argumentNames;
-	StatementsList m_body;
+	ASTNodesNamespace::StatementsList m_body;
 };
 
 class CProgramAst
@@ -217,10 +221,10 @@ public:
 	CProgramAst(CAST &context);
 	~CProgramAst();
 
-	void AddStatement(IStatementASTUniquePtr && stmt);
-	void AddFunction(IFunctionASTUniquePtr && function);
+	void AddStatement(ASTNodesNamespace::IStatementASTUniquePtr && stmt);
+	void AddFunction(ASTNodesNamespace::IFunctionASTUniquePtr && function);
 
 private:
 	CAST &m_context;
-	FunctionList m_functions;
+	ASTNodesNamespace::FunctionList m_functions;
 };

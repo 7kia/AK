@@ -23,6 +23,7 @@
 #endif
 
 #include "../Grammar.h"
+#include "AST/StringPool.h"
 
 namespace example {
 
@@ -37,7 +38,8 @@ namespace example {
 		/** Create a new scanner object. The streams arg_yyin and arg_yyout default
 		 * to cin and cout, but that assignment is only made when initializing in
 		 * yylex(). */
-		Scanner(std::istream* arg_yyin = 0
+		Scanner(CStringPool & pool
+			, std::istream* arg_yyin = 0
 			, std::ostream* arg_yyout = 0
 			, std::ostream* arg_yyOutId = 0
 		);
@@ -59,6 +61,7 @@ namespace example {
 
 		FLEX_STD ostream* yyout;
 		FLEX_STD ostream* yyOutId;	// output sink for default LexerOutput
+		CStringPool &m_pool;
 	};
 
 } // namespace example

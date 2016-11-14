@@ -81,14 +81,13 @@ public:
 
 	CAST			m_globalAst;
     CProgramAst		m_ast;
+	CStringPool		m_stringPool;
 
 	/** Name file where will write recognize ids
 	* expressions. */
 	std::ostream	&m_outFile;
 	std::ostream	&m_idsFile;
 
-private:
-	CStringPool		m_stringPool;
 
 };
 
