@@ -217,7 +217,7 @@ using namespace scanner_private;
 %token <boolValue> 		BOOL		"bool"
 %token <stringId> ID "Id"
 
-%type <ExpressionPtr> expression
+%type <ExpressionPtr> expression constant variable function_call
 %type <FunctionPtr> function_declaration
 %type <StatementPtr> statement statement_line
 %type <StatementListPtr> statement_list block
@@ -228,7 +228,7 @@ using namespace scanner_private;
 */
 %destructor { delete $$; } STRING CHAR
 
-%destructor { delete $$; } expression
+%destructor { delete $$; } expression constant variable function_call
 %destructor { delete $$; } function_declaration
 %destructor { delete $$; } statement statement_line
 %destructor { delete $$; } statement_list block
@@ -275,7 +275,7 @@ expression : constant
 		| variable 
 		| START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS
 		{
-			MovePointer(A, X);
+			MovePointer($2, $$);
 		}
         | PLUS expression 
 		{
@@ -343,15 +343,43 @@ expression_list : epsilon
 				}
 
 statement : PRINT expression_list
+			{
+				EmplaceAST<CPrintAST>($$, Take($2));
+			}
           | variable ASSIGN expression
+			{
+				EmplaceAST<CAssignAST>($$, driver.m_stringPool.GetString($1), Take($3));
+			}
           | NAME_RETURN expression
+			{
+				EmplaceAST<CReturnAST>($$, Take($2));
+			}
           | IF_OPERATOR expression block
-          | IF_OPERATOR expression NEWLINE statement_list ELSE_OPERATOR block
-          | IF_OPERATOR expression NEWLINE ELSE_OPERATOR block
+			{
+				auto pThenBody = Take($3);
+				EmplaceAST<CIfAst>($$, Take($2), std::move(*pThenBody));
+			}
+          | IF_OPERATOR expression block ELSE_OPERATOR block
+			{
+				auto pThenBody = Take($3);
+				auto pElseBody = Take($5);
+				EmplaceAST<CIfAst>($$, Take($2), std::move(*pThenBody), std::move(*pElseBody));
+			}
           | WHILE_OPERATOR expression block
+			{
+				auto pBody = Take($3);
+				EmplaceAST<CWhileAst>($$, Take($2), std::move(*pBody));
+			}
           | DO_OPERATOR NEWLINE statement_list WHILE_OPERATOR expression BLOCK_END
+			{
+				auto pBody = Take($3);
+				EmplaceAST<CRepeatAst>($$, Take($5), std::move(*pBody));
+			}
           | DO_OPERATOR NEWLINE WHILE_OPERATOR expression BLOCK_END
-		  | epsilon
+			{
+				EmplaceAST<CRepeatAst>($$, Take($4));
+			}
+		  /* | epsilon */
 
 statement_line : error NEWLINE 
 				{
@@ -398,7 +426,7 @@ parameter_list : ID
 function_declaration : FUNCTION ID START_LIST_ARGUMENTS parameter_list END_LIST_ARGUMENTS block
 						{
 							auto pParameters = Take($4);
-							auto pBody = Take(%6);
+							auto pBody = Take($6);
 							EmplaceAST<CFunctionAST>($$, driver.m_stringPool.GetString($2), std::move(*pParameters), std::move(*pBody));
 						}
 
