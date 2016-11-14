@@ -48,13 +48,15 @@ public:
 
 enum class BinaryOperation
 {
-	Less,
-	Equals,
-	Add,
-	Substract,
-	Multiply,
-	Divide,
-	Modulo
+	Less
+	, Equals
+	, Add
+	, Substract
+	, Multiply
+	, Divide
+	, Modulo
+	, LogicAnd
+	, LogicOr
 };
 
 class CBinaryExpressionAST : public IExpressionAST

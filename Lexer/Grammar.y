@@ -257,8 +257,19 @@ constant : BOOL
 		}
 
 variable : ID
+			{
+				EmplaceAST<CVariableRefAST>($$, driver.m_stringPool.GetString($1));
+			}
 
-function_call : ID START_LIST_ARGUMENTS expression_list END_LIST_ARGUMENTS
+function_call : ID START_LIST_ARGUMENTS END_LIST_ARGUMENTS
+				{
+					EmplaceAST<CCallAST>($$, driver.m_stringPool.GetString($1), ExpressionList());
+				}
+				| ID START_LIST_ARGUMENTS expression_list END_LIST_ARGUMENTS
+				{
+					auto pList = Take($3);
+					EmplaceAST<CCallAST>($$, driver.m_stringPool.GetString($1), std::move(*pList));
+				}
 
 expression : constant 
 		| variable 
@@ -287,8 +298,14 @@ expression : constant
 			EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Equals, Take($3));
 		}
 
-        | expression AND expression 
+        | expression AND expression
+		{
+			EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::LogicAnd, Take($3));
+		} 
 		| expression OR expression
+		{
+			EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::LogicOr, Take($3));
+		}
         | expression PLUS expression 
 		{
 			EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Add, Take($3));

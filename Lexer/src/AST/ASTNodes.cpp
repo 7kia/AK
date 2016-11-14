@@ -116,6 +116,10 @@ CValue CBinaryExpressionAST::Evaluate(CAST &context) const
 		return a / b;
 	case BinaryOperation::Modulo:
 		return a % b;
+	case BinaryOperation::LogicAnd:
+		return a && b;
+	case BinaryOperation::LogicOr:
+		return a || b;
 	}
 	return CValue::FromErrorMessage("binary operation not implemented");
 }
