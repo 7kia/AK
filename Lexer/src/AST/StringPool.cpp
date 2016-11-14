@@ -24,7 +24,7 @@ unsigned CStringPool::Insert(const std::string &str)
 	// TODO : see why not work map
     auto nextId = unsigned(m_pool.size());
     m_pool.push_back(str);
-	m_mapping.emplace(str, nextId);
+	//m_mapping.emplace(str, nextId);
 	//m_mapping[str] = nextId;
     return nextId;
 }
