@@ -72,7 +72,8 @@ private:
 enum class UnaryOperation
 {
 	Plus,
-	Minus
+	Minus,
+	Negation
 };
 
 class CUnaryExpressionAST : public IExpressionAST

@@ -135,6 +135,8 @@ CValue CUnaryExpressionAST::Evaluate(CAST &context) const
 		return +value;
 	case UnaryOperation::Minus:
 		return -value;
+	case UnaryOperation::Negation:
+		return !value;
 	}
 	return CValue::FromErrorMessage("unary operation not implemented");
 }

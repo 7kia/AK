@@ -241,32 +241,75 @@ epsilon : /*empty*/
 
 constant : BOOL 
 			{
-				EmplaceAST<CLiteralAST>(X, CValue::FromBoolean(A.boolValue));
+				EmplaceAST<CLiteralAST>($$, CValue::FromBoolean(A.boolValue));
 			}
 		| INT 
 		{
-			EmplaceAST<CLiteralAST>(X, CValue::FromInt(A.value));
+			EmplaceAST<CLiteralAST>($$, CValue::FromInt(A.value));
 		}
 		| FLOAT 
 		{
-			EmplaceAST<CLiteralAST>(X, CValue::FromDouble(A.value));
+			EmplaceAST<CLiteralAST>($$, CValue::FromDouble(A.value));
 		}
 		| STRING
 		{
-			EmplaceAST<CLiteralAST>(X, $1);
+			EmplaceAST<CLiteralAST>($$, $1);
 		}
 
 variable : ID
 
 function_call : ID START_LIST_ARGUMENTS expression_list END_LIST_ARGUMENTS
 
-expression : constant | variable | START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS
-        | PLUS expression | MINUS expression | NOT expression
-        | expression LESS expression | expression EQUALS expression
-        | expression AND expression | expression OR expression
-        | expression PLUS expression | expression MINUS expression
-        | expression STAR expression | expression DIVIDE expression
+expression : constant 
+		| variable 
+		| START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS
+		{
+			MovePointer(A, X);
+		}
+        | PLUS expression 
+		{
+			EmplaceAST<CUnaryExpressionAST>($$, UnaryOperation::Plus, Take($2));
+		}
+		| MINUS expression 
+		{
+			EmplaceAST<CUnaryExpressionAST>($$, UnaryOperation::Minus, Take($2));
+		}
+		| NOT expression
+		{
+			EmplaceAST<CUnaryExpressionAST>($$, UnaryOperation::Plus, Take($2));
+		}
+        | expression LESS expression 
+		{
+			EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Less, Take($3));
+		}
+		| expression EQUALS expression
+		{
+			EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Equals, Take($3));
+		}
+
+        | expression AND expression 
+		| expression OR expression
+        | expression PLUS expression 
+		{
+			EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Add, Take($3));
+		}
+		| expression MINUS expression
+		{
+			EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Substract, Take($3));
+		}
+        | expression STAR expression 
+		{
+			EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Multiply, Take($3));
+		}
+		| expression DIVIDE expression
+		{
+			EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Divide, Take($3));
+		}
         | expression PERCENT expression
+		{
+			EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Modulo, Take($3));
+		}
+
         | function_call
 
 expression_list : epsilon 
