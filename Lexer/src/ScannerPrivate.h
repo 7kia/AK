@@ -5,7 +5,6 @@
 #include <utility>
 #include <memory>
 #include "Value/Value.h"
-#include "Scanner.h"
 #include "AST/ASTNodes.h"
 
 namespace scanner_private

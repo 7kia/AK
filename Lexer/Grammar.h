@@ -46,6 +46,8 @@
 #include <iostream>
 #include "stack.hh"
 #include "location.hh"
+#include "src/AST/ASTNodes.h"
+#include "src/ScannerPrivate.h"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -73,14 +75,14 @@ namespace example {
     std::string*		stringVal;// TODO : see need separately char
 	unsigned int		stringId;
 
-	class IFunctionAST*			pFunction;
-	class IStatementAST*		pStatetment;
-	class IExpressionAST*		pExpression;
+	IFunctionAST*			pFunction;
+	IStatementAST*		pStatetment;
+	IExpressionAST*		pExpression;
 
-	class ExpressionList*		pExpressionList;
-	class StatementsList*		pStatementList;
+	ExpressionList*		pExpressionList;
+	StatementsList*		pStatementList;
 	//NamesList					nameList;// TODO : see need it
-	class NamesList*			pNameList;
+	NamesList*			pNameList;
 
 
 

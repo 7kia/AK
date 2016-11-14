@@ -12,9 +12,11 @@ extern int yylex();
 
 #include "src/driver.h"
 #include "src/scanner.h"
+// TODO : transfer to Grammar.h
 #include "src/AST/ASTNodes.h"
 #include "src/ScannerPrivate.h"
 
+// TODO : transfer after Grammar.h
 using namespace scanner_private;
 /* this "connects" the bison parser in the driver to the flex scanner class
  * object. it defines the yylex() function call to pull the next token from the
@@ -79,14 +81,14 @@ using namespace scanner_private;
     std::string*		stringVal;// TODO : see need separately char
 	unsigned int		stringId;
 
-	class IFunctionAST*			pFunction;
-	class IStatementAST*		pStatetment;
-	class IExpressionAST*		pExpression;
+	IFunctionAST*			pFunction;
+	IStatementAST*		pStatetment;
+	IExpressionAST*		pExpression;
 
-	class ExpressionList*		pExpressionList;
-	class StatementsList*		pStatementList;
+	ExpressionList*		pExpressionList;
+	StatementsList*		pStatementList;
 	//NamesList					nameList;// TODO : see need it
-	class NamesList*			pNameList;
+	NamesList*			pNameList;
 }
 
 /*
@@ -250,22 +252,22 @@ constant : BOOL
 		}
 		| STRING
 		{
-			EmplaceAST<CLiteralAST>($$, $1);
+			EmplaceAST<CLiteralAST>($$, CValue::FromString(*$1));
 		}
 
 variable : ID
 			{
-				EmplaceAST<CVariableRefAST>($$, driver.m_stringPool.GetString($1));
+				EmplaceAST<CVariableRefAST>($$, $1);
 			}
 
 function_call : ID START_LIST_ARGUMENTS END_LIST_ARGUMENTS
 				{
-					EmplaceAST<CCallAST>($$, driver.m_stringPool.GetString($1), std::make_unique<ExpressionList>());
+					EmplaceAST<CCallAST>($$, $1, ExpressionList());
 				}
 				| ID START_LIST_ARGUMENTS expression_list END_LIST_ARGUMENTS
 				{
 					auto pList = Take($3);
-					EmplaceAST<CCallAST>($$, driver.m_stringPool.GetString($1), std::move(*pList));
+					EmplaceAST<CCallAST>($$, $1, std::move(*pList));
 				}
 
 expression : constant 
@@ -339,13 +341,14 @@ expression_list : epsilon
 					ConcatList($$, $1, $3);
 				}
 
-statement : PRINT expression_list
+statement : PRINT expression
 			{
+			// TODO : see need instead expression expression_list
 				EmplaceAST<CPrintAST>($$, Take($2));
 			}
           | ID ASSIGN expression
 			{
-				EmplaceAST<CAssignAST>($$, driver.m_stringPool.GetString($1), Take($3));// TODO : warning can not work
+				EmplaceAST<CAssignAST>($$, $1, Take($3));// TODO : warning can not work
 			}
           | NAME_RETURN expression
 			{
@@ -416,7 +419,7 @@ parameter_list : ID
 				| parameter_list VARIABLE_SEPARATOR ID
 				{
 					auto pList = Take($1);
-					pList->emplace_back(driver.m_stringPool.GetString($3));
+					pList->emplace_back($3);
 					$$ = pList.release();
 				}
 
@@ -424,14 +427,14 @@ function_declaration : FUNCTION ID START_LIST_ARGUMENTS parameter_list END_LIST_
 						{
 							auto pParameters = Take($4);
 							auto pBody = Take($6);
-							EmplaceAST<CFunctionAST>($$, driver.m_stringPool.GetString($2), std::move(*pParameters), std::move(*pBody));
+							EmplaceAST<CFunctionAST>($$, $2, std::move(*pParameters), std::move(*pBody));
 						}
 
                      | FUNCTION ID START_LIST_ARGUMENTS END_LIST_ARGUMENTS block
 						
 {
 							auto pBody = Take($5);
-							EmplaceAST<CFunctionAST>($$, driver.m_stringPool.GetString($2), std::vector<unsigned>(), std::move(*pBody));
+							EmplaceAST<CFunctionAST>($$, $2, std::vector<unsigned>(), std::move(*pBody));
 						}
 toplevel_statement : function_declaration 
 					{
