@@ -31,7 +31,7 @@ bool Driver::parse_stream(std::istream& in, const std::string& sname)
     streamname = sname;
 
 	
-    Scanner scanner(&in, &m_outFile, &m_idsFile);
+    Scanner scanner(m_stringPool, &in, &m_outFile, &m_idsFile);
 
     scanner.set_debug(trace_scanning);
     this->lexer = &scanner;

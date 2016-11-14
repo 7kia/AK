@@ -79,6 +79,10 @@ void ConcatList(TTarget *& target, TTarget *& source, TItem *& item)
     target = pList.release();
 };
 
+
+
+}
+
 using ExpressionListPtr = ExpressionList*;
 using StatementListPtr = StatementsList*;
 using StatementPtr = IStatementAST*;
@@ -86,6 +90,3 @@ using ExpressionPtr = IExpressionAST*;
 using FunctionPtr = IFunctionAST*;
 using NamesList = std::vector<unsigned>;
 using NamesListPtr = NamesList*;
-
-}
-

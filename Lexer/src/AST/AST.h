@@ -4,6 +4,7 @@
 #include <memory>
 #include <boost/optional.hpp>
 #include "../Value/Value.h"
+
 // TODO : see need old comments
 /** Calculator context used to save the parsed expressions. This context is
 * passed along to the example::Driver class and fill during parsing via bison

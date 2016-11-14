@@ -73,17 +73,14 @@ namespace example {
     std::string*		stringVal;// TODO : see need separately char
 	unsigned int		stringId;
 
-	FunctionPtr pFunction;
-	StatementPtr pStatetment;
-	/*
-	ExpressionListPtr	pExpList;
-	StatementListPtr	pStatList;
-	StatementPtr		pStat;
-	ExpressionPtr		pExp;
-	FunctionPtr			pFunc;
-	NamesList			nameList;
-	NamesListPtr		pNameList;
-	//*/
+	class IFunctionAST*			pFunction;
+	class IStatementAST*		pStatetment;
+	class IExpressionAST*		pExpression;
+
+	class ExpressionList*		pExpressionList;
+	class StatementsList*		pStatementList;
+	//NamesList					nameList;// TODO : see need it
+	class NamesList*			pNameList;
 
 
 

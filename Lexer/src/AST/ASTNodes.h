@@ -6,9 +6,12 @@
 
 class CAST;
 
+
 class IExpressionAST;
 class IStatementAST;
 class IFunctionAST;
+
+
 
 
 using IExpressionASTUniquePtr = std::unique_ptr<IExpressionAST>;
@@ -230,3 +233,4 @@ private:
 	CAST &m_context;
 	FunctionList m_functions;
 };
+

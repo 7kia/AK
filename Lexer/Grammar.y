@@ -79,17 +79,14 @@ using namespace scanner_private;
     std::string*		stringVal;// TODO : see need separately char
 	unsigned int		stringId;
 
-	FunctionPtr pFunction;
-	StatementPtr pStatetment;
-	/*
-	ExpressionListPtr	pExpList;
-	StatementListPtr	pStatList;
-	StatementPtr		pStat;
-	ExpressionPtr		pExp;
-	FunctionPtr			pFunc;
-	NamesList			nameList;
-	NamesListPtr		pNameList;
-	//*/
+	class IFunctionAST*			pFunction;
+	class IStatementAST*		pStatetment;
+	class IExpressionAST*		pExpression;
+
+	class ExpressionList*		pExpressionList;
+	class StatementsList*		pStatementList;
+	//NamesList					nameList;// TODO : see need it
+	class NamesList*			pNameList;
 }
 
 /*
@@ -217,12 +214,12 @@ using namespace scanner_private;
 %token <boolValue> 		BOOL		"bool"
 %token <stringId> ID "Id"
 
-%type <ExpressionPtr> expression constant variable function_call
-%type <FunctionPtr> function_declaration
-%type <StatementPtr> statement statement_line
-%type <StatementListPtr> statement_list block
-%type <NamesListPtr> parameter_list 
-%type <ExpressionListPtr> expression_list
+%type <pExpression> expression constant variable function_call
+%type <pFunction> function_declaration
+%type <pStatetment> statement statement_line
+%type <pStatementList> statement_list block
+%type <pNameList> parameter_list 
+%type <pExpressionList> expression_list
 /* Block destructors
 %destructor { delete $$; } STRING
 */
@@ -241,15 +238,15 @@ epsilon : /*empty*/
 
 constant : BOOL 
 			{
-				EmplaceAST<CLiteralAST>($$, CValue::FromBoolean(A.boolValue));
+				EmplaceAST<CLiteralAST>($$, CValue::FromBoolean($1));
 			}
 		| INT 
 		{
-			EmplaceAST<CLiteralAST>($$, CValue::FromInt(A.value));
+			EmplaceAST<CLiteralAST>($$, CValue::FromInt($1));
 		}
 		| FLOAT 
 		{
-			EmplaceAST<CLiteralAST>($$, CValue::FromDouble(A.value));
+			EmplaceAST<CLiteralAST>($$, CValue::FromDouble($1));
 		}
 		| STRING
 		{
@@ -263,7 +260,7 @@ variable : ID
 
 function_call : ID START_LIST_ARGUMENTS END_LIST_ARGUMENTS
 				{
-					EmplaceAST<CCallAST>($$, driver.m_stringPool.GetString($1), ExpressionList());
+					EmplaceAST<CCallAST>($$, driver.m_stringPool.GetString($1), std::make_unique<ExpressionList>());
 				}
 				| ID START_LIST_ARGUMENTS expression_list END_LIST_ARGUMENTS
 				{
@@ -346,9 +343,9 @@ statement : PRINT expression_list
 			{
 				EmplaceAST<CPrintAST>($$, Take($2));
 			}
-          | variable ASSIGN expression
+          | ID ASSIGN expression
 			{
-				EmplaceAST<CAssignAST>($$, driver.m_stringPool.GetString($1), Take($3));
+				EmplaceAST<CAssignAST>($$, driver.m_stringPool.GetString($1), Take($3));// TODO : warning can not work
 			}
           | NAME_RETURN expression
 			{
@@ -413,7 +410,7 @@ block : NEWLINE BLOCK_END
 parameter_list : ID 
 					{
 						auto list = Make<NamesList>();
-						list->emplace_back( driver.m_stringPool.GetString($1));
+						list->emplace_back( $1 );
 						$$ = list.release();
 					}
 				| parameter_list VARIABLE_SEPARATOR ID
