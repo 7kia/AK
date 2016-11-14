@@ -217,25 +217,44 @@ using namespace scanner_private;
 %token <boolValue> 		BOOL		"bool"
 %token <stringId> ID "Id"
 
+%type <ExpressionPtr> expression
 %type <FunctionPtr> function_declaration
 %type <StatementPtr> statement statement_line
-%type <StatementListPtr> statement_list
+%type <StatementListPtr> statement_list block
 %type <NamesListPtr> parameter_list 
-
+%type <ExpressionListPtr> expression_list
 /* Block destructors
 %destructor { delete $$; } STRING
 */
 %destructor { delete $$; } STRING CHAR
+
+%destructor { delete $$; } expression
 %destructor { delete $$; } function_declaration
 %destructor { delete $$; } statement statement_line
-%destructor { delete $$; } statement_list
+%destructor { delete $$; } statement_list block
 %destructor { delete $$; } parameter_list
+%destructor { delete $$; } expression_list
 
 %%
 
 epsilon : /*empty*/
 
-constant : BOOL | INT | FLOAT | STRING
+constant : BOOL 
+			{
+				EmplaceAST<CLiteralAST>(X, CValue::FromBoolean(A.boolValue));
+			}
+		| INT 
+		{
+			EmplaceAST<CLiteralAST>(X, CValue::FromInt(A.value));
+		}
+		| FLOAT 
+		{
+			EmplaceAST<CLiteralAST>(X, CValue::FromDouble(A.value));
+		}
+		| STRING
+		{
+			EmplaceAST<CLiteralAST>(X, $1);
+		}
 
 variable : ID
 
@@ -250,7 +269,18 @@ expression : constant | variable | START_LIST_ARGUMENTS expression END_LIST_ARGU
         | expression PERCENT expression
         | function_call
 
-expression_list : epsilon | expression | expression_list VARIABLE_SEPARATOR expression
+expression_list : epsilon 
+				{
+				$$ = nullptr;
+				}
+				| expression 
+				{
+					CreateList($$, $1);
+				}
+				| expression_list VARIABLE_SEPARATOR expression
+				{
+					ConcatList($$, $1, $3);
+				}
 
 statement : PRINT expression_list
           | variable ASSIGN expression
@@ -261,8 +291,17 @@ statement : PRINT expression_list
           | WHILE_OPERATOR expression block
           | DO_OPERATOR NEWLINE statement_list WHILE_OPERATOR expression BLOCK_END
           | DO_OPERATOR NEWLINE WHILE_OPERATOR expression BLOCK_END
+		  | epsilon
 
-statement_line : error NEWLINE | statement NEWLINE
+statement_line : error NEWLINE 
+				{
+				// TODO : see need NEWLINE
+				$$ = nullptr;
+				}
+				| statement NEWLINE
+				{
+					MovePointer($1, $$);
+				}
 
 statement_list : statement_line 
 					{
@@ -274,8 +313,14 @@ statement_list : statement_line
 					}
 
 block : NEWLINE statement_list BLOCK_END
+{
+	$$ = $2;
+}
 
 block : NEWLINE BLOCK_END
+{
+	$$ = nullptr;
+}
 
 parameter_list : ID 
 					{
@@ -286,7 +331,7 @@ parameter_list : ID
 				| parameter_list VARIABLE_SEPARATOR ID
 				{
 					auto pList = Take($1);
-					pList->emplace_back(driver.m_stringPool.GetString($2));
+					pList->emplace_back(driver.m_stringPool.GetString($3));
 					$$ = pList.release();
 				}
 

@@ -71,18 +71,19 @@ namespace example {
     double 				doubleValue;
 	bool				boolValue;
     std::string*		stringVal;// TODO : see need separately char
-	class CNode*		calcnode;
-
 	unsigned int		stringId;
+
 	FunctionPtr pFunction;
 	StatementPtr pStatetment;
-	ExpressionPtr		pExpression;
-
-	ExpressionListPtr	pExpressionList;
-	StatementListPtr	pStatementList;
+	/*
+	ExpressionListPtr	pExpList;
+	StatementListPtr	pStatList;
+	StatementPtr		pStat;
+	ExpressionPtr		pExp;
+	FunctionPtr			pFunc;
 	NamesList			nameList;
 	NamesListPtr		pNameList;
-
+	//*/
 
 
 
@@ -264,7 +265,7 @@ namespace example {
     /// Zero means the default is an error.
     static const unsigned char yydefact_[];
 
-    static const signed char yypgoto_[];
+    static const short int yypgoto_[];
     static const signed char yydefgoto_[];
 
     /// What to do in a state.
