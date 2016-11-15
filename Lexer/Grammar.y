@@ -353,17 +353,18 @@ statement : PRINT expression
 			{
 				EmplaceAST<CReturnAST>($$, Take($2));
 			}
-          | IF_OPERATOR expression block
-			{
-				auto pThenBody = Take($3);
-				EmplaceAST<CIfAst>($$, Take($2), std::move(*pThenBody));
-			}
           | IF_OPERATOR expression block ELSE_OPERATOR block
 			{
 				auto pThenBody = Take($3);
 				auto pElseBody = Take($5);
 				EmplaceAST<CIfAst>($$, Take($2), std::move(*pThenBody), std::move(*pElseBody));
 			}
+          | IF_OPERATOR expression block
+			{
+				auto pThenBody = Take($3);
+				EmplaceAST<CIfAst>($$, Take($2), std::move(*pThenBody));
+			}
+
           | WHILE_OPERATOR expression block
 			{
 				auto pBody = Take($3);
