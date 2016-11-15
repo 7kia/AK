@@ -1559,7 +1559,8 @@ case 58:
 /* rule 58 can match eol */
 YY_RULE_SETUP
 {
- yylloc->step();
+	yylloc->lines(yyleng); yylloc->step();
+
  //return token::NEWLINE;
  }
 	YY_BREAK
