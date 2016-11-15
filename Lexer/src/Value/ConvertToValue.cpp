@@ -28,10 +28,10 @@ namespace
 	struct StringConverter : boost::static_visitor<std::string>
 	{
 		std::string operator ()(int const& value) const {
-			return ToPrettyString(value);// TODO : see is correct ToPrettyString
+			return std::to_string(value);// TODO : see is correct ToPrettyString
 		}
 		std::string operator ()(double const& value) const {
-			return ToPrettyString(value);
+			return std::to_string(value);
 		}
 		std::string operator ()(bool const& value) const {
 			return ToPrettyString(value);

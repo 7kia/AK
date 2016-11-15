@@ -79,9 +79,9 @@ public:
 public:
     class Scanner*	lexer;
 
+	CStringPool		m_stringPool;
 	CAST			m_globalAst;
     CProgramAst		m_ast;
-	CStringPool		m_stringPool;
 
 	/** Name file where will write recognize ids
 	* expressions. */

@@ -1,8 +1,7 @@
 #pragma once
 
 #include "../src/driver.h"
-#include "../src/CalcContext.h"
-#include "../src/Compile.h"
+#include "../src/AST/AST.h"
 
 #include <iostream>
 #include <time.h>
@@ -25,7 +24,7 @@ void CompareFiles(const std::string & first, const std::string & second);
 void RunLexer(const std::string &inputFileName
 			, const std::string &outputFileName
 			, const std::string &outputIdFileName
-			, example::Driver & driver);
+			);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Run and test lexer for files have next names:
@@ -36,8 +35,7 @@ void RunLexer(const std::string &inputFileName
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 void			TestLexer(const std::string & nameFile
-						, const std::string & folder
-						, example::Driver & driver);
+						, const std::string & folder);
 std::string		GetAbsolutePath(const std::string & name
 								, const std::string & folder
 								, const std::string & prefix

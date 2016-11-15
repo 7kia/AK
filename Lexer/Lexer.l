@@ -304,7 +304,7 @@ UNDERSCORE_SYMBOL		"_"
 	*yyOutId << "Minus ";
 
     //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
-    return token::PLUS;
+    return token::MINUS;
 }
 {DIVIDE} {
 		
@@ -722,9 +722,7 @@ UNDERSCORE_SYMBOL		"_"
 }
 
 
- {NUMBER} {
-  return token::NUMBER;
- }
+
  print   {
  return token::PRINT;
  }
@@ -736,7 +734,7 @@ UNDERSCORE_SYMBOL		"_"
  }
  \n      {
  yylloc->step();
- return token::NEWLINE;
+ //return token::NEWLINE;
  }
 
  /* /\\\\ */

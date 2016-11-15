@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <unordered_map>
+#include <map>
 #include <vector>
 #include <boost/noncopyable.hpp>
 
@@ -19,6 +20,6 @@ public:
     std::string GetString(unsigned id)const;
 
 private:
-    std::unordered_map<std::string, unsigned> m_mapping;
+    std::map<std::string, unsigned> m_mapping;
     std::vector<std::string> m_pool;
 };

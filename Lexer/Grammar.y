@@ -100,7 +100,6 @@ using namespace scanner_private;
 //
 */
 %token NEWLINE  "end of line"
-%token NUMBER   "Number constant"
 
 %token BLOCK_END "end"
 %token FUNCTION "def"
@@ -370,23 +369,23 @@ statement : PRINT expression
 				auto pBody = Take($3);
 				EmplaceAST<CWhileAst>($$, Take($2), std::move(*pBody));
 			}
-          | DO_OPERATOR NEWLINE statement_list WHILE_OPERATOR expression BLOCK_END
+          | DO_OPERATOR COMMAND_SEPARATOR statement_list WHILE_OPERATOR expression BLOCK_END
 			{
 				auto pBody = Take($3);
 				EmplaceAST<CRepeatAst>($$, Take($5), std::move(*pBody));
 			}
-          | DO_OPERATOR NEWLINE WHILE_OPERATOR expression BLOCK_END
+          | DO_OPERATOR COMMAND_SEPARATOR WHILE_OPERATOR expression BLOCK_END
 			{
 				EmplaceAST<CRepeatAst>($$, Take($4));
 			}
 		  /* | epsilon */
 
-statement_line : error NEWLINE 
+statement_line : error COMMAND_SEPARATOR 
 				{
-				// TODO : see need NEWLINE
+				// TODO : see need COMMAND_SEPARATOR
 				$$ = nullptr;
 				}
-				| statement NEWLINE
+				| statement COMMAND_SEPARATOR
 				{
 					MovePointer($1, $$);
 				}
@@ -400,12 +399,12 @@ statement_list : statement_line
 						ConcatList($$, $1, $2);
 					}
 
-block : NEWLINE statement_list BLOCK_END
+block : COMMAND_SEPARATOR statement_list BLOCK_END
 {
 	$$ = $2;
 }
 
-block : NEWLINE BLOCK_END
+block : COMMAND_SEPARATOR BLOCK_END
 {
 	$$ = nullptr;
 }
@@ -445,7 +444,7 @@ toplevel_statement : function_declaration
 						driver.m_ast.AddStatement(Take($1));
 					}
 
-toplevel_line : NEWLINE | toplevel_statement NEWLINE | error NEWLINE
+toplevel_line : COMMAND_SEPARATOR | toplevel_statement COMMAND_SEPARATOR | error COMMAND_SEPARATOR
 
 toplevel_list : toplevel_line | toplevel_list toplevel_line
 

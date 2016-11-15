@@ -19,6 +19,12 @@
     <Filter Include="TestClasses\src">
       <UniqueIdentifier>{21a0c76a-f7ab-4ceb-9607-0c5a0ecda981}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TestClasses\src\Value">
+      <UniqueIdentifier>{519a52ef-a775-4aa0-a6dc-22c9710106b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestClasses\src\AST">
+      <UniqueIdentifier>{df65b5db-c97f-452a-bea5-639a8bb79120}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -36,21 +42,6 @@
     <ClInclude Include="TestsLexer.h">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Compile.h">
-      <Filter>TestClasses\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Converter.h">
-      <Filter>TestClasses\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\driver.h">
-      <Filter>TestClasses\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\expression.h">
-      <Filter>TestClasses\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\scanner.h">
-      <Filter>TestClasses\src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Grammar.h">
       <Filter>TestClasses</Filter>
     </ClInclude>
@@ -66,11 +57,38 @@
     <ClInclude Include="..\stack.hh">
       <Filter>TestClasses</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\CalcContext.h">
+    <ClInclude Include="..\src\CharNodes.h">
       <Filter>TestClasses\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Node.h">
+    <ClInclude Include="..\src\driver.h">
       <Filter>TestClasses\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\expression.h">
+      <Filter>TestClasses\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\scanner.h">
+      <Filter>TestClasses\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ScannerPrivate.h">
+      <Filter>TestClasses\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Value\Value.h">
+      <Filter>TestClasses\src\Value</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\AST\AST.h">
+      <Filter>TestClasses\src\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\AST\ASTNodes.h">
+      <Filter>TestClasses\src\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\AST\Parser_private.h">
+      <Filter>TestClasses\src\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\AST\StringPool.h">
+      <Filter>TestClasses\src\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\AST\VariablesScope.h">
+      <Filter>TestClasses\src\AST</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -83,23 +101,35 @@
     <ClCompile Include="TestsLexer.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Compile.cpp">
-      <Filter>TestClasses\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Converter.cpp">
-      <Filter>TestClasses\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\driver.cc">
-      <Filter>TestClasses\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Token.cpp">
-      <Filter>TestClasses</Filter>
-    </ClCompile>
     <ClCompile Include="..\Grammar.cpp">
       <Filter>TestClasses</Filter>
     </ClCompile>
     <ClCompile Include="..\Lexer.cpp">
       <Filter>TestClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\driver.cc">
+      <Filter>TestClasses\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Value\ConvertToValue.cpp">
+      <Filter>TestClasses\src\Value</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Value\Value.cpp">
+      <Filter>TestClasses\src\Value</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Value\ValueOperators.cpp">
+      <Filter>TestClasses\src\Value</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\AST\AST.cpp">
+      <Filter>TestClasses\src\AST</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\AST\ASTNodes.cpp">
+      <Filter>TestClasses\src\AST</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\AST\StringPool.cpp">
+      <Filter>TestClasses\src\AST</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\AST\VariablesScope.cpp">
+      <Filter>TestClasses\src\AST</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
