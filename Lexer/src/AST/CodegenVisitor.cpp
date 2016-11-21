@@ -1,3 +1,6 @@
+#include "stdafx.h"
+
+
 #include "CodegenVisitor.h"
 #include "ASTNodes.h"
 #include "Utility.h"

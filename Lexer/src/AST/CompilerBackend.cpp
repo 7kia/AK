@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "CompilerBackend.h"
 
 #pragma clang diagnostic push
@@ -73,7 +75,9 @@ PassRegistry *SetupPassRegistry()
     initializeCodeGen(*ret);
     initializeLoopStrengthReducePass(*ret);
     initializeLowerIntrinsicsPass(*ret);
-    initializeUnreachableBlockElimPass(*ret);
+	// TODO : see why low line not work
+	// not found
+    //initializeUnreachableBlockElimPass(*ret);
 
     return ret;
 }
@@ -97,8 +101,11 @@ std::unique_ptr<TargetMachine> MakeTargetMachine(const Target *target, const Tri
     TargetOptions options;
     options.MCOptions.AsmVerbose = isDebug;
 
+	// TODO : see why low line not work
+	// Reloc::Default
+
     return std::unique_ptr<TargetMachine>(target->createTargetMachine(triple.getTriple(), cpuName, featuresStr,
-                                                                      options, Reloc::Default, CodeModel::Default, optLevel));
+                                                                      options, Reloc::PIC_, CodeModel::Default, optLevel));
 }
 
 }

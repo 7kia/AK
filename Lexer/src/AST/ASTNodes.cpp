@@ -1,4 +1,6 @@
-#include "AST.h"
+#include "stdafx.h"
+
+#include "ASTNodes.h"
 #include "FrontendContext.h"
 #include "CodegenVisitor.h"
 #include <limits>

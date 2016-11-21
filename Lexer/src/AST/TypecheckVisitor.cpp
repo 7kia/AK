@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "TypecheckVisitor.h"
 #include "FrontendContext.h"
 #include <boost/range/algorithm.hpp>

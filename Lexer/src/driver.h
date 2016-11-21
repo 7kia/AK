@@ -10,7 +10,6 @@
 #include "AST/ASTNodes.h"
 #include "AST/FrontendContext.h"
 
-#include "AST/CompilerDriver.h"
 #include "scanner.h"
 #include "Grammar.h"
 #include "AST/CodegenVisitor.h"

@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "ASTNodes.h"
 #include "FrontendContext.h"
 #include "Utility.h"

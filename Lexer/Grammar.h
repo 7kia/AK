@@ -78,11 +78,13 @@ namespace example {
 	IFunctionAST*			pFunction;
 	IStatementAST*		pStatetment;
 	IExpressionAST*		pExpression;
+	CParameterDeclAST*  pParameterDeclAST;
 
 	ExpressionList*		pExpressionList;
 	StatementsList*		pStatementList;
+	FunctionList*		pFunctionList;
+	ParameterDeclList*  pParameterDeclList;
 	//NamesList					nameList;// TODO : see need it
-	NamesList*			pNameList;
 
 
 
