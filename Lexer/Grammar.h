@@ -75,16 +75,15 @@ namespace example {
     std::string*		stringVal;// TODO : see need separately char
 	unsigned int		stringId;
 
-	IFunctionAST*			pFunction;
+	IFunctionAST*		pFunction;
 	IStatementAST*		pStatetment;
 	IExpressionAST*		pExpression;
-	CParameterDeclAST*  pParameterDeclAST;
+	CParameterDeclAST*  pParameterDecl;
 
 	ExpressionList*		pExpressionList;
 	StatementsList*		pStatementList;
 	FunctionList*		pFunctionList;
 	ParameterDeclList*  pParameterDeclList;
-	//NamesList					nameList;// TODO : see need it
 
 
 

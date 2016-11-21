@@ -22,9 +22,10 @@ using ParameterDeclList = std::vector<CParameterDeclASTUniquePtr>;
 
 enum class ExpressionType
 {
-	Boolean,
-	Number,
-	String,
+	Boolean
+	, Float
+	//, Integer // TODO : add
+	, String
 };
 
 class IExpressionAST

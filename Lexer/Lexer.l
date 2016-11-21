@@ -788,16 +788,17 @@ yylloc->lines(yyleng); yylloc->step();
 
 namespace example {
 
-Scanner::Scanner(CStringPool & pool
+Scanner::Scanner(CStringPool &pool
+				, CFrontendContext & context
 				, std::istream* in
 				, std::ostream* out
 				, std::ostream* outId)
     : ExampleFlexLexer(in, out)
 	, yyOutId(outId)
 	, m_pool(pool)
+	, m_context(context)
 {
 }
-
 
 Scanner::~Scanner()
 {

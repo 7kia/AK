@@ -61,7 +61,7 @@ using namespace scanner_private;
 /* The driver is passed by reference to the parser and to the scanner. This
  * provides a simple but effective pure interface, not relying on global
  * variables. */
-%parse-param { class Driver& driver }
+%parse-param { class CCompilerDriver& driver }
 
 /* verbose error messages */
 %error-verbose
@@ -81,14 +81,15 @@ using namespace scanner_private;
     std::string*		stringVal;// TODO : see need separately char
 	unsigned int		stringId;
 
-	IFunctionAST*			pFunction;
+	IFunctionAST*		pFunction;
 	IStatementAST*		pStatetment;
 	IExpressionAST*		pExpression;
+	CParameterDeclAST*  pParameterDecl;
 
 	ExpressionList*		pExpressionList;
 	StatementsList*		pStatementList;
-	//NamesList					nameList;// TODO : see need it
-	NamesList*			pNameList;
+	FunctionList*		pFunctionList;
+	ParameterDeclList*  pParameterDeclList;
 }
 
 /*
@@ -219,8 +220,11 @@ using namespace scanner_private;
 %type <pFunction> function_declaration
 %type <pStatetment> statement statement_line
 %type <pStatementList> statement_list block
-%type <pNameList> parameter_list 
 %type <pExpressionList> expression_list
+%type <integerValue> type_reference
+
+%type <pParameterDeclList> parenthesis_parameter_list parameter_list
+%type <pParameterDecl> parameter_decl
 /* Block destructors
 %destructor { delete $$; } STRING
 */
@@ -230,8 +234,10 @@ using namespace scanner_private;
 %destructor { delete $$; } function_declaration
 %destructor { delete $$; } statement statement_line
 %destructor { delete $$; } statement_list block
-%destructor { delete $$; } parameter_list
 %destructor { delete $$; } expression_list
+
+%destructor { delete $$; } parenthesis_parameter_list parameter_list
+%destructor { delete $$; } parameter_decl
 
 %%
 
@@ -239,19 +245,21 @@ epsilon : /*empty*/
 
 constant : BOOL 
 			{
-				EmplaceAST<CLiteralAST>($$, CValue::FromBoolean($1));
+				EmplaceAST<CLiteralAST>($$, CLiteralAST::Value($1));
 			}
-		| INT 
+		/*| INT 
 		{
-			EmplaceAST<CLiteralAST>($$, CValue::FromInt($1));
+		// TODO : add
+			EmplaceAST<CLiteralAST>($$, CLiteralAST::Value($1));
 		}
+		*/
 		| FLOAT 
 		{
-			EmplaceAST<CLiteralAST>($$, CValue::FromDouble($1));
+			EmplaceAST<CLiteralAST>($$, CLiteralAST::Value($1));
 		}
 		| STRING
 		{
-			EmplaceAST<CLiteralAST>($$, CValue::FromString(*$1));
+			EmplaceAST<CLiteralAST>($$, CLiteralAST::Value(*$1));
 		}
 
 variable : ID
@@ -283,10 +291,6 @@ expression : constant
 		{
 			EmplaceAST<CUnaryExpressionAST>($$, UnaryOperation::Minus, Take($2));
 		}
-		| NOT expression
-		{
-			EmplaceAST<CUnaryExpressionAST>($$, UnaryOperation::Plus, Take($2));
-		}
         | expression LESS expression 
 		{
 			EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Less, Take($3));
@@ -294,15 +298,6 @@ expression : constant
 		| expression EQUALS expression
 		{
 			EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Equals, Take($3));
-		}
-
-        | expression AND expression
-		{
-			EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::LogicAnd, Take($3));
-		} 
-		| expression OR expression
-		{
-			EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::LogicOr, Take($3));
 		}
         | expression PLUS expression 
 		{
@@ -327,11 +322,14 @@ expression : constant
 
         | function_call
 
-expression_list : epsilon 
+expression_list : /*epsilon 
 				{
+				// TODO : see need it
 				$$ = nullptr;
 				}
-				| expression 
+				| 
+				*/
+				expression 
 				{
 					CreateList($$, $1);
 				}
@@ -353,18 +351,20 @@ statement : PRINT expression
 			{
 				EmplaceAST<CReturnAST>($$, Take($2));
 			}
+			
+          | IF_OPERATOR expression block
+			{
+			// TODO : see need exmpty
+				auto pThenBody = Take($3);
+				EmplaceAST<CIfAst>($$, Take($2), std::move(*pThenBody));
+			}
+			
           | IF_OPERATOR expression block ELSE_OPERATOR block
 			{
 				auto pThenBody = Take($3);
 				auto pElseBody = Take($5);
 				EmplaceAST<CIfAst>($$, Take($2), std::move(*pThenBody), std::move(*pElseBody));
 			}
-          | IF_OPERATOR expression block
-			{
-				auto pThenBody = Take($3);
-				EmplaceAST<CIfAst>($$, Take($2), std::move(*pThenBody));
-			}
-
           | WHILE_OPERATOR expression block
 			{
 				auto pBody = Take($3);
@@ -410,44 +410,84 @@ block : COMMAND_SEPARATOR BLOCK_END
 	$$ = nullptr;
 }
 
-parameter_list : ID 
+parameter_decl : ID type_reference
 					{
-						auto list = Make<NamesList>();
-						list->emplace_back( $1 );
-						$$ = list.release();
+						EmplaceAST<CParameterDeclAST>($$, $1, static_cast<ExpressionType>($2));
 					}
-				| parameter_list VARIABLE_SEPARATOR ID
+
+parameter_list : parameter_decl
+					{
+						CreateList($$, $1);
+					}
+				| parameter_list VARIABLE_SEPARATOR parameter_decl
 				{
-					auto pList = Take($1);
-					pList->emplace_back($3);
-					$$ = pList.release();
+					ConcatList($$, $1, $3);
 				}
 
-function_declaration : FUNCTION ID START_LIST_ARGUMENTS parameter_list END_LIST_ARGUMENTS block
+
+
+function_declaration : FUNCTION ID parenthesis_parameter_list type_reference VARIABLE_SEPARATOR statement_list END
 						{
-							auto pParameters = Take($4);
+							auto pParameters = Take($3);
 							auto pBody = Take($6);
-							EmplaceAST<CFunctionAST>($$, $2, std::move(*pParameters), std::move(*pBody));
+							ExpressionType returnType = static_cast<ExpressionType>($4);
+							EmplaceAST<CFunctionAST>($$, $2, returnType, std::move(*pParameters), std::move(*pBody));
 						}
 
-                     | FUNCTION ID START_LIST_ARGUMENTS END_LIST_ARGUMENTS block
-						
-{
-							auto pBody = Take($5);
-							EmplaceAST<CFunctionAST>($$, $2, std::vector<unsigned>(), std::move(*pBody));
-						}
+
+parenthesis_parameter_list : START_LIST_ARGUMENTS END_LIST_ARGUMENTS
+							{
+								$$ = Make<ParameterDeclList>().release();
+							}
+							| START_LIST_ARGUMENTS parameter_list END_LIST_ARGUMENTS
+							{
+								MovePointer($2, $$);
+							}
+
+
+type_reference : NAME_FLOAT			
+				{
+					$$ = static_cast<int>(ExpressionType::Float);
+				}/* | NAME_INTEGER		
+				{
+				// TODO : add
+					$$ = static_cast<int>(ExpressionType::Integer);
+				}
+				*/ 
+				/*
+				| NAME_CHAR
+				{
+				// TODO  : not work
+					$$ = static_cast<int>(ExpressionType::Char);
+				}
+				*/
+				| NAME_STRING
+				{
+					$$ = static_cast<int>(ExpressionType::String);
+				}
+				| NAME_LOGIC
+				{
+					$$ = static_cast<int>(ExpressionType::Boolean);
+				}
+
 toplevel_statement : function_declaration 
 					{
-						 driver.m_ast.AddFunction(Take($1));
+					// TODO : see can it simplify
+						 driver.lexer->m_pProgram->AddFunction(Take($1));
 					}
+
+					/* TODO : transfer to other place
 					| statement
 					{
 						driver.m_ast.AddStatement(Take($1));
 					}
+					*/
+toplevel_line : COMMAND_SEPARATOR 
+				| toplevel_statement COMMAND_SEPARATOR 
+				| error COMMAND_SEPARATOR
 
-toplevel_line : COMMAND_SEPARATOR | toplevel_statement COMMAND_SEPARATOR | error COMMAND_SEPARATOR
-
-toplevel_list : toplevel_line | toplevel_list toplevel_line
+toplevel_list : toplevel_line 
+				| toplevel_list toplevel_line
 
 program : toplevel_list
 

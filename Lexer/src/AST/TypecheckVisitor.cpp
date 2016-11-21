@@ -12,8 +12,10 @@ std::string PrettyPrint(ExpressionType type)
     {
     case ExpressionType::Boolean:
         return "Boolean";
-    case ExpressionType::Number:
-        return "Number";
+    case ExpressionType::Float:
+        return "Float";
+	//case ExpressionType::Integer:
+	//	return "Integer";
     case ExpressionType::String:
         return "String";
     }
@@ -77,8 +79,8 @@ ExpressionType EvaluateBinaryOperationType(BinaryOperation op, ExpressionType le
     case BinaryOperation::Multiply:
     case BinaryOperation::Divide:
     case BinaryOperation::Modulo:
-        check(left == right && left == ExpressionType::Number);
-        return ExpressionType::Number;
+        check(left == right && left == ExpressionType::Float);// TODO : fix type
+        return ExpressionType::Float;
     }
     throw std::logic_error("GetBinaryOperationResultType() not implemented for this type");
 }
@@ -97,8 +99,8 @@ ExpressionType EvaluateUnaryOperationType(UnaryOperation op, ExpressionType oper
     {
     case UnaryOperation::Minus:
     case UnaryOperation::Plus:
-        check(operandType == ExpressionType::Number);
-        return ExpressionType::Number;
+        check(operandType == ExpressionType::Float);// TODO: fix type
+        return ExpressionType::Float;
     }
     throw std::logic_error("GetUnaryOperationResultType() not implemented for this type");
 }

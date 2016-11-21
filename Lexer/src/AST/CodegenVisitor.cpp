@@ -57,6 +57,7 @@ struct LiteralCodeGenerator : boost::static_visitor<Constant *>
     {
     }
 
+
     Constant *operator ()(double const& value) const
     {
         return ConstantFP::get(m_context.GetLLVMContext(), APFloat(value));
@@ -107,8 +108,10 @@ Type *ConvertType(LLVMContext &context, ExpressionType type)
     {
     case ExpressionType::Boolean:
         return Type::getInt1Ty(context);
-    case ExpressionType::Number:
-        return Type::getDoubleTy(context);
+    case ExpressionType::Float:
+		return Type::getDoubleTy(context);
+	//case ExpressionType::Integer:
+    //    return Type::getInt32Ty(context);// TODO : fix it
     case ExpressionType::String:
         return Type::getInt8PtrTy(context);
     }
@@ -352,7 +355,8 @@ void CExpressionCodeGenerator::Visit(CBinaryExpressionAST &expr)
     case ExpressionType::Boolean:
         pValue = GenerateBooleanExpr(a, expr.GetOperation(), b);
         break;
-    case ExpressionType::Number:
+    case ExpressionType::Float:
+	//case ExpressionType::Integer:// TODO : fix GenerateNumericExpr
         pValue = GenerateNumericExpr(a, expr.GetOperation(), b);
         break;
     case ExpressionType::String:
@@ -551,7 +555,8 @@ void CFunctionCodeGenerator::Visit(CPrintAST &ast)
         format = "%s\n";
         break;
     }
-    case ExpressionType::Number:
+    case ExpressionType::Float:
+	//case ExpressionType::Integer:
         format = "%lf\n";
         break;
     case ExpressionType::String:

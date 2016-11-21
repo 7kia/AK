@@ -2664,10 +2664,9 @@ Scanner::Scanner(CStringPool &pool
 				, std::ostream* out
 				, std::ostream* outId)
     : ExampleFlexLexer(in, out)
-	, m_pool(pool)
 	, yyOutId(outId)
+	, m_pool(pool)
 	, m_context(context)
-	, m_pProgram(new CProgramAst)
 {
 }
 
@@ -2678,11 +2677,6 @@ Scanner::~Scanner()
 void Scanner::set_debug(bool b)
 {
     yy_flex_debug = b;
-}
-
-std::unique_ptr<CProgramAst> Scanner::TakeProgram()
-{
-	return std::move(m_pProgram);
 }
 
 }

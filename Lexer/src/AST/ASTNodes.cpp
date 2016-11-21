@@ -12,15 +12,21 @@
 // Генерирует код константы LLVM.
 struct LiteralTypeEvaluator : boost::static_visitor<ExpressionType>
 {
+	//ExpressionType operator ()(int const&) const
+	//{
+	//	return ExpressionType::Integer;
+	//}
+
 	ExpressionType operator ()(double const&) const
 	{
-		return ExpressionType::Number;
+		return ExpressionType::Float;
 	}
 
 	ExpressionType operator ()(bool const&) const
 	{
 		return ExpressionType::Boolean;
 	}
+
 
 	ExpressionType operator ()(std::string const&)
 	{
