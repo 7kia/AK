@@ -729,7 +729,7 @@ UNDERSCORE_SYMBOL		"_"
  end    {
  return token::BLOCK_END;
  }
- def     { 
+ function      { 
  return token::FUNCTION;
  }
  \n      {
@@ -741,7 +741,7 @@ yylloc->lines(yyleng); yylloc->step();
 	
 	*yyOutId << "ID ";
 
-	yylval->stringId = m_pool.Insert(std::string(yytext, yyleng));
+	yylval->stringId = m_pool->Insert(std::string(yytext, yyleng));
     return token::ID;
 }
 
@@ -795,8 +795,8 @@ Scanner::Scanner(CStringPool &pool
 				, std::ostream* outId)
     : ExampleFlexLexer(in, out)
 	, yyOutId(outId)
-	, m_pool(pool)
-	, m_context(context)
+	, m_pool(&pool)
+	, m_context(&context)
 {
 }
 
@@ -812,6 +812,11 @@ void Scanner::set_debug(bool b)
 std::unique_ptr<CProgramAst> Scanner::TakeProgram()
 {
 	return std::move(m_pProgram);
+}
+
+void example::Scanner::SetInputFile(std::istream & in)
+{
+	yyin = &in;
 }
 
 }

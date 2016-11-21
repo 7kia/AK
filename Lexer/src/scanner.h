@@ -61,15 +61,19 @@ namespace example {
 		/** Enable debug output (via arg_yyout) if compiled into the scanner. */
 		void set_debug(bool b);
 
+		
+		void SetInputFile(std::istream & in);
+
+
 		std::unique_ptr<CProgramAst> TakeProgram();
 
 		FLEX_STD ostream* yyout;
 		FLEX_STD ostream* yyOutId;	// output sink for default LexerOutput
-		CStringPool &m_pool;// TODO : see need it
+		CStringPool* m_pool;// TODO : see need it
 
 		void *m_parser = nullptr;// TODO : see need it
 
-		CFrontendContext & m_context;
+		CFrontendContext * m_context;
 		std::unique_ptr<CProgramAst> m_pProgram;
 
 	};

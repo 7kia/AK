@@ -23,6 +23,7 @@ namespace example {
 		, m_errors(errors)
 		, m_context(errors, m_stringPool)
 		, m_codegenContext(m_context)
+		, lexer(m_stringPool, m_context, &std::cin, &output, &ids)
 		//, m_parser(m_context) // TODO : see not forgot parser/lexer
 	{
 
@@ -33,10 +34,12 @@ bool CCompilerDriver::parse_stream(std::istream& in, const std::string& sname)
     streamname = sname;
 
 	
-    Scanner scanner(m_stringPool, m_context, &in, &m_outFile, &m_idsFile);
+    //Scanner scanner(m_stringPool, m_context, &in, &m_outFile, &m_idsFile);
+	lexer.SetInputFile(in);
 
-    scanner.set_debug(trace_scanning);
-    this->lexer = &scanner;
+	// was scanner
+	lexer.set_debug(trace_scanning);
+    
 
     Parser parser(*this);
     parser.set_debug_level(trace_parsing);
@@ -65,13 +68,13 @@ bool CCompilerDriver::parse_string(const std::string &input, const std::string& 
 void CCompilerDriver::error(const class location& l,
 		   const std::string& m)
 {
-	*lexer->yyout << l << ": " << m << std::endl;// TODO : yyout can be error(see Flex class
+	*lexer.yyout << l << ": " << m << std::endl;// TODO : yyout can be error(see Flex class
     std::cerr << l << ": " << m << std::endl;
 }
 
 void CCompilerDriver::error(const std::string& m)
 {
-	*lexer->yyout << m << std::endl;
+	*lexer.yyout << m << std::endl;
     std::cerr << m << std::endl;
 }
 
@@ -116,7 +119,7 @@ bool CCompilerDriver::GenerateCodeFromAst()
 {
 	try
 	{
-		std::unique_ptr<CProgramAst> pProgram = lexer->TakeProgram();
+		std::unique_ptr<CProgramAst> pProgram = lexer.TakeProgram();
 		if (!DetectMainFunction(*pProgram))
 		{
 			return false;

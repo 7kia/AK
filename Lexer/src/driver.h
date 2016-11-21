@@ -98,7 +98,7 @@ public:
 ///////////////////////////////////////////////////////////////
 // Data
 public:
-    class Scanner*	lexer;
+    class Scanner	lexer;
 
 	CStringPool m_stringPool;
 	CFrontendContext m_context;

@@ -22,7 +22,7 @@ using namespace scanner_private;
  * object. it defines the yylex() function call to pull the next token from the
  * current lexer object of the driver context. */
 #undef yylex
-#define yylex driver.lexer->lex
+#define yylex driver.lexer.lex
 
 %}
 
@@ -426,7 +426,7 @@ parameter_list : parameter_decl
 
 
 
-function_declaration : FUNCTION ID parenthesis_parameter_list type_reference VARIABLE_SEPARATOR statement_list END
+function_declaration : FUNCTION ID parenthesis_parameter_list type_reference COMMAND_SEPARATOR statement_list
 						{
 							auto pParameters = Take($3);
 							auto pBody = Take($6);
@@ -473,7 +473,7 @@ type_reference : NAME_FLOAT
 toplevel_statement : function_declaration 
 					{
 					// TODO : see can it simplify
-						 driver.lexer->m_pProgram->AddFunction(Take($1));
+						 driver.lexer.m_pProgram->AddFunction(Take($1));
 					}
 
 					/* TODO : transfer to other place

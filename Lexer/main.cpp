@@ -16,10 +16,11 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-
+	std::ifstream	inputFile;
 	std::ofstream	outFile;
 	std::ofstream	idsFile;
 
+	inputFile.open(argv[1]);
 	outFile.open(argv[2]);
 	idsFile.open(argv[3]);
 
@@ -32,7 +33,7 @@ int main(int argc, char *argv[])
 	std::srand(static_cast<unsigned>(time(nullptr)));
 	example::CCompilerDriver driver(outFile, outFile, idsFile);
 
-	if (!driver.Compile(std::cin, "program.o"))
+	if (!driver.Compile(inputFile, "program.o"))
 	{
 		return 1;
 	}
