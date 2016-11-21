@@ -2,71 +2,86 @@
 
 #include <memory>
 #include <vector>
-#include "../Value/Value.h"
-
-class CAST;
-
+#include "ASTVisitor.h"
+#include <boost/variant.hpp>
+#include <boost/optional.hpp>
 
 class IExpressionAST;
 class IStatementAST;
 class IFunctionAST;
-
-
-
+class CParameterDeclAST;
 
 using IExpressionASTUniquePtr = std::unique_ptr<IExpressionAST>;
 using IStatementASTUniquePtr = std::unique_ptr<IStatementAST>;
 using IFunctionASTUniquePtr = std::unique_ptr<IFunctionAST>;
+using CParameterDeclASTUniquePtr = std::unique_ptr<CParameterDeclAST>;
 using ExpressionList = std::vector<IExpressionASTUniquePtr>;
 using StatementsList = std::vector<IStatementASTUniquePtr>;
 using FunctionList = std::vector<IFunctionASTUniquePtr>;
+using ParameterDeclList = std::vector<CParameterDeclASTUniquePtr>;
 
-
-
-struct SErrorValue
+enum class ExpressionType
 {
+	Boolean,
+	Number,
+	String,
 };
 
 class IExpressionAST
 {
 public:
 	virtual ~IExpressionAST() = default;
-	virtual CValue Evaluate(CAST & context)const = 0;
+	virtual void Accept(IExpressionVisitor & visitor) = 0;
+	virtual ExpressionType GetType()const = 0;
 };
 
 class IStatementAST
 {
 public:
 	virtual ~IStatementAST() = default;
-	virtual void Execute(CAST & context)const = 0;
+	virtual void Accept(IStatementVisitor & visitor) = 0;
 };
 
 class IFunctionAST
 {
 public:
 	virtual ~IFunctionAST() = default;
-	virtual CValue Call(CAST & context, std::vector<CValue> const& arguments)const = 0;
 	virtual unsigned GetNameId()const = 0;
+	virtual ExpressionType GetReturnType()const = 0;
+	virtual const ParameterDeclList &GetParameters()const = 0;
+	virtual const StatementsList &GetBody()const = 0;
+};
+
+class CAbstractExpressionAST : public IExpressionAST
+{
+public:
+	ExpressionType GetType()const override;
+	void SetType(ExpressionType type);
+
+private:
+	boost::optional<ExpressionType> m_type;
 };
 
 enum class BinaryOperation
 {
-	Less
-	, Equals
-	, Add
-	, Substract
-	, Multiply
-	, Divide
-	, Modulo
-	, LogicAnd
-	, LogicOr
+	Less,
+	Equals,
+	Add,
+	Substract,
+	Multiply,
+	Divide,
+	Modulo
 };
 
-class CBinaryExpressionAST : public IExpressionAST
+class CBinaryExpressionAST : public CAbstractExpressionAST
 {
 public:
 	CBinaryExpressionAST(IExpressionASTUniquePtr && left, BinaryOperation op, IExpressionASTUniquePtr && right);
-	CValue Evaluate(CAST & context)const override;
+	void Accept(IExpressionVisitor & visitor) override;
+
+	BinaryOperation GetOperation()const;
+	IExpressionAST &GetLeft();
+	IExpressionAST &GetRight();
 
 private:
 	IExpressionASTUniquePtr m_left;
@@ -77,15 +92,17 @@ private:
 enum class UnaryOperation
 {
 	Plus,
-	Minus,
-	Negation
+	Minus
 };
 
-class CUnaryExpressionAST : public IExpressionAST
+class CUnaryExpressionAST : public CAbstractExpressionAST
 {
 public:
 	CUnaryExpressionAST(UnaryOperation op, IExpressionASTUniquePtr && value);
-	CValue Evaluate(CAST & context)const override;
+	void Accept(IExpressionVisitor & visitor) override;
+
+	UnaryOperation GetOperation()const;
+	IExpressionAST &GetOperand();
 
 private:
 	const UnaryOperation m_operation;
@@ -95,29 +112,55 @@ private:
 class CLiteralAST : public IExpressionAST
 {
 public:
-	CLiteralAST(CValue value);
-	CValue Evaluate(CAST & context)const override;
+	typedef boost::variant<
+		bool,
+		double,
+		std::string
+	> Value;
+
+	CLiteralAST(Value const& value);
+	void Accept(IExpressionVisitor & visitor) override;
+	ExpressionType GetType()const override;
+
+	const Value &GetValue()const;
 
 private:
-	const CValue m_value;
+	const Value m_value;
 };
 
-class CCallAST : public IExpressionAST
+class CCallAST : public CAbstractExpressionAST
 {
 public:
 	CCallAST(unsigned nameId, ExpressionList &&arguments);
-	CValue Evaluate(CAST & context)const override;
+	void Accept(IExpressionVisitor & visitor) override;
+
+	unsigned GetFunctionNameId()const;
+	const ExpressionList &GetArguments()const;
 
 private:
 	const unsigned m_nameId;
 	ExpressionList m_arguments;
 };
 
-class CVariableRefAST : public IExpressionAST
+class CParameterDeclAST : public CAbstractExpressionAST
+{
+public:
+	CParameterDeclAST(unsigned nameId, ExpressionType type);
+
+	void Accept(IExpressionVisitor & visitor) override;
+	const unsigned &GetName()const;
+
+private:
+	const unsigned m_nameId;
+};
+
+class CVariableRefAST : public CAbstractExpressionAST
 {
 public:
 	CVariableRefAST(unsigned nameId);
-	CValue Evaluate(CAST & context)const override;
+	void Accept(IExpressionVisitor & visitor) override;
+
+	unsigned GetNameId()const;
 
 private:
 	const unsigned m_nameId;
@@ -127,9 +170,10 @@ class CPrintAST : public IStatementAST
 {
 public:
 	CPrintAST(IExpressionASTUniquePtr && expr);
+	IExpressionAST &GetValue();
 
 protected:
-	void Execute(CAST & context)const override;
+	void Accept(IStatementVisitor & visitor) override;
 
 private:
 	IExpressionASTUniquePtr m_expr;
@@ -140,8 +184,11 @@ class CAssignAST : public IStatementAST
 public:
 	CAssignAST(unsigned nameId, IExpressionASTUniquePtr && value);
 
+	unsigned GetNameId()const;
+	IExpressionAST & GetValue();
+
 protected:
-	void Execute(CAST &context)const override;
+	void Accept(IStatementVisitor & visitor) override;
 
 private:
 	const unsigned m_nameId;
@@ -153,39 +200,47 @@ class CReturnAST : public IStatementAST
 public:
 	CReturnAST(IExpressionASTUniquePtr && value);
 
+	IExpressionAST &GetValue();
+
 protected:
-	void Execute(CAST &context)const override;
+	void Accept(IStatementVisitor & visitor) override;
 
 private:
 	IExpressionASTUniquePtr m_value;
 };
 
-class CWhileAst : public IStatementAST
+class CAbstractLoopAst : public IStatementAST
+{
+public:
+	CAbstractLoopAst(IExpressionASTUniquePtr && condition,
+		StatementsList && body);
+
+	IExpressionAST &GetCondition()const;
+	const StatementsList &GetBody()const;
+
+private:
+	IExpressionASTUniquePtr m_condition;
+	StatementsList m_body;
+};
+
+class CWhileAst : public CAbstractLoopAst
 {
 public:
 	CWhileAst(IExpressionASTUniquePtr && condition,
 		StatementsList && body = StatementsList());
 
 protected:
-	void Execute(CAST &context) const override;
-
-private:
-	IExpressionASTUniquePtr m_condition;
-	StatementsList m_body;
+	void Accept(IStatementVisitor & visitor) override;
 };
 
-class CRepeatAst : public IStatementAST
+class CRepeatAst : public CAbstractLoopAst
 {
 public:
 	CRepeatAst(IExpressionASTUniquePtr && condition,
 		StatementsList && body = StatementsList());
 
 protected:
-	void Execute(CAST &context) const override;
-
-private:
-	IExpressionASTUniquePtr m_condition;
-	StatementsList m_body;
+	void Accept(IStatementVisitor & visitor) override;
 };
 
 class CIfAst : public IStatementAST
@@ -195,8 +250,12 @@ public:
 		StatementsList && thenBody = StatementsList(),
 		StatementsList && elseBody = StatementsList());
 
+	IExpressionAST &GetCondition()const;
+	const StatementsList &GetThenBody()const;
+	const StatementsList &GetElseBody()const;
+
 protected:
-	void Execute(CAST &context) const override;
+	void Accept(IStatementVisitor & visitor) override;
 
 private:
 	IExpressionASTUniquePtr m_condition;
@@ -207,30 +266,29 @@ private:
 class CFunctionAST : public IFunctionAST
 {
 public:
-	CFunctionAST(unsigned nameId, std::vector<unsigned> argumentNames, StatementsList && body);
+	CFunctionAST(unsigned nameId, ExpressionType returnType, ParameterDeclList && parameters, StatementsList && body);
 
 	unsigned GetNameId()const override;
-
-protected:
-	CValue Call(CAST &context, const std::vector<CValue> &arguments) const override;
+	const ParameterDeclList &GetParameters()const override;
+	const StatementsList &GetBody()const override;
+	ExpressionType GetReturnType() const override;
 
 private:
 	unsigned m_nameId;
-	std::vector<unsigned> m_argumentNames;
+	ParameterDeclList m_parameters;
 	StatementsList m_body;
+	ExpressionType m_returnType;
 };
 
 class CProgramAst
 {
 public:
-	CProgramAst(CAST &context);
+	CProgramAst();
 	~CProgramAst();
 
-	void AddStatement(IStatementASTUniquePtr && stmt);
 	void AddFunction(IFunctionASTUniquePtr && function);
+	const FunctionList &GetFunctions()const;
 
 private:
-	CAST &m_context;
 	FunctionList m_functions;
 };
-

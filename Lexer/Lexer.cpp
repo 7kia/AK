@@ -2658,13 +2658,16 @@ void Examplefree (void * ptr )
 
 namespace example {
 
-Scanner::Scanner(CStringPool & pool
+Scanner::Scanner(CStringPool &pool
+				, CFrontendContext & context
 				, std::istream* in
 				, std::ostream* out
 				, std::ostream* outId)
     : ExampleFlexLexer(in, out)
-	, yyOutId(outId)
 	, m_pool(pool)
+	, yyOutId(outId)
+	, m_context(context)
+	, m_pProgram(new CProgramAst)
 {
 }
 
@@ -2675,6 +2678,11 @@ Scanner::~Scanner()
 void Scanner::set_debug(bool b)
 {
     yy_flex_debug = b;
+}
+
+std::unique_ptr<CProgramAst> Scanner::TakeProgram()
+{
+	return std::move(m_pProgram);
 }
 
 }

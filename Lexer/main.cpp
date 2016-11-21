@@ -6,7 +6,8 @@
 
 #include "main.h"
 #include "src/driver.h"
-#include "src/AST/AST.h"
+#include <iostream>
+#include <time.h>
 
 int main(int argc, char *argv[])
 {
@@ -16,8 +17,8 @@ int main(int argc, char *argv[])
 	outFile.open(argv[2]);
 	idsFile.open(argv[3]);
 
-	example::Driver driver(outFile, outFile, idsFile);
-	bool readfile = false;
+	//example::CCompilerDriver driver(outFile, outFile, idsFile);
+	//bool readfile = false;
 
 	//Tests/Syntax/Comments.txt Tests/OutputSyntax/OutputIdComments.txt  Tests/OutputSyntax/OutputComments.txt
 
@@ -25,8 +26,15 @@ int main(int argc, char *argv[])
 	{
 		return 1;
 	}
+	std::srand(static_cast<unsigned>(time(nullptr)));
+	example::CCompilerDriver driver(outFile, outFile, idsFile);
 
-	driver.parse_file(argv[1]);
+	if (!driver.Compile(std::cin, "program.o"))
+	{
+		return 1;
+	}
+
+	//driver.parse_file(argv[1]);
 
 	return 0;
 }

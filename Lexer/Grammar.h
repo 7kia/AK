@@ -177,7 +177,7 @@ namespace example {
     typedef token::yytokentype token_type;
 
     /// Build a parser object.
-    Parser (class Driver& driver_yyarg);
+    Parser (class CCompilerDriver& driver_yyarg);
     virtual ~Parser ();
 
     /// Parse.
@@ -342,7 +342,7 @@ namespace example {
     static const token_number_type yyundef_token_;
 
     /* User arguments.  */
-    class Driver& driver;
+    class CCompilerDriver& driver;
   };
 
 } // example

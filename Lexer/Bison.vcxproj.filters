@@ -72,17 +72,26 @@
     <ClInclude Include="src\AST\ASTNodes.h">
       <Filter>Файлы исходного кода\src\AST</Filter>
     </ClInclude>
-    <ClInclude Include="src\AST\VariablesScope.h">
-      <Filter>Файлы исходного кода\src\AST</Filter>
-    </ClInclude>
-    <ClInclude Include="src\AST\AST.h">
-      <Filter>Файлы исходного кода\src\Value</Filter>
-    </ClInclude>
-    <ClInclude Include="src\AST\StringPool.h">
-      <Filter>Файлы исходного кода\src\AST</Filter>
-    </ClInclude>
     <ClInclude Include="src\ScannerPrivate.h">
       <Filter>Файлы исходного кода\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AST\ASTVisitor.h">
+      <Filter>Файлы исходного кода\src\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AST\CodegenVisitor.h">
+      <Filter>Файлы исходного кода\src\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AST\Utility.h">
+      <Filter>Файлы исходного кода\src\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AST\TypecheckVisitor.h">
+      <Filter>Файлы исходного кода\src\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AST\FrontendContext.h">
+      <Filter>Файлы исходного кода\src\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AST\CompilerBackend.h">
+      <Filter>Файлы исходного кода\src\AST</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -113,13 +122,22 @@
     <ClCompile Include="src\AST\ASTNodes.cpp">
       <Filter>Файлы исходного кода\src\AST</Filter>
     </ClCompile>
-    <ClCompile Include="src\AST\VariablesScope.cpp">
+    <ClCompile Include="src\AST\ASTVisitor.cpp">
       <Filter>Файлы исходного кода\src\AST</Filter>
     </ClCompile>
-    <ClCompile Include="src\AST\AST.cpp">
-      <Filter>Файлы исходного кода\src\Value</Filter>
+    <ClCompile Include="src\AST\CodegenVisitor.cpp">
+      <Filter>Файлы исходного кода\src\AST</Filter>
     </ClCompile>
-    <ClCompile Include="src\AST\StringPool.cpp">
+    <ClCompile Include="src\AST\Utility.cpp">
+      <Filter>Файлы исходного кода\src\AST</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AST\TypecheckVisitor.cpp">
+      <Filter>Файлы исходного кода\src\AST</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AST\FrontendContext.cpp">
+      <Filter>Файлы исходного кода\src\AST</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AST\CompilerBackend.cpp">
       <Filter>Файлы исходного кода\src\AST</Filter>
     </ClCompile>
   </ItemGroup>

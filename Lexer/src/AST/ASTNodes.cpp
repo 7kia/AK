@@ -1,81 +1,44 @@
-#include "stdafx.h"
-
-#include "ASTNodes.h"
 #include "AST.h"
-#include "VariablesScope.h"
+#include "FrontendContext.h"
+#include "CodegenVisitor.h"
 #include <limits>
 #include <algorithm>
 #include <iostream>
 #include <cmath>
 #include <cassert>
 
-
-namespace
+// Генерирует код константы LLVM.
+struct LiteralTypeEvaluator : boost::static_visitor<ExpressionType>
 {
-
-	void ExecuteAll(StatementsList const& list, CAST & context)
+	ExpressionType operator ()(double const&) const
 	{
-		for (auto const& stmt : list)
-		{
-			stmt->Execute(context);
-		}
+		return ExpressionType::Number;
 	}
 
-	class CScopedVariableScope
+	ExpressionType operator ()(bool const&) const
 	{
-	public:
-		CScopedVariableScope(CAST &context)
-			: m_context(context)
-		{
-			m_context.PushScope(std::make_unique<CVariablesScope>());
-		}
+		return ExpressionType::Boolean;
+	}
 
-		~CScopedVariableScope()
-		{
-			m_context.PopScope();
-		}
-
-	private:
-		CAST &m_context;
-	};
-
-	class CVariableScopeCleaner
+	ExpressionType operator ()(std::string const&)
 	{
-	public:
-		CVariableScopeCleaner(CAST &context)
-			: m_context(context)
-		{
-			// Убираем все области видимости, кроме верхней.
-			while (m_context.GetScopesCount() > 1)
-			{
-				m_scopes.emplace_back(m_context.PopScope());
-			}
-		}
-
-		~CVariableScopeCleaner()
-		{
-			for (std::unique_ptr<CVariablesScope> &pScope : m_scopes)
-			{
-				m_context.PushScope(std::unique_ptr<CVariablesScope>(pScope.release()));
-			}
-		}
-
-	private:
-		CAST &m_context;
-		std::vector<std::unique_ptr<CVariablesScope>> m_scopes;
-	};
-
-}
+		return ExpressionType::String;
+	}
+};
 
 CPrintAST::CPrintAST(IExpressionASTUniquePtr &&expr)
 	: m_expr(std::move(expr))
 {
 }
 
-void CPrintAST::Execute(CAST &context)const
+IExpressionAST &CPrintAST::GetValue()
 {
-	const CValue result = m_expr->Evaluate(context);
-	context.PrintResult(result);
+	return *m_expr;
+}
+
+void CPrintAST::Accept(IStatementVisitor &visitor)
+{
+	visitor.Visit(*this);
 }
 
 CAssignAST::CAssignAST(unsigned nameId, IExpressionASTUniquePtr &&value)
@@ -84,10 +47,19 @@ CAssignAST::CAssignAST(unsigned nameId, IExpressionASTUniquePtr &&value)
 {
 }
 
-void CAssignAST::Execute(CAST &context)const
+unsigned CAssignAST::GetNameId() const
 {
-	const CValue value = m_value->Evaluate(context);
-	context.AssignVariable(m_nameId, value);
+	return m_nameId;
+}
+
+IExpressionAST &CAssignAST::GetValue()
+{
+	return *m_value;
+}
+
+void CAssignAST::Accept(IStatementVisitor &visitor)
+{
+	visitor.Visit(*this);
 }
 
 CBinaryExpressionAST::CBinaryExpressionAST(IExpressionASTUniquePtr &&left, BinaryOperation op, IExpressionASTUniquePtr &&right)
@@ -97,32 +69,24 @@ CBinaryExpressionAST::CBinaryExpressionAST(IExpressionASTUniquePtr &&left, Binar
 {
 }
 
-CValue CBinaryExpressionAST::Evaluate(CAST &context) const
+void CBinaryExpressionAST::Accept(IExpressionVisitor &visitor)
 {
-	const CValue a = m_left->Evaluate(context);
-	const CValue b = m_right->Evaluate(context);
-	switch (m_operation)
-	{
-	case BinaryOperation::Less:
-		return a < b;
-	case BinaryOperation::Equals:
-		return a == b;
-	case BinaryOperation::Add:
-		return a + b;
-	case BinaryOperation::Substract:
-		return a - b;
-	case BinaryOperation::Multiply:
-		return a * b;
-	case BinaryOperation::Divide:
-		return a / b;
-	case BinaryOperation::Modulo:
-		return a % b;
-	case BinaryOperation::LogicAnd:
-		return a && b;
-	case BinaryOperation::LogicOr:
-		return a || b;
-	}
-	return CValue::FromErrorMessage("binary operation not implemented");
+	visitor.Visit(*this);
+}
+
+BinaryOperation CBinaryExpressionAST::GetOperation() const
+{
+	return m_operation;
+}
+
+IExpressionAST &CBinaryExpressionAST::GetLeft()
+{
+	return *m_left;
+}
+
+IExpressionAST &CBinaryExpressionAST::GetRight()
+{
+	return *m_right;
 }
 
 CUnaryExpressionAST::CUnaryExpressionAST(UnaryOperation op, IExpressionASTUniquePtr &&value)
@@ -131,30 +95,56 @@ CUnaryExpressionAST::CUnaryExpressionAST(UnaryOperation op, IExpressionASTUnique
 {
 }
 
-CValue CUnaryExpressionAST::Evaluate(CAST &context) const
+void CUnaryExpressionAST::Accept(IExpressionVisitor &visitor)
 {
-	const CValue value = m_expr->Evaluate(context);
-	switch (m_operation)
-	{
-	case UnaryOperation::Plus:
-		return +value;
-	case UnaryOperation::Minus:
-		return -value;
-	case UnaryOperation::Negation:
-		return !value;
-	}
-	return CValue::FromErrorMessage("unary operation not implemented");
+	visitor.Visit(*this);
 }
 
-CLiteralAST::CLiteralAST(CValue value)
+UnaryOperation CUnaryExpressionAST::GetOperation() const
+{
+	return m_operation;
+}
+
+IExpressionAST &CUnaryExpressionAST::GetOperand()
+{
+	return *m_expr;
+}
+
+CLiteralAST::CLiteralAST(const Value &value)
 	: m_value(value)
 {
 }
 
-CValue CLiteralAST::Evaluate(CAST &context) const
+void CLiteralAST::Accept(IExpressionVisitor &visitor)
 {
-	(void)context;
+	visitor.Visit(*this);
+}
+
+ExpressionType CLiteralAST::GetType() const
+{
+	LiteralTypeEvaluator visitor;
+	return m_value.apply_visitor(visitor);
+}
+
+const CLiteralAST::Value &CLiteralAST::GetValue() const
+{
 	return m_value;
+}
+
+CParameterDeclAST::CParameterDeclAST(unsigned nameId, ExpressionType type)
+	: m_nameId(nameId)
+{
+	SetType(type);
+}
+
+void CParameterDeclAST::Accept(IExpressionVisitor &visitor)
+{
+	visitor.Visit(*this);
+}
+
+const unsigned &CParameterDeclAST::GetName() const
+{
+	return m_nameId;
 }
 
 CVariableRefAST::CVariableRefAST(unsigned nameId)
@@ -162,9 +152,14 @@ CVariableRefAST::CVariableRefAST(unsigned nameId)
 {
 }
 
-CValue CVariableRefAST::Evaluate(CAST &context) const
+void CVariableRefAST::Accept(IExpressionVisitor &visitor)
 {
-	return context.GetVariableValue(m_nameId);
+	visitor.Visit(*this);
+}
+
+unsigned CVariableRefAST::GetNameId() const
+{
+	return m_nameId;
 }
 
 CIfAst::CIfAst(IExpressionASTUniquePtr &&condition, StatementsList &&thenBody, StatementsList &&elseBody)
@@ -174,67 +169,60 @@ CIfAst::CIfAst(IExpressionASTUniquePtr &&condition, StatementsList &&thenBody, S
 {
 }
 
-void CIfAst::Execute(CAST &context) const
+IExpressionAST &CIfAst::GetCondition() const
 {
-	if (bool(m_condition->Evaluate(context)))
-	{
-		ExecuteAll(m_thenBody, context);
-	}
-	else
-	{
-		ExecuteAll(m_elseBody, context);
-	}
+	return *m_condition;
 }
 
-CProgramAst::CProgramAst(CAST &context)
-	: m_context(context)
+const StatementsList &CIfAst::GetThenBody() const
 {
-	m_context.PushScope(std::make_unique<CVariablesScope>());
+	return m_thenBody;
 }
 
-CProgramAst::~CProgramAst()
+const StatementsList &CIfAst::GetElseBody() const
 {
-	m_context.PopScope();
+	return m_elseBody;
 }
 
-void CProgramAst::AddStatement(IStatementASTUniquePtr &&stmt)
+void CIfAst::Accept(IStatementVisitor &visitor)
 {
-	stmt->Execute(m_context);
+	visitor.Visit(*this);
 }
 
-void CProgramAst::AddFunction(IFunctionASTUniquePtr &&function)
+CAbstractLoopAst::CAbstractLoopAst(IExpressionASTUniquePtr &&condition, StatementsList &&body)
+	: m_condition(std::move(condition))
+	, m_body(std::move(body))
 {
-	unsigned nameId = function->GetNameId();
-	m_context.AddFunction(nameId, function.get());
-	m_functions.emplace_back(std::move(function));
+}
+
+IExpressionAST &CAbstractLoopAst::GetCondition() const
+{
+	return *m_condition;
+}
+
+const StatementsList &CAbstractLoopAst::GetBody() const
+{
+	return m_body;
 }
 
 CWhileAst::CWhileAst(IExpressionASTUniquePtr &&condition, StatementsList &&body)
-	: m_condition(std::move(condition))
-	, m_body(std::move(body))
+	: CAbstractLoopAst(std::move(condition), std::move(body))
 {
 }
 
-void CWhileAst::Execute(CAST &context) const
+void CWhileAst::Accept(IStatementVisitor &visitor)
 {
-	while (bool(m_condition->Evaluate(context)))
-	{
-		ExecuteAll(m_body, context);
-	}
+	visitor.Visit(*this);
 }
 
 CRepeatAst::CRepeatAst(IExpressionASTUniquePtr &&condition, StatementsList &&body)
-	: m_condition(std::move(condition))
-	, m_body(std::move(body))
+	: CAbstractLoopAst(std::move(condition), std::move(body))
 {
 }
 
-void CRepeatAst::Execute(CAST &context) const
+void CRepeatAst::Accept(IStatementVisitor &visitor)
 {
-	do
-	{
-		ExecuteAll(m_body, context);
-	} while (bool(m_condition->Evaluate(context)));
+	visitor.Visit(*this);
 }
 
 CCallAST::CCallAST(unsigned nameId, ExpressionList && arguments)
@@ -243,23 +231,26 @@ CCallAST::CCallAST(unsigned nameId, ExpressionList && arguments)
 {
 }
 
-CValue CCallAST::Evaluate(CAST &context) const
+void CCallAST::Accept(IExpressionVisitor &visitor)
 {
-	if (IFunctionAST *func = context.GetFunction(m_nameId))
-	{
-		std::vector<CValue> args(m_arguments.size());
-		std::transform(m_arguments.begin(), m_arguments.end(), args.begin(), [&](IExpressionASTUniquePtr const& ast) {
-			return ast->Evaluate(context);
-		});
-		return func->Call(context, args);
-	}
-	return CValue::FromErrorMessage("Attempt to call unknown function.");
+	visitor.Visit(*this);
 }
 
-CFunctionAST::CFunctionAST(unsigned nameId, std::vector<unsigned> argumentNames, StatementsList && body)
+unsigned CCallAST::GetFunctionNameId() const
+{
+	return m_nameId;
+}
+
+const ExpressionList &CCallAST::GetArguments() const
+{
+	return m_arguments;
+}
+
+CFunctionAST::CFunctionAST(unsigned nameId, ExpressionType returnType, ParameterDeclList &&parameters, StatementsList && body)
 	: m_nameId(nameId)
-	, m_argumentNames(argumentNames)
+	, m_parameters(std::move(parameters))
 	, m_body(std::move(body))
+	, m_returnType(returnType)
 {
 }
 
@@ -268,41 +259,19 @@ unsigned CFunctionAST::GetNameId() const
 	return m_nameId;
 }
 
-CValue CFunctionAST::Call(CAST &context, const std::vector<CValue> &arguments) const
+const ParameterDeclList &CFunctionAST::GetParameters() const
 {
-	if (arguments.size() != m_argumentNames.size())
-	{
-		return CValue::FromErrorMessage("arguments and parameters count mismatch");
-	}
+	return m_parameters;
+}
 
-	CVariableScopeCleaner cleaner(context);
-	CScopedVariableScope scopedScope(context);
+const StatementsList &CFunctionAST::GetBody() const
+{
+	return m_body;
+}
 
-	auto argumentIt = arguments.begin();
-	for (unsigned nameId : m_argumentNames)
-	{
-		context.DefineVariable(nameId, *argumentIt);
-		++argumentIt;
-	}
-
-	boost::optional<CValue> returnedValue;
-	for (IStatementASTUniquePtr const& stmt : m_body)
-	{
-		stmt->Execute(context);
-		returnedValue = context.GetReturnValue();
-		if (returnedValue)
-		{
-			context.SetReturnValue(boost::none);
-			break;
-		}
-	}
-
-	if (returnedValue.is_initialized())
-	{
-		return *returnedValue;
-	}
-
-	return CValue::FromErrorMessage("Function returned no value");
+ExpressionType CFunctionAST::GetReturnType() const
+{
+	return m_returnType;
 }
 
 CReturnAST::CReturnAST(IExpressionASTUniquePtr &&value)
@@ -310,8 +279,44 @@ CReturnAST::CReturnAST(IExpressionASTUniquePtr &&value)
 {
 }
 
-void CReturnAST::Execute(CAST &context) const
+IExpressionAST &CReturnAST::GetValue()
 {
-	CValue result = m_value->Evaluate(context);
-	context.SetReturnValue(result);
+	return *m_value;
+}
+
+void CReturnAST::Accept(IStatementVisitor &visitor)
+{
+	visitor.Visit(*this);
+}
+
+CProgramAst::CProgramAst()
+{
+}
+
+CProgramAst::~CProgramAst()
+{
+}
+
+void CProgramAst::AddFunction(IFunctionASTUniquePtr &&function)
+{
+	m_functions.emplace_back(std::move(function));
+}
+
+const FunctionList &CProgramAst::GetFunctions() const
+{
+	return m_functions;
+}
+
+ExpressionType CAbstractExpressionAST::GetType() const
+{
+	if (!m_type.is_initialized())
+	{
+		throw std::logic_error("attempt to get expression type before it was assigned");
+	}
+	return *m_type;
+}
+
+void CAbstractExpressionAST::SetType(ExpressionType type)
+{
+	m_type = type;
 }

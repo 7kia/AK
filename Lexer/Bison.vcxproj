@@ -150,10 +150,13 @@
     <ClInclude Include="location.hh" />
     <ClInclude Include="main.h" />
     <ClInclude Include="position.hh" />
-    <ClInclude Include="src\AST\AST.h" />
+    <ClInclude Include="src\AST\CompilerBackend.h" />
+    <ClInclude Include="src\AST\FrontendContext.h" />
     <ClInclude Include="src\AST\ASTNodes.h" />
-    <ClInclude Include="src\AST\StringPool.h" />
-    <ClInclude Include="src\AST\VariablesScope.h" />
+    <ClInclude Include="src\AST\ASTVisitor.h" />
+    <ClInclude Include="src\AST\CodegenVisitor.h" />
+    <ClInclude Include="src\AST\TypecheckVisitor.h" />
+    <ClInclude Include="src\AST\Utility.h" />
     <ClInclude Include="src\CharNodes.h" />
     <ClInclude Include="src\driver.h" />
     <ClInclude Include="src\expression.h" />
@@ -171,10 +174,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\AST\AST.cpp" />
+    <ClCompile Include="src\AST\CompilerBackend.cpp" />
+    <ClCompile Include="src\AST\FrontendContext.cpp" />
     <ClCompile Include="src\AST\ASTNodes.cpp" />
-    <ClCompile Include="src\AST\StringPool.cpp" />
-    <ClCompile Include="src\AST\VariablesScope.cpp" />
+    <ClCompile Include="src\AST\ASTVisitor.cpp" />
+    <ClCompile Include="src\AST\CodegenVisitor.cpp" />
+    <ClCompile Include="src\AST\TypecheckVisitor.cpp" />
+    <ClCompile Include="src\AST\Utility.cpp" />
     <ClCompile Include="src\driver.cc" />
     <ClCompile Include="src\Value\ConvertToValue.cpp" />
     <ClCompile Include="src\Value\Value.cpp" />
