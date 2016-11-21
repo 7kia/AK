@@ -253,14 +253,6 @@ UNDERSCORE_SYMBOL		"_"
  /*** BEGIN EXAMPLE - Change the example lexer rules below ***/
 
 
-"main" {
-	
-	*yyOutId << " MAIN_FUNCTION ";
-	
-    ////yylval->stringVal = new std::string(yytext, yyleng);
-    return token::NAME_MAIN_FUNCTION;
-}
-
 {START_BLOCK} {
 	
 	*yyOutId << "\n==Start block code==\n";
@@ -797,6 +789,7 @@ Scanner::Scanner(CStringPool &pool
 	, yyOutId(outId)
 	, m_pool(&pool)
 	, m_context(&context)
+	, m_pProgram(new CProgramAst)
 {
 }
 

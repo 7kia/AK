@@ -307,6 +307,7 @@ CProgramAst::~CProgramAst()
 
 void CProgramAst::AddFunction(IFunctionASTUniquePtr &&function)
 {
+
 	m_functions.emplace_back(std::move(function));
 }
 

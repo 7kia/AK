@@ -108,7 +108,6 @@ using namespace scanner_private;
 /*TODO : delete /\\\ */
 
 %token END  0  "end of file"
-%token NAME_MAIN_FUNCTION
 
 %token START_BLOCK
 %token END_BLOCK
