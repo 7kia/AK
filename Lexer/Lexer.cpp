@@ -1,4 +1,4 @@
-
+#include "stdafx.h"
 #line 3 "lexer.cpp"
 
 #define  YY_INT_ALIGNED short int
@@ -2677,6 +2677,11 @@ Scanner::~Scanner()
 void Scanner::set_debug(bool b)
 {
     yy_flex_debug = b;
+}
+
+std::unique_ptr<CProgramAst> Scanner::TakeProgram()
+{
+	return std::move(m_pProgram);
 }
 
 }

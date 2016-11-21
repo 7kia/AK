@@ -809,6 +809,11 @@ void Scanner::set_debug(bool b)
     yy_flex_debug = b;
 }
 
+std::unique_ptr<CProgramAst> Scanner::TakeProgram()
+{
+	return std::move(m_pProgram);
+}
+
 }
 
 /* This implementation of ExampleFlexLexer::yylex() is required to fill the
