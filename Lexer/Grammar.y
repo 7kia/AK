@@ -370,14 +370,14 @@ statement : PRINT expression
 				auto pBody = Take($3);
 				EmplaceAST<CWhileAst>($$, Take($2), std::move(*pBody));
 			}
-          | DO_OPERATOR COMMAND_SEPARATOR statement_list WHILE_OPERATOR expression BLOCK_END
+          | DO_OPERATOR block WHILE_OPERATOR expression
 			{
-				auto pBody = Take($3);
-				EmplaceAST<CRepeatAst>($$, Take($5), std::move(*pBody));
+				auto pBody = Take($2);
+				EmplaceAST<CRepeatAst>($$, Take($4), std::move(*pBody));
 			}
-          | DO_OPERATOR COMMAND_SEPARATOR WHILE_OPERATOR expression BLOCK_END
+          | DO_OPERATOR WHILE_OPERATOR expression
 			{
-				EmplaceAST<CRepeatAst>($$, Take($4));
+				EmplaceAST<CRepeatAst>($$, Take($3));
 			}
 		  /* | epsilon */
 
@@ -400,12 +400,12 @@ statement_list : statement_line
 						ConcatList($$, $1, $2);
 					}
 
-block : COMMAND_SEPARATOR statement_list BLOCK_END
+block : START_BLOCK statement_list END_BLOCK
 {
 	$$ = $2;
 }
 
-block : COMMAND_SEPARATOR BLOCK_END
+block : START_BLOCK END_BLOCK
 {
 	$$ = nullptr;
 }
@@ -426,10 +426,10 @@ parameter_list : parameter_decl
 
 
 
-function_declaration : FUNCTION ID parenthesis_parameter_list type_reference COMMAND_SEPARATOR statement_list
+function_declaration : FUNCTION ID parenthesis_parameter_list type_reference block
 						{
 							auto pParameters = Take($3);
-							auto pBody = Take($6);
+							auto pBody = Take($5);
 							ExpressionType returnType = static_cast<ExpressionType>($4);
 							EmplaceAST<CFunctionAST>($$, $2, returnType, std::move(*pParameters), std::move(*pBody));
 						}

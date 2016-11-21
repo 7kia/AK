@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "stdax.h"
 #line 3 "lexer.cpp"
 
 #define  YY_INT_ALIGNED short int
