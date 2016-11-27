@@ -1,4 +1,5 @@
 %{
+#pragma warning( disable : 4065 603 )  
 
 #include "stdafx.h"
 #include <stdio.h>

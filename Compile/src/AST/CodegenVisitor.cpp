@@ -565,10 +565,6 @@ void CFunctionCodeGenerator::Visit(CPrintAST &ast)
 
     Constant* pFormatAddress = m_context.AddStringLiteral(format);
 
-	auto name = "printf";
-	//auto typeFunc = llvm::Type::getInt32Ty(m_context.GetLLVMContext());
-	//m_context.GetModule().getFunction(name);
-//
     Function *pFunction = m_context.GetBuiltinFunction(BuiltinFunction::PRINTF);
     std::vector<llvm::Value *> args = {pFormatAddress, pValue};
     m_builder.CreateCall(pFunction, args);
