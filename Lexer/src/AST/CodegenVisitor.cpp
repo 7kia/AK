@@ -283,7 +283,9 @@ void CCodegenContext::InitLibCBuiltins()
     {
         auto *fnType = llvm::FunctionType::get(int32Type, {cStringType}, true);
 		
-		pModule->getOrInsertFunction("printf", fnType);//m_builtinFunctions[BuiltinFunction::PRINTF]; = declareFn(fnType, "printf");
+		//pModule->getOrInsertFunction("printf", fnType);
+		//
+		m_builtinFunctions[BuiltinFunction::PRINTF] = declareFn(fnType, "printf");
     }
     // i8 *strcat(i8* dest, i8* src)
     {
@@ -565,8 +567,9 @@ void CFunctionCodeGenerator::Visit(CPrintAST &ast)
 
 	auto name = "printf";
 	//auto typeFunc = llvm::Type::getInt32Ty(m_context.GetLLVMContext());
-	
-    Function *pFunction = m_context.GetModule().getFunction(name);//m_context.GetBuiltinFunction(BuiltinFunction::PRINTF);
+	//m_context.GetModule().getFunction(name);
+//
+    Function *pFunction = m_context.GetBuiltinFunction(BuiltinFunction::PRINTF);
     std::vector<llvm::Value *> args = {pFormatAddress, pValue};
     m_builder.CreateCall(pFunction, args);
     FreeExpressionAllocs();

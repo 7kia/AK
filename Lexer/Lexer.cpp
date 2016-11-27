@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#pragma warning( disable : 4005 )  
 #line 3 "lexer.cpp"
 
 #define  YY_INT_ALIGNED short int

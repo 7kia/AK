@@ -2,8 +2,6 @@
 
 #include "CompilerBackend.h"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/PassRegistry.h>
 #include <llvm/Support/Host.h>
@@ -17,7 +15,6 @@
 #include <llvm/Analysis/TargetLibraryInfo.h>
 #include <llvm/ADT/STLExtras.h>
 #include <llvm/MC/SubtargetFeature.h>
-#pragma clang diagnostic pop
 
 using namespace llvm;
 

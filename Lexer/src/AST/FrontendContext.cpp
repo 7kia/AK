@@ -3,11 +3,8 @@
 #include "ASTNodes.h"
 #include "FrontendContext.h"
 #include "Utility.h"
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Module.h>
-#pragma clang diagnostic pop
 #include <iostream>
 #include <boost/range/adaptor/reversed.hpp>
 #include <boost/range/algorithm.hpp>
