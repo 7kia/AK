@@ -3,11 +3,8 @@
 #include <stdint.h>
 #include <vector>
 #include <unordered_set>
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
 #include <llvm/IR/Value.h>
 #include <llvm/IR/IRBuilder.h>
-#pragma clang diagnostic pop
 #include "ASTVisitor.h"
 #include "ASTNodes.h"
 #include "Utility.h"

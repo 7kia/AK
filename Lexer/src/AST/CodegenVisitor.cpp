@@ -5,8 +5,6 @@
 #include "ASTNodes.h"
 #include "Utility.h"
 #include "FrontendContext.h"
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
 #include <llvm/IR/Constants.h>
 #include <llvm/ADT/APSInt.h>
 #include <llvm/ADT/APFloat.h>
@@ -18,11 +16,9 @@
 #include <llvm/IR/GlobalVariable.h>
 #include <llvm/Support/raw_ostream.h>
 #include <llvm/ADT/STLExtras.h>
-#define BOOST_RESULT_OF_USE_DECLTYPE
 #include <boost/variant.hpp>
 #include <boost/range/algorithm.hpp>
 #include <boost/range/algorithm_ext/for_each.hpp>
-#pragma clang diagnostic pop
 
 using namespace llvm;
 
@@ -286,7 +282,8 @@ void CCodegenContext::InitLibCBuiltins()
     // i32 printf(i8* format, ...)
     {
         auto *fnType = llvm::FunctionType::get(int32Type, {cStringType}, true);
-        m_builtinFunctions[BuiltinFunction::PRINTF] = declareFn(fnType, "printf");
+		
+		pModule->getOrInsertFunction("printf", fnType);//m_builtinFunctions[BuiltinFunction::PRINTF]; = declareFn(fnType, "printf");
     }
     // i8 *strcat(i8* dest, i8* src)
     {
@@ -565,7 +562,11 @@ void CFunctionCodeGenerator::Visit(CPrintAST &ast)
     }
 
     Constant* pFormatAddress = m_context.AddStringLiteral(format);
-    Function *pFunction = m_context.GetBuiltinFunction(BuiltinFunction::PRINTF);
+
+	auto name = "printf";
+	//auto typeFunc = llvm::Type::getInt32Ty(m_context.GetLLVMContext());
+	
+    Function *pFunction = m_context.GetModule().getFunction(name);//m_context.GetBuiltinFunction(BuiltinFunction::PRINTF);
     std::vector<llvm::Value *> args = {pFormatAddress, pValue};
     m_builder.CreateCall(pFunction, args);
     FreeExpressionAllocs();

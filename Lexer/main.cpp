@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 	std::srand(static_cast<unsigned>(time(nullptr)));
 	example::CCompilerDriver driver(outFile, outFile, idsFile);
 
-	if (!driver.Compile(inputFile, "program.o"))
+	if (!driver.Compile(inputFile, "program.obj"))
 	{
 		return 1;
 	}
