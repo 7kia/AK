@@ -167,13 +167,10 @@
     <ClInclude Include="src\AST\CodegenVisitor.h" />
     <ClInclude Include="src\AST\TypecheckVisitor.h" />
     <ClInclude Include="src\AST\Utility.h" />
-    <ClInclude Include="src\CharNodes.h" />
     <ClInclude Include="src\driver.h" />
     <ClInclude Include="src\expression.h" />
-    <ClInclude Include="src\Node.h" />
     <ClInclude Include="src\scanner.h" />
     <ClInclude Include="src\ScannerPrivate.h" />
-    <ClInclude Include="src\Value\Value.h" />
     <ClInclude Include="stack.hh" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -191,10 +188,7 @@
     <ClCompile Include="src\AST\CodegenVisitor.cpp" />
     <ClCompile Include="src\AST\TypecheckVisitor.cpp" />
     <ClCompile Include="src\AST\Utility.cpp" />
-    <ClCompile Include="src\driver.cc" />
-    <ClCompile Include="src\Value\ConvertToValue.cpp" />
-    <ClCompile Include="src\Value\Value.cpp" />
-    <ClCompile Include="src\Value\ValueOperators.cpp" />
+    <ClCompile Include="src\driver.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
