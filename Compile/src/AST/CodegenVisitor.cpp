@@ -362,11 +362,11 @@ void CExpressionCodeGenerator::Visit(CBinaryExpressionAST &expr)
 		// TODO : rewrite
 		if (typeid(expr.GetLeft()) == typeid(CLiteralAST))
 		{
-			static_cast<CLiteralAST>(&expr.GetLeft()).ConvertFromIntToDouble();
+			dynamic_cast<CLiteralAST *>(&expr.GetLeft())->ConvertFromIntToDouble();
 		}
 		if (typeid(expr.GetRight()) == typeid(CLiteralAST))
 		{
-			static_cast<CLiteralAST>(&expr.GetRight()).ConvertFromIntToDouble();
+			dynamic_cast<CLiteralAST *>(&expr.GetRight())->ConvertFromIntToDouble();
 		}
 	}
 	////////////////
@@ -463,32 +463,7 @@ Value *CExpressionCodeGenerator::GenerateNumericExpr(Value *a, BinaryOperation o
 	bool isDoubleExpression = (leftIsDouble && rightIsDouble);
 
 
-	Value *left = a;
-	Value *right = b;
-
-	/*
-	if (((leftIsInt || rightIsInt) && (leftIsDouble || rightIsDouble))
-		&& (leftType != rightType))
-	{
-		if (leftIsInt)
-		{
-			ConstantInt *p = ConstantInt::get(m_context.GetLLVMContext(), APSInt(left->get));
-			p->getValue();
-
-			CastInst* float_conv = new SIToFPInst(a, Type::getFloatTy(m_context.GetLLVMContext()), a->getName());
-			left = float_conv;//dyn_cast<ConstantFP>(a);
-		}
-		if (rightIsInt)
-		{
-			CastInst* float_conv = new SIToFPInst(b, Type::getFloatTy(m_context.GetLLVMContext()), b->getName());
-			//right = float_conv->get;
-			right = float_conv;//dyn_cast<ConstantFP>(b);
-		}
-		//return ExpressionType::Boolean;
-	}
-	*/
- 
-
+	// TODO : type not convert
 	switch (op)
 	{
 	case BinaryOperation::Add:
