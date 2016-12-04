@@ -247,12 +247,11 @@ constant : BOOL
 			{
 				EmplaceAST<CLiteralAST>($$, CLiteralAST::Value($1));
 			}
-		/*| INT 
+		| INT 
 		{
-		// TODO : add
 			EmplaceAST<CLiteralAST>($$, CLiteralAST::Value($1));
 		}
-		*/
+		
 		| FLOAT 
 		{
 			EmplaceAST<CLiteralAST>($$, CLiteralAST::Value($1));

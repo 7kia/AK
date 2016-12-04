@@ -53,6 +53,10 @@ struct LiteralCodeGenerator : boost::static_visitor<Constant *>
     {
     }
 
+	Constant *operator ()(int const& value) const
+	{
+		return ConstantInt::get(m_context.GetLLVMContext(), APSInt(value));
+	}
 
     Constant *operator ()(double const& value) const
     {
@@ -106,8 +110,8 @@ Type *ConvertType(LLVMContext &context, ExpressionType type)
         return Type::getInt1Ty(context);
     case ExpressionType::Float:
 		return Type::getDoubleTy(context);
-	//case ExpressionType::Integer:
-    //    return Type::getInt32Ty(context);// TODO : fix it
+	case ExpressionType::Integer:
+        return Type::getInt32Ty(context);// TODO : fix it
     case ExpressionType::String:
         return Type::getInt8PtrTy(context);
     }
@@ -342,6 +346,30 @@ Value *CExpressionCodeGenerator::Codegen(IExpressionAST &ast)
 
 void CExpressionCodeGenerator::Visit(CBinaryExpressionAST &expr)
 {
+	////////////////
+	// TODO : rewrite
+	auto leftType = expr.GetLeft().GetType();
+	auto rightType = expr.GetRight().GetType();
+
+	auto leftTypeIsInt = (leftType == ExpressionType::Integer);
+	auto leftTypeIsDouble = (leftType == ExpressionType::Float);
+	auto rightTypeIsInt = (rightType == ExpressionType::Integer);
+	auto rightTypeIsDouble = (rightType == ExpressionType::Float);
+
+	if ((leftTypeIsInt || rightTypeIsInt) && (leftTypeIsDouble || rightTypeIsDouble)
+		|| (leftTypeIsDouble && rightTypeIsDouble))
+	{
+		// TODO : rewrite
+		if (typeid(expr.GetLeft()) == typeid(CLiteralAST))
+		{
+			static_cast<CLiteralAST>(&expr.GetLeft()).ConvertFromIntToDouble();
+		}
+		if (typeid(expr.GetRight()) == typeid(CLiteralAST))
+		{
+			static_cast<CLiteralAST>(&expr.GetRight()).ConvertFromIntToDouble();
+		}
+	}
+	////////////////
     expr.GetLeft().Accept(*this);
     expr.GetRight().Accept(*this);
     Value *a = m_values.at(m_values.size() - 2);
@@ -355,7 +383,7 @@ void CExpressionCodeGenerator::Visit(CBinaryExpressionAST &expr)
         pValue = GenerateBooleanExpr(a, expr.GetOperation(), b);
         break;
     case ExpressionType::Float:
-	//case ExpressionType::Integer:// TODO : fix GenerateNumericExpr
+	case ExpressionType::Integer:// TODO : fix GenerateNumericExpr
         pValue = GenerateNumericExpr(a, expr.GetOperation(), b);
         break;
     case ExpressionType::String:
@@ -367,78 +395,165 @@ void CExpressionCodeGenerator::Visit(CBinaryExpressionAST &expr)
 
 void CExpressionCodeGenerator::Visit(CUnaryExpressionAST &expr)
 {
-    expr.GetOperand().Accept(*this);
-    Value *x = m_values.back();
-    m_values.pop_back();
-    auto pValue = GenerateUnaryExpr(m_builder, m_context.GetLLVMContext(), expr.GetOperation(), x);
-    m_values.push_back(pValue);
+	expr.GetOperand().Accept(*this);
+	Value *x = m_values.back();
+	m_values.pop_back();
+	auto pValue = GenerateUnaryExpr(m_builder, m_context.GetLLVMContext(), expr.GetOperation(), x);
+	m_values.push_back(pValue);
 }
 
 void CExpressionCodeGenerator::Visit(CLiteralAST &expr)
 {
-    LiteralCodeGenerator generator(m_context);
-    Value *pValue = expr.GetValue().apply_visitor(generator);
-    m_values.push_back(pValue);
+	LiteralCodeGenerator generator(m_context);
+	Value *pValue = expr.GetValue().apply_visitor(generator);
+	m_values.push_back(pValue);
 }
 
 void CExpressionCodeGenerator::Visit(CCallAST &expr)
 {
-    Function *pFunction = *m_context.GetFunctions().GetSymbol(expr.GetFunctionNameId());
+	Function *pFunction = *m_context.GetFunctions().GetSymbol(expr.GetFunctionNameId());
 
-    std::vector<Value *> args;
-    // swap arguments to visit and codegen
-    std::swap(args, m_values);
-    for (const IExpressionASTUniquePtr & expr : expr.GetArguments())
-    {
-        expr->Accept(*this);
-    }
-    std::swap(args, m_values);
+	std::vector<Value *> args;
+	// swap arguments to visit and codegen
+	std::swap(args, m_values);
+	for (const IExpressionASTUniquePtr & expr : expr.GetArguments())
+	{
+		expr->Accept(*this);
+	}
+	std::swap(args, m_values);
 
-    Value *pValue = m_builder.CreateCall(pFunction, args, "calltmp");
-    if (pValue->getType()->isPointerTy())
-    {
-        m_context.GetExpressionStrings().Manage(pValue);
-    }
-    m_values.push_back(pValue);
+	Value *pValue = m_builder.CreateCall(pFunction, args, "calltmp");
+	if (pValue->getType()->isPointerTy())
+	{
+		m_context.GetExpressionStrings().Manage(pValue);
+	}
+	m_values.push_back(pValue);
 }
 
 void CExpressionCodeGenerator::Visit(CVariableRefAST &expr)
 {
-    AllocaInst *pVar = *m_context.GetVariables().GetSymbol(expr.GetNameId());
-    std::string varName = m_context.GetString(expr.GetNameId());
-    Value *pValue = m_builder.CreateLoad(pVar, varName);
-    m_values.push_back(pValue);
+	AllocaInst *pVar = *m_context.GetVariables().GetSymbol(expr.GetNameId());
+	std::string varName = m_context.GetString(expr.GetNameId());
+	Value *pValue = m_builder.CreateLoad(pVar, varName);
+	m_values.push_back(pValue);
 }
 
 void CExpressionCodeGenerator::Visit(CParameterDeclAST &expr)
 {
-    LLVMContext &context = m_context.GetLLVMContext();
-    Type *type = ConvertType(context, expr.GetType());
-    std::string varName = m_context.GetString(expr.GetName());
+	LLVMContext &context = m_context.GetLLVMContext();
+	Type *type = ConvertType(context, expr.GetType());
+	std::string varName = m_context.GetString(expr.GetName());
 
-    AllocaInst *pVar = m_builder.CreateAlloca(type, nullptr, varName);
-    m_values.push_back(pVar);
-    m_context.GetVariables().DefineSymbol(expr.GetName(), pVar);
+	AllocaInst *pVar = m_builder.CreateAlloca(type, nullptr, varName);
+	m_values.push_back(pVar);
+	m_context.GetVariables().DefineSymbol(expr.GetName(), pVar);
 }
 
 Value *CExpressionCodeGenerator::GenerateNumericExpr(Value *a, BinaryOperation op, Value *b)
 {
-    switch (op)
-    {
-    case BinaryOperation::Add:
-        return m_builder.CreateFAdd(a, b, "addtmp");
+	auto leftType = a->getType()->getTypeID();
+	auto rightType = b->getType()->getTypeID();
+
+	bool leftIsInt = (leftType == llvm::Type::IntegerTyID);
+	bool leftIsDouble = (leftType == llvm::Type::DoubleTyID);
+	bool rightIsInt = (rightType == llvm::Type::IntegerTyID);
+	bool rightIsDouble = (rightType == llvm::Type::DoubleTyID);
+
+	bool isIntegerExpression = (leftIsInt && rightIsInt);
+	bool isDoubleExpression = (leftIsDouble && rightIsDouble);
+
+
+	Value *left = a;
+	Value *right = b;
+
+	/*
+	if (((leftIsInt || rightIsInt) && (leftIsDouble || rightIsDouble))
+		&& (leftType != rightType))
+	{
+		if (leftIsInt)
+		{
+			ConstantInt *p = ConstantInt::get(m_context.GetLLVMContext(), APSInt(left->get));
+			p->getValue();
+
+			CastInst* float_conv = new SIToFPInst(a, Type::getFloatTy(m_context.GetLLVMContext()), a->getName());
+			left = float_conv;//dyn_cast<ConstantFP>(a);
+		}
+		if (rightIsInt)
+		{
+			CastInst* float_conv = new SIToFPInst(b, Type::getFloatTy(m_context.GetLLVMContext()), b->getName());
+			//right = float_conv->get;
+			right = float_conv;//dyn_cast<ConstantFP>(b);
+		}
+		//return ExpressionType::Boolean;
+	}
+	*/
+ 
+
+	switch (op)
+	{
+	case BinaryOperation::Add:
+		if (isIntegerExpression)
+		{
+			return m_builder.CreateAdd(a, b, "addtmp");// TODO : check correctness
+		}
+		else if (isDoubleExpression)
+		{
+			return m_builder.CreateFAdd(a, b, "addFtmp");
+		}
     case BinaryOperation::Substract:
-        return m_builder.CreateFSub(a, b, "subtmp");
+		if (isIntegerExpression)
+		{
+			return m_builder.CreateSub(a, b, "subtmp");
+		}
+		else if (isDoubleExpression)
+		{
+			return m_builder.CreateFSub(a, b, "subFtmp");
+		}
     case BinaryOperation::Multiply:
-        return m_builder.CreateFMul(a, b, "multmp");
+		if (isIntegerExpression)
+		{
+			return m_builder.CreateMul(a, b, "multmp");
+		}
+		else if (isDoubleExpression)
+		{
+			return m_builder.CreateFMul(a, b, "multFmp");
+		}
     case BinaryOperation::Divide:
-        return m_builder.CreateFDiv(a, b, "divtmp");
+		if (isIntegerExpression)
+		{
+			return m_builder.CreateSDiv(a, b, "divtmp", true);
+		}
+		else if (isDoubleExpression)
+		{
+			return m_builder.CreateFDiv(a, b, "divFtmp");
+		}
     case BinaryOperation::Modulo:
-        return m_builder.CreateFRem(a, b, "modtmp");
+		if (isIntegerExpression)
+		{
+			return m_builder.CreateSRem(a, b, "modtmp");
+		}
+		else if (isDoubleExpression)
+		{
+			return m_builder.CreateFRem(a, b, "modFtmp");
+		}
     case BinaryOperation::Less:
-        return m_builder.CreateFCmpULT(a, b, "cmptmp");
+		if (isIntegerExpression)
+		{
+			return m_builder.CreateICmpULT(a, b, "cmptmp");
+		}
+		else if (isDoubleExpression)
+		{
+			return m_builder.CreateFCmpULT(a, b, "cmpFtmp");
+		}
     case BinaryOperation::Equals:
-        return m_builder.CreateFCmpUEQ(a, b, "cmptmp");
+		if (isIntegerExpression)
+		{
+			return m_builder.CreateICmpEQ(a, b, "cmptmp");
+		}
+		else if (isDoubleExpression)
+		{
+			return m_builder.CreateFCmpUEQ(a, b, "cmpFtmp");
+		}
     }
     throw std::runtime_error("CExpressionCodeGenerator: unknown numeric binary operation");
 }
@@ -555,7 +670,7 @@ void CFunctionCodeGenerator::Visit(CPrintAST &ast)
         break;
     }
     case ExpressionType::Float:
-	//case ExpressionType::Integer:
+	case ExpressionType::Integer:
         format = "%lf\n";
         break;
     case ExpressionType::String:

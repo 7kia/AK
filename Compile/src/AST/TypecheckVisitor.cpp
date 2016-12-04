@@ -14,8 +14,8 @@ std::string PrettyPrint(ExpressionType type)
         return "Boolean";
     case ExpressionType::Float:
         return "Float";
-	//case ExpressionType::Integer:
-	//	return "Integer";
+	case ExpressionType::Integer:
+		return "Integer";
     case ExpressionType::String:
         return "String";
     }
@@ -66,21 +66,61 @@ ExpressionType EvaluateBinaryOperationType(BinaryOperation op, ExpressionType le
             throw std::runtime_error(msg);
         }
     };
+
+	// TODO : check correctness
+	bool leftIsInt = (left == ExpressionType::Integer);
+	bool leftIsDouble = (left == ExpressionType::Float);
+	bool rightIsInt = (right == ExpressionType::Integer);
+	bool rightIsDouble = (right == ExpressionType::Float);
+	//
+	
     switch (op)
     {
     case BinaryOperation::Less:
     case BinaryOperation::Equals:
+		// TODO : require optimization
+		if (leftIsInt && rightIsInt)
+		{
+			return ExpressionType::Boolean;
+		}
+		if (((leftIsInt || rightIsInt) && (leftIsDouble || rightIsDouble))
+			|| (leftIsDouble && rightIsDouble))
+		{
+			return ExpressionType::Boolean;
+		}
+		if ((left == right) && (left == ExpressionType::String))
+		{
+			return ExpressionType::Boolean;
+		}
         check(left == right);
         return ExpressionType::Boolean;
     case BinaryOperation::Add:
+		if (leftIsInt && rightIsInt)// TODO : require optimization, check after tests
+		{
+			return ExpressionType::Integer;
+		}
+		if (((leftIsInt || rightIsInt) && (leftIsDouble || rightIsDouble))
+			|| (leftIsDouble && rightIsDouble))
+		{
+			return ExpressionType::Float;
+		}
         check(left == right && left != ExpressionType::Boolean);
-        return left;
+        return left;// TODO : chech correctness
     case BinaryOperation::Substract:
     case BinaryOperation::Multiply:
     case BinaryOperation::Divide:
     case BinaryOperation::Modulo:
-        check(left == right && left == ExpressionType::Float);// TODO : fix type
-        return ExpressionType::Float;
+		if (leftIsInt && rightIsInt)
+		{
+			return ExpressionType::Integer;
+		}
+		if (((leftIsInt || rightIsInt) && (leftIsDouble || rightIsDouble))
+			|| (leftIsDouble && rightIsDouble))
+		{
+			return ExpressionType::Float;
+		}
+		check(false);
+		return ExpressionType::Float;
     }
     throw std::logic_error("GetBinaryOperationResultType() not implemented for this type");
 }

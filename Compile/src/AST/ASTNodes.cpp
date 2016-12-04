@@ -12,10 +12,10 @@
 // Генерирует код константы LLVM.
 struct LiteralTypeEvaluator : boost::static_visitor<ExpressionType>
 {
-	//ExpressionType operator ()(int const&) const
-	//{
-	//	return ExpressionType::Integer;
-	//}
+	ExpressionType operator ()(int const&) const
+	{
+		return ExpressionType::Integer;
+	}
 
 	ExpressionType operator ()(double const&) const
 	{
@@ -31,6 +31,31 @@ struct LiteralTypeEvaluator : boost::static_visitor<ExpressionType>
 	ExpressionType operator ()(std::string const&)
 	{
 		return ExpressionType::String;
+	}
+};
+
+// Генерирует код константы LLVM.
+struct LiteralToDoubleConverter : boost::static_visitor<double>
+{
+	double operator ()(int const& value) const
+	{
+		return double(value);
+	}
+
+	double operator ()(double const& value) const
+	{
+		return value;
+	}
+
+	double operator ()(bool const& value) const
+	{
+		return double(value);
+	}
+
+
+	double operator ()(std::string const& value)
+	{
+		return stof(value, 0);
 	}
 };
 
@@ -137,6 +162,19 @@ ExpressionType CLiteralAST::GetType() const
 const CLiteralAST::Value &CLiteralAST::GetValue() const
 {
 	return m_value;
+}
+
+void CLiteralAST::ConvertFromIntToDouble()
+{
+	LiteralTypeEvaluator visitor;
+	auto type = m_value.apply_visitor(visitor);
+
+	LiteralToDoubleConverter converter;
+
+	if (type == ExpressionType::Integer)
+	{
+		m_value = m_value.apply_visitor(converter);
+	}
 }
 
 CParameterDeclAST::CParameterDeclAST(unsigned nameId, ExpressionType type)

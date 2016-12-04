@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <vector>
+#include <string>
 #include "ASTVisitor.h"
 #include <boost/variant.hpp>
 #include <boost/optional.hpp>
@@ -24,7 +25,7 @@ enum class ExpressionType
 {
 	Boolean
 	, Float
-	//, Integer // TODO : add
+	, Integer // TODO : add
 	, String
 };
 
@@ -115,6 +116,7 @@ class CLiteralAST : public IExpressionAST
 public:
 	typedef boost::variant<
 		bool,
+		int,
 		double,
 		std::string
 	> Value;
@@ -125,8 +127,9 @@ public:
 
 	const Value &GetValue()const;
 
+	void ConvertFromIntToDouble();
 private:
-	const Value m_value;
+	Value m_value;// TODO : see was const, need it, can replace
 };
 
 class CCallAST : public CAbstractExpressionAST

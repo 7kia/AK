@@ -49,6 +49,7 @@
 #include "src/AST/ASTNodes.h"
 #include "src/ScannerPrivate.h"
 
+
 /* Enabling traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 1
