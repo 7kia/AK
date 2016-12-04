@@ -369,6 +369,13 @@ void CExpressionCodeGenerator::Visit(CBinaryExpressionAST &expr)
 			dynamic_cast<CLiteralAST *>(&expr.GetRight())->ConvertFromIntToDouble();
 		}
 	}
+	if(leftTypeIsInt && rightTypeIsInt)
+	{
+		if (typeid(expr.GetLeft()) == typeid(CLiteralAST))
+		{
+			auto p = dynamic_cast<CLiteralAST *>(&expr.GetLeft());
+		}
+	}
 	////////////////
     expr.GetLeft().Accept(*this);
     expr.GetRight().Accept(*this);
@@ -377,7 +384,7 @@ void CExpressionCodeGenerator::Visit(CBinaryExpressionAST &expr)
     m_values.erase(m_values.end() - 2, m_values.end());
 
     llvm::Value *pValue = nullptr;
-    switch (expr.GetLeft().GetType())
+    switch (expr.GetType())
     {
     case ExpressionType::Boolean:
         pValue = GenerateBooleanExpr(a, expr.GetOperation(), b);
