@@ -8,13 +8,13 @@
 #include <fstream>
 #include "AST/Utility.h"
 #include "AST/ASTNodes.h"
-#include "AST/FrontendContext.h"
+#include "Compiler/FrontendContext.h"
 
 #include "scanner.h"
 #include "Grammar.h"
-#include "AST/CodegenVisitor.h"
-#include "AST/CompilerBackend.h"
-#include "AST/TypecheckVisitor.h"
+#include "Compiler/CodegenVisitor.h"
+#include "Compiler/CompilerBackend.h"
+#include "Compiler/TypecheckVisitor.h"
 #include <llvm/IR/Function.h>
 #include <llvm/Support/raw_os_ostream.h>
 #include <llvm/IR/Module.h>

@@ -51,6 +51,8 @@ extern int yylex();
 #include "src/driver.h"
 #include "src/scanner.h"
 // TODO : transfer to Grammar.h
+#include "src/AST/ASTNodes.h"
+#include "src/ScannerPrivate.h"
 
 // TODO : transfer after Grammar.h
 using namespace scanner_private;
@@ -604,70 +606,70 @@ namespace example {
 				}
     break;
 
-  case 11:
+  case 12:
 
     {
 			MovePointer((yysemantic_stack_[(3) - (2)].pExpression), (yyval.pExpression));
 		}
     break;
 
-  case 12:
+  case 13:
 
     {
 			EmplaceAST<CUnaryExpressionAST>((yyval.pExpression), UnaryOperation::Plus, Take((yysemantic_stack_[(2) - (2)].pExpression)));
 		}
     break;
 
-  case 13:
+  case 14:
 
     {
 			EmplaceAST<CUnaryExpressionAST>((yyval.pExpression), UnaryOperation::Minus, Take((yysemantic_stack_[(2) - (2)].pExpression)));
 		}
     break;
 
-  case 14:
+  case 15:
 
     {
 			EmplaceAST<CBinaryExpressionAST>((yyval.pExpression), Take((yysemantic_stack_[(3) - (1)].pExpression)), BinaryOperation::Less, Take((yysemantic_stack_[(3) - (3)].pExpression)));
 		}
     break;
 
-  case 15:
+  case 16:
 
     {
 			EmplaceAST<CBinaryExpressionAST>((yyval.pExpression), Take((yysemantic_stack_[(3) - (1)].pExpression)), BinaryOperation::Equals, Take((yysemantic_stack_[(3) - (3)].pExpression)));
 		}
     break;
 
-  case 16:
+  case 17:
 
     {
 			EmplaceAST<CBinaryExpressionAST>((yyval.pExpression), Take((yysemantic_stack_[(3) - (1)].pExpression)), BinaryOperation::Add, Take((yysemantic_stack_[(3) - (3)].pExpression)));
 		}
     break;
 
-  case 17:
+  case 18:
 
     {
 			EmplaceAST<CBinaryExpressionAST>((yyval.pExpression), Take((yysemantic_stack_[(3) - (1)].pExpression)), BinaryOperation::Substract, Take((yysemantic_stack_[(3) - (3)].pExpression)));
 		}
     break;
 
-  case 18:
+  case 19:
 
     {
 			EmplaceAST<CBinaryExpressionAST>((yyval.pExpression), Take((yysemantic_stack_[(3) - (1)].pExpression)), BinaryOperation::Multiply, Take((yysemantic_stack_[(3) - (3)].pExpression)));
 		}
     break;
 
-  case 19:
+  case 20:
 
     {
 			EmplaceAST<CBinaryExpressionAST>((yyval.pExpression), Take((yysemantic_stack_[(3) - (1)].pExpression)), BinaryOperation::Divide, Take((yysemantic_stack_[(3) - (3)].pExpression)));
 		}
     break;
 
-  case 20:
+  case 21:
 
     {
 			EmplaceAST<CBinaryExpressionAST>((yyval.pExpression), Take((yysemantic_stack_[(3) - (1)].pExpression)), BinaryOperation::Modulo, Take((yysemantic_stack_[(3) - (3)].pExpression)));
@@ -1205,11 +1207,11 @@ namespace example {
       46,     0,    43,     0,     0,    45,    42,     0,    47,     0,
        0,    41,     0,     0,     0,     0,     0,     0,    38,     0,
       44,    36,     0,     0,     0,     0,     0,     0,     0,     0,
-       5,     4,     3,     2,     6,     9,    10,    21,    30,     0,
-      37,    40,    39,     0,     0,     0,     0,     0,    12,    13,
+       5,     4,     3,     2,     6,     9,    11,    10,    30,     0,
+      37,    40,    39,     0,     0,     0,     0,     0,    13,    14,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-      28,     0,     0,     0,     0,    11,     7,    22,     0,    16,
-      17,    19,    18,    20,    14,    15,    29,    31,    33,    35,
+      28,     0,     0,     0,     0,    12,     7,    22,     0,    17,
+      18,    20,    19,    21,    15,    16,    29,    31,    33,    35,
        0,     0,     8,     0,    34,    23,    32
   };
 
@@ -1342,8 +1344,8 @@ namespace example {
   Parser::yyr2_[] =
   {
          0,     2,     1,     1,     1,     1,     1,     3,     4,     1,
-       1,     3,     2,     2,     3,     3,     3,     3,     3,     3,
-       3,     1,     1,     3,     1,     1,     1,     1,     4,     4,
+       1,     1,     3,     2,     2,     3,     3,     3,     3,     3,
+       3,     3,     1,     3,     1,     1,     1,     1,     4,     4,
        2,     5,     7,     5,     6,     5,     2,     2,     1,     2,
        3,     2,     2,     1,     3,     4,     2,     3,     1,     1,
        2,     2,     1,     2,     1
@@ -1385,11 +1387,11 @@ namespace example {
   {
         92,     0,    -1,    72,    -1,    70,    -1,    69,    -1,    68,
       -1,    73,    -1,    73,    62,    63,    -1,    73,    62,    79,
-      63,    -1,    75,    -1,    76,    -1,    62,    78,    63,    -1,
-      12,    78,    -1,    13,    78,    -1,    78,    18,    78,    -1,
-      78,    64,    78,    -1,    78,    12,    78,    -1,    78,    13,
-      78,    -1,    78,    15,    78,    -1,    78,    14,    78,    -1,
-      78,    16,    78,    -1,    77,    -1,    78,    -1,    79,    37,
+      63,    -1,    75,    -1,    77,    -1,    76,    -1,    62,    78,
+      63,    -1,    12,    78,    -1,    13,    78,    -1,    78,    18,
+      78,    -1,    78,    64,    78,    -1,    78,    12,    78,    -1,
+      78,    13,    78,    -1,    78,    15,    78,    -1,    78,    14,
+      78,    -1,    78,    16,    78,    -1,    78,    -1,    79,    37,
       78,    -1,    43,    -1,    42,    -1,    45,    -1,    46,    -1,
        6,    62,    78,    63,    -1,    80,    73,    21,    78,    -1,
       61,    78,    -1,    51,    62,    78,    63,    84,    -1,    51,
@@ -1410,8 +1412,8 @@ namespace example {
   Parser::yyprhs_[] =
   {
          0,     0,     3,     5,     7,     9,    11,    13,    17,    22,
-      24,    26,    30,    33,    36,    40,    44,    48,    52,    56,
-      60,    64,    66,    68,    72,    74,    76,    78,    80,    85,
+      24,    26,    28,    32,    35,    38,    42,    46,    50,    54,
+      58,    62,    66,    68,    72,    74,    76,    78,    80,    85,
       90,    93,    99,   107,   113,   120,   126,   129,   132,   134,
      137,   141,   144,   147,   149,   153,   158,   161,   165,   167,
      169,   172,   175,   177,   180
@@ -1422,11 +1424,11 @@ namespace example {
   Parser::yyrline_[] =
   {
          0,   244,   246,   250,   255,   259,   264,   269,   273,   279,
-     280,   281,   285,   289,   293,   297,   301,   305,   309,   313,
-     317,   322,   331,   335,   346,   349,   361,   365,   374,   379,
+     280,   281,   282,   286,   290,   294,   298,   302,   306,   310,
+     314,   318,   330,   334,   345,   349,   361,   365,   374,   379,
      383,   388,   395,   401,   406,   411,   417,   422,   427,   431,
-     436,   441,   446,   451,   455,   462,   471,   475,   481,   493,
-     494,   495,   497,   498,   500
+     436,   441,   446,   451,   455,   462,   471,   475,   481,   487,
+     488,   489,   491,   492,   494
   };
 
   // Print the state stack on the debug stream.

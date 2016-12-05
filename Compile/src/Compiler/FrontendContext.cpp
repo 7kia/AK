@@ -1,13 +1,15 @@
 #include "stdafx.h"
 
-#include "ASTNodes.h"
-#include "FrontendContext.h"
-#include "Utility.h"
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Module.h>
 #include <iostream>
 #include <boost/range/adaptor/reversed.hpp>
 #include <boost/range/algorithm.hpp>
+
+#include "../AST/ASTNodes.h"
+#include "../AST/Utility.h"
+
+#include "FrontendContext.h"
 
 
 CFrontendContext::CFrontendContext(std::ostream &errors, CStringPool &pool)

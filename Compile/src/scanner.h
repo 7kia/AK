@@ -25,7 +25,7 @@
 #include "Grammar.h"
 #include "AST/Utility.h"
 #include "AST/ASTNodes.h"
-#include "AST/FrontendContext.h"
+#include "Compiler/FrontendContext.h"
 
 namespace example {
 

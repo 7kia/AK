@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include "Node.h"
-#include "Value\Value.h"
+#include "NodeExample.h"
+#include <string>
 
 /** Calculation node always returning a constant value. */
 class CNConstant : public CalcNode

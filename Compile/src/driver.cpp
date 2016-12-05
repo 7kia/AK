@@ -142,6 +142,7 @@ bool CCompilerDriver::GenerateCodeFromAst()
 			}
 		}
 
+		m_codegenContext.GetModule().dump();
 		ThrowIfCompileErrors();
 
 		return true;

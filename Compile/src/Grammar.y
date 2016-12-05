@@ -277,6 +277,7 @@ function_call : ID START_LIST_ARGUMENTS END_LIST_ARGUMENTS
 				}
 
 expression : constant 
+		| function_call
 		| variable 
 		| START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS
 		{
@@ -317,9 +318,7 @@ expression : constant
         | expression PERCENT expression
 		{
 			EmplaceAST<CBinaryExpressionAST>($$, Take($1), BinaryOperation::Modulo, Take($3));
-		}
-
-        | function_call
+		} 
 
 expression_list : /*epsilon 
 				{
@@ -346,7 +345,8 @@ expression_list : /*epsilon
 type_reference : NAME_FLOAT			
 				{
 					$$ = static_cast<int>(ExpressionType::Float);
-				} | NAME_INTEGER		
+				} 
+				| NAME_INTEGER		
 				{
 				// TODO : add
 					$$ = static_cast<int>(ExpressionType::Integer);

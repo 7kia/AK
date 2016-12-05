@@ -19,10 +19,19 @@
     <Filter Include="Файлы исходного кода\src\AST">
       <UniqueIdentifier>{0abbebad-dc0f-41d6-b224-139fad11a686}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы исходного кода\src\Compiler">
+      <UniqueIdentifier>{8889d41e-3c17-4c7e-b8fa-d43d22758053}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\src\Example">
+      <UniqueIdentifier>{fef0dd55-c270-4807-aa48-92a7ffd769ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
     <Text Include="InStartLexerCpp.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="text1.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>
@@ -39,9 +48,6 @@
     <ClInclude Include="src\scanner.h">
       <Filter>Файлы исходного кода\src</Filter>
     </ClInclude>
-    <ClInclude Include="src\expression.h">
-      <Filter>Файлы исходного кода\src</Filter>
-    </ClInclude>
     <ClInclude Include="src\AST\ASTNodes.h">
       <Filter>Файлы исходного кода\src\AST</Filter>
     </ClInclude>
@@ -51,28 +57,13 @@
     <ClInclude Include="src\AST\ASTVisitor.h">
       <Filter>Файлы исходного кода\src\AST</Filter>
     </ClInclude>
-    <ClInclude Include="src\AST\CodegenVisitor.h">
-      <Filter>Файлы исходного кода\src\AST</Filter>
-    </ClInclude>
     <ClInclude Include="src\AST\Utility.h">
-      <Filter>Файлы исходного кода\src\AST</Filter>
-    </ClInclude>
-    <ClInclude Include="src\AST\TypecheckVisitor.h">
-      <Filter>Файлы исходного кода\src\AST</Filter>
-    </ClInclude>
-    <ClInclude Include="src\AST\FrontendContext.h">
-      <Filter>Файлы исходного кода\src\AST</Filter>
-    </ClInclude>
-    <ClInclude Include="src\AST\CompilerBackend.h">
       <Filter>Файлы исходного кода\src\AST</Filter>
     </ClInclude>
     <ClInclude Include="src\Grammar.h">
       <Filter>Файлы исходного кода\src</Filter>
     </ClInclude>
     <ClInclude Include="src\location.hh">
-      <Filter>Файлы исходного кода\src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Node.h">
       <Filter>Файлы исходного кода\src</Filter>
     </ClInclude>
     <ClInclude Include="src\position.hh">
@@ -90,6 +81,24 @@
     <ClInclude Include="src\main.h">
       <Filter>Файлы исходного кода\src</Filter>
     </ClInclude>
+    <ClInclude Include="src\Compiler\CodegenVisitor.h">
+      <Filter>Файлы исходного кода\src\Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Compiler\CompilerBackend.h">
+      <Filter>Файлы исходного кода\src\Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Compiler\FrontendContext.h">
+      <Filter>Файлы исходного кода\src\Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Compiler\TypecheckVisitor.h">
+      <Filter>Файлы исходного кода\src\Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Example\expressionExample.h">
+      <Filter>Файлы исходного кода\src\Example</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Example\NodeExample.h">
+      <Filter>Файлы исходного кода\src\Example</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AST\ASTNodes.cpp">
@@ -98,19 +107,7 @@
     <ClCompile Include="src\AST\ASTVisitor.cpp">
       <Filter>Файлы исходного кода\src\AST</Filter>
     </ClCompile>
-    <ClCompile Include="src\AST\CodegenVisitor.cpp">
-      <Filter>Файлы исходного кода\src\AST</Filter>
-    </ClCompile>
     <ClCompile Include="src\AST\Utility.cpp">
-      <Filter>Файлы исходного кода\src\AST</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AST\TypecheckVisitor.cpp">
-      <Filter>Файлы исходного кода\src\AST</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AST\FrontendContext.cpp">
-      <Filter>Файлы исходного кода\src\AST</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AST\CompilerBackend.cpp">
       <Filter>Файлы исходного кода\src\AST</Filter>
     </ClCompile>
     <ClCompile Include="src\driver.cpp">
@@ -128,6 +125,18 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Файлы исходного кода\src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Compiler\CodegenVisitor.cpp">
+      <Filter>Файлы исходного кода\src\Compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Compiler\CompilerBackend.cpp">
+      <Filter>Файлы исходного кода\src\Compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Compiler\FrontendContext.cpp">
+      <Filter>Файлы исходного кода\src\Compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Compiler\TypecheckVisitor.cpp">
+      <Filter>Файлы исходного кода\src\Compiler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Lexer.l">
@@ -137,6 +146,9 @@
       <Filter>Файлы ресурсов</Filter>
     </None>
     <None Include="src\codegen.bat">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="compile.bat">
       <Filter>Файлы ресурсов</Filter>
     </None>
   </ItemGroup>

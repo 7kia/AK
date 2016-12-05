@@ -155,21 +155,22 @@
   <ItemGroup>
     <Text Include="InStartLexerCpp.txt" />
     <Text Include="ReadMe.txt" />
+    <Text Include="text1.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\AST\CompilerBackend.h" />
-    <ClInclude Include="src\AST\FrontendContext.h" />
     <ClInclude Include="src\AST\ASTNodes.h" />
     <ClInclude Include="src\AST\ASTVisitor.h" />
-    <ClInclude Include="src\AST\CodegenVisitor.h" />
-    <ClInclude Include="src\AST\TypecheckVisitor.h" />
     <ClInclude Include="src\AST\Utility.h" />
+    <ClInclude Include="src\Compiler\CodegenVisitor.h" />
+    <ClInclude Include="src\Compiler\CompilerBackend.h" />
+    <ClInclude Include="src\Compiler\FrontendContext.h" />
+    <ClInclude Include="src\Compiler\TypecheckVisitor.h" />
     <ClInclude Include="src\driver.h" />
-    <ClInclude Include="src\expression.h" />
+    <ClInclude Include="src\Example\expressionExample.h" />
+    <ClInclude Include="src\Example\NodeExample.h" />
     <ClInclude Include="src\Grammar.h" />
     <ClInclude Include="src\location.hh" />
     <ClInclude Include="src\main.h" />
-    <ClInclude Include="src\Node.h" />
     <ClInclude Include="src\position.hh" />
     <ClInclude Include="src\scanner.h" />
     <ClInclude Include="src\ScannerPrivate.h" />
@@ -180,13 +181,13 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\AST\CompilerBackend.cpp" />
-    <ClCompile Include="src\AST\FrontendContext.cpp" />
     <ClCompile Include="src\AST\ASTNodes.cpp" />
     <ClCompile Include="src\AST\ASTVisitor.cpp" />
-    <ClCompile Include="src\AST\CodegenVisitor.cpp" />
-    <ClCompile Include="src\AST\TypecheckVisitor.cpp" />
     <ClCompile Include="src\AST\Utility.cpp" />
+    <ClCompile Include="src\Compiler\CodegenVisitor.cpp" />
+    <ClCompile Include="src\Compiler\CompilerBackend.cpp" />
+    <ClCompile Include="src\Compiler\FrontendContext.cpp" />
+    <ClCompile Include="src\Compiler\TypecheckVisitor.cpp" />
     <ClCompile Include="src\driver.cpp" />
     <ClCompile Include="src\Grammar.cpp" />
     <ClCompile Include="src\lexer.cpp" />
@@ -194,6 +195,7 @@
     <ClCompile Include="src\stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="compile.bat" />
     <None Include="src\codegen.bat" />
     <None Include="src\Grammar.y" />
     <None Include="src\Lexer.l" />

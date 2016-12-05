@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
 #include "ASTNodes.h"
-#include "FrontendContext.h"
-#include "CodegenVisitor.h"
+#include "../Compiler/FrontendContext.h"
+#include "../Compiler/CodegenVisitor.h"
 #include <limits>
 #include <algorithm>
 #include <iostream>

@@ -1,10 +1,5 @@
 #include "stdafx.h"
 
-
-#include "CodegenVisitor.h"
-#include "ASTNodes.h"
-#include "Utility.h"
-#include "FrontendContext.h"
 #include <llvm/IR/Constants.h>
 #include <llvm/ADT/APSInt.h>
 #include <llvm/ADT/APFloat.h>
@@ -19,6 +14,14 @@
 #include <boost/variant.hpp>
 #include <boost/range/algorithm.hpp>
 #include <boost/range/algorithm_ext/for_each.hpp>
+
+#include "../AST/ASTNodes.h"
+#include "../AST/Utility.h"
+
+#include "CodegenVisitor.h"
+
+#include "FrontendContext.h"
+
 
 using namespace llvm;
 
@@ -55,7 +58,7 @@ struct LiteralCodeGenerator : boost::static_visitor<Constant *>
 
 	Constant *operator ()(int const& value) const
 	{
-		return ConstantInt::get(m_context.GetLLVMContext(), APSInt(value));
+		return ConstantInt::get(m_context.GetLLVMContext(), APInt(sizeof(int), value));
 	}
 
     Constant *operator ()(double const& value) const
@@ -652,8 +655,10 @@ void CFunctionCodeGenerator::Visit(CPrintAST &ast)
         break;
     }
     case ExpressionType::Float:
+		format = "%lf\n";
+		break;
 	case ExpressionType::Integer:
-        format = "%lf\n";
+        format = "%li\n";
         break;
     case ExpressionType::String:
         format = "%s\n";

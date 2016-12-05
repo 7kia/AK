@@ -5,9 +5,10 @@
 #include <unordered_set>
 #include <llvm/IR/Value.h>
 #include <llvm/IR/IRBuilder.h>
-#include "ASTVisitor.h"
-#include "ASTNodes.h"
-#include "Utility.h"
+
+#include "../AST/ASTVisitor.h"
+#include "../AST/ASTNodes.h"
+#include "../AST/Utility.h"
 
 class CFrontendContext;
 class CCodegenContext;
