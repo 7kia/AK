@@ -1,0 +1,28 @@
+int main()
+{
+	print("==== integers ====");
+	int z = 2;
+	print(z + 2);
+	print(3 + z);
+	print(z + z);
+	print(2 + 3);
+
+	print("==== doubles ====");
+	float d = 2.0;
+	print(d + 2.0);
+	print(3.0 + d);
+	print(d + d);
+	print(2.0 + 3.0);
+
+	print("==== doubles and integers ====");
+	print(2.5 + 3);
+	print(2 + 3.7);
+
+	float c = 2.9;
+	print(c + 2);
+	print(3 + c); 
+
+	float c1 = 4;
+	print(c1 + 2.1);
+	print(3.2 + c1); 
+};
