@@ -371,7 +371,9 @@ type_reference : NAME_FLOAT
 //		/\/\				Типы				/\/\\\\////
 ////////////////////////////////////////////////////////////////////
 */
-statement : PRINT START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS
+statement : //expression_list
+			//| // TODO : add because can call function (for example, Draw(); )
+			 PRINT START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS
 			{
 			// TODO : see need instead expression expression_list
 				EmplaceAST<CPrintAST>($$, Take($3));

@@ -359,6 +359,8 @@ void CExpressionCodeGenerator::Visit(CBinaryExpressionAST &expr)
 	auto rightTypeIsInt = (rightType == ExpressionType::Integer);
 	auto rightTypeIsDouble = (rightType == ExpressionType::Float);
 
+	/////////////////////////////////////////////////////////////////////////////
+	// Convert int literal to float if next operation with float
 	if ((leftTypeIsInt || rightTypeIsInt) && (leftTypeIsDouble || rightTypeIsDouble)
 		|| (leftTypeIsDouble && rightTypeIsDouble))
 	{
@@ -367,11 +369,27 @@ void CExpressionCodeGenerator::Visit(CBinaryExpressionAST &expr)
 		{
 			dynamic_cast<CLiteralAST *>(&expr.GetLeft())->ConvertFromIntToDouble();
 		}
+		/*
+		if (typeid(expr.GetLeft()) == typeid(CCallAST))
+		{
+			dynamic_cast<CCallAST *>(&expr.GetLeft())->SetType(ExpressionType::Float);
+		}
+		*/
+		
+
 		if (typeid(expr.GetRight()) == typeid(CLiteralAST))
 		{
 			dynamic_cast<CLiteralAST *>(&expr.GetRight())->ConvertFromIntToDouble();
 		}
+		/*
+		if (typeid(expr.GetRight()) == typeid(CCallAST))
+		{
+			dynamic_cast<CCallAST *>(&expr.GetRight())->SetType(ExpressionType::Float);
+		}
+		*/
+		
 	}
+	/////////////////////////////////////////////////////////////////////////////
 	if(leftTypeIsInt && rightTypeIsInt)
 	{
 		if (typeid(expr.GetLeft()) == typeid(CLiteralAST))

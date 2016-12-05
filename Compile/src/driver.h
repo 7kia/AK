@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <time.h>
+
 #include "AST/Utility.h"
 #include "AST/ASTNodes.h"
 #include "Compiler/FrontendContext.h"

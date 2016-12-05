@@ -153,7 +153,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="Programs\BubbleSort.txt" />
+    <Text Include="Programs\HelloWorld.txt" />
+    <Text Include="Programs\MatrixMultiplication.txt" />
     <Text Include="ReadMe.txt" />
+    <Text Include="Syntax\Arrays.txt" />
+    <Text Include="Syntax\Conditions.txt" />
+    <Text Include="Syntax\int_and_double.txt" />
+    <Text Include="Syntax\LogicOperations.txt" />
+    <Text Include="Syntax\Loops.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AST\ASTNodes.h" />
