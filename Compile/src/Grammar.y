@@ -336,47 +336,81 @@ expression_list : /*epsilon
 				{
 					ConcatList($$, $1, $3);
 				}
-
-statement : PRINT expression
+/*
+////////////////////////////////////////////////////////////////////
+//
+//						Типы
+//
+////////////////////////////////////////////////////////////////////
+*/
+type_reference : NAME_FLOAT			
+				{
+					$$ = static_cast<int>(ExpressionType::Float);
+				} | NAME_INTEGER		
+				{
+				// TODO : add
+					$$ = static_cast<int>(ExpressionType::Integer);
+				}
+				/*
+				| NAME_CHAR
+				{
+				// TODO  : not work
+					$$ = static_cast<int>(ExpressionType::Char);
+				}
+				*/
+				| NAME_STRING
+				{
+					$$ = static_cast<int>(ExpressionType::String);
+				}
+				| NAME_LOGIC
+				{
+					$$ = static_cast<int>(ExpressionType::Boolean);
+				}
+/*
+////////////////////////////////////////////////////////////////////
+//		/\/\				Типы				/\/\\\\////
+////////////////////////////////////////////////////////////////////
+*/
+statement : PRINT START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS
 			{
 			// TODO : see need instead expression expression_list
-				EmplaceAST<CPrintAST>($$, Take($2));
+				EmplaceAST<CPrintAST>($$, Take($3));
 			}
-          | ID ASSIGN expression
+          | type_reference ID ASSIGN expression
 			{
-				EmplaceAST<CAssignAST>($$, $1, Take($3));// TODO : warning can not work
+				EmplaceAST<CAssignAST>($$, $2, Take($4));// TODO : not use type_reference
 			}
           | NAME_RETURN expression
 			{
 				EmplaceAST<CReturnAST>($$, Take($2));
 			}
 			
-          | IF_OPERATOR expression block
+          | IF_OPERATOR START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS block
 			{
 			// TODO : see need exmpty
-				auto pThenBody = Take($3);
-				EmplaceAST<CIfAst>($$, Take($2), std::move(*pThenBody));
+				auto pThenBody = Take($5);
+				EmplaceAST<CIfAst>($$, Take($3), std::move(*pThenBody));
 			}
 			
-          | IF_OPERATOR expression block ELSE_OPERATOR block
+          | IF_OPERATOR START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS block ELSE_OPERATOR block
 			{
-				auto pThenBody = Take($3);
-				auto pElseBody = Take($5);
-				EmplaceAST<CIfAst>($$, Take($2), std::move(*pThenBody), std::move(*pElseBody));
+				auto pThenBody = Take($5);
+				auto pElseBody = Take($7);
+				EmplaceAST<CIfAst>($$, Take($3), std::move(*pThenBody), std::move(*pElseBody));
 			}
-          | WHILE_OPERATOR expression block
+          | WHILE_OPERATOR START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS block
 			{
-				auto pBody = Take($3);
-				EmplaceAST<CWhileAst>($$, Take($2), std::move(*pBody));
+				auto pBody = Take($5);
+				EmplaceAST<CWhileAst>($$, Take($3), std::move(*pBody));
 			}
-          | DO_OPERATOR block WHILE_OPERATOR expression
+          | DO_OPERATOR block WHILE_OPERATOR START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS
 			{
 				auto pBody = Take($2);
-				EmplaceAST<CRepeatAst>($$, Take($4), std::move(*pBody));
+				EmplaceAST<CRepeatAst>($$, Take($5), std::move(*pBody));
 			}
-          | DO_OPERATOR WHILE_OPERATOR expression
+          | DO_OPERATOR WHILE_OPERATOR START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS
 			{
-				EmplaceAST<CRepeatAst>($$, Take($3));
+				EmplaceAST<CRepeatAst>($$, Take($4));
 			}
 		  /* | epsilon */
 
@@ -409,9 +443,9 @@ block : START_BLOCK END_BLOCK
 	$$ = nullptr;
 }
 
-parameter_decl : ID type_reference
+parameter_decl : type_reference ID
 					{
-						EmplaceAST<CParameterDeclAST>($$, $1, static_cast<ExpressionType>($2));
+						EmplaceAST<CParameterDeclAST>($$, $2, static_cast<ExpressionType>($1));
 					}
 
 parameter_list : parameter_decl
@@ -425,11 +459,11 @@ parameter_list : parameter_decl
 
 
 
-function_declaration : FUNCTION ID parenthesis_parameter_list type_reference block
+function_declaration : type_reference ID parenthesis_parameter_list block
 						{
 							auto pParameters = Take($3);
-							auto pBody = Take($5);
-							ExpressionType returnType = static_cast<ExpressionType>($4);
+							auto pBody = Take($4);
+							ExpressionType returnType = static_cast<ExpressionType>($1);
 							EmplaceAST<CFunctionAST>($$, $2, returnType, std::move(*pParameters), std::move(*pBody));
 						}
 
@@ -444,43 +478,12 @@ parenthesis_parameter_list : START_LIST_ARGUMENTS END_LIST_ARGUMENTS
 							}
 
 
-type_reference : NAME_FLOAT			
-				{
-					$$ = static_cast<int>(ExpressionType::Float);
-				}/* | NAME_INTEGER		
-				{
-				// TODO : add
-					$$ = static_cast<int>(ExpressionType::Integer);
-				}
-				*/ 
-				/*
-				| NAME_CHAR
-				{
-				// TODO  : not work
-					$$ = static_cast<int>(ExpressionType::Char);
-				}
-				*/
-				| NAME_STRING
-				{
-					$$ = static_cast<int>(ExpressionType::String);
-				}
-				| NAME_LOGIC
-				{
-					$$ = static_cast<int>(ExpressionType::Boolean);
-				}
-
 toplevel_statement : function_declaration 
 					{
 					// TODO : see can it simplify
 						 driver.lexer.m_pProgram->AddFunction(Take($1));
 					}
 
-					/* TODO : transfer to other place
-					| statement
-					{
-						driver.m_ast.AddStatement(Take($1));
-					}
-					*/
 toplevel_line : COMMAND_SEPARATOR 
 				| toplevel_statement COMMAND_SEPARATOR 
 				| error COMMAND_SEPARATOR

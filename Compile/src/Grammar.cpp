@@ -52,7 +52,6 @@ extern int yylex();
 #include "src/scanner.h"
 // TODO : transfer to Grammar.h
 
-
 // TODO : transfer after Grammar.h
 using namespace scanner_private;
 /* this "connects" the bison parser in the driver to the flex scanner class
@@ -300,42 +299,42 @@ namespace example {
         { delete ((*yyvaluep).pExpressionList); };
 
         break;
-      case 80: /* statement */
+      case 81: /* statement */
 
         { delete ((*yyvaluep).pStatetment); };
 
         break;
-      case 81: /* statement_line */
+      case 82: /* statement_line */
 
         { delete ((*yyvaluep).pStatetment); };
 
         break;
-      case 82: /* statement_list */
+      case 83: /* statement_list */
 
         { delete ((*yyvaluep).pStatementList); };
 
         break;
-      case 83: /* block */
+      case 84: /* block */
 
         { delete ((*yyvaluep).pStatementList); };
 
         break;
-      case 84: /* parameter_decl */
+      case 85: /* parameter_decl */
 
         { delete ((*yyvaluep).pParameterDecl); };
 
         break;
-      case 85: /* parameter_list */
+      case 86: /* parameter_list */
 
         { delete ((*yyvaluep).pParameterDeclList); };
 
         break;
-      case 86: /* function_declaration */
+      case 87: /* function_declaration */
 
         { delete ((*yyvaluep).pFunction); };
 
         break;
-      case 87: /* parenthesis_parameter_list */
+      case 88: /* parenthesis_parameter_list */
 
         { delete ((*yyvaluep).pParameterDeclList); };
 
@@ -692,67 +691,96 @@ namespace example {
   case 24:
 
     {
-			// TODO : see need instead expression expression_list
-				EmplaceAST<CPrintAST>((yyval.pStatetment), Take((yysemantic_stack_[(2) - (2)].pExpression)));
-			}
+					(yyval.integerValue) = static_cast<int>(ExpressionType::Float);
+				}
     break;
 
   case 25:
 
     {
-				EmplaceAST<CAssignAST>((yyval.pStatetment), (yysemantic_stack_[(3) - (1)].stringId), Take((yysemantic_stack_[(3) - (3)].pExpression)));// TODO : warning can not work
-			}
+				// TODO : add
+					(yyval.integerValue) = static_cast<int>(ExpressionType::Integer);
+				}
     break;
 
   case 26:
 
     {
-				EmplaceAST<CReturnAST>((yyval.pStatetment), Take((yysemantic_stack_[(2) - (2)].pExpression)));
-			}
+					(yyval.integerValue) = static_cast<int>(ExpressionType::String);
+				}
     break;
 
   case 27:
 
     {
-			// TODO : see need exmpty
-				auto pThenBody = Take((yysemantic_stack_[(3) - (3)].pStatementList));
-				EmplaceAST<CIfAst>((yyval.pStatetment), Take((yysemantic_stack_[(3) - (2)].pExpression)), std::move(*pThenBody));
-			}
+					(yyval.integerValue) = static_cast<int>(ExpressionType::Boolean);
+				}
     break;
 
   case 28:
 
     {
-				auto pThenBody = Take((yysemantic_stack_[(5) - (3)].pStatementList));
-				auto pElseBody = Take((yysemantic_stack_[(5) - (5)].pStatementList));
-				EmplaceAST<CIfAst>((yyval.pStatetment), Take((yysemantic_stack_[(5) - (2)].pExpression)), std::move(*pThenBody), std::move(*pElseBody));
+			// TODO : see need instead expression expression_list
+				EmplaceAST<CPrintAST>((yyval.pStatetment), Take((yysemantic_stack_[(4) - (3)].pExpression)));
 			}
     break;
 
   case 29:
 
     {
-				auto pBody = Take((yysemantic_stack_[(3) - (3)].pStatementList));
-				EmplaceAST<CWhileAst>((yyval.pStatetment), Take((yysemantic_stack_[(3) - (2)].pExpression)), std::move(*pBody));
+				EmplaceAST<CAssignAST>((yyval.pStatetment), (yysemantic_stack_[(4) - (2)].stringId), Take((yysemantic_stack_[(4) - (4)].pExpression)));// TODO : not use type_reference
 			}
     break;
 
   case 30:
 
     {
-				auto pBody = Take((yysemantic_stack_[(4) - (2)].pStatementList));
-				EmplaceAST<CRepeatAst>((yyval.pStatetment), Take((yysemantic_stack_[(4) - (4)].pExpression)), std::move(*pBody));
+				EmplaceAST<CReturnAST>((yyval.pStatetment), Take((yysemantic_stack_[(2) - (2)].pExpression)));
 			}
     break;
 
   case 31:
 
     {
-				EmplaceAST<CRepeatAst>((yyval.pStatetment), Take((yysemantic_stack_[(3) - (3)].pExpression)));
+			// TODO : see need exmpty
+				auto pThenBody = Take((yysemantic_stack_[(5) - (5)].pStatementList));
+				EmplaceAST<CIfAst>((yyval.pStatetment), Take((yysemantic_stack_[(5) - (3)].pExpression)), std::move(*pThenBody));
 			}
     break;
 
   case 32:
+
+    {
+				auto pThenBody = Take((yysemantic_stack_[(7) - (5)].pStatementList));
+				auto pElseBody = Take((yysemantic_stack_[(7) - (7)].pStatementList));
+				EmplaceAST<CIfAst>((yyval.pStatetment), Take((yysemantic_stack_[(7) - (3)].pExpression)), std::move(*pThenBody), std::move(*pElseBody));
+			}
+    break;
+
+  case 33:
+
+    {
+				auto pBody = Take((yysemantic_stack_[(5) - (5)].pStatementList));
+				EmplaceAST<CWhileAst>((yyval.pStatetment), Take((yysemantic_stack_[(5) - (3)].pExpression)), std::move(*pBody));
+			}
+    break;
+
+  case 34:
+
+    {
+				auto pBody = Take((yysemantic_stack_[(6) - (2)].pStatementList));
+				EmplaceAST<CRepeatAst>((yyval.pStatetment), Take((yysemantic_stack_[(6) - (5)].pExpression)), std::move(*pBody));
+			}
+    break;
+
+  case 35:
+
+    {
+				EmplaceAST<CRepeatAst>((yyval.pStatetment), Take((yysemantic_stack_[(5) - (4)].pExpression)));
+			}
+    break;
+
+  case 36:
 
     {
 				// TODO : see need COMMAND_SEPARATOR
@@ -760,108 +788,87 @@ namespace example {
 				}
     break;
 
-  case 33:
+  case 37:
 
     {
 					MovePointer((yysemantic_stack_[(2) - (1)].pStatetment), (yyval.pStatetment));
 				}
     break;
 
-  case 34:
+  case 38:
 
     {
 						CreateList((yyval.pStatementList), (yysemantic_stack_[(1) - (1)].pStatetment));
 					}
     break;
 
-  case 35:
+  case 39:
 
     {
 						ConcatList((yyval.pStatementList), (yysemantic_stack_[(2) - (1)].pStatementList), (yysemantic_stack_[(2) - (2)].pStatetment));
 					}
     break;
 
-  case 36:
+  case 40:
 
     {
 	(yyval.pStatementList) = (yysemantic_stack_[(3) - (2)].pStatementList);
 }
     break;
 
-  case 37:
+  case 41:
 
     {
 	(yyval.pStatementList) = nullptr;
 }
     break;
 
-  case 38:
+  case 42:
 
     {
-						EmplaceAST<CParameterDeclAST>((yyval.pParameterDecl), (yysemantic_stack_[(2) - (1)].stringId), static_cast<ExpressionType>((yysemantic_stack_[(2) - (2)].integerValue)));
+						EmplaceAST<CParameterDeclAST>((yyval.pParameterDecl), (yysemantic_stack_[(2) - (2)].stringId), static_cast<ExpressionType>((yysemantic_stack_[(2) - (1)].integerValue)));
 					}
     break;
 
-  case 39:
+  case 43:
 
     {
 						CreateList((yyval.pParameterDeclList), (yysemantic_stack_[(1) - (1)].pParameterDecl));
 					}
     break;
 
-  case 40:
+  case 44:
 
     {
 					ConcatList((yyval.pParameterDeclList), (yysemantic_stack_[(3) - (1)].pParameterDeclList), (yysemantic_stack_[(3) - (3)].pParameterDecl));
 				}
     break;
 
-  case 41:
+  case 45:
 
     {
-							auto pParameters = Take((yysemantic_stack_[(5) - (3)].pParameterDeclList));
-							auto pBody = Take((yysemantic_stack_[(5) - (5)].pStatementList));
-							ExpressionType returnType = static_cast<ExpressionType>((yysemantic_stack_[(5) - (4)].integerValue));
-							EmplaceAST<CFunctionAST>((yyval.pFunction), (yysemantic_stack_[(5) - (2)].stringId), returnType, std::move(*pParameters), std::move(*pBody));
+							auto pParameters = Take((yysemantic_stack_[(4) - (3)].pParameterDeclList));
+							auto pBody = Take((yysemantic_stack_[(4) - (4)].pStatementList));
+							ExpressionType returnType = static_cast<ExpressionType>((yysemantic_stack_[(4) - (1)].integerValue));
+							EmplaceAST<CFunctionAST>((yyval.pFunction), (yysemantic_stack_[(4) - (2)].stringId), returnType, std::move(*pParameters), std::move(*pBody));
 						}
     break;
 
-  case 42:
+  case 46:
 
     {
 								(yyval.pParameterDeclList) = Make<ParameterDeclList>().release();
 							}
     break;
 
-  case 43:
+  case 47:
 
     {
 								MovePointer((yysemantic_stack_[(3) - (2)].pParameterDeclList), (yyval.pParameterDeclList));
 							}
     break;
 
-  case 44:
-
-    {
-					(yyval.integerValue) = static_cast<int>(ExpressionType::Float);
-				}
-    break;
-
-  case 45:
-
-    {
-					(yyval.integerValue) = static_cast<int>(ExpressionType::String);
-				}
-    break;
-
-  case 46:
-
-    {
-					(yyval.integerValue) = static_cast<int>(ExpressionType::Boolean);
-				}
-    break;
-
-  case 47:
+  case 48:
 
     {
 					// TODO : see can it simplify
@@ -1170,20 +1177,21 @@ namespace example {
 
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
      STATE-NUM.  */
-  const signed char Parser::yypact_ninf_ = -68;
-  const signed char
+  const signed char Parser::yypact_ninf_ = -54;
+  const short int
   Parser::yypact_[] =
   {
-        98,   -34,   -67,   -68,   -68,   -25,   -68,    68,    15,   -68,
-     -29,   -68,   -68,   -68,   -59,   -27,   -68,   -27,   -68,   -36,
-     -68,   -68,   -68,    27,   -68,   -32,   -68,    -1,   -68,   -68,
-       7,    17,   -68,    17,    17,     6,    17,    23,    16,   -68,
-       2,   -68,    17,    17,    17,   -68,   -68,   -68,   -68,    -8,
-     -68,   -68,   -68,    24,    10,    10,    17,     1,    24,    17,
-     -68,   -68,   -68,    50,    50,    33,     8,    17,    17,    17,
-      17,    17,    17,    17,     9,   -68,    24,    17,    24,   -68,
-     -68,    24,   -28,    50,    50,   -68,   -68,   -68,    93,    93,
-      27,    24,    17,   -68,   -68,    24
+       164,   -17,   -54,   -54,   -54,   -54,   -54,   -53,   -54,    -4,
+     -54,   150,    33,   -54,   -27,   -54,   -54,   -54,    50,    37,
+     -54,   -36,   -54,   -29,    30,   -54,   -54,    83,   -54,     9,
+     -16,   -54,   -13,   -12,    22,    -2,    -8,    17,   -54,    76,
+     -54,   -54,    -2,    -2,    -2,    -6,    23,    -2,    -2,    -2,
+     -54,   -54,   -54,   -54,    18,   -54,   -54,   -54,    10,    62,
+     -54,   -54,   -54,    -9,     0,    85,    -2,    26,    25,    25,
+     141,   -11,    -2,    -2,    -2,    -2,    -2,    -2,    -2,    -2,
+     -54,    37,    37,   148,    -2,   -54,   -54,    10,   -20,    25,
+      25,   -54,   -54,   -54,    92,    92,    10,    38,   -54,   -54,
+     158,    -2,   -54,    37,   -54,    10,   -54
   };
 
   /* YYDEFACT[S] -- default reduction number in state S.  Performed when
@@ -1192,79 +1200,94 @@ namespace example {
   const unsigned char
   Parser::yydefact_[] =
   {
-         0,     0,     0,    48,    47,     0,    51,     0,     0,    50,
-       0,    49,    52,     1,     0,     0,    42,     0,    39,     0,
-      44,    45,    46,     0,    38,     0,    43,     0,    41,    40,
-       0,     0,    37,     0,     0,     0,     0,     0,     0,    34,
-       0,    32,     0,     0,     0,     5,     4,     3,     2,     6,
-       9,    10,    21,    24,     0,     0,     0,     0,    26,     0,
-      33,    36,    35,    12,    13,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,    27,    29,    31,     0,    25,    11,
-       7,    22,     0,    16,    17,    19,    18,    20,    14,    15,
-       0,    30,     0,     8,    28,    23
+         0,     0,    49,    25,    24,    26,    27,     0,    48,     0,
+      52,     0,     0,    51,     0,    50,    53,     1,     0,     0,
+      46,     0,    43,     0,     0,    45,    42,     0,    47,     0,
+       0,    41,     0,     0,     0,     0,     0,     0,    38,     0,
+      44,    36,     0,     0,     0,     0,     0,     0,     0,     0,
+       5,     4,     3,     2,     6,     9,    10,    21,    30,     0,
+      37,    40,    39,     0,     0,     0,     0,     0,    12,    13,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+      28,     0,     0,     0,     0,    11,     7,    22,     0,    16,
+      17,    19,    18,    20,    14,    15,    29,    31,    33,    35,
+       0,     0,     8,     0,    34,    23,    32
   };
 
   /* YYPGOTO[NTERM-NUM].  */
   const signed char
   Parser::yypgoto_[] =
   {
-       -68,   -68,   -68,   -68,    58,   -68,   -68,    42,   -68,   -23,
-      59,   -68,   -68,   -68,    66,   -68,    86,   -68,   -68
+       -54,   -54,   -54,   -54,    68,   -54,     3,   -54,    46,   -54,
+     -34,    67,   -54,   -54,   -54,   -54,    78,   -54,   -54
   };
 
   /* YYDEFGOTO[NTERM-NUM].  */
   const signed char
   Parser::yydefgoto_[] =
   {
-        -1,    50,    51,    52,    53,    82,    38,    39,    40,    28,
-      18,    19,     4,    15,    23,     5,     6,     7,     8
+        -1,    55,    56,    57,    58,    88,     7,    37,    38,    39,
+      25,    22,    23,     8,    19,     9,    10,    11,    12
   };
 
   /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule which
      number is the opposite.  If YYTABLE_NINF_, syntax error.  */
-  const signed char Parser::yytable_ninf_ = -54;
+  const signed char Parser::yytable_ninf_ = -55;
   const signed char
   Parser::yytable_[] =
   {
-        30,    25,     9,    30,    16,    31,    10,    32,    31,    92,
-      61,    11,    57,    27,    17,    13,    20,    27,    21,    22,
-      42,    43,    67,    68,    69,    70,    71,    26,    72,    42,
-      43,    74,    75,    14,    27,    93,    67,    68,    69,    70,
-      71,    17,    72,    41,    59,    67,    68,    69,    70,    71,
-      33,    72,    60,    33,    66,    34,    35,    77,    34,    35,
-      36,    90,    56,    36,    69,    70,    71,    94,   -53,     1,
-      44,    80,    37,     2,    73,    37,    45,    46,    47,    44,
-      48,    49,    62,    24,    29,    45,    46,    47,    73,    48,
-      49,    54,    55,    12,    58,     0,    79,    73,     0,     1,
-      63,    64,    65,     2,     3,    67,    68,    69,    70,    71,
-       0,     0,     0,     0,    76,     0,     0,    78,     0,     0,
-       0,     0,     0,     0,    81,    83,    84,    85,    86,    87,
-      88,    89,     0,     0,     3,    91,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-      95
+        46,    47,    48,    72,    73,    74,    75,    76,    27,    77,
+      47,    48,    72,    73,    74,    75,    76,   101,    77,    13,
+      14,    21,    72,    73,    74,    75,    76,    36,    77,    24,
+      21,    29,    15,    17,    28,    18,    30,    26,    31,    74,
+      75,    76,    36,   102,    24,    41,    42,    97,    98,    43,
+      44,    49,    86,    60,    80,    78,    66,    50,    51,    52,
+      49,    53,    54,    81,    78,    59,    50,    51,    52,   106,
+      53,    54,     3,     4,    78,     5,     6,    29,    45,    67,
+      71,    32,    30,    79,    61,    62,    33,    34,    84,    16,
+     103,    35,     3,     4,    40,     5,     6,    72,    73,    74,
+      75,    76,     0,    77,    72,    73,    74,    75,    76,     0,
+      63,    64,    65,    20,     0,    68,    69,    70,     3,     4,
+       0,     5,     6,     0,     0,     3,     4,    32,     5,     6,
+       0,     0,    33,    34,    83,     0,     0,    35,     0,    87,
+      89,    90,    91,    92,    93,    94,    95,    96,    82,    78,
+     -54,     1,   100,    72,    73,    74,    75,    76,     0,    77,
+      72,    73,    74,    75,    76,     1,    77,     0,     0,   105,
+      72,    73,    74,    75,    76,     0,    77,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     2,     0,     0,     0,
+       0,     0,     3,     4,     0,     5,     6,     0,     0,     0,
+       2,     0,     0,     0,    85,    78,     3,     4,     0,     5,
+       6,    99,    78,     0,     0,     0,     0,     0,     0,     0,
+       0,   104,    78
   };
 
   /* YYCHECK.  */
   const signed char
   Parser::yycheck_[] =
   {
-         1,    37,    36,     1,    63,     6,    73,     8,     6,    37,
-       8,    36,    35,     7,    73,     0,    43,     7,    45,    46,
-      12,    13,    12,    13,    14,    15,    16,    63,    18,    12,
-      13,    54,    55,    62,     7,    63,    12,    13,    14,    15,
-      16,    73,    18,    36,    21,    12,    13,    14,    15,    16,
-      51,    18,    36,    51,    62,    56,    57,    56,    56,    57,
-      61,    52,    56,    61,    14,    15,    16,    90,     0,     1,
-      62,    63,    73,     5,    64,    73,    68,    69,    70,    62,
-      72,    73,    40,    17,    25,    68,    69,    70,    64,    72,
-      73,    33,    34,     7,    36,    -1,    63,    64,    -1,     1,
-      42,    43,    44,     5,    36,    12,    13,    14,    15,    16,
-      -1,    -1,    -1,    -1,    56,    -1,    -1,    59,    -1,    -1,
-      -1,    -1,    -1,    -1,    66,    67,    68,    69,    70,    71,
-      72,    73,    -1,    -1,    36,    77,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      92
+        34,    12,    13,    12,    13,    14,    15,    16,    37,    18,
+      12,    13,    12,    13,    14,    15,    16,    37,    18,    36,
+      73,    18,    12,    13,    14,    15,    16,    24,    18,     7,
+      27,     1,    36,     0,    63,    62,     6,    73,     8,    14,
+      15,    16,    39,    63,     7,    36,    62,    81,    82,    62,
+      62,    62,    63,    36,    63,    64,    62,    68,    69,    70,
+      62,    72,    73,    63,    64,    73,    68,    69,    70,   103,
+      72,    73,    42,    43,    64,    45,    46,     1,    56,    56,
+      62,    51,     6,    21,     8,    39,    56,    57,    62,    11,
+      52,    61,    42,    43,    27,    45,    46,    12,    13,    14,
+      15,    16,    -1,    18,    12,    13,    14,    15,    16,    -1,
+      42,    43,    44,    63,    -1,    47,    48,    49,    42,    43,
+      -1,    45,    46,    -1,    -1,    42,    43,    51,    45,    46,
+      -1,    -1,    56,    57,    66,    -1,    -1,    61,    -1,    71,
+      72,    73,    74,    75,    76,    77,    78,    79,    63,    64,
+       0,     1,    84,    12,    13,    14,    15,    16,    -1,    18,
+      12,    13,    14,    15,    16,     1,    18,    -1,    -1,   101,
+      12,    13,    14,    15,    16,    -1,    18,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    36,    -1,    -1,    -1,
+      -1,    -1,    42,    43,    -1,    45,    46,    -1,    -1,    -1,
+      36,    -1,    -1,    -1,    63,    64,    42,    43,    -1,    45,
+      46,    63,    64,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    63,    64
   };
 
   /* STOS_[STATE-NUM] -- The (internal number of the) accessing
@@ -1272,16 +1295,17 @@ namespace example {
   const unsigned char
   Parser::yystos_[] =
   {
-         0,     1,     5,    36,    86,    89,    90,    91,    92,    36,
-      73,    36,    90,     0,    62,    87,    63,    73,    84,    85,
-      43,    45,    46,    88,    88,    37,    63,     7,    83,    84,
-       1,     6,     8,    51,    56,    57,    61,    73,    80,    81,
-      82,    36,    12,    13,    62,    68,    69,    70,    72,    73,
-      75,    76,    77,    78,    78,    78,    56,    83,    78,    21,
-      36,     8,    81,    78,    78,    78,    62,    12,    13,    14,
-      15,    16,    18,    64,    83,    83,    78,    56,    78,    63,
-      63,    78,    79,    78,    78,    78,    78,    78,    78,    78,
-      52,    78,    37,    63,    83,    78
+         0,     1,    36,    42,    43,    45,    46,    80,    87,    89,
+      90,    91,    92,    36,    73,    36,    90,     0,    62,    88,
+      63,    80,    85,    86,     7,    84,    73,    37,    63,     1,
+       6,     8,    51,    56,    57,    61,    80,    81,    82,    83,
+      85,    36,    62,    62,    62,    56,    84,    12,    13,    62,
+      68,    69,    70,    72,    73,    75,    76,    77,    78,    73,
+      36,     8,    82,    78,    78,    78,    62,    56,    78,    78,
+      78,    62,    12,    13,    14,    15,    16,    18,    64,    21,
+      63,    63,    63,    78,    62,    63,    63,    78,    79,    78,
+      78,    78,    78,    78,    78,    78,    78,    84,    84,    63,
+      78,    37,    63,    52,    63,    78,    84
   };
 
 #if YYDEBUG
@@ -1307,10 +1331,10 @@ namespace example {
   {
          0,    74,    75,    75,    75,    75,    76,    77,    77,    78,
       78,    78,    78,    78,    78,    78,    78,    78,    78,    78,
-      78,    78,    79,    79,    80,    80,    80,    80,    80,    80,
-      80,    80,    81,    81,    82,    82,    83,    83,    84,    85,
-      85,    86,    87,    87,    88,    88,    88,    89,    90,    90,
-      90,    91,    91,    92
+      78,    78,    79,    79,    80,    80,    80,    80,    81,    81,
+      81,    81,    81,    81,    81,    81,    82,    82,    83,    83,
+      84,    84,    85,    86,    86,    87,    88,    88,    89,    90,
+      90,    90,    91,    91,    92
   };
 
   /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
@@ -1319,10 +1343,10 @@ namespace example {
   {
          0,     2,     1,     1,     1,     1,     1,     3,     4,     1,
        1,     3,     2,     2,     3,     3,     3,     3,     3,     3,
-       3,     1,     1,     3,     2,     3,     2,     3,     5,     3,
-       4,     3,     2,     2,     1,     2,     3,     2,     2,     1,
-       3,     5,     2,     3,     1,     1,     1,     1,     1,     2,
-       2,     1,     2,     1
+       3,     1,     1,     3,     1,     1,     1,     1,     4,     4,
+       2,     5,     7,     5,     6,     5,     2,     2,     1,     2,
+       3,     2,     2,     1,     3,     4,     2,     3,     1,     1,
+       2,     2,     1,     2,     1
   };
 
 
@@ -1348,10 +1372,10 @@ namespace example {
   "END_LIST_ARGUMENTS", "EQUALS", "NOT", "OR", "AND", "\"string\"",
   "\"float\"", "\"int\"", "\"char\"", "\"bool\"", "\"Id\"", "$accept",
   "constant", "variable", "function_call", "expression", "expression_list",
-  "statement", "statement_line", "statement_list", "block",
-  "parameter_decl", "parameter_list", "function_declaration",
-  "parenthesis_parameter_list", "type_reference", "toplevel_statement",
-  "toplevel_line", "toplevel_list", "program", YY_NULL
+  "type_reference", "statement", "statement_line", "statement_list",
+  "block", "parameter_decl", "parameter_list", "function_declaration",
+  "parenthesis_parameter_list", "toplevel_statement", "toplevel_line",
+  "toplevel_list", "program", YY_NULL
   };
 
 #if YYDEBUG
@@ -1366,16 +1390,18 @@ namespace example {
       78,    64,    78,    -1,    78,    12,    78,    -1,    78,    13,
       78,    -1,    78,    15,    78,    -1,    78,    14,    78,    -1,
       78,    16,    78,    -1,    77,    -1,    78,    -1,    79,    37,
-      78,    -1,     6,    78,    -1,    73,    21,    78,    -1,    61,
-      78,    -1,    51,    78,    83,    -1,    51,    78,    83,    52,
-      83,    -1,    56,    78,    83,    -1,    57,    83,    56,    78,
-      -1,    57,    56,    78,    -1,     1,    36,    -1,    80,    36,
-      -1,    81,    -1,    82,    81,    -1,     7,    82,     8,    -1,
-       7,     8,    -1,    73,    88,    -1,    84,    -1,    85,    37,
-      84,    -1,     5,    73,    87,    88,    83,    -1,    62,    63,
-      -1,    62,    85,    63,    -1,    43,    -1,    45,    -1,    46,
-      -1,    86,    -1,    36,    -1,    89,    36,    -1,     1,    36,
-      -1,    90,    -1,    91,    90,    -1,    91,    -1
+      78,    -1,    43,    -1,    42,    -1,    45,    -1,    46,    -1,
+       6,    62,    78,    63,    -1,    80,    73,    21,    78,    -1,
+      61,    78,    -1,    51,    62,    78,    63,    84,    -1,    51,
+      62,    78,    63,    84,    52,    84,    -1,    56,    62,    78,
+      63,    84,    -1,    57,    84,    56,    62,    78,    63,    -1,
+      57,    56,    62,    78,    63,    -1,     1,    36,    -1,    81,
+      36,    -1,    82,    -1,    83,    82,    -1,     7,    83,     8,
+      -1,     7,     8,    -1,    80,    73,    -1,    85,    -1,    86,
+      37,    85,    -1,    80,    73,    88,    84,    -1,    62,    63,
+      -1,    62,    86,    63,    -1,    87,    -1,    36,    -1,    89,
+      36,    -1,     1,    36,    -1,    90,    -1,    91,    90,    -1,
+      91,    -1
   };
 
   /* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
@@ -1385,10 +1411,10 @@ namespace example {
   {
          0,     0,     3,     5,     7,     9,    11,    13,    17,    22,
       24,    26,    30,    33,    36,    40,    44,    48,    52,    56,
-      60,    64,    66,    68,    72,    75,    79,    82,    86,    92,
-      96,   101,   105,   108,   111,   113,   116,   120,   123,   126,
-     128,   132,   138,   141,   145,   147,   149,   151,   153,   155,
-     158,   161,   163,   166
+      60,    64,    66,    68,    72,    74,    76,    78,    80,    85,
+      90,    93,    99,   107,   113,   120,   126,   129,   132,   134,
+     137,   141,   144,   147,   149,   153,   158,   161,   165,   167,
+     169,   172,   175,   177,   180
   };
 
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
@@ -1397,10 +1423,10 @@ namespace example {
   {
          0,   244,   246,   250,   255,   259,   264,   269,   273,   279,
      280,   281,   285,   289,   293,   297,   301,   305,   309,   313,
-     317,   322,   331,   335,   340,   345,   349,   354,   361,   367,
-     372,   377,   383,   388,   393,   397,   402,   407,   412,   417,
-     421,   428,   437,   441,   447,   463,   467,   472,   484,   485,
-     486,   488,   489,   491
+     317,   322,   331,   335,   346,   349,   361,   365,   374,   379,
+     383,   388,   395,   401,   406,   411,   417,   422,   427,   431,
+     436,   441,   446,   451,   455,   462,   471,   475,   481,   493,
+     494,   495,   497,   498,   500
   };
 
   // Print the state stack on the debug stream.
@@ -1481,10 +1507,10 @@ namespace example {
   }
 
   const int Parser::yyeof_ = 0;
-  const int Parser::yylast_ = 150;
+  const int Parser::yylast_ = 222;
   const int Parser::yynnts_ = 19;
   const int Parser::yyempty_ = -2;
-  const int Parser::yyfinal_ = 13;
+  const int Parser::yyfinal_ = 17;
   const int Parser::yyterror_ = 1;
   const int Parser::yyerrcode_ = 256;
   const int Parser::yyntokens_ = 74;
