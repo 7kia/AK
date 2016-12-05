@@ -22,7 +22,7 @@
 #undef yyFlexLexer
 #endif
 
-#include "../Grammar.h"
+#include "Grammar.h"
 #include "AST/Utility.h"
 #include "AST/ASTNodes.h"
 #include "AST/FrontendContext.h"
