@@ -17,7 +17,7 @@ struct LiteralTypeEvaluator : boost::static_visitor<ExpressionType>
 		return ExpressionType::Integer;
 	}
 
-	ExpressionType operator ()(double const&) const
+	ExpressionType operator ()(float const&) const
 	{
 		return ExpressionType::Float;
 	}
@@ -35,25 +35,25 @@ struct LiteralTypeEvaluator : boost::static_visitor<ExpressionType>
 };
 
 // Генерирует код константы LLVM.
-struct LiteralToDoubleConverter : boost::static_visitor<double>
+struct LiteralToDoubleConverter : boost::static_visitor<float>
 {
-	double operator ()(int const& value) const
+	float operator ()(int const& value) const
 	{
-		return double(value);
+		return float(value);
 	}
 
-	double operator ()(double const& value) const
+	float operator ()(float const& value) const
 	{
 		return value;
 	}
 
-	double operator ()(bool const& value) const
+	float operator ()(bool const& value) const
 	{
-		return double(value);
+		return float(value);
 	}
 
 
-	double operator ()(std::string const& value)
+	float operator ()(std::string const& value)
 	{
 		return stof(value, 0);
 	}

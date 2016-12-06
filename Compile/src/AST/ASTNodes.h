@@ -117,7 +117,7 @@ public:
 	typedef boost::variant<
 		bool,
 		int,
-		double,
+		float,
 		std::string
 	> Value;
 

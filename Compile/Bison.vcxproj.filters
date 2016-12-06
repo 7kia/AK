@@ -137,6 +137,9 @@
     <ClCompile Include="src\Compiler\TypecheckVisitor.cpp">
       <Filter>Файлы исходного кода\src\Compiler</Filter>
     </ClCompile>
+    <ClCompile Include="externFunctions.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Lexer.l">

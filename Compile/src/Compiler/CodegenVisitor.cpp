@@ -61,7 +61,7 @@ struct LiteralCodeGenerator : boost::static_visitor<Constant *>
 		return ConstantInt::get(m_context.GetLLVMContext(), APInt(sizeof(int), value));
 	}
 
-    Constant *operator ()(double const& value) const
+    Constant *operator ()(float const& value) const
     {
         return ConstantFP::get(m_context.GetLLVMContext(), APFloat(value));
     }
@@ -103,7 +103,7 @@ AllocaInst *MakeLocalVariable(Function &function, Type & type, const std::string
 
 // Отображение типов на LLVM-IR:
 // Boolean -> i1
-// Number -> double
+// Number -> float
 // String -> i8*
 Type *ConvertType(LLVMContext &context, ExpressionType type)
 {
@@ -112,7 +112,7 @@ Type *ConvertType(LLVMContext &context, ExpressionType type)
     case ExpressionType::Boolean:
         return Type::getInt1Ty(context);
     case ExpressionType::Float:
-		return Type::getDoubleTy(context);
+		return Type::getFloatTy(context);
 	case ExpressionType::Integer:
         return Type::getInt32Ty(context);// TODO : fix it
     case ExpressionType::String:
@@ -286,6 +286,39 @@ void CCodegenContext::InitLibCBuiltins()
     llvm::Type *int32Type = llvm::Type::getInt32Ty(context);
     llvm::Type *voidType = llvm::Type::getVoidTy(context);
     llvm::Type *sizeType = GetPointerSizeType(context);
+	llvm::Type *floatType = llvm::Type::getFloatTy(context);
+
+
+	// For arithmetic operation(its solve more problems(to convertation, for example)
+	{
+		auto *fnType = llvm::FunctionType::get(floatType, { floatType, int32Type }, true);
+		auto *fnType2 = llvm::FunctionType::get(floatType, { int32Type, floatType }, true);
+
+		//pModule->getOrInsertFunction("printf", fnType);
+		//
+		m_builtinFunctions[BuiltinFunction::AddFAndI] = declareFn(fnType, "AddFAndI");
+		m_builtinFunctions[BuiltinFunction::AddIAndF] = declareFn(fnType2, "AddIAndF");
+
+
+		m_builtinFunctions[BuiltinFunction::DivideFAndI] = declareFn(fnType, "DivideFAndI");
+		m_builtinFunctions[BuiltinFunction::DivideIAndF] = declareFn(fnType2, "DivideIAndF");
+
+		m_builtinFunctions[BuiltinFunction::EqualsFAndI] = declareFn(fnType, "EqualsFAndI");
+		m_builtinFunctions[BuiltinFunction::EqualsIAndF] = declareFn(fnType2, "EqualsIAndF");
+
+		m_builtinFunctions[BuiltinFunction::LessFAndI] = declareFn(fnType, "LessFAndI");
+		m_builtinFunctions[BuiltinFunction::LessIAndF] = declareFn(fnType2, "LessIAndF");
+
+		m_builtinFunctions[BuiltinFunction::ModuloFAndI] = declareFn(fnType, "ModuloFAndI");
+		m_builtinFunctions[BuiltinFunction::ModuloIAndF] = declareFn(fnType2, "ModuloIAndF");
+
+		m_builtinFunctions[BuiltinFunction::MultiplyFAndI] = declareFn(fnType, "MultiplyFAndI");
+		m_builtinFunctions[BuiltinFunction::MultiplyIAndF] = declareFn(fnType2, "MultiplyIAndF");
+
+		m_builtinFunctions[BuiltinFunction::SubstractFAndI] = declareFn(fnType, "SubstractFAndI");
+		m_builtinFunctions[BuiltinFunction::SubstractIAndF] = declareFn(fnType2, "SubstractIAndF");
+	}
+
     // i32 printf(i8* format, ...)
     {
         auto *fnType = llvm::FunctionType::get(int32Type, {cStringType}, true);
@@ -361,6 +394,7 @@ void CExpressionCodeGenerator::Visit(CBinaryExpressionAST &expr)
 
 	/////////////////////////////////////////////////////////////////////////////
 	// Convert int literal to float if next operation with float
+	/*
 	if ((leftTypeIsInt || rightTypeIsInt) && (leftTypeIsDouble || rightTypeIsDouble)
 		|| (leftTypeIsDouble && rightTypeIsDouble))
 	{
@@ -369,24 +403,24 @@ void CExpressionCodeGenerator::Visit(CBinaryExpressionAST &expr)
 		{
 			dynamic_cast<CLiteralAST *>(&expr.GetLeft())->ConvertFromIntToDouble();
 		}
-		/*
+
 		if (typeid(expr.GetLeft()) == typeid(CCallAST))
 		{
 			dynamic_cast<CCallAST *>(&expr.GetLeft())->SetType(ExpressionType::Float);
 		}
-		*/
+
 		
 
 		if (typeid(expr.GetRight()) == typeid(CLiteralAST))
 		{
 			dynamic_cast<CLiteralAST *>(&expr.GetRight())->ConvertFromIntToDouble();
 		}
-		/*
+		
 		if (typeid(expr.GetRight()) == typeid(CCallAST))
 		{
 			dynamic_cast<CCallAST *>(&expr.GetRight())->SetType(ExpressionType::Float);
 		}
-		*/
+		
 		
 	}
 	/////////////////////////////////////////////////////////////////////////////
@@ -397,6 +431,8 @@ void CExpressionCodeGenerator::Visit(CBinaryExpressionAST &expr)
 			auto p = dynamic_cast<CLiteralAST *>(&expr.GetLeft());
 		}
 	}
+	*/
+	
 	////////////////
     expr.GetLeft().Accept(*this);
     expr.GetRight().Accept(*this);
@@ -483,14 +519,66 @@ Value *CExpressionCodeGenerator::GenerateNumericExpr(Value *a, BinaryOperation o
 	auto rightType = b->getType()->getTypeID();
 
 	bool leftIsInt = (leftType == llvm::Type::IntegerTyID);
-	bool leftIsDouble = (leftType == llvm::Type::DoubleTyID);
+	bool leftIsFloat = (leftType == llvm::Type::FloatTyID);
 	bool rightIsInt = (rightType == llvm::Type::IntegerTyID);
-	bool rightIsDouble = (rightType == llvm::Type::DoubleTyID);
+	bool rightIsFloat = (rightType == llvm::Type::FloatTyID);
 
 	bool isIntegerExpression = (leftIsInt && rightIsInt);
-	bool isDoubleExpression = (leftIsDouble && rightIsDouble);
+	bool isDoubleExpression = (leftIsFloat && rightIsFloat);
 
+	/////////////////////////////////////////////////////////////////////////////
+	// Convert int literal to float if next operation with float
+	if ((leftIsInt || rightIsInt) && (leftIsFloat || rightIsFloat)
+		&& !(leftIsInt && rightIsInt))
+	{
+		//ConstantInt::get(m_context.GetLLVMContext(), APInt(sizeof(int), value));
+		//ConstantFP::get(m_context.GetLLVMContext(), APFloat(value));
+		/*
+		if (leftIsInt)
+		{
+			// TODO : work to raw memory, FIX
+			auto pIntValue = dyn_cast<ConstantInt>(a);
+			
+			auto setValue = float(*(pIntValue->getValue().getRawData()));
 
+			//llvm::dyn_cast
+			delete a;
+			a = ConstantFP::get(m_context.GetLLVMContext(), APFloat(setValue) );
+		}
+		if (rightIsInt)
+		{
+			// TODO : work to raw memory, FIX
+			auto pIntValue = dyn_cast<ConstantInt>(b);
+
+			auto setValue = float(*(pIntValue->getValue().getRawData()));
+			delete b;
+			b = ConstantFP::get(m_context.GetLLVMContext(), APFloat(setValue));
+		}
+		*/
+		
+
+	}
+
+	auto CreateFunctionForDifferentTypes = [&](BuiltinFunction idIandF, BuiltinFunction idFandI) {
+
+		BuiltinFunction resultId;
+		if (leftIsInt && rightIsFloat)
+		{
+			resultId = idIandF;
+		}
+		else if (leftIsFloat && rightIsInt)
+		{
+			resultId = idFandI;
+		}
+
+		Function *pFunction = m_context.GetBuiltinFunction(resultId);
+		std::vector<llvm::Value *> args = { a, b };
+		return m_builder.CreateCall(pFunction, args);
+
+	}; // end of lambda expression  
+
+	std::vector<llvm::Value *> args = { a, b };
+	Function *pFunction = nullptr;
 	// TODO : type not convert
 	switch (op)
 	{
@@ -503,6 +591,21 @@ Value *CExpressionCodeGenerator::GenerateNumericExpr(Value *a, BinaryOperation o
 		{
 			return m_builder.CreateFAdd(a, b, "addFtmp");
 		}
+
+		//CreateFunctionForDifferentTypes(BuiltinFunction::AddIAndF, BuiltinFunction::AddFAndI);
+		BuiltinFunction resultId;
+		if (leftIsInt && rightIsFloat)
+		{
+			resultId = BuiltinFunction::AddIAndF;
+		}
+		else if (leftIsFloat && rightIsInt)
+		{
+			resultId = BuiltinFunction::AddFAndI;
+		}
+
+		pFunction = m_context.GetBuiltinFunction(resultId);
+		return m_builder.CreateCall(pFunction, args);
+
     case BinaryOperation::Substract:
 		if (isIntegerExpression)
 		{
@@ -512,6 +615,9 @@ Value *CExpressionCodeGenerator::GenerateNumericExpr(Value *a, BinaryOperation o
 		{
 			return m_builder.CreateFSub(a, b, "subFtmp");
 		}
+
+		CreateFunctionForDifferentTypes(BuiltinFunction::SubstractIAndF, BuiltinFunction::SubstractFAndI);
+
     case BinaryOperation::Multiply:
 		if (isIntegerExpression)
 		{
@@ -521,6 +627,9 @@ Value *CExpressionCodeGenerator::GenerateNumericExpr(Value *a, BinaryOperation o
 		{
 			return m_builder.CreateFMul(a, b, "multFmp");
 		}
+
+		CreateFunctionForDifferentTypes(BuiltinFunction::MultiplyIAndF, BuiltinFunction::MultiplyFAndI);
+
     case BinaryOperation::Divide:
 		if (isIntegerExpression)
 		{
@@ -530,6 +639,9 @@ Value *CExpressionCodeGenerator::GenerateNumericExpr(Value *a, BinaryOperation o
 		{
 			return m_builder.CreateFDiv(a, b, "divFtmp");
 		}
+
+		CreateFunctionForDifferentTypes(BuiltinFunction::DivideIAndF, BuiltinFunction::DivideFAndI);
+
     case BinaryOperation::Modulo:
 		if (isIntegerExpression)
 		{
@@ -539,6 +651,9 @@ Value *CExpressionCodeGenerator::GenerateNumericExpr(Value *a, BinaryOperation o
 		{
 			return m_builder.CreateFRem(a, b, "modFtmp");
 		}
+
+		CreateFunctionForDifferentTypes(BuiltinFunction::ModuloIAndF, BuiltinFunction::ModuloFAndI);
+
     case BinaryOperation::Less:
 		if (isIntegerExpression)
 		{
@@ -548,6 +663,9 @@ Value *CExpressionCodeGenerator::GenerateNumericExpr(Value *a, BinaryOperation o
 		{
 			return m_builder.CreateFCmpULT(a, b, "cmpFtmp");
 		}
+
+		CreateFunctionForDifferentTypes(BuiltinFunction::LessIAndF, BuiltinFunction::LessFAndI);
+
     case BinaryOperation::Equals:
 		if (isIntegerExpression)
 		{
@@ -557,6 +675,9 @@ Value *CExpressionCodeGenerator::GenerateNumericExpr(Value *a, BinaryOperation o
 		{
 			return m_builder.CreateFCmpUEQ(a, b, "cmpFtmp");
 		}
+
+		CreateFunctionForDifferentTypes(BuiltinFunction::EqualsIAndF, BuiltinFunction::EqualsFAndI);
+
     }
     throw std::runtime_error("CExpressionCodeGenerator: unknown numeric binary operation");
 }

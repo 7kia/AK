@@ -70,7 +70,7 @@ namespace example {
 
 
     int  				integerValue;
-    double 				doubleValue;
+    float 				doubleValue;
 	bool				boolValue;
     std::string*		stringVal;// TODO : see need separately char
 	unsigned int		stringId;

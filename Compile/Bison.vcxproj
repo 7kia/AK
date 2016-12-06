@@ -181,6 +181,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="externFunctions.cpp" />
     <ClCompile Include="src\AST\ASTNodes.cpp" />
     <ClCompile Include="src\AST\ASTVisitor.cpp" />
     <ClCompile Include="src\AST\Utility.cpp" />

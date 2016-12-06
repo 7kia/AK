@@ -22,7 +22,8 @@ int main()
 	print(c + 2);
 	print(3 + c); 
 
-	float c1 = 4;
-	print(c1 + 2.1);
-	print(3.2 + c1); 
+	// TODO : there errors
+	int dd = 4;
+	print(dd + 2.1);
+	print(3.2 + dd); 
 };
