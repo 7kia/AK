@@ -21,6 +21,8 @@ class Module;
 class Constant;
 }
 
+using PValue = std::shared_ptr<llvm::Value>;
+
 enum class BuiltinFunction
 {
     PRINTF,
@@ -111,14 +113,14 @@ protected:
     void Visit(CParameterDeclAST & expr) override;
 
 private:
-    llvm::Value *GenerateNumericExpr(llvm::Value *a, BinaryOperation op, llvm::Value *b);
-    llvm::Value *GenerateStringExpr(llvm::Value *a, BinaryOperation op, llvm::Value *b);
-    llvm::Value *GenerateBooleanExpr(llvm::Value *a, BinaryOperation op, llvm::Value *b);
-    llvm::Value *GenerateStrcmp(llvm::Value *a, llvm::Value *b);
+    PValue GenerateNumericExpr(PValue a, BinaryOperation op, PValue b);
+    PValue GenerateStringExpr(PValue a, BinaryOperation op, PValue b);
+    PValue GenerateBooleanExpr(PValue a, BinaryOperation op, PValue b);
+    PValue GenerateStrcmp(PValue a, PValue b);
 
     // Стек используется для временного хранения
     // по мере рекурсивного обхода дерева выражения.
-    std::vector<llvm::Value *> m_values;
+    std::vector<PValue> m_values;
     CCodegenContext & m_context;
     llvm::IRBuilder<> & m_builder;
 };

@@ -407,11 +407,11 @@ void CExpressionCodeGenerator::Visit(CBinaryExpressionAST &expr)
 	////////////////
     expr.GetLeft().Accept(*this);
     expr.GetRight().Accept(*this);
-    Value *a = m_values.at(m_values.size() - 2);
-    Value *b = m_values.at(m_values.size() - 1);
+	PValue a = m_values.at(m_values.size() - 2);
+	PValue b = m_values.at(m_values.size() - 1);
     m_values.erase(m_values.end() - 2, m_values.end());
 
-    llvm::Value *pValue = nullptr;
+    PValue pValue = nullptr;
     switch (expr.GetType())
     {
     case ExpressionType::Boolean:
@@ -448,7 +448,7 @@ void CExpressionCodeGenerator::Visit(CCallAST &expr)
 {
 	Function *pFunction = *m_context.GetFunctions().GetSymbol(expr.GetFunctionNameId());
 
-	std::vector<Value *> args;
+	std::vector<PValue> args;
 	// swap arguments to visit and codegen
 	std::swap(args, m_values);
 	for (const IExpressionASTUniquePtr & expr : expr.GetArguments())
@@ -457,10 +457,17 @@ void CExpressionCodeGenerator::Visit(CCallAST &expr)
 	}
 	std::swap(args, m_values);
 
-	Value *pValue = m_builder.CreateCall(pFunction, args, "calltmp");
+	// TODO : rewrite
+	std::vector<Value *> addArgs;
+	for (auto & arg : args)
+	{
+		addArgs.push_back(arg.get());
+	}
+
+	PValue pValue(m_builder.CreateCall(pFunction, addArgs, "calltmp"));
 	if (pValue->getType()->isPointerTy())
 	{
-		m_context.GetExpressionStrings().Manage(pValue);
+		m_context.GetExpressionStrings().Manage(pValue.get());
 	}
 	m_values.push_back(pValue);
 }
@@ -497,57 +504,6 @@ Value *CExpressionCodeGenerator::GenerateNumericExpr(Value *a, BinaryOperation o
 	bool isIntegerExpression = (leftIsInt && rightIsInt);
 	bool isDoubleExpression = (leftIsFloat && rightIsFloat);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Convert int literal to float if next operation with float
-	if ((leftIsInt || rightIsInt) && (leftIsFloat || rightIsFloat)
-		&& !(leftIsInt && rightIsInt))
-	{
-		//ConstantInt::get(m_context.GetLLVMContext(), APInt(sizeof(int), value));
-		//ConstantFP::get(m_context.GetLLVMContext(), APFloat(value));
-		/*
-		if (leftIsInt)
-		{
-			// TODO : work to raw memory, FIX
-			auto pIntValue = dyn_cast<ConstantInt>(a);
-			
-			auto setValue = float(*(pIntValue->getValue().getRawData()));
-
-			//llvm::dyn_cast
-			delete a;
-			a = ConstantFP::get(m_context.GetLLVMContext(), APFloat(setValue) );
-		}
-		if (rightIsInt)
-		{
-			// TODO : work to raw memory, FIX
-			auto pIntValue = dyn_cast<ConstantInt>(b);
-
-			auto setValue = float(*(pIntValue->getValue().getRawData()));
-			delete b;
-			b = ConstantFP::get(m_context.GetLLVMContext(), APFloat(setValue));
-		}
-		*/
-		
-
-	}
-
-	auto CreateFunctionForDifferentTypes = [&](BuiltinFunction idIandF, BuiltinFunction idFandI) {
-
-		BuiltinFunction resultId;
-		if (leftIsInt && rightIsFloat)
-		{
-			resultId = idIandF;
-		}
-		else if (leftIsFloat && rightIsInt)
-		{
-			resultId = idFandI;
-		}
-
-		Function *pFunction = m_context.GetBuiltinFunction(resultId);
-		std::vector<llvm::Value *> args = { a, b };
-		Value *pValue = m_builder.CreateCall(pFunction, args, "calltmp");
-		return m_builder.CreateCall(pFunction, args);
-
-	}; // end of lambda expression  
 
 	std::vector<llvm::Value *> args = { a, b };
 	Function *pFunction = nullptr;
@@ -556,8 +512,6 @@ Value *CExpressionCodeGenerator::GenerateNumericExpr(Value *a, BinaryOperation o
 	auto &context = m_context.GetLLVMContext();
 
 	llvm::Type *int32Type = llvm::Type::getInt32Ty(context);
-	//llvm::Type *voidType = llvm::Type::getVoidTy(context);
-	//llvm::Type *sizeType = GetPointerSizeType(context);
 	llvm::Type *floatType = llvm::Type::getFloatTy(context);
 
 	Value *left = nullptr;
@@ -576,7 +530,7 @@ Value *CExpressionCodeGenerator::GenerateNumericExpr(Value *a, BinaryOperation o
 			return m_builder.CreateFAdd(a, b, "addFtmp");
 		}
 
-
+		// TODO : work, dump is correct, but printf print incorrect
 		a = m_builder.CreateCast(Instruction::CastOps::SIToFP, a, floatType, "convIToF");
 		b = m_builder.CreateCast(Instruction::CastOps::SIToFP, b, floatType, "convIToF");
 
@@ -640,7 +594,7 @@ Value *CExpressionCodeGenerator::GenerateNumericExpr(Value *a, BinaryOperation o
     throw std::runtime_error("CExpressionCodeGenerator: unknown numeric binary operation");
 }
 
-Value *CExpressionCodeGenerator::GenerateStringExpr(Value *a, BinaryOperation op, Value *b)
+PValue CExpressionCodeGenerator::GenerateStringExpr(PValue a, BinaryOperation op, PValue b)
 {
     switch (op)
     {
@@ -682,7 +636,7 @@ Value *CExpressionCodeGenerator::GenerateStringExpr(Value *a, BinaryOperation op
     throw std::runtime_error("CExpressionCodeGenerator: unknown strings binary operation");
 }
 
-Value *CExpressionCodeGenerator::GenerateBooleanExpr(Value *a, BinaryOperation op, Value *b)
+Value *CExpressionCodeGenerator::GenerateBooleanExpr(PValue a, BinaryOperation op, PValue b)
 {
     switch (op)
     {
@@ -694,17 +648,17 @@ Value *CExpressionCodeGenerator::GenerateBooleanExpr(Value *a, BinaryOperation o
         // disallowed for Boolean.
         break;
     case BinaryOperation::Less:
-        return m_builder.CreateICmpSLT(a, b);
+        return m_builder.CreateICmpSLT(a.get(), b.get());
     case BinaryOperation::Equals:
-        return m_builder.CreateICmpEQ(a, b);
+        return m_builder.CreateICmpEQ(a.get(), b.get());
     }
     throw std::runtime_error("CExpressionCodeGenerator: unknown boolean binary operation");
 }
 
-Value *CExpressionCodeGenerator::GenerateStrcmp(Value *a, Value *b)
+Value *CExpressionCodeGenerator::GenerateStrcmp(PValue a, PValue b)
 {
     auto *pStrcmp = m_context.GetBuiltinFunction(BuiltinFunction::STRCMP);
-    return m_builder.CreateCall(pStrcmp, {a, b}, "strings_cmp");
+    return m_builder.CreateCall(pStrcmp, {a.get(), b.get()}, "strings_cmp");
 }
 
 CFunctionCodeGenerator::CFunctionCodeGenerator(CCodegenContext &context)
