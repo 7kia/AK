@@ -23,21 +23,6 @@ class Constant;
 
 enum class BuiltinFunction
 {
-	AddIAndF,
-	AddFAndI,
-	SubstractIAndF,
-	SubstractFAndI,
-	MultiplyIAndF,
-	MultiplyFAndI,
-	DivideIAndF,
-	DivideFAndI,
-	ModuloIAndF,
-	ModuloFAndI,
-	LessIAndF,
-	LessFAndI,
-	EqualsIAndF,
-	EqualsFAndI,
-
     PRINTF,
     STRCPY,
     STRDUP,
