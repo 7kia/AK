@@ -492,6 +492,7 @@ void CExpressionCodeGenerator::Visit(CLiteralAST &expr)
 void CExpressionCodeGenerator::Visit(CArrayLiteralAST &expr)
 {
 	LiteralCodeGenerator generator(m_context);
+
 	Value *pValue = expr.GetValue().apply_visitor(generator);
 	m_values.push_back(pValue);
 }

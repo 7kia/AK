@@ -143,7 +143,7 @@ public:
 		std::vector<float>
 	> Values;
 
-	CArrayLiteralAST(std::vector<CLiteralAST::Value> const& value);
+	CArrayLiteralAST(Values const& value);
 	void Accept(IExpressionVisitor & visitor) override;
 	ExpressionType GetType()const override;
 

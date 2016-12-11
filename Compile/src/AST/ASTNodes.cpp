@@ -179,15 +179,9 @@ const CLiteralAST::Value &CLiteralAST::GetValue() const
 }
 
 
-CArrayLiteralAST::CArrayLiteralAST(std::vector<CLiteralAST::Value> const & value)
+CArrayLiteralAST::CArrayLiteralAST(Values const & value)
 	: m_values(value)
 {
-	std::vector<int> vectorValues;
-	vectorValues = value;
-	for (const auto & element : value)
-	{
-		
-	}
 }
 
 void CArrayLiteralAST::Accept(IExpressionVisitor &visitor)
