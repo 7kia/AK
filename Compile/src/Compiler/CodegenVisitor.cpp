@@ -71,6 +71,23 @@ struct LiteralCodeGenerator : boost::static_visitor<Constant *>
         return ConstantInt::get(m_context.GetLLVMContext(), APInt(1, value ? 1 : 0, true));
     }
 
+
+	Constant *operator ()(std::vector<int> const& value) const
+	{
+		return ConstantInt::get(m_context.GetLLVMContext(), APInt(sizeof(int), value.size(), value.data()));
+	}
+
+	Constant *operator ()(std::vector<float> const& value) const
+	{
+		return ConstantInt::get(m_context.GetLLVMContext(), APInt(sizeof(float), value.size(), value.data()));
+	}
+
+	Constant *operator ()(std::vector<bool> const& value) const
+	{
+		const auto p = value.front();
+		return ConstantInt::get(m_context.GetLLVMContext(), APInt(sizeof(bool), value.size(), p));// TODO : check correctness
+	}
+
     Constant *operator ()(std::string const& value)
     {
         return m_context.AddStringLiteral(value);
@@ -288,7 +305,35 @@ void CCodegenContext::InitLibCBuiltins()
     llvm::Type *sizeType = GetPointerSizeType(context);
 	llvm::Type *floatType = llvm::Type::getFloatTy(context);
 
+	// For arithmetic operation(its solve more problems(to convertation, for example)
+	{
+		auto *fnType = llvm::FunctionType::get(floatType, { floatType, int32Type }, false);
+		auto *fnType2 = llvm::FunctionType::get(floatType, { int32Type, floatType }, false);
 
+		//pModule->getOrInsertFunction("printf", fnType);
+		//
+		m_builtinFunctions[BuiltinFunction::AddFAndI] = declareFn(fnType, "AddFAndI");
+		m_builtinFunctions[BuiltinFunction::AddIAndF] = declareFn(fnType2, "AddIAndF");
+
+
+		m_builtinFunctions[BuiltinFunction::DivideFAndI] = declareFn(fnType, "DivideFAndI");
+		m_builtinFunctions[BuiltinFunction::DivideIAndF] = declareFn(fnType2, "DivideIAndF");
+
+		m_builtinFunctions[BuiltinFunction::EqualsFAndI] = declareFn(fnType, "EqualsFAndI");
+		m_builtinFunctions[BuiltinFunction::EqualsIAndF] = declareFn(fnType2, "EqualsIAndF");
+
+		m_builtinFunctions[BuiltinFunction::LessFAndI] = declareFn(fnType, "LessFAndI");
+		m_builtinFunctions[BuiltinFunction::LessIAndF] = declareFn(fnType2, "LessIAndF");
+
+		m_builtinFunctions[BuiltinFunction::ModuloFAndI] = declareFn(fnType, "ModuloFAndI");
+		m_builtinFunctions[BuiltinFunction::ModuloIAndF] = declareFn(fnType2, "ModuloIAndF");
+
+		m_builtinFunctions[BuiltinFunction::MultiplyFAndI] = declareFn(fnType, "MultiplyFAndI");
+		m_builtinFunctions[BuiltinFunction::MultiplyIAndF] = declareFn(fnType2, "MultiplyIAndF");
+
+		m_builtinFunctions[BuiltinFunction::SubstractFAndI] = declareFn(fnType, "SubstractFAndI");
+		m_builtinFunctions[BuiltinFunction::SubstractIAndF] = declareFn(fnType2, "SubstractIAndF");
+	}
 
     // i32 printf(i8* format, ...)
     {
@@ -444,6 +489,13 @@ void CExpressionCodeGenerator::Visit(CLiteralAST &expr)
 	m_values.push_back(pValue);
 }
 
+void CExpressionCodeGenerator::Visit(CArrayLiteralAST &expr)
+{
+	LiteralCodeGenerator generator(m_context);
+	Value *pValue = expr.GetValue().apply_visitor(generator);
+	m_values.push_back(pValue);
+}
+
 void CExpressionCodeGenerator::Visit(CCallAST &expr)
 {
 	Function *pFunction = *m_context.GetFunctions().GetSymbol(expr.GetFunctionNameId());
@@ -497,72 +549,14 @@ Value *CExpressionCodeGenerator::GenerateNumericExpr(Value *a, BinaryOperation o
 	bool isIntegerExpression = (leftIsInt && rightIsInt);
 	bool isDoubleExpression = (leftIsFloat && rightIsFloat);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Convert int literal to float if next operation with float
-	if ((leftIsInt || rightIsInt) && (leftIsFloat || rightIsFloat)
-		&& !(leftIsInt && rightIsInt))
-	{
-		//ConstantInt::get(m_context.GetLLVMContext(), APInt(sizeof(int), value));
-		//ConstantFP::get(m_context.GetLLVMContext(), APFloat(value));
-		/*
-		if (leftIsInt)
-		{
-			// TODO : work to raw memory, FIX
-			auto pIntValue = dyn_cast<ConstantInt>(a);
-			
-			auto setValue = float(*(pIntValue->getValue().getRawData()));
-
-			//llvm::dyn_cast
-			delete a;
-			a = ConstantFP::get(m_context.GetLLVMContext(), APFloat(setValue) );
-		}
-		if (rightIsInt)
-		{
-			// TODO : work to raw memory, FIX
-			auto pIntValue = dyn_cast<ConstantInt>(b);
-
-			auto setValue = float(*(pIntValue->getValue().getRawData()));
-			delete b;
-			b = ConstantFP::get(m_context.GetLLVMContext(), APFloat(setValue));
-		}
-		*/
-		
-
-	}
-
-	auto CreateFunctionForDifferentTypes = [&](BuiltinFunction idIandF, BuiltinFunction idFandI) {
-
-		BuiltinFunction resultId;
-		if (leftIsInt && rightIsFloat)
-		{
-			resultId = idIandF;
-		}
-		else if (leftIsFloat && rightIsInt)
-		{
-			resultId = idFandI;
-		}
-
-		Function *pFunction = m_context.GetBuiltinFunction(resultId);
-		std::vector<llvm::Value *> args = { a, b };
-		Value *pValue = m_builder.CreateCall(pFunction, args, "calltmp");
-		return m_builder.CreateCall(pFunction, args);
-
-	}; // end of lambda expression  
-
-	std::vector<llvm::Value *> args = { a, b };
-	Function *pFunction = nullptr;
-	Value *pValue = nullptr;
 
 	auto &context = m_context.GetLLVMContext();
 
 	llvm::Type *int32Type = llvm::Type::getInt32Ty(context);
-	//llvm::Type *voidType = llvm::Type::getVoidTy(context);
-	//llvm::Type *sizeType = GetPointerSizeType(context);
 	llvm::Type *floatType = llvm::Type::getFloatTy(context);
 
-	Value *left = nullptr;
-	Value *right = nullptr;
-
+	Value *leftCast = nullptr;
+	Value *rightCast = nullptr;
 	// TODO : type not convert
 	switch (op)
 	{
@@ -577,10 +571,28 @@ Value *CExpressionCodeGenerator::GenerateNumericExpr(Value *a, BinaryOperation o
 		}
 
 
-		a = m_builder.CreateCast(Instruction::CastOps::SIToFP, a, floatType, "convIToF");
-		b = m_builder.CreateCast(Instruction::CastOps::SIToFP, b, floatType, "convIToF");
+		/*
+		leftCast = m_builder.CreateCast(Instruction::CastOps::SIToFP, a, floatType, "convIToF");
+		rightCast = m_builder.CreateCast(Instruction::CastOps::SIToFP, b, floatType, "convIToF");
 
-		return m_builder.CreateFAdd(a, b, "addFtmp");
+		std::swap(a, leftCast);
+		std::swap(b, rightCast);
+
+		*/
+		if (leftIsInt && rightIsFloat)
+		{
+			Function *pFunction = m_context.GetBuiltinFunction(BuiltinFunction::AddIAndF);
+			std::vector<llvm::Value *> args = { a, b };
+			return m_builder.CreateCall(pFunction, args, "addIAndFtmp");
+		}
+		else if (leftIsFloat && rightIsInt)
+		{
+			Function *pFunction = m_context.GetBuiltinFunction(BuiltinFunction::AddFAndI);
+			std::vector<llvm::Value *> args = { a, b };
+			return m_builder.CreateCall(pFunction, args, "addFAndItmp");
+		}
+
+		//return m_builder.CreateFAdd(a, b, "addFAndFtmp");
     case BinaryOperation::Substract:
 		if (isIntegerExpression)
 		{

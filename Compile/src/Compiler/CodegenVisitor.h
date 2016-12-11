@@ -23,6 +23,21 @@ class Constant;
 
 enum class BuiltinFunction
 {
+	AddIAndF,
+	AddFAndI,
+	SubstractIAndF,
+	SubstractFAndI,
+	MultiplyIAndF,
+	MultiplyFAndI,
+	DivideIAndF,
+	DivideFAndI,
+	ModuloIAndF,
+	ModuloFAndI,
+	LessIAndF,
+	LessFAndI,
+	EqualsIAndF,
+	EqualsFAndI,
+
     PRINTF,
     STRCPY,
     STRDUP,
@@ -106,6 +121,7 @@ protected:
     void Visit(CBinaryExpressionAST &expr) override;
     void Visit(CUnaryExpressionAST &expr) override;
     void Visit(CLiteralAST &expr) override;
+	void Visit(CArrayLiteralAST & expr) override;
     void Visit(CCallAST &expr) override;
     void Visit(CVariableRefAST &expr) override;
     void Visit(CParameterDeclAST & expr) override;

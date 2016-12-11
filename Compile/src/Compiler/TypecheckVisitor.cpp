@@ -178,6 +178,12 @@ void CTypeEvaluator::Visit(CLiteralAST &)
     // Constant type is known at parsing time.
 }
 
+void CTypeEvaluator::Visit(CArrayLiteralAST & expr)
+{
+	// Constant type is known at parsing time.
+	// TODO : chech correctness
+}
+
 void CTypeEvaluator::Visit(CCallAST &expr)
 {
     const unsigned functionNameId = expr.GetFunctionNameId();

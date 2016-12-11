@@ -27,6 +27,20 @@ struct LiteralTypeEvaluator : boost::static_visitor<ExpressionType>
 		return ExpressionType::Boolean;
 	}
 
+	ExpressionType operator ()(std::vector<int> const&) const
+	{
+		return ExpressionType::IntegerArray;
+	}
+
+	ExpressionType operator ()(std::vector<float> const&) const
+	{
+		return ExpressionType::FloatArray;
+	}
+
+	ExpressionType operator ()(std::vector<bool> const&) const
+	{
+		return ExpressionType::BooleanArray;
+	}
 
 	ExpressionType operator ()(std::string const&)
 	{
@@ -164,18 +178,34 @@ const CLiteralAST::Value &CLiteralAST::GetValue() const
 	return m_value;
 }
 
-void CLiteralAST::ConvertFromIntToDouble()
+
+CArrayLiteralAST::CArrayLiteralAST(std::vector<CLiteralAST::Value> const & value)
+	: m_values(value)
 {
-	LiteralTypeEvaluator visitor;
-	auto type = m_value.apply_visitor(visitor);
-
-	LiteralToDoubleConverter converter;
-
-	if (type == ExpressionType::Integer)
+	std::vector<int> vectorValues;
+	vectorValues = value;
+	for (const auto & element : value)
 	{
-		m_value = m_value.apply_visitor(converter);
+		
 	}
 }
+
+void CArrayLiteralAST::Accept(IExpressionVisitor &visitor)
+{
+	visitor.Visit(*this);
+}
+
+ExpressionType CArrayLiteralAST::GetType() const
+{
+	LiteralTypeEvaluator visitor;
+	return m_values.apply_visitor(visitor);
+}
+
+const CArrayLiteralAST::Values &CArrayLiteralAST::GetValue() const
+{
+	return m_values;// TODO : see need check
+}
+
 
 CParameterDeclAST::CParameterDeclAST(unsigned nameId, ExpressionType type)
 	: m_nameId(nameId)

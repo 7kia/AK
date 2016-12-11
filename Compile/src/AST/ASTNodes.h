@@ -26,6 +26,9 @@ enum class ExpressionType
 	Boolean
 	, Float
 	, Integer // TODO : add
+	, BooleanArray
+	, FloatArray
+	, IntegerArray // TODO : add
 	, String
 };
 
@@ -126,10 +129,27 @@ public:
 	ExpressionType GetType()const override;
 
 	const Value &GetValue()const;
-
-	void ConvertFromIntToDouble();
 private:
 	Value m_value;// TODO : see was const, need it, can replace
+};
+
+// TODO : check correctness
+class CArrayLiteralAST : public IExpressionAST
+{
+public:
+	typedef boost::variant<
+		std::vector<bool>,
+		std::vector<int>,
+		std::vector<float>
+	> Values;
+
+	CArrayLiteralAST(std::vector<CLiteralAST::Value> const& value);
+	void Accept(IExpressionVisitor & visitor) override;
+	ExpressionType GetType()const override;
+
+	const Values &GetValue()const;
+private:
+	Values m_values;// TODO : see was const, need it, can replace
 };
 
 class CCallAST : public CAbstractExpressionAST
