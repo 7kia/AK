@@ -178,7 +178,7 @@ void CTypeEvaluator::Visit(CLiteralAST &)
     // Constant type is known at parsing time.
 }
 
-void CTypeEvaluator::Visit(CArrayLiteralAST & expr)
+void CTypeEvaluator::Visit(CArrayAST & expr)
 {
 	// Constant type is known at parsing time.
 	// TODO : chech correctness

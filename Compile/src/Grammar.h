@@ -70,10 +70,14 @@ namespace example {
 
 
     int  				integerValue;
-    float 				doubleValue;
+    double 				doubleValue;
 	bool				boolValue;
     std::string*		stringVal;// TODO : see need separately char
 	unsigned int		stringId;
+
+	std::vector<int>*	intVector;
+	std::vector<float>*	floatVector;
+	std::vector<bool>*	boolVector;
 
 	IFunctionAST*		pFunction;
 	IStatementAST*		pStatetment;

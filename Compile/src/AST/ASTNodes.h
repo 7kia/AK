@@ -134,22 +134,17 @@ private:
 };
 
 // TODO : check correctness
-class CArrayLiteralAST : public IExpressionAST
+class CArrayAST : public CAbstractExpressionAST
 {
 public:
-	typedef boost::variant<
-		std::vector<bool>,
-		std::vector<int>,
-		std::vector<float>
-	> Values;
-
-	CArrayLiteralAST(Values const& value);
+	CArrayAST(ExpressionList &&arguments);
 	void Accept(IExpressionVisitor & visitor) override;
+
 	ExpressionType GetType()const override;
 
-	const Values &GetValue()const;
+	const ExpressionList &GetValues()const;
 private:
-	Values m_values;// TODO : see was const, need it, can replace
+	ExpressionList m_values;// TODO : see was const, need it, can replace
 };
 
 class CCallAST : public CAbstractExpressionAST

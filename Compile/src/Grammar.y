@@ -82,6 +82,10 @@ using namespace scanner_private;
     std::string*		stringVal;// TODO : see need separately char
 	unsigned int		stringId;
 
+	std::vector<int>*	intVector;
+	std::vector<float>*	floatVector;
+	std::vector<bool>*	boolVector;
+
 	IFunctionAST*		pFunction;
 	IStatementAST*		pStatetment;
 	IExpressionAST*		pExpression;
@@ -214,7 +218,7 @@ using namespace scanner_private;
 %token <integerValue>	INT			"int"
 %token <stringVal>		CHAR		"char"
 %token <boolValue> 		BOOL		"bool"
-%token <stringId> ID "Id"
+%token <stringId>		ID			"Id"
 
 %type <pExpression> expression constant variable function_call
 %type <pFunction> function_declaration
@@ -222,6 +226,7 @@ using namespace scanner_private;
 %type <pStatementList> statement_list block
 %type <pExpressionList> expression_list
 %type <integerValue> type_reference
+%type <pExpression> Init_list_values
 
 %type <pParameterDeclList> parenthesis_parameter_list parameter_list
 %type <pParameterDecl> parameter_decl
@@ -335,6 +340,13 @@ expression_list : /*epsilon
 				{
 					ConcatList($$, $1, $3);
 				}
+
+Init_list_values : START_BLOCK expression_list END_BLOCK
+					{
+						auto pList = Take($2);
+						EmplaceAST<CArrayAST>($$, std::move(*pList));
+					}
+
 /*
 ////////////////////////////////////////////////////////////////////
 //
@@ -371,7 +383,7 @@ type_reference : NAME_FLOAT
 //		/\/\				Типы				/\/\\\\////
 ////////////////////////////////////////////////////////////////////
 */
-statement : //expression_list
+statement : //function_call // TODO : see need it
 			//| // TODO : add because can call function (for example, Draw(); )
 			 PRINT START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS
 			{
@@ -382,11 +394,14 @@ statement : //expression_list
 			{
 				EmplaceAST<CAssignAST>($$, $2, Take($4));// TODO : not use type_reference
 			}
+			| type_reference ID ASSIGN Init_list_values
+			{
+				EmplaceAST<CAssignAST>($$, $2, Take($4));// TODO : not use type_reference
+			}
           | NAME_RETURN expression
 			{
 				EmplaceAST<CReturnAST>($$, Take($2));
-			}
-			
+			}		
           | IF_OPERATOR START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS block
 			{
 			// TODO : see need exmpty

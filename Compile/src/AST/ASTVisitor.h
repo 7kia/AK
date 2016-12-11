@@ -4,7 +4,7 @@ class IExpressionAST;
 class CBinaryExpressionAST;
 class CUnaryExpressionAST;
 class CLiteralAST;
-class CArrayLiteralAST;
+class CArrayAST;
 class CCallAST;
 class CVariableRefAST;
 class CParameterDeclAST;
@@ -16,7 +16,7 @@ public:
     virtual void Visit(CBinaryExpressionAST & expr) = 0;
     virtual void Visit(CUnaryExpressionAST & expr) = 0;
     virtual void Visit(CLiteralAST & expr) = 0;
-	virtual void Visit(CArrayLiteralAST & expr) = 0;
+	virtual void Visit(CArrayAST & expr) = 0;
     virtual void Visit(CCallAST & expr) = 0;
     virtual void Visit(CVariableRefAST & expr) = 0;
     virtual void Visit(CParameterDeclAST & expr) = 0;

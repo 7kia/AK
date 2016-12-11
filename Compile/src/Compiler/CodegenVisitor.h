@@ -121,7 +121,7 @@ protected:
     void Visit(CBinaryExpressionAST &expr) override;
     void Visit(CUnaryExpressionAST &expr) override;
     void Visit(CLiteralAST &expr) override;
-	void Visit(CArrayLiteralAST & expr) override;
+	void Visit(CArrayAST & expr) override;
     void Visit(CCallAST &expr) override;
     void Visit(CVariableRefAST &expr) override;
     void Visit(CParameterDeclAST & expr) override;

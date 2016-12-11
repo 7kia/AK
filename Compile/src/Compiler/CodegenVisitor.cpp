@@ -489,11 +489,48 @@ void CExpressionCodeGenerator::Visit(CLiteralAST &expr)
 	m_values.push_back(pValue);
 }
 
-void CExpressionCodeGenerator::Visit(CArrayLiteralAST &expr)
+void CExpressionCodeGenerator::Visit(CArrayAST &expr)
 {
 	LiteralCodeGenerator generator(m_context);
 
-	Value *pValue = expr.GetValue().apply_visitor(generator);
+	std::vector<Value *> args;
+
+	// Check type
+	ExpressionType typeValues;
+	
+	switch (expr.GetType())
+	{
+	case ExpressionType::BooleanArray:
+		typeValues = ExpressionType::Boolean;
+		break;
+	case ExpressionType::FloatArray:
+		typeValues = ExpressionType::Float;
+		break;
+	case ExpressionType::IntegerArray:
+		typeValues = ExpressionType::Integer;
+		break;
+	default:
+		throw std::runtime_error("Type in array not int, bool, float");
+		break;
+	}
+
+
+	// swap arguments to visit and codegen
+	std::swap(args, m_values);
+	size_t countValue = 1;
+	for (const IExpressionASTUniquePtr & expr : expr.GetValues())
+	{
+		if (expr->GetType() != typeValues)
+		{
+			throw std::runtime_error("Type in array not equal array type");
+		}
+
+		expr->Accept(*this);
+		countValue++;
+	}
+	std::swap(args, m_values);
+
+	Value *pValue = expr.GetValues()[0]apply_visitor(generator);
 	m_values.push_back(pValue);
 }
 

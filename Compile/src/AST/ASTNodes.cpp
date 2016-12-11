@@ -179,23 +179,37 @@ const CLiteralAST::Value &CLiteralAST::GetValue() const
 }
 
 
-CArrayLiteralAST::CArrayLiteralAST(Values const & value)
-	: m_values(value)
+CArrayAST::CArrayAST(ExpressionList &&arguments)
+	: m_values(std::move(arguments))
 {
 }
 
-void CArrayLiteralAST::Accept(IExpressionVisitor &visitor)
+void CArrayAST::Accept(IExpressionVisitor &visitor)
 {
 	visitor.Visit(*this);
 }
 
-ExpressionType CArrayLiteralAST::GetType() const
+ExpressionType CArrayAST::GetType() const
 {
-	LiteralTypeEvaluator visitor;
-	return m_values.apply_visitor(visitor);
+	switch (m_values[0]->GetType())
+	{
+	case ExpressionType::Boolean:
+		return ExpressionType::BooleanArray;
+		break;
+	case ExpressionType::Integer:
+		return ExpressionType::IntegerArray;
+		break;
+	case ExpressionType::Float:
+		return ExpressionType::FloatArray;
+		break;
+	default:
+		throw std::runtime_error("Incorrect type value list, now not be list");
+		break;
+	}
+	//return m_values[0]->GetType();
 }
 
-const CArrayLiteralAST::Values &CArrayLiteralAST::GetValue() const
+const ExpressionList & CArrayAST::GetValues() const
 {
 	return m_values;// TODO : see need check
 }

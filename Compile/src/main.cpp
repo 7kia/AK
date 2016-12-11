@@ -27,7 +27,6 @@ int main(int argc, char *argv[])
 	//bool readfile = false;
 
 	//Tests/Syntax/Comments.txt Tests/OutputSyntax/OutputIdComments.txt  Tests/OutputSyntax/OutputComments.txt
-
 	
 	std::srand(static_cast<unsigned>(time(nullptr)));
 	example::CCompilerDriver driver(outFile, outFile, idsFile);
