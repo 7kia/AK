@@ -102,7 +102,7 @@ public:
     CExpressionCodeGenerator(llvm::IRBuilder<> & builder, CCodegenContext & context);
 
     // Can throw std::exception.
-    llvm::Value *Codegen(IExpressionAST & ast);
+	PValue Codegen(IExpressionAST & ast);
 
 protected:
     void Visit(CBinaryExpressionAST &expr) override;
