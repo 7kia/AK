@@ -62,6 +62,16 @@ CLexer::CLexer(const std::string & line)
 	}\
 }
 
+#define RECOGNIZE_ONE_SYMBOL_TOKEN(TOKEN_NAME, TOKEN_ID)	\
+{															\
+	if(m_peep[0] == TOKEN_NAME)\
+	{\
+		data.value = m_peep[0];\
+		m_peep.remove_prefix(1);\
+		return TOKEN_ID;\
+	}\
+}
+
 TokensId CLexer::Scan(SToken &data)
 {
 
@@ -71,9 +81,9 @@ TokensId CLexer::Scan(SToken &data)
 	///////////////////
 	// Extension(TODO : is correct translate ?) multi comment
 	///*
-		if ( (data.id == TokensId::TK_EXTENSION_MULTI_STRING_COMMENT)
-		||
-		(data.id == TokensId::TK_START_MULTI_STRING_COMMENT) )
+	if ( (data.id == TokensId::TK_EXTENSION_MULTI_STRING_COMMENT)
+	||
+	(data.id == TokensId::TK_START_MULTI_STRING_COMMENT) )
 	{
 		boost::string_ref twoNextSymbols;
 		data.value.clear();
@@ -150,15 +160,6 @@ TokensId CLexer::Scan(SToken &data)
 	}
 	/////////////////////////////////////////////////////
 	// Two-symbols operations
-	/*
-	
-	*/
-	if (twoNextSymbols == NAME_NOT_EQUAL)
-	{
-		data.value = twoNextSymbols.to_string();
-		m_peep.remove_prefix(2);
-		return TokensId::TK_NOT_EQUALS;
-	}
 	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_NOT_EQUAL, TokensId::TK_NOT_EQUALS)
 	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_EQUAL, TokensId::TK_EQUALS)
 	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_LESS_OR_EQUAL, TokensId::TK_LESS_OR_EQUAL)
@@ -247,120 +248,45 @@ TokensId CLexer::Scan(SToken &data)
 	/////////////////////////////////////////////////////
 
 	/////////////////////////////////////////////////////
-	// Parse other symbols
-    switch (m_peep[0])
-    {
-	case CASE_ENUMERATOR:
-		data.value = m_peep[0];
-		m_peep.remove_prefix(1);
-		return TokensId::TK_CASE_ENUMERATOR;
-		//////////////////////////////////////
-		// Новая строка
-	case NEWLINE_SYMBOL:
-		data.value = m_peep[0];
-		m_peep.remove_prefix(1);
-		return TokensId::TK_NEWLINE;
-
-		//////////////////////////////////////
-		// Логические опреаторы
-	case NAME_NOT_OPERATOR:
-		data.value = m_peep[0];
-		m_peep.remove_prefix(1);
-		return TokensId::TK_NOT_OPERATOR;
-	case NAME_BITE_OR:
-		data.value = m_peep[0];
-		m_peep.remove_prefix(1);
-		return TokensId::TK_BIT_OR;
-	case NAME_BITE_XOR:
-		data.value = m_peep[0];
-		m_peep.remove_prefix(1);
-		return TokensId::TK_BIT_XOR;
-	case NAME_BITE_NOT:
-		data.value = m_peep[0];
-		m_peep.remove_prefix(1);
-		return TokensId::TK_BIT_NOT;
-		//////////////////////////////////////
-		// Знаки сравнения
-    case NAME_LESS:
-		data.value = m_peep[0];
-        m_peep.remove_prefix(1);
-        return TokensId::TK_LESS;
-	case NAME_MORE:
-		data.value = m_peep[0];
-		m_peep.remove_prefix(1);
-		return TokensId::TK_MORE;// TODO : not work
-		//////////////////////////////////////
-		// Арифметические операции
-    case NAME_PLUS:
-		data.value = m_peep[0];
-        m_peep.remove_prefix(1);
-        return TokensId::TK_PLUS;
-    case NAME_MINUS:
-		data.value = m_peep[0];
-        m_peep.remove_prefix(1);
-        return TokensId::TK_MINUS;
-    case NAME_MULTIPLICATION:
-		data.value = m_peep[0];
-        m_peep.remove_prefix(1);
-        return TokensId::TK_STAR;
-    case NAME_DIVISION:
-		data.value = m_peep[0];
-        m_peep.remove_prefix(1);
-        return TokensId::TK_SLASH;
-	case NAME_DIVISION_BY_REMAIN:
-		data.value = m_peep[0];
-		m_peep.remove_prefix(1);
-		return TokensId::TK_PERCENT;
-		//////////////////////////////////////
-		// Разыменование
-	case NAME_GET_ADDRESS:
-		data.value = m_peep[0];
-		m_peep.remove_prefix(1);
-		return TokensId::TK_AMPERSAND;
-		//////////////////////////////////////
-		// Разделители
-	case COMMAND_SEPARATOR:
-		data.value = m_peep[0];
-		m_peep.remove_prefix(1);
-		return TokensId::TK_SEMICOLON;
-    case VARIABLE_SEPARATOR:
-		data.value = m_peep[0];
-		m_peep.remove_prefix(1);
-		return TokensId::TK_COMMA;
-
-		//////////////////////////////////////
-		// Списки команд, аргументов
-	case START_LIST_ARGUMENTS:
-		data.value = m_peep[0];
-		m_peep.remove_prefix(1);
-		return TokensId::TK_LEFT_PAREN;
-	case END_LIST_ARGUMENTS:
-		data.value = m_peep[0];
-		m_peep.remove_prefix(1);
-		return TokensId::TK_RIGHT_PAREN;
-	case START_BLOCK:
-		data.value = m_peep[0];
-		m_peep.remove_prefix(1);
-		return TokensId::TK_LEFT_BRACE;
-	case END_BLOCK:
-		data.value = m_peep[0];
-		m_peep.remove_prefix(1);
-		return TokensId::TK_RIGHT_BRACE;
-	case START_OPERATOR_INDEX:
-		data.value = m_peep[0];
-		m_peep.remove_prefix(1);
-		return TokensId::TK_LEFT_SQUARE_BRACKETS;
-	case END_OPERATOR_INDEX:
-		data.value = m_peep[0];
-		m_peep.remove_prefix(1);
-		return TokensId::TK_RIGHT_SQUARE_BRACKETS;
-		//////////////////////////////////////
-		// Оператор присвоения и сравнения
-	case NAME_ASSIGMENT:
-		data.value = m_peep[0];
-		m_peep.remove_prefix(1);
-		return TokensId::TK_ASSIGN;
-	}
+	// Parse other symbols   
+	RECOGNIZE_ONE_SYMBOL_TOKEN(CASE_ENUMERATOR, TokensId::TK_CASE_ENUMERATOR)
+	RECOGNIZE_ONE_SYMBOL_TOKEN(CASE_ENUMERATOR, TokensId::TK_NEWLINE)
+	//////////////////////////////////////
+	// Логические опреаторы
+	RECOGNIZE_ONE_SYMBOL_TOKEN(NAME_NOT_OPERATOR, TokensId::TK_NOT_OPERATOR)
+	RECOGNIZE_ONE_SYMBOL_TOKEN(NAME_BITE_OR, TokensId::TK_BIT_OR)
+	RECOGNIZE_ONE_SYMBOL_TOKEN(NAME_BITE_XOR, TokensId::TK_BIT_XOR)
+	RECOGNIZE_ONE_SYMBOL_TOKEN(NAME_BITE_NOT, TokensId::TK_BIT_NOT)
+	//////////////////////////////////////
+	// Знаки сравнения
+	RECOGNIZE_ONE_SYMBOL_TOKEN(NAME_LESS, TokensId::TK_LESS)
+	RECOGNIZE_ONE_SYMBOL_TOKEN(NAME_MORE, TokensId::TK_MORE)
+	RECOGNIZE_ONE_SYMBOL_TOKEN(NAME_MORE, TokensId::TK_MORE)
+	//////////////////////////////////////
+	// Арифметические операции
+	RECOGNIZE_ONE_SYMBOL_TOKEN(NAME_PLUS, TokensId::TK_PLUS)
+	RECOGNIZE_ONE_SYMBOL_TOKEN(NAME_MINUS, TokensId::TK_MINUS)
+	RECOGNIZE_ONE_SYMBOL_TOKEN(NAME_MULTIPLICATION, TokensId::TK_STAR)
+	RECOGNIZE_ONE_SYMBOL_TOKEN(NAME_DIVISION, TokensId::TK_SLASH)
+	RECOGNIZE_ONE_SYMBOL_TOKEN(NAME_DIVISION_BY_REMAIN, TokensId::TK_PERCENT)
+	//////////////////////////////////////
+	// Разыменование
+	RECOGNIZE_ONE_SYMBOL_TOKEN(NAME_GET_ADDRESS, TokensId::TK_AMPERSAND)
+	//////////////////////////////////////
+	// Разделители
+	RECOGNIZE_ONE_SYMBOL_TOKEN(COMMAND_SEPARATOR, TokensId::TK_SEMICOLON)
+	RECOGNIZE_ONE_SYMBOL_TOKEN(VARIABLE_SEPARATOR, TokensId::TK_COMMA)
+	//////////////////////////////////////
+	// Списки команд, аргументов
+	RECOGNIZE_ONE_SYMBOL_TOKEN(START_LIST_ARGUMENTS, TokensId::TK_LEFT_PAREN)
+	RECOGNIZE_ONE_SYMBOL_TOKEN(END_LIST_ARGUMENTS, TokensId::TK_RIGHT_PAREN)
+	RECOGNIZE_ONE_SYMBOL_TOKEN(START_BLOCK, TokensId::TK_LEFT_BRACE)
+	RECOGNIZE_ONE_SYMBOL_TOKEN(END_BLOCK, TokensId::TK_RIGHT_BRACE)
+	RECOGNIZE_ONE_SYMBOL_TOKEN(START_OPERATOR_INDEX, TokensId::TK_LEFT_SQUARE_BRACKETS)
+	RECOGNIZE_ONE_SYMBOL_TOKEN(END_OPERATOR_INDEX, TokensId::TK_RIGHT_SQUARE_BRACKETS)
+	//////////////////////////////////////
+	// Оператор присвоения и сравнения
+	RECOGNIZE_ONE_SYMBOL_TOKEN(NAME_ASSIGMENT, TokensId::TK_ASSIGN)
 	/////////////////////////////////////////////////////
 
 	return TokensId::TK_NONE;
