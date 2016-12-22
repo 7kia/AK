@@ -52,6 +52,16 @@ CLexer::CLexer(const std::string & line)
 {
 }
 
+#define RECOGNIZE_TWO_SYMBOL_TOKEN(TOKEN_NAME, TOKEN_ID)	\
+{															\
+	if (twoNextSymbols == TOKEN_NAME)					\
+	{\
+		data.value = twoNextSymbols.to_string();\
+		m_peep.remove_prefix(2);\
+		return TOKEN_ID;\
+	}\
+}
+
 TokensId CLexer::Scan(SToken &data)
 {
 
@@ -140,119 +150,38 @@ TokensId CLexer::Scan(SToken &data)
 	}
 	/////////////////////////////////////////////////////
 	// Two-symbols operations
-	else if (twoNextSymbols == NAME_NOT_EQUAL)
+	/*
+	
+	*/
+	if (twoNextSymbols == NAME_NOT_EQUAL)
 	{
 		data.value = twoNextSymbols.to_string();
 		m_peep.remove_prefix(2);
 		return TokensId::TK_NOT_EQUALS;
 	}
-	else if (twoNextSymbols == NAME_EQUAL)
-	{
-		data.value = twoNextSymbols.to_string();
-		m_peep.remove_prefix(2);
-		return TokensId::TK_EQUALS;
-	}
-	else if (twoNextSymbols == NAME_LESS_OR_EQUAL)
-	{		
-		data.value = twoNextSymbols.to_string();
-		m_peep.remove_prefix(2);
-		return TokensId::TK_LESS_OR_EQUAL;	
-	}
-	else if (twoNextSymbols == NAME_MORE_OR_EQUAL)
-	{
-		data.value = twoNextSymbols.to_string();
-		m_peep.remove_prefix(2);
-		return TokensId::TK_MORE_OR_EQUAL;
-	}
+	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_NOT_EQUAL, TokensId::TK_NOT_EQUALS)
+	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_EQUAL, TokensId::TK_EQUALS)
+	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_LESS_OR_EQUAL, TokensId::TK_LESS_OR_EQUAL)
+	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_MORE_OR_EQUAL, TokensId::TK_MORE_OR_EQUAL)
 	// Assign operators
-	else if (twoNextSymbols == NAME_PLUS_ASSIGN)
-	{
-		data.value = twoNextSymbols.to_string();
-		m_peep.remove_prefix(2);
-		return TokensId::TK_PLUS_ASSIGN;
-	}
-	else if (twoNextSymbols == NAME_MINUS_ASSIGN)
-	{
-		data.value = twoNextSymbols.to_string();
-		m_peep.remove_prefix(2);
-		return TokensId::TK_MINUS_ASSIGN;
-	}
-	else if (twoNextSymbols == NAME_DIVIDE_ASSIGN)
-	{
-		data.value = twoNextSymbols.to_string();
-		m_peep.remove_prefix(2);
-		return TokensId::TK_DIVIDE_ASSIGN;
-	}
-	else if (twoNextSymbols == NAME_MULTIPLY_ASSIGN)
-	{
-		data.value = twoNextSymbols.to_string();
-		m_peep.remove_prefix(2);
-		return TokensId::TK_MULTIPLY_ASSIGN;
-	}
-	else if (twoNextSymbols == NAME_PERCENT_ASSIGN)
-	{
-		data.value = twoNextSymbols.to_string();
-		m_peep.remove_prefix(2);
-		return TokensId::TK_PERCENT_ASSIGN;
-	}
+	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_PLUS_ASSIGN, TokensId::TK_PLUS_ASSIGN)
+	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_MINUS_ASSIGN, TokensId::TK_MINUS_ASSIGN)
+	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_DIVIDE_ASSIGN, TokensId::TK_DIVIDE_ASSIGN)
+	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_MULTIPLY_ASSIGN, TokensId::TK_MULTIPLY_ASSIGN)
+	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_PERCENT_ASSIGN, TokensId::TK_PERCENT_ASSIGN)
 	// Logic operators
-	else if (twoNextSymbols == NAME_AND)
-	{
-		data.value = twoNextSymbols.to_string();
-		m_peep.remove_prefix(2);
-		return TokensId::TK_LOGIC_AND;
-	}
-	else if (twoNextSymbols == NAME_OR)
-	{
-		data.value = twoNextSymbols.to_string();
-		m_peep.remove_prefix(2);
-		return TokensId::TK_LOGIC_OR;
-	}
+	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_AND, TokensId::TK_LOGIC_AND)
+	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_OR, TokensId::TK_LOGIC_OR)
 	// Increment and decrement
-	else if (twoNextSymbols == NAME_INCREMENT)
-	{
-		data.value = twoNextSymbols.to_string();
-		m_peep.remove_prefix(2);
-		return TokensId::TK_INCREMENT;
-	}
-	else if (twoNextSymbols == NAME_DECREMENT)
-	{
-		data.value = twoNextSymbols.to_string();
-		m_peep.remove_prefix(2);
-		return TokensId::TK_DECREMENT;
-	}
+	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_INCREMENT, TokensId::TK_INCREMENT)
+	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_DECREMENT, TokensId::TK_DECREMENT)
 	// Bit shift to left and right
-	else if (twoNextSymbols == NAME_LEFT_SHIFT)
-	{
-		data.value = twoNextSymbols.to_string();
-		m_peep.remove_prefix(2);
-		return TokensId::TK_LEFT_SHIFT;
-	}
-	else if (twoNextSymbols == NAME_RIGHT_SHIFT)
-	{
-		data.value = twoNextSymbols.to_string();
-		m_peep.remove_prefix(2);
-		return TokensId::TK_RIGHT_SHIFT;
-	}
+	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_LEFT_SHIFT, TokensId::TK_LEFT_SHIFT)
+	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_RIGHT_SHIFT, TokensId::TK_RIGHT_SHIFT)
 	// Bit assign operations
-	else if (twoNextSymbols == NAME_AND_ASSIGN)
-	{
-		data.value = twoNextSymbols.to_string();
-		m_peep.remove_prefix(2);
-		return TokensId::TK_AND_ASSIGN;
-	}
-	else if (twoNextSymbols == NAME_XOR_ASSIGN)
-	{
-		data.value = twoNextSymbols.to_string();
-		m_peep.remove_prefix(2);
-		return TokensId::TK_XOR_ASSIGN;
-	}
-	else if (twoNextSymbols == NAME_OR_ASSIGN)
-	{
-		data.value = twoNextSymbols.to_string();
-		m_peep.remove_prefix(2);
-		return TokensId::TK_OR_ASSIGN;
-	}
+	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_AND_ASSIGN, TokensId::TK_AND_ASSIGN)
+	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_XOR_ASSIGN, TokensId::TK_XOR_ASSIGN)
+	RECOGNIZE_TWO_SYMBOL_TOKEN(NAME_OR_ASSIGN, TokensId::TK_OR_ASSIGN)
 	/////////////////////////////////////////////////////
 	if (m_peep.empty())
 	{
