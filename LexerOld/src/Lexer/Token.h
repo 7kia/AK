@@ -8,7 +8,7 @@
 enum class TokensId
 {
 
-	  TK_NONE = 0
+	TK_NONE = 0
 
 	, TK_INTEGER = 1
 	, TK_FLOAT
@@ -101,30 +101,30 @@ enum class TokensId
 	, TK_BREAK
 	, TK_CONTINUE
 
-	, Amount = TK_FOR + 1// TODO : replace
+	, Amount
 };
 
 static const std::map<TokensId, std::string> TokensStringPresentation
 = {
 
-	{ TokensId::TK_NONE, "Unknow"}
+	{ TokensId::TK_NONE, "Unknow" }
 
 	,{ TokensId::TK_VOID, "Void" }
-	,{ TokensId::TK_INTEGER, "Integer"}
-	,{ TokensId::TK_FLOAT,  "Double"}
-	,{ TokensId::TK_CHAR, "Char"}
-	,{ TokensId::TK_STRING, "String"}
+	,{ TokensId::TK_INTEGER, "Integer" }
+	,{ TokensId::TK_FLOAT,  "Double" }
+	,{ TokensId::TK_CHAR, "Char" }
+	,{ TokensId::TK_STRING, "String" }
 
 	,{ TokensId::TK_SIGNED, "Signed" }
 	,{ TokensId::TK_UNSIGNED, "Unsigned" }
 	,{ TokensId::TK_CONST, "Const" }
 	,{ TokensId::TK_LONG, "Long" }
 
-	,{ TokensId::TK_BOOL, "Bool"}
+	,{ TokensId::TK_BOOL, "Bool" }
 	,{ TokensId::TK_NOT_OPERATOR, "Not operator" }
-	,{ TokensId::TK_LESS, "Less"}
-	,{ TokensId::TK_MORE, "More"}
-	,{ TokensId::TK_EQUALS, "Equal"}
+	,{ TokensId::TK_LESS, "Less" }
+	,{ TokensId::TK_MORE, "More" }
+	,{ TokensId::TK_EQUALS, "Equal" }
 	,{ TokensId::TK_NOT_EQUALS, "Not equal" }
 	,{ TokensId::TK_LOGIC_AND, "Logic and" }
 	,{ TokensId::TK_LOGIC_OR, "Logic or" }
@@ -140,8 +140,8 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 	,{ TokensId::TK_DECREMENT, "Decrement" }
 
 
-	,{ TokensId::TK_LESS_OR_EQUAL, "Less or equal"}
-	,{ TokensId::TK_MORE_OR_EQUAL, "More or equal"}
+	,{ TokensId::TK_LESS_OR_EQUAL, "Less or equal" }
+	,{ TokensId::TK_MORE_OR_EQUAL, "More or equal" }
 
 	,{ TokensId::TK_PLUS_ASSIGN, "Plus assign" }
 	,{ TokensId::TK_MINUS_ASSIGN, "Minus assign" }
@@ -156,17 +156,17 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 	,{ TokensId::TK_RIGHT_SHIFT_ASSIGN, "Right shift assign" }
 
 
-	,{ TokensId::TK_PLUS, "Plus"}
-	,{ TokensId::TK_MINUS, "Minus"}
-	,{ TokensId::TK_STAR,  "Star"}
-	,{ TokensId::TK_SLASH, "Slash"}
-	,{ TokensId::TK_PERCENT, "Percent"}
+	,{ TokensId::TK_PLUS, "Plus" }
+	,{ TokensId::TK_MINUS, "Minus" }
+	,{ TokensId::TK_STAR,  "Star" }
+	,{ TokensId::TK_SLASH, "Slash" }
+	,{ TokensId::TK_PERCENT, "Percent" }
 	,{ TokensId::TK_AMPERSAND, "Ampersand" }
 
-	,{ TokensId::TK_ID, "Identifier"}
+	,{ TokensId::TK_ID, "Identifier" }
 
-	,{ TokensId::TK_LEFT_PAREN, "Left paren"}
-	,{ TokensId::TK_RIGHT_PAREN, "Right paren"}
+	,{ TokensId::TK_LEFT_PAREN, "Left paren" }
+	,{ TokensId::TK_RIGHT_PAREN, "Right paren" }
 	,{ TokensId::TK_LEFT_BRACE, "Left brace" }
 	,{ TokensId::TK_RIGHT_BRACE, "Right brace" }
 	,{ TokensId::TK_LEFT_SQUARE_BRACKETS, "Left square brackets" }
@@ -174,32 +174,32 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 
 
 	,{ TokensId::TK_SEMICOLON, "Semicolon" }
-	,{ TokensId::TK_COMMA, "Comma"}
+	,{ TokensId::TK_COMMA, "Comma" }
 
 	,{ TokensId::TK_ONE_STRING_COMMENT, "One strign comment" }
 	,{ TokensId::TK_START_MULTI_STRING_COMMENT, "Start multi-strign comment" }
 	,{ TokensId::TK_EXTENSION_MULTI_STRING_COMMENT, "Content multi-string comment" }// TODO : is correct translate?
 	,{ TokensId::TK_END_MULTI_STRING_COMMENT, "End multi-strign comment" }
 
-	,{ TokensId::TK_ASSIGN, "Assign"}
+	,{ TokensId::TK_ASSIGN, "Assign" }
 
-	,{ TokensId::TK_PRINT, "Print"}
+	,{ TokensId::TK_PRINT, "Print" }
 	,{ TokensId::TK_SIZEOF, "Sizeof" }
 
-	,{ TokensId::TK_NEWLINE, "Newline"}
+	,{ TokensId::TK_NEWLINE, "Newline" }
 
-	,{ TokensId::TK_RETURN, "Return"}
+	,{ TokensId::TK_RETURN, "Return" }
 
-	,{ TokensId::TK_IF, "If"}
-	,{ TokensId::TK_ELSE, "Else"}
+	,{ TokensId::TK_IF, "If" }
+	,{ TokensId::TK_ELSE, "Else" }
 	,{ TokensId::TK_SWITH, "Swith" }
 	,{ TokensId::TK_CASE, "Case" }
 	,{ TokensId::TK_CASE_ENUMERATOR, "Case enumerator" }
 
 
-	,{ TokensId::TK_WHILE, "While"}
-	,{ TokensId::TK_DO, "Do"}
-	,{ TokensId::TK_FOR, "For"}
+	,{ TokensId::TK_WHILE, "While" }
+	,{ TokensId::TK_DO, "Do" }
+	,{ TokensId::TK_FOR, "For" }
 
 	,{ TokensId::TK_BREAK, "Break" }
 	,{ TokensId::TK_CONTINUE, "Continue" }
@@ -294,3 +294,12 @@ static const std::string NAME_RIGHT_SHIFT = ">>";
 static const char NAME_BITE_NOT = '~';
 
 //////////////////////////////////////////////////////////////////////
+
+struct SToken
+{
+	SToken();
+	SToken(const std::string & value, TokensId id);
+
+	std::string		value;
+	TokensId		id = TokensId::TK_NONE;
+};

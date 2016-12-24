@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Lexer.h"
+#include "../src/Lexer/Lexer.h"
 
 #include <iostream>
 #include <time.h>

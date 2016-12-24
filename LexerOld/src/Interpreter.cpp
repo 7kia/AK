@@ -1,9 +1,5 @@
 #include "stdafx.h"
-
-
 #include "Interpreter.h"
-#include "Lexer.h"
-#include "Grammar.h"
 
 CInterpreter::CInterpreter(std::ostream &output)
 	: m_output(output)

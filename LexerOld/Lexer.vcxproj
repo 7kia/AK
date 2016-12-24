@@ -147,20 +147,19 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Grammar.h" />
-    <ClInclude Include="Interpreter.h" />
-    <ClInclude Include="Lexer.h" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="Token.h" />
+    <ClInclude Include="src\Interpreter.h" />
+    <ClInclude Include="src\Lexer\Lexer.h" />
+    <ClInclude Include="src\Lexer\Token.h" />
+    <ClInclude Include="src\main.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Interpreter.cpp" />
-    <ClCompile Include="Lexer.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="Token.cpp" />
+    <ClCompile Include="src\Interpreter.cpp" />
+    <ClCompile Include="src\Lexer\Lexer.cpp" />
+    <ClCompile Include="src\Lexer\Token.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\stdafx.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

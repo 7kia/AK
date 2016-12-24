@@ -16,6 +16,12 @@
     <Filter Include="TestClasses">
       <UniqueIdentifier>{6181c25c-6129-4694-ba8a-f4cdf3d38b01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TestClasses\src">
+      <UniqueIdentifier>{785449de-f609-4a8c-aed3-1c603a04c914}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestClasses\src\Lexer">
+      <UniqueIdentifier>{2932c91c-264f-444d-80d3-fcb15ce1cf43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -30,17 +36,17 @@
     <ClInclude Include="FunctionsForTests.h">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
-    <ClInclude Include="..\Interpreter.h">
-      <Filter>TestClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Lexer.h">
-      <Filter>TestClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Token.h">
-      <Filter>TestClasses</Filter>
-    </ClInclude>
     <ClInclude Include="TestsLexer.h">
       <Filter>Файлы исходного кода</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Lexer\Lexer.h">
+      <Filter>TestClasses\src\Lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Lexer\Token.h">
+      <Filter>TestClasses\src\Lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Interpreter.h">
+      <Filter>TestClasses\src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -50,17 +56,17 @@
     <ClCompile Include="FunctionsForTests.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\Interpreter.cpp">
-      <Filter>TestClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Lexer.cpp">
-      <Filter>TestClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Token.cpp">
-      <Filter>TestClasses</Filter>
-    </ClCompile>
     <ClCompile Include="TestsLexer.cpp">
       <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Lexer\Lexer.cpp">
+      <Filter>TestClasses\src\Lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Lexer\Token.cpp">
+      <Filter>TestClasses\src\Lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Interpreter.cpp">
+      <Filter>TestClasses\src</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

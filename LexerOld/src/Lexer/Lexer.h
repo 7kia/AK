@@ -5,7 +5,6 @@
 #include <map>
 #include <functional>
 #include <boost/utility/string_ref.hpp>
-#include "Grammar.h"
 #include "Token.h"
 
 class CLexer

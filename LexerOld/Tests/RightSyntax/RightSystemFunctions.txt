@@ -4,8 +4,3 @@ printf - Print
 ) - Right paren
 ; - Semicolon
 
-sizeof - Sizeof
-( - Left paren
-1 - Integer
-) - Right paren
-; - Semicolon

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
 #include "Lexer.h"
-#include "Grammar.h"
 #include <iostream>
 #include <sstream>
 
@@ -28,7 +27,7 @@ CLexer::CLexer(const std::string & line)
 		//////////////////////////////////
 		// Системные функции
 		{ "printf", TokensId::TK_PRINT },
-		{ "sizeof", TokensId::TK_SIZEOF },
+		//{ "sizeof", TokensId::TK_SIZEOF },
 		//////////////////////////////////
         { "return", TokensId::TK_RETURN },
 
@@ -95,13 +94,14 @@ TokensId CLexer::Scan(SToken &data)
 			{		
 				if (!data.value.empty())
 				{
-					return TokensId::TK_EXTENSION_MULTI_STRING_COMMENT;
+					data.id = TokensId::TK_EXTENSION_MULTI_STRING_COMMENT;
+					return TokensId::TK_NONE;
 				}
 
 				data.value = END_MULTI_STRING_COMMENT;
 				data.id = TokensId::TK_END_MULTI_STRING_COMMENT;
 				m_peep.remove_prefix(2);
-				return TokensId::TK_END_MULTI_STRING_COMMENT;
+				return TokensId::TK_NONE;
 			}
 
 			data.value += m_peep[0];
@@ -109,7 +109,8 @@ TokensId CLexer::Scan(SToken &data)
 			m_peep.remove_prefix(1);
 		}
 
-		return TokensId::TK_EXTENSION_MULTI_STRING_COMMENT;
+		data.id = TokensId::TK_EXTENSION_MULTI_STRING_COMMENT;
+		return TokensId::TK_NONE;
 	}
 
 	//*/
@@ -143,14 +144,14 @@ TokensId CLexer::Scan(SToken &data)
 		data.id = TokensId::TK_ONE_STRING_COMMENT;
 		m_peep.clear();
 
-		return TokensId::TK_ONE_STRING_COMMENT;
+		return TokensId::TK_NONE;
 	}
 	else if (twoNextSymbols == START_MULTI_STRING_COMMENT)
 	{	
 		data.value = twoNextSymbols.to_string();
 		m_peep.remove_prefix(2);
 		data.id = TokensId::TK_START_MULTI_STRING_COMMENT;
-		return TokensId::TK_START_MULTI_STRING_COMMENT;
+		return TokensId::TK_NONE;
 	}
 	else if (twoNextSymbols == END_MULTI_STRING_COMMENT)
 	{

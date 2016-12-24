@@ -13,51 +13,51 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Compiler">
+    <Filter Include="src">
       <UniqueIdentifier>{946cacfb-b509-4473-8f8f-03dc36f0e349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Lexer">
+      <UniqueIdentifier>{847a57e3-7089-41e0-9e12-c38238537ac1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Заголовочные файлы</Filter>
+    <ClInclude Include="src\Lexer\Lexer.h">
+      <Filter>src\Lexer</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Заголовочные файлы</Filter>
+    <ClInclude Include="src\Lexer\Token.h">
+      <Filter>src\Lexer</Filter>
     </ClInclude>
-    <ClInclude Include="Interpreter.h">
-      <Filter>Compiler</Filter>
+    <ClInclude Include="src\Interpreter.h">
+      <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="Lexer.h">
-      <Filter>Compiler</Filter>
+    <ClInclude Include="src\main.h">
+      <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="Token.h">
-      <Filter>Compiler</Filter>
+    <ClInclude Include="src\stdafx.h">
+      <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="main.h">
-      <Filter>Файлы исходного кода</Filter>
-    </ClInclude>
-    <ClInclude Include="Grammar.h">
-      <Filter>Compiler</Filter>
+    <ClInclude Include="src\targetver.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Файлы исходного кода</Filter>
+    <ClCompile Include="src\Lexer\Lexer.cpp">
+      <Filter>src\Lexer</Filter>
     </ClCompile>
-    <ClCompile Include="Interpreter.cpp">
-      <Filter>Compiler</Filter>
+    <ClCompile Include="src\Lexer\Token.cpp">
+      <Filter>src\Lexer</Filter>
     </ClCompile>
-    <ClCompile Include="Lexer.cpp">
-      <Filter>Compiler</Filter>
+    <ClCompile Include="src\Interpreter.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Файлы исходного кода</Filter>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="Token.cpp">
-      <Filter>Compiler</Filter>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

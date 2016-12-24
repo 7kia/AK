@@ -104,14 +104,9 @@ product - Identifier
 ; - Semicolon
 
 
-/* - Start multi-strign comment
- 
- - Content multi-string comment
-Multi-string
- - Content multi-string comment
-	comment
- - Content multi-string comment
-*/ - End multi-strign comment
+
+
+
 
 
 for - For
@@ -148,8 +143,7 @@ col - Identifier
 ) - Right paren
 { - Left brace
 
-// Multiply the row of A by the column of B to get the row, column of product.
- - One strign comment
+
 for - For
 ( - Left paren
 signed - Signed

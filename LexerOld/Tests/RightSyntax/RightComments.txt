@@ -1,42 +1,32 @@
-// one_string_comment
- - One strign comment
+signed - Signed
+int - Integer
+main - Identifier
+( - Left paren
+int - Integer
+argc - Identifier
+) - Right paren
 
-/* - Start multi-strign comment
-*/ - End multi-strign comment
-
-
-/* - Start multi-strign comment
-
- - Content multi-string comment
-*/ - End multi-strign comment
+{ - Left brace
 
 
-/* - Start multi-strign comment
- content  - Content multi-string comment
-*/ - End multi-strign comment
 
 
-/* - Start multi-strign comment
-second content
- - Content multi-string comment
-*/ - End multi-strign comment
 
 
-/* - Start multi-strign comment
-
- - Content multi-string comment
-third content
- - Content multi-string comment
-*/ - End multi-strign comment
 
 
-/* - Start multi-strign comment
 
- - Content multi-string comment
-fourthcontent
- - Content multi-string comment
-// second_string_comment
- - Content multi-string comment
 
- - Content multi-string comment
-*/ - End multi-strign comment
+
+
+
+
+
+
+
+
+
+
+
+
+} - Right brace

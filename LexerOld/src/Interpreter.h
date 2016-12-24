@@ -2,7 +2,7 @@
 #include <iostream>
 #include <memory>
 
-#include "Token.h"
+#include "Lexer/Lexer.h"
 
 class CInterpreter
 {

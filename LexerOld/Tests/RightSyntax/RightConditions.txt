@@ -32,8 +32,7 @@ case - Case
 
 { - Left brace
 
-// do something
- - One strign comment
+
 } - Right brace
 
 case - Case

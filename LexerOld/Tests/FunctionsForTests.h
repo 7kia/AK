@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Lexer.h"
-#include "../Interpreter.h"
+#include "../src/Lexer/Lexer.h"
+#include "../src/Interpreter.h"
 
 #include <iostream>
 #include <time.h>

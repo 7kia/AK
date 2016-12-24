@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
 
-#include "Lexer.h"
 #include "Interpreter.h"
 
 #include <iostream>
