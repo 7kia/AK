@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <string>
 #include <vector>
 #include "../Lexer/Token.h"
@@ -24,7 +25,8 @@ public:
 	Type m_type;
 };
 
-using RuleElements = std::vector<IRuleElement>;
+using PRuleElement = std::shared_ptr<IRuleElement>;
+using RuleElements = std::vector<PRuleElement>;
 
 class NotTerminal : public IRuleElement
 {
@@ -48,54 +50,20 @@ public:
 
 //////////////////////////////////////////////////////////////////////
 // Data
-private:
+public:
 	TokensId		m_tokenId;// For return value, need to semantic(AST)
 };
 
-///////////////////////////////////////////////////////////////////////
-// Recognize terminal and not terminal
-class IRecognizeElement
+using PTerminal = std::shared_ptr<Terminal>;
+using PNotTerminal = std::shared_ptr<NotTerminal>;
+
+//////////////////////////////////////////////////////////////////////
+// Exceptions
+class CUnexpectedSymbolsError : public std::runtime_error
 {
 public:
-	enum class Type
-	{
-		NotTerminal
-		, Terminal
-	};
-
-	IRecognizeElement(Type type)
-		: m_type(type)
-	{
-
-	};
-
-	virtual ~IRecognizeElement() = default;
-
-	Type m_type;
-};
-
-using RecognizeElements = std::vector<IRecognizeElement>;
-
-class RecognizeNotTerminal : public IRecognizeElement
-{
-public:
-	RecognizeNotTerminal();
-	//////////////////////////////////////////////////////////////////////
-	// Methods
-public:
-	std::string			m_name;// TODO : see need it
-	RecognizeElements	m_recognizeElements;
-};
-
-class RecognizeTerminal : public IRecognizeElement
-{
-public:
-	RecognizeTerminal();
-	//////////////////////////////////////////////////////////////////////
-	// Methods
-public:
-	//////////////////////////////////////////////////////////////////////
-	// Data
-public:
-	SToken		m_token;// For return value, need to semantic(AST)
+	CUnexpectedSymbolsError(const TokensId & tokenId, const TokensId & expectedTokenId)
+		: runtime_error("Expected " + TokensStringPresentation.at(expectedTokenId)
+			+ ".Gived " + TokensStringPresentation.at(tokenId) + ".\n")
+	{}
 };

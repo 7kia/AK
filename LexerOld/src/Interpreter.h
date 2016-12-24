@@ -4,6 +4,7 @@
 
 #include "Lexer/Lexer.h"
 #include "Syntax/Rule.h"
+#include "Syntax/RecognizeUnits.h"
 
 class CInterpreter
 {

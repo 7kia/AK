@@ -152,6 +152,7 @@
     <ClInclude Include="src\Lexer\Token.h" />
     <ClInclude Include="src\main.h" />
     <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\Syntax\RecognizeUnits.h" />
     <ClInclude Include="src\Syntax\Rule.h" />
     <ClInclude Include="src\targetver.h" />
   </ItemGroup>
@@ -161,6 +162,7 @@
     <ClCompile Include="src\Lexer\Token.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\Syntax\RecognizeUnits.cpp" />
     <ClCompile Include="src\Syntax\Rule.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

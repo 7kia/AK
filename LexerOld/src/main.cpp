@@ -18,10 +18,30 @@ void CheckParametrs(int argc)
 	}
 }
 
+///////////////////////////////////////////////
+// TODO : transfer to other place
+
+bool ToRecognizeTerminal(Terminal* terminal, const SToken & token)
+{
+	if (terminal->m_tokenId == token.id)
+	{
+		//return std::make_shared<RecognizeTerminal>(token);
+		return true;
+	}
+
+	//throw CUnexpectedSymbolsError(token.id, terminal->m_tokenId);
+	return false;
+}
+
+// TODO : transfer to other place
+///////////////////////////////////////////////
+
 
 
 int main(int argc, char *argv[]) 
 {
+	//Add ToRecognizeTerminal, check it work
+
 	/*
 	try
 	{
@@ -50,15 +70,26 @@ int main(int argc, char *argv[])
 	CInterpreter interpreter(outputFile);
 	interpreter.EnterLoop(inputFile);
 	*/
-	Terminal Id(TokensId::TK_ID);
-	Terminal Plus(TokensId::TK_PLUS);
+	PTerminal Id = std::make_shared<Terminal>(TokensId::TK_ID);
+	PTerminal Plus = std::make_shared<Terminal>(TokensId::TK_PLUS);
 
 	NotTerminal Axiom("Axiom", {
 		{ Id }
 		, { Id , Plus , Id }
 	});
 
+	std::vector<SToken> tokens = { SToken("id", TokensId::TK_ID)
+								, SToken("+", TokensId::TK_PLUS)
+								, SToken("id", TokensId::TK_ID) };
+	
+	auto inputToken = SToken("id", TokensId::TK_ID);
+	auto pTerminal = dynamic_cast<Terminal*>(Axiom.m_ruleElements[0][0].get());
+	bool isRecognize = ToRecognizeTerminal(pTerminal
+											, inputToken);
 
+	inputToken = SToken("+", TokensId::TK_PLUS);
+	bool isRecognize2 = ToRecognizeTerminal(pTerminal
+		, inputToken);
 
     return 0;
 }

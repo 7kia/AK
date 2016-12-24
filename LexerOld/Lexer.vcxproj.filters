@@ -48,6 +48,9 @@
     <ClInclude Include="src\Syntax\Rule.h">
       <Filter>src\Syntax</Filter>
     </ClInclude>
+    <ClInclude Include="src\Syntax\RecognizeUnits.h">
+      <Filter>src\Syntax</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Lexer\Lexer.cpp">
@@ -67,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="src\Syntax\Rule.cpp">
       <Filter>src\Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Syntax\RecognizeUnits.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

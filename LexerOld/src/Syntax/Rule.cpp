@@ -22,16 +22,7 @@ bool Terminal::Recognize(const TokensId & tokenId)
 	}
 
 	// TODO : see might need own type exception
-	std::runtime_error("Expected " + TokensStringPresentation.at(m_tokenId)
-						+ ".Gived " + TokensStringPresentation.at(tokenId) + ".\n");
-}
+	throw CUnexpectedSymbolsError(tokenId, m_tokenId);
 
-RecognizeNotTerminal::RecognizeNotTerminal()
-	: IRecognizeElement(Type::NotTerminal)
-{
-}
-
-RecognizeTerminal::RecognizeTerminal()
-	: IRecognizeElement(Type::Terminal)
-{
+	return false;
 }
