@@ -19,6 +19,9 @@
     <Filter Include="src\Lexer">
       <UniqueIdentifier>{847a57e3-7089-41e0-9e12-c38238537ac1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Syntax">
+      <UniqueIdentifier>{4062509c-d060-41ed-9d85-a6198af45450}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -42,6 +45,9 @@
     <ClInclude Include="src\targetver.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\Syntax\Rule.h">
+      <Filter>src\Syntax</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Lexer\Lexer.cpp">
@@ -58,6 +64,9 @@
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Syntax\Rule.cpp">
+      <Filter>src\Syntax</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

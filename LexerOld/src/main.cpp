@@ -18,8 +18,11 @@ void CheckParametrs(int argc)
 	}
 }
 
+
+
 int main(int argc, char *argv[]) 
 {
+	/*
 	try
 	{
 		CheckParametrs(argc);
@@ -46,6 +49,16 @@ int main(int argc, char *argv[])
 
 	CInterpreter interpreter(outputFile);
 	interpreter.EnterLoop(inputFile);
+	*/
+	Terminal Id(TokensId::TK_ID);
+	Terminal Plus(TokensId::TK_PLUS);
+
+	NotTerminal Axiom("Axiom", {
+		{ Id }
+		, { Id , Plus , Id }
+	});
+
+
 
     return 0;
 }

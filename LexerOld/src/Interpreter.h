@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "Lexer/Lexer.h"
+#include "Syntax/Rule.h"
 
 class CInterpreter
 {
