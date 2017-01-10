@@ -1,0 +1,17 @@
+#pragma once
+
+#include "LRRow.h"
+
+class CTransition
+{
+public:
+	CTransition(size_t index, LRTable * pLRTable);
+	//////////////////////////////////////////////////////////////////////
+	// Methods
+public:
+	//////////////////////////////////////////////////////////////////////
+	// Data
+public:
+	size_t			m_index = 0;
+	LRTable	*		m_pLRTable = nullptr;
+};
