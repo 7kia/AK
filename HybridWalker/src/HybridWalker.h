@@ -1,5 +1,6 @@
 #pragma once
 #include "Transition.h"
+#include "LRRow.h"
 #include <vector>
 #include <stack>
 

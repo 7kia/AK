@@ -10,7 +10,7 @@ HybridWalker::HybridWalker(const Tokens & tokens, const LRTable & LRtable)
 
 bool HybridWalker::CheckInputSequence()
 {
-	m_transitions.push(CTransition(0u, &m_LRtable));// First transitionIndex - it is axiom
+	m_transitions.push(CTransition(0u, &m_LRtable, CTransition::TypeTable::LR));// First transitionIndex - it is axiom
 	size_t startSize = m_inputTokens.size();
 	while (!m_transitions.empty())
 	{
@@ -20,9 +20,9 @@ bool HybridWalker::CheckInputSequence()
 			{
 				//////////////////////////////////////////////////////////
 				// Rollup - —вЄртка
-				if (m_LRtable[m_transitions.top().m_index].back().rollup)
+				if (m_LRtable[m_transitions.top().m_index].back().m_rollup)
 				{
-					auto rule = *m_LRtable[m_transitions.top().m_index].back().rollup;
+					auto rule = *m_LRtable[m_transitions.top().m_index].back().m_rollup;
 					// Clear stack
 					for (size_t j = 0; j < rule.size; j++)
 					{
@@ -45,29 +45,29 @@ bool HybridWalker::CheckInputSequence()
 				auto currentTransition = m_LRtable[m_transitions.top().m_index][i];
 				//////////////////////////////////////////////////////////
 				// Find correspond
-				if (currentTransition.inputSymbol == m_inputTokens.front())
+				if (currentTransition.m_inputSymbol == m_inputTokens.front())
 				{
 					// Is transitionIndex
-					if (currentTransition.transitionIndex != -1)
+					if (currentTransition.m_transition.m_index != -1)
 					{
-						m_transitions.push(CTransition(unsigned int(currentTransition.transitionIndex), &m_LRtable));
+						m_transitions.push(currentTransition.m_transition);
 						// Add element and delete recognize element from input line
-						if (currentTransition.isShift)
+						if (currentTransition.m_isShift)
 						{
 							m_elements.push(m_inputTokens.front());
 						}
 						m_inputTokens.erase(m_inputTokens.begin());
 					}
 					// End
-					else if (currentTransition.isShift && currentTransition.inputSymbol == "S")
+					else if (currentTransition.m_isShift && currentTransition.m_inputSymbol == "S")
 					{
 						return true;
 					}
 					//////////////////////////////////////////////////////////
 					// Rollup - —вЄртка
-					else if (currentTransition.rollup)
+					else if (currentTransition.m_rollup)
 					{
-						auto rule = *currentTransition.rollup;
+						auto rule = *currentTransition.m_rollup;
 						// Clear stack and push the rule
 						for (size_t j = 0; j < rule.size; j++)
 						{

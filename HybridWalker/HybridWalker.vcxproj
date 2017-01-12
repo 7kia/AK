@@ -143,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\HybridWalkerExceptions.h" />
+    <ClInclude Include="src\LL1Walker.h" />
     <ClInclude Include="src\LRRow.h" />
     <ClInclude Include="src\HybridWalker.h" />
     <ClInclude Include="src\Rule.h" />
@@ -152,6 +153,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\HybridWalkerExceptions.cpp" />
+    <ClCompile Include="src\LL1RowElement.cpp" />
+    <ClCompile Include="src\LL1Walker.cpp" />
     <ClCompile Include="src\LRRow.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\HybridWalker.cpp" />

@@ -1,22 +1,23 @@
 #include "stdafx.h"
-#include "LRRow.h"
+#include "Transition.h"
 
-RowElement::RowElement(const std::string & sym
-					, size_t transitionIndex
-					, bool shift)
-	: inputSymbol(sym)
-	, transitionIndex(transitionIndex)
-	, isShift(shift)
+
+CLRRowElement::CLRRowElement(const std::string & sym
+	, CTransition transition
+	, bool shift)
+	: m_inputSymbol(sym)
+	, m_transition(transition)
+	, m_isShift(shift)
 {
 }
 
-RowElement::RowElement(const std::string & sym
-					, size_t transition
-					, Rule rule
-					, bool shift)
-	: inputSymbol(sym)
-	, transitionIndex(transition)
-	, rollup(rule)
-	, isShift(shift)
+CLRRowElement::CLRRowElement(const std::string & sym
+	, CTransition transition
+	, Rule rule
+	, bool shift)
+	: m_inputSymbol(sym)
+	, m_transition(transition)
+	, m_rollup(rule)
+	, m_isShift(shift)
 {
 }
