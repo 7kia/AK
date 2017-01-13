@@ -24,9 +24,6 @@
     <ClInclude Include="src\targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\LL1Walker.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\HybridWalker.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -63,9 +60,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LL1Walker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\LL1RowElement.cpp">

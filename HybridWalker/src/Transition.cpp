@@ -37,7 +37,7 @@ LRTable & PointerConverter::GetLRTable(CTransition & transition)
 	return *static_cast<LRTable*>(transition.m_pTable);
 }
 
-LL1Table & PointerConverter::GetLLTable(CTransition & transition)
+LLTable & PointerConverter::GetLLTable(CTransition & transition)
 {
 	CheckTablePointer(transition);
 
@@ -46,7 +46,7 @@ LL1Table & PointerConverter::GetLLTable(CTransition & transition)
 		throw std::runtime_error("The table is not LL");
 	}
 
-	return *static_cast<LL1Table*>(transition.m_pTable);
+	return *static_cast<LLTable*>(transition.m_pTable);
 }
 
 void PointerConverter::CheckTablePointer(CTransition & transition)

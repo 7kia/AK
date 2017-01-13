@@ -9,18 +9,37 @@ using Tokens = std::vector<std::string>;
 class HybridWalker
 {
 public:
-	HybridWalker(const Tokens & tokens, const LRTable & table);
+	enum class State
+	{
+		LLCheck
+		, LRCheck
+		, End
+	};
+
+	HybridWalker(const LRTable & LRtable
+		, const LLTable & LLtable
+		, State state);
 	//////////////////////////////////////////////////////////////////////
 	// Methods
 public:
-	bool						CheckInputSequence();
+	bool						CheckInputSequence(const Tokens & tokens);
 
+	bool						CheckAsLR();
+	bool						CheckAsLL();
+
+	CTransition					GetCurrentTransition(const CLL1RowElement & row);
+	void						SetState(State state);
 	//////////////////////////////////////////////////////////////////////
 	// Data
 private:
 	Tokens						m_inputTokens;
-	LRTable						m_LRtable;
+	LRTable						m_LRTable;
+	LLTable						m_LLTable;
 	std::stack<std::string>		m_elements;
 	std::stack<CTransition>		m_transitions;
+
+	CTransition					m_currentTransition;
+	State						m_state = State::LLCheck;
+	bool						m_result = true;
 };
 

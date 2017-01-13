@@ -44,7 +44,7 @@ public:
 	{}
 };
 
-LL1Walker::LL1Walker(const LL1Table & table)
+LL1Walker::LL1Walker(const LLTable & table)
 	: m_LLTable(table)
 {
 }

@@ -7,7 +7,7 @@
 class LL1Walker
 {
 public:
-	LL1Walker(const LL1Table & table);
+	LL1Walker(const LLTable & table);
 
 	bool CheckInputSequence(const std::vector<std::string>& inputStr);
 
@@ -16,5 +16,5 @@ private:
 
 	std::stack<CTransition> m_transitions;
 
-	LL1Table m_LLTable;
+	LLTable m_LLTable;
 };

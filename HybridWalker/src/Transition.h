@@ -12,6 +12,7 @@ public:
 	{
 		LL = 0
 		, LR
+		, NONE
 	};
 
 
@@ -72,13 +73,13 @@ public:
 };
 
 
-using LL1Table = std::vector<CLL1RowElement>;
+using LLTable = std::vector<CLL1RowElement>;
 using LRTable = std::vector<std::vector<CLRRowElement>>;
 
 namespace PointerConverter
 {
 	LRTable & GetLRTable(CTransition & transition);
-	LL1Table & GetLLTable(CTransition & transition);
+	LLTable & GetLLTable(CTransition & transition);
 
 	void	CheckTablePointer(CTransition & transition);
 }
