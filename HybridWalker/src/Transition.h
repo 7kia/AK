@@ -29,7 +29,7 @@ private:
 	//////////////////////////////////////////////////////////////////////
 	// Data
 public:
-	TypeTable		m_tableType = TypeTable::LL;
+	TypeTable		m_tableType = TypeTable::NONE;
 	size_t			m_index = 0;
 	void *			m_pTable = nullptr;
 };

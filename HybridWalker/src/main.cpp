@@ -60,11 +60,11 @@ int main()
 	{
 		if (walker.CheckInputSequence(inputSeq))
 		{
-			std::cout << "Success!" << std::endl;
+			std::cout << "LR Success!" << std::endl;
 		}
 		else
 		{
-			std::cout << "Error!" << std::endl;
+			std::cout << "LR Error!" << std::endl;
 		}
 	}
 	catch (std::runtime_error & err)
@@ -82,11 +82,11 @@ int main()
 		walker.SetState(HybridWalker::State::LLCheck);
 		if (walker.CheckInputSequence(str2))
 		{
-			std::cout << "Success!" << std::endl;
+			std::cout << "LL Success!" << std::endl;
 		}
 		else
 		{
-			std::cout << "Error!" << std::endl;
+			std::cout << "LL Error!" << std::endl;
 		}
 	}
 	catch (std::runtime_error & err)

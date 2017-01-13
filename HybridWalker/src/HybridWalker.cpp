@@ -16,6 +16,7 @@ HybridWalker::HybridWalker(const LRTable & LRtable
 							, State state)
 	: m_LRTable(LRtable)
 	, m_LLTable(LLtable)
+	, m_state(state)
 	, m_currentTransition(0, &m_LLTable, CTransition::TypeTable::LL)
 
 {
@@ -33,7 +34,7 @@ bool HybridWalker::CheckInputSequence(const Tokens & tokens)
 	}
 	else if (m_state == State::LRCheck)
 	{
-		//m_transitions.push(CTransition(0u, &m_LRTable, CTransition::TypeTable::LR));// First transitionIndex - it is axiom
+		m_transitions.push(CTransition(0u, &m_LRTable, CTransition::TypeTable::LR));// First transitionIndex - it is axiom
 		m_currentTransition = CTransition(0, &m_LRTable, CTransition::TypeTable::LR);// TODO : see need it there
 		return CheckAsLR();
 	}
@@ -159,12 +160,13 @@ bool HybridWalker::CheckAsLL()
 				m_transitions.push(CTransition(tableRowIndex + 1, &m_LLTable, CTransition::TypeTable::LL));
 			}
 
-			m_currentTransition = GetCurrentTransition(currentTableRow);
 			if (m_currentTransition.m_tableType == CTransition::TypeTable::LR)
 			{
 				m_state = State::LRCheck;
 				m_result = CheckAsLR();
 			}
+			m_currentTransition = GetCurrentTransition(currentTableRow);
+
 		}
 		else if (!currentTableRow.m_error)
 		{
