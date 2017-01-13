@@ -21,6 +21,7 @@ CTransition::CTransition(size_t index
 
 CTransition::CTransition(const CTransition & copy)
 	: m_index(copy.m_index)
+	, m_tableType(copy.m_tableType)
 	, m_pTable(copy.m_pTable)
 {
 }

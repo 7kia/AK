@@ -47,7 +47,14 @@ bool HybridWalker::CheckAsLR()
 	size_t startSize = m_inputTokens.size();
 	while (!m_transitions.empty())
 	{
-		for (size_t i = 0; i < m_LRTable[m_transitions.top().m_index].size(); i++)
+		size_t index = m_transitions.top().m_index;
+
+		if (m_transitions.top().m_tableType == CTransition::TypeTable::LL)
+		{
+			index = m_currentTransition.m_index;
+		}
+
+		for (size_t i = 0; i < m_LRTable[index].size(); i++)
 		{
 			if (m_inputTokens.empty())
 			{
@@ -63,8 +70,8 @@ bool HybridWalker::CheckAsLR()
 						m_elements.pop();
 					}
 					// Add the rule
-					m_inputTokens.push_back(rule.outputSym);
-					m_elements.push(rule.outputSym);
+					m_inputTokens.push_back(rule.nameRule);
+					m_elements.push(rule.nameRule);
 					break;
 				}
 				//////////////////////////////////////////////////////////
@@ -75,7 +82,7 @@ bool HybridWalker::CheckAsLR()
 			}
 			else
 			{
-				auto currentTransition = m_LRTable[m_transitions.top().m_index][i];
+				auto currentTransition = m_LRTable[index][i];
 
 				// Trabsition
 				if (currentTransition.m_transition.m_tableType == CTransition::TypeTable::LL)
@@ -114,21 +121,21 @@ bool HybridWalker::CheckAsLR()
 							m_transitions.pop();
 							m_elements.pop();
 						}
-						m_inputTokens.insert(m_inputTokens.begin(), rule.outputSym);
-						m_elements.push(rule.outputSym);
+						m_inputTokens.insert(m_inputTokens.begin(), rule.nameRule);
+						m_elements.push(rule.nameRule);
 					}
 					//////////////////////////////////////////////////////////
 					else
 					{
-						throw CUnexpectedSymbolsError(m_LRTable[m_transitions.top().m_index], m_inputTokens.front(), startSize - m_inputTokens.size());
+						throw CUnexpectedSymbolsError(m_LRTable[index], m_inputTokens.front(), startSize - m_inputTokens.size());
 					}
 					break;
 				}
 				//////////////////////////////////////////////////////////
 				// Not found correspond rules
-				if (i >= (m_LRTable[m_transitions.top().m_index].size() - 1))
+				if (i >= (m_LRTable[index].size() - 1))
 				{
-					throw CUnexpectedSymbolsError(m_LRTable[m_transitions.top().m_index], m_inputTokens.front(), startSize - m_inputTokens.size());
+					throw CUnexpectedSymbolsError(m_LRTable[index], m_inputTokens.front(), startSize - m_inputTokens.size());
 				}
 			}
 		}
@@ -141,18 +148,20 @@ bool HybridWalker::CheckAsLR()
 bool HybridWalker::CheckAsLL()
 {
 	size_t currentSymbolIndex = 0;
+	size_t startSize = m_inputTokens.size();
 	size_t & tableRowIndex = m_currentTransition.m_index;
 	CLL1RowElement currentTableRow = m_LLTable[tableRowIndex];
 	std::string currentSymbol = m_inputTokens[currentSymbolIndex];
 
-	for (; !(m_LLTable[tableRowIndex].m_end && (currentSymbolIndex == m_inputTokens.size() - 1));
-		currentTableRow = m_LLTable[tableRowIndex], currentSymbol = m_inputTokens[currentSymbolIndex])
+	for (; !(m_LLTable[tableRowIndex].m_end && (currentSymbolIndex == startSize - 1));
+		currentTableRow = m_LLTable[tableRowIndex], currentSymbol = m_inputTokens[0])
 	{
 		if (CheckSymbolInInput(currentSymbol, currentTableRow.m_input))
 		{
 			if (currentTableRow.m_shift)
 			{
 				currentSymbolIndex++;
+				m_inputTokens.erase(m_inputTokens.begin());
 			}
 
 			if (currentTableRow.m_stack)
@@ -160,13 +169,13 @@ bool HybridWalker::CheckAsLL()
 				m_transitions.push(CTransition(tableRowIndex + 1, &m_LLTable, CTransition::TypeTable::LL));
 			}
 
+			
+			m_currentTransition = GetCurrentTransition(currentTableRow);
 			if (m_currentTransition.m_tableType == CTransition::TypeTable::LR)
 			{
 				m_state = State::LRCheck;
 				m_result = CheckAsLR();
 			}
-			m_currentTransition = GetCurrentTransition(currentTableRow);
-
 		}
 		else if (!currentTableRow.m_error)
 		{

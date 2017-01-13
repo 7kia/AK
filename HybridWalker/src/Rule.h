@@ -5,6 +5,6 @@
 struct Rule
 {
 	Rule(const std::string & output, size_t size);
-	std::string		outputSym;
+	std::string		nameRule;
 	size_t			size;
 };
