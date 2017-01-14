@@ -310,3 +310,12 @@ struct SToken
 	std::string		value;
 	TokensId		id = TokensId::TK_NONE;
 };
+
+// 	Ready tokes
+static const SToken intToken("int", TokensId::TK_INTEGER);
+static const SToken floatToken("float", TokensId::TK_FLOAT);
+static const SToken charToken("char", TokensId::TK_CHAR);
+static const SToken stringToken("string", TokensId::TK_STRING);
+
+static const SToken idToken("ID", TokensId::TK_ID);
+

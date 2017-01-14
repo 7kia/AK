@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "HybridWalker.h"
+#include "main.h"
 
 int main()
 {
@@ -14,13 +14,6 @@ int main()
 	LLTable LLTable1;
 
 	LLTable ruleConstant;
-	SToken intToken("int", TokensId::TK_INTEGER);
-	SToken floatToken("float", TokensId::TK_FLOAT);
-	SToken charToken("char", TokensId::TK_CHAR);
-	SToken stringToken("string", TokensId::TK_STRING);
-
-	CTransition notLLTransition(-1, nullptr, CTransition::TypeTable::LL);
-	CTransition notLRTransition(-1, nullptr, CTransition::TypeTable::LR);
 
 	SToken noneToken("NONE", TokensId::TK_NONE);
 	SToken endCodeToken("End code", TokensId::TK_END_CODE);

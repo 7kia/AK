@@ -84,3 +84,7 @@ namespace PointerConverter
 
 	void	CheckTablePointer(CTransition & transition);
 }
+
+// Ready transitions
+static const CTransition notLLTransition(-1, nullptr, CTransition::TypeTable::LL);
+static const CTransition notLRTransition(-1, nullptr, CTransition::TypeTable::LR);
