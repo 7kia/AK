@@ -6,8 +6,18 @@
 
 int main()
 {
+	LRTable LRNull;
+	LLTable LLNull;
+
+
 	LRTable LRTable1;
 	LLTable LLTable1;
+
+	LLTable ruleConstant;
+	SToken intToken("int", TokensId::TK_INTEGER);
+	SToken floatToken("float", TokensId::TK_FLOAT);
+	SToken charToken("char", TokensId::TK_CHAR);
+	SToken stringToken("string", TokensId::TK_STRING);
 
 	CTransition notLLTransition(-1, nullptr, CTransition::TypeTable::LL);
 	CTransition notLRTransition(-1, nullptr, CTransition::TypeTable::LR);
@@ -15,7 +25,6 @@ int main()
 	SToken noneToken("NONE", TokensId::TK_NONE);
 	SToken endCodeToken("End code", TokensId::TK_END_CODE);
 	SToken expToken("exp", TokensId::RULE_EXPRESSION);
-	SToken intToken("int", TokensId::TK_INTEGER);
 	SToken plusToken("+", TokensId::TK_PLUS);
 	SToken minusToken("-", TokensId::TK_MINUS);
 	SToken startBlockToken("{", TokensId::TK_LEFT_BRACE);
@@ -23,7 +32,7 @@ int main()
 
 	
 	LRTable1.push_back({ CLRRowElement(startBlockToken, notLRTransition, false), CLRRowElement(expToken, notLRTransition, true),  CLRRowElement(intToken, CTransition(1, &LRTable1, CTransition::TypeTable::LR), true) });
-	LRTable1.push_back({ CLRRowElement(startBlockToken, notLRTransition, false), CLRRowElement(expToken, notLRTransition, false), CLRRowElement(intToken, notLRTransition, false), CLRRowElement(plusToken, CTransition(2, &LRTable1, CTransition::TypeTable::LR), true), CLRRowElement(minusToken, CTransition(2, &LRTable1, CTransition::TypeTable::LR), true), CLRRowElement(endCodeToken, notLRTransition, Rule(expToken, 1), true) });
+	LRTable1.push_back({ CLRRowElement(startBlockToken, notLRTransition, false), CLRRowElement(expToken, notLRTransition, false), CLRRowElement(intToken, notLRTransition, false), CLRRowElement(plusToken, CTransition(2, &LRTable1, CTransition::TypeTable::LR), Rule(expToken, 1), true), CLRRowElement(minusToken, CTransition(2, &LRTable1, CTransition::TypeTable::LR), Rule(expToken, 1), true), CLRRowElement(endCodeToken, notLRTransition, Rule(expToken, 1), true) });
 	LRTable1.push_back({ CLRRowElement(startBlockToken, notLRTransition, false), CLRRowElement(expToken, notLRTransition, false), CLRRowElement(intToken, CTransition(3, &LRTable1, CTransition::TypeTable::LR), true) });
 	LRTable1.push_back({ CLRRowElement(startBlockToken, notLRTransition, false), CLRRowElement(expToken, notLRTransition, false), CLRRowElement(intToken, CTransition(-1, &LRTable1, CTransition::TypeTable::LR), Rule(expToken, 3), false), CLRRowElement(endBlockToken, CTransition(-1, &LRTable1, CTransition::TypeTable::LR), Rule(expToken, 3), false) });
 
@@ -36,13 +45,26 @@ int main()
 	LLTable1.push_back(CLL1RowElement({ endBlockToken }, false, CTransition(5, &LLTable1, CTransition::TypeTable::LL), false, true, false));
 	LLTable1.push_back(CLL1RowElement({ endBlockToken }, true, notLLTransition, true, true, true));
 
+	ruleConstant.push_back(CLL1RowElement({ intToken }, false, CTransition(1, &ruleConstant, CTransition::TypeTable::LL), false, false, false));
+	ruleConstant.push_back(CLL1RowElement({ intToken }, true, CTransition(2, &ruleConstant, CTransition::TypeTable::LL), true, false, true));// 3 - false
+	ruleConstant.push_back(CLL1RowElement({ floatToken }, false, CTransition(3, &ruleConstant, CTransition::TypeTable::LL), false, false, false));
+	ruleConstant.push_back(CLL1RowElement({ floatToken }, true, CTransition(4, &ruleConstant, CTransition::TypeTable::LL), true, false, true));// 3 - false
+	ruleConstant.push_back(CLL1RowElement({ charToken }, false, CTransition(5, &ruleConstant, CTransition::TypeTable::LL), false, false, false));
+	ruleConstant.push_back(CLL1RowElement({ charToken }, true, CTransition(6, &ruleConstant, CTransition::TypeTable::LL), true, false, true));// 3 - false
+	ruleConstant.push_back(CLL1RowElement({ stringToken }, false, CTransition(7, &ruleConstant, CTransition::TypeTable::LL), false, true, false));
+	ruleConstant.push_back(CLL1RowElement({ stringToken }, true, notLLTransition, true, true, false));
 
-	std::vector<SToken> inputSeq = { startBlockToken, intToken, plusToken, intToken, endBlockToken };//
 
 	auto walker = HybridWalker(LRTable1, LLTable1, HybridWalker::State::LLCheck);
+	std::vector<SToken> inputSeq = { startBlockToken, intToken, plusToken, intToken, endBlockToken };//
+
+	auto constantRuleWalker = HybridWalker(LRNull, ruleConstant, HybridWalker::State::LLCheck);
+	std::vector<SToken> constantSeq = { intToken };//
+
 	try
 	{
-		if (walker.CheckInputSequence(inputSeq))
+		//if (walker.CheckInputSequence(inputSeq))
+		if (constantRuleWalker.CheckInputSequence(constantSeq))
 		{
 			std::cout << "Hybrid Success!" << std::endl;
 		}
