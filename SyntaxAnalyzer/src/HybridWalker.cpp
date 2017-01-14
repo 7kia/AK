@@ -226,6 +226,11 @@ bool HybridWalker::CheckAsLL()
 		{
 			throw CLLUnexpectedSymbolsError(m_LLTable[tableRowIndex].m_input, currentSymbol, currentSymbolIndex);
 		}
+
+		if (m_inputTokens.size() == 0)
+		{
+			m_inputTokens.push_back(SToken("End code", TokensId::TK_END_CODE));
+		}
 	}
 
 	if (m_state == State::LLCheck)

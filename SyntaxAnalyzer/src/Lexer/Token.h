@@ -10,6 +10,7 @@ enum class TokensId
 
 	TK_NONE = 0
 
+	, TK_END_CODE = -1
 	, TK_INTEGER = 1
 	, TK_FLOAT
 	, TK_CHAR
