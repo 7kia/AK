@@ -30,22 +30,39 @@ bool HybridWalker::CheckInputSequence(const Tokens & tokens)
 	{
 		m_transitions.push(CTransition(0u, &m_LLTable, CTransition::TypeTable::LL));// First transitionIndex - it is axiom
 		m_currentTransition = CTransition(0, &m_LLTable, CTransition::TypeTable::LL);
-		return CheckAsLL();
+		CheckAsLL();
 	}
 	else if (m_state == State::LRCheck)
 	{
 		m_transitions.push(CTransition(0u, &m_LRTable, CTransition::TypeTable::LR));// First transitionIndex - it is axiom
 		m_currentTransition = CTransition(0, &m_LRTable, CTransition::TypeTable::LR);// TODO : see need it there
-		return CheckAsLR();
+		CheckAsLR();
 	}
 
-	throw std::runtime_error("Incorrect start state");
+	while (m_state != State::End)
+	{
+		if (m_state == State::LLCheck)
+		{
+			CheckAsLL();
+		}
+		else if (m_state == State::LRCheck)
+		{
+			CheckAsLR();
+		}
+	}
+
+	if (m_state != State::End)
+	{
+		throw std::runtime_error("Incorrect start state");
+	}
+
+	return true;
 }
 
 bool HybridWalker::CheckAsLR()
 {
 	size_t startSize = m_inputTokens.size();
-	while (!m_transitions.empty())
+	while (!m_transitions.empty() && (m_state != State::LLCheck))
 	{
 		size_t index = m_transitions.top().m_index;
 
@@ -79,7 +96,6 @@ bool HybridWalker::CheckAsLR()
 					if (m_currentTransition.m_tableType == CTransition::TypeTable::LL)
 					{
 						m_state = State::LLCheck;
-						m_result = CheckAsLL();
 					}
 
 					break;
@@ -98,7 +114,6 @@ bool HybridWalker::CheckAsLR()
 				if (currentTransition.m_transition.m_tableType == CTransition::TypeTable::LL)
 				{
 					m_state = State::LLCheck;
-					m_result = CheckAsLL();
 				}
 				//////////////////////////////////////////////////////////
 				// Find correspond
@@ -118,7 +133,6 @@ bool HybridWalker::CheckAsLR()
 						if (m_currentTransition.m_tableType == CTransition::TypeTable::LL)
 						{
 							m_state = State::LLCheck;
-							m_result = CheckAsLL();
 						}
 					}
 					// End
@@ -146,7 +160,7 @@ bool HybridWalker::CheckAsLR()
 						if (m_currentTransition.m_tableType == CTransition::TypeTable::LL)
 						{
 							m_state = State::LLCheck;
-							m_result = CheckAsLL();
+							//m_result = CheckAsLL();
 						}
 					}
 					//////////////////////////////////////////////////////////
@@ -166,7 +180,10 @@ bool HybridWalker::CheckAsLR()
 		}
 	}
 
-	m_state = State::End;
+	if (m_state == State::LRCheck)
+	{
+		m_state = State::End;
+	}
 	return m_result;
 }
 
@@ -178,7 +195,7 @@ bool HybridWalker::CheckAsLL()
 	CLL1RowElement currentTableRow = m_LLTable[tableRowIndex];
 	std::string currentSymbol = m_inputTokens[currentSymbolIndex];
 
-	for (; !(m_LLTable[tableRowIndex].m_end && (currentSymbolIndex == startSize - 1));
+	for (; !(m_LLTable[tableRowIndex].m_end && (currentSymbolIndex == startSize - 1)) && (m_state != State::LRCheck);
 		currentTableRow = m_LLTable[tableRowIndex], currentSymbol = m_inputTokens[0])
 	{
 		if (CheckSymbolInInput(currentSymbol, currentTableRow.m_input))
@@ -199,7 +216,6 @@ bool HybridWalker::CheckAsLL()
 			if (m_currentTransition.m_tableType == CTransition::TypeTable::LR)
 			{
 				m_state = State::LRCheck;
-				m_result = CheckAsLR();
 			}
 		}
 		else if (!currentTableRow.m_error)
@@ -211,15 +227,11 @@ bool HybridWalker::CheckAsLL()
 			throw CLLUnexpectedSymbolsError(m_LLTable[tableRowIndex].m_input, currentSymbol, currentSymbolIndex);
 		}
 	}
-	/*
-		if (m_state == State::LLCheck)
+
+	if (m_state == State::LLCheck)
 	{
-		m_result = CheckAsLL();
+		m_state = State::End;
 	}
-
-	*/
-
-	m_state = State::End;
 	return m_result;
 }
 
