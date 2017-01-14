@@ -72,6 +72,16 @@ bool HybridWalker::CheckAsLR()
 					// Add the rule
 					m_inputTokens.push_back(rule.nameRule);
 					m_elements.push(rule.nameRule);
+
+					// TODO : see need it there
+					m_currentTransition = m_transitions.top();
+					// Trabsition
+					if (m_currentTransition.m_tableType == CTransition::TypeTable::LL)
+					{
+						m_state = State::LLCheck;
+						m_result = CheckAsLL();
+					}
+
 					break;
 				}
 				//////////////////////////////////////////////////////////
@@ -104,6 +114,12 @@ bool HybridWalker::CheckAsLR()
 							m_elements.push(m_inputTokens.front());
 						}
 						m_inputTokens.erase(m_inputTokens.begin());
+						// Trabsition
+						if (m_currentTransition.m_tableType == CTransition::TypeTable::LL)
+						{
+							m_state = State::LLCheck;
+							m_result = CheckAsLL();
+						}
 					}
 					// End
 					else if (currentTransition.m_isShift && currentTransition.m_inputSymbol == "S")
@@ -123,6 +139,15 @@ bool HybridWalker::CheckAsLR()
 						}
 						m_inputTokens.insert(m_inputTokens.begin(), rule.nameRule);
 						m_elements.push(rule.nameRule);
+
+						// TODO : see need it there
+						m_currentTransition = m_transitions.top();
+						// Trabsition
+						if (m_currentTransition.m_tableType == CTransition::TypeTable::LL)
+						{
+							m_state = State::LLCheck;
+							m_result = CheckAsLL();
+						}
 					}
 					//////////////////////////////////////////////////////////
 					else
