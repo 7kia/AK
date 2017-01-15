@@ -117,6 +117,32 @@ bool HybridWalker::CheckAsLR()
 				}
 				//////////////////////////////////////////////////////////
 				// Find correspond
+				if(currentTransition.m_inputToken.id == TokensId::TK_NONE)// TODO : WARNING - otherToken stand to end
+				{
+					if (currentTransition.m_rollup)
+					{
+						auto rule = *currentTransition.m_rollup;
+						// Clear stack and push the rule
+						for (size_t j = 0; j < rule.size; j++)
+						{
+							m_transitions.pop();
+							m_elements.pop();
+						}
+						m_inputTokens.insert(m_inputTokens.begin(), rule.tokenRule);
+						m_elements.push(rule.tokenRule.value);
+
+						// TODO : see need it there
+						m_currentTransition = m_transitions.top();
+						// Trabsition
+						if (m_currentTransition.m_tableType == CTransition::TypeTable::LL)
+						{
+							m_state = State::LLCheck;
+							//m_result = CheckAsLL();
+						}
+					}
+					return true;
+				}
+
 				if (currentTransition.m_inputToken == m_inputTokens.front())
 				{
 					// Is transitionIndex
@@ -134,11 +160,6 @@ bool HybridWalker::CheckAsLR()
 						{
 							m_state = State::LLCheck;
 						}
-					}
-					// End
-					else if (currentTransition.m_isShift && currentTransition.m_inputToken.value == "S")
-					{
-						return true;
 					}
 					//////////////////////////////////////////////////////////
 					// Rollup - —вЄртка
@@ -163,6 +184,13 @@ bool HybridWalker::CheckAsLR()
 							//m_result = CheckAsLL();
 						}
 					}
+					// End
+					else if ((currentTransition.m_isShift && currentTransition.m_inputToken.value == "S")// TODO : fix end rile
+						|| (currentTransition.m_inputToken.id == TokensId::TK_NONE))
+					{
+						return true;
+					}
+					
 					//////////////////////////////////////////////////////////
 					else
 					{

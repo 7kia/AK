@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include "HybridWalkerExceptions.h"
 #include "HybridWalker.h"
 
 static const int AMOUNT_ARGUMENTS = 3;

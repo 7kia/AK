@@ -312,10 +312,23 @@ struct SToken
 };
 
 // 	Ready tokes
+static const SToken endCodeToken("End code", TokensId::TK_END_CODE);
+static const SToken otherToken("other", TokensId::TK_NONE);
+
+static const SToken startBlockToken("{", TokensId::TK_LEFT_BRACE);
+static const SToken endBlockToken("}", TokensId::TK_RIGHT_BRACE);
+
+
 static const SToken intToken("int", TokensId::TK_INTEGER);
 static const SToken floatToken("float", TokensId::TK_FLOAT);
 static const SToken charToken("char", TokensId::TK_CHAR);
 static const SToken stringToken("string", TokensId::TK_STRING);
 
 static const SToken idToken("ID", TokensId::TK_ID);
+static const SToken startListArgumentToken("START_LIST_ARGUMENTS", TokensId::TK_LEFT_PAREN);
+static const SToken endListArgumentToken("END_LIST_ARGUMENTS", TokensId::TK_RIGHT_PAREN);
+
+static const SToken expToken("exp", TokensId::RULE_EXPRESSION);
+static const SToken plusToken("+", TokensId::TK_PLUS);
+static const SToken minusToken("-", TokensId::TK_MINUS);
 
