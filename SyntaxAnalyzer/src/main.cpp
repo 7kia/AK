@@ -98,17 +98,17 @@ int main()
 	expressionRule.push_back(CLL1RowElement({ logicOrToken }, false, CTransition(25, &expressionRule, CTransition::TypeTable::LL), false, false, false));
 	expressionRule.push_back(CLL1RowElement({ logicOrToken }, true, CTransition(26, &expressionRule, CTransition::TypeTable::LL), true, false, false));// 3 - false
 	expressionRule.push_back(CLL1RowElement({ endCodeToken }, false, CTransition(27, &expressionRule, CTransition::TypeTable::LL), false, true, false));// 3 - false
-	expressionRule.push_back(CLL1RowElement({ endCodeToken }, true, notLLTransition, true, true, true));// 3 - false
+	expressionRule.push_back(CLL1RowElement({ endCodeToken }, true, notLLTransition, false, true, true));// 3 - false
 
 
 	variableConstant.push_back(CLL1RowElement({ idToken }, false, CTransition(1, &variableConstant, CTransition::TypeTable::LL), false, false, false));
 	variableConstant.push_back(CLL1RowElement({ idToken }, true, CTransition(-1, &variableConstant, CTransition::TypeTable::LL), true, true, true));// 3 - false
 
 
-	auto walker = HybridWalker(&LRTable1, &LLTable1, { &LRTable1 }, { &LLTable1 }, HybridWalker::State::LLCheck);
+	auto walker = HybridWalker(&LRTable1, &LLTable1, HybridWalker::State::LLCheck);
 	std::vector<SToken> inputSeq = { startBlockToken, intToken, plusToken, intToken,  endBlockToken };//plusToken, intToken,
 
-	auto constantRuleWalker = HybridWalker(&LRNull, &expressionRule, { &LRNull }, { &expressionRule }, HybridWalker::State::LLCheck);
+	auto constantRuleWalker = HybridWalker(&LRNull, &expressionRule, HybridWalker::State::LLCheck);
 	std::vector<SToken> constantSeq = {
 		intToken, plusToken, intToken
 	};
