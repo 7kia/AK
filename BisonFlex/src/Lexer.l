@@ -252,6 +252,11 @@ UNDERSCORE_SYMBOL		"_"
 
  /*** BEGIN EXAMPLE - Change the example lexer rules below ***/
 
+  /* gobble up end-of-lines */
+  /*  TODO : \n transfer */
+  [ \t\r]+|{ONLY_STRING_COMMENT}|{MULTI_STRING_COMMENT} {
+    yylloc->step();
+}
 
 {START_BLOCK} {
 	
@@ -298,6 +303,8 @@ UNDERSCORE_SYMBOL		"_"
     //yylval->stringVal = new std::string(yytext, yyleng);// TODO : fix correct value
     return token::MINUS;
 }
+
+
 {DIVIDE} {
 		
 	*yyOutId << "Divide ";
@@ -718,9 +725,13 @@ UNDERSCORE_SYMBOL		"_"
 
 
  print   {
+   	*yyOutId << "Print ";
+
  return token::PRINT;
  }
   read   {
+  	*yyOutId << "Read ";
+
  return token::READ;
  }
  end    {
@@ -761,12 +772,8 @@ yylloc->lines(yyleng); yylloc->step();
     return token::END_LIST_ARGUMENTS;
 }
 
- /* gobble up end-of-lines */
-  /*  TODO : \n transfer */
 
-[ \t\r]+|{ONLY_STRING_COMMENT}|{MULTI_STRING_COMMENT} {
-    yylloc->step();
-}
+
 
 
  /*** END EXAMPLE - Change the example lexer rules above ***/

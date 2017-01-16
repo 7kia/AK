@@ -207,16 +207,16 @@ constant : BOOL
 		| CHAR
 		| STRING
 
-variable : ID
-
 expression : constant 
-		| variable 
+		| ID 
 		| START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS
 		| expression EQUALS expression
         | expression PLUS expression 
 		| expression MINUS expression
         | expression STAR expression 
 		| expression DIVIDE expression
+		| expression LOGIC_AND expression
+		| expression LOGIC_OR expression
 
 
 
@@ -244,6 +244,7 @@ statement : //function_call // TODO : see need it
 			| READ START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS
 
           | type_reference ID ASSIGN expression
+          | ID ASSIGN expression
 
           | NAME_RETURN expression
 	

@@ -408,24 +408,24 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[170] =
     {   0,
-        0,    0,   64,   63,   62,   58,   13,   63,    9,   20,
-       63,   60,   61,    8,    5,   28,    6,   63,    7,    3,
-       48,   27,   11,   14,   12,   59,   29,   30,   10,   59,
-       59,   59,   59,   59,   59,   59,   59,   59,   59,   59,
-       59,   59,    1,   63,    2,   62,   26,    0,   32,   19,
-       21,    0,   31,    0,    0,    0,   17,    0,    3,   15,
-       16,    4,   62,   18,    4,   23,   25,   24,   59,   59,
-       59,   59,   59,   59,   50,   59,   59,   59,   59,   59,
-       59,   44,   59,   59,   59,   59,   59,   59,   59,   59,
-       59,   59,   22,   62,    0,    0,   62,   62,    4,   59,
+        0,    0,   64,   63,    7,   59,   14,   63,   10,   21,
+       63,   61,   62,    9,    5,   29,    6,   63,    8,    3,
+       49,   28,   12,   15,   13,   60,   30,   31,   11,   60,
+       60,   60,   60,   60,   60,   60,   60,   60,   60,   60,
+       60,   60,    1,   63,    2,    7,   27,    0,   33,   20,
+       22,    0,   32,    0,    0,    0,   18,    0,    3,   16,
+       17,    4,    7,   19,    4,   24,   26,   25,   60,   60,
+       60,   60,   60,   60,   51,   60,   60,   60,   60,   60,
+       60,   45,   60,   60,   60,   60,   60,   60,   60,   60,
+       60,   60,   23,    7,    0,    0,    7,    7,    4,   60,
 
-       59,   59,   59,   59,   59,   56,   59,   59,   51,   59,
-       33,   59,   59,   59,   59,   59,   59,   59,   59,   59,
-       59,    0,    4,   37,   59,   47,   35,   59,   59,   45,
-       59,   59,   59,   42,   59,   55,   59,   59,   59,   59,
-       38,   59,   59,   52,   43,   59,   34,   59,   54,   59,
-       59,   59,   59,   59,   49,   59,   59,   39,   40,   36,
-       46,   59,   59,   59,   59,   53,   57,   41,    0
+       60,   60,   60,   60,   60,   57,   60,   60,   52,   60,
+       34,   60,   60,   60,   60,   60,   60,   60,   60,   60,
+       60,    0,    4,   38,   60,   48,   36,   60,   60,   46,
+       60,   60,   60,   43,   60,   56,   60,   60,   60,   60,
+       39,   60,   60,   53,   44,   60,   35,   60,   55,   60,
+       60,   60,   60,   60,   50,   60,   60,   40,   41,   37,
+       47,   60,   60,   60,   60,   54,   58,   42,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -583,13 +583,13 @@ static yyconst flex_int16_t yy_chk[270] =
 
 static yyconst flex_int16_t yy_rule_linenum[63] =
     {   0,
-      256,  263,  271,  279,  287,  294,  301,  308,  315,  322,
-      329,  336,  345,  352,  362,  369,  376,  383,  390,  400,
-      409,  416,  423,  430,  439,  446,  455,  462,  472,  479,
-      488,  495,  505,  514,  523,  532,  541,  553,  570,  581,
-      590,  599,  612,  624,  633,  642,  651,  660,  672,  681,
-      690,  699,  708,  720,  723,  726,  729,  732,  737,  746,
-      755,  767
+      256,  263,  271,  279,  287,  294,  302,  307,  314,  321,
+      328,  335,  342,  351,  358,  368,  375,  382,  389,  396,
+      406,  415,  422,  429,  436,  445,  452,  461,  468,  478,
+      485,  494,  501,  511,  520,  529,  538,  547,  559,  576,
+      587,  596,  605,  618,  630,  639,  648,  657,  666,  678,
+      687,  696,  705,  714,  726,  731,  736,  739,  742,  747,
+      756,  765
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -1050,6 +1050,13 @@ YY_RULE_SETUP
 }
 	YY_BREAK
 case 7:
+/* rule 7 can match eol */
+YY_RULE_SETUP
+{
+    yylloc->step();
+}
+	YY_BREAK
+case 8:
 YY_RULE_SETUP
 {
 		
@@ -1059,7 +1066,7 @@ YY_RULE_SETUP
     return token::DIVIDE;
 }
 	YY_BREAK
-case 8:
+case 9:
 YY_RULE_SETUP
 {
 		
@@ -1069,7 +1076,7 @@ YY_RULE_SETUP
     return token::STAR;
 }
 	YY_BREAK
-case 9:
+case 10:
 YY_RULE_SETUP
 {
 	
@@ -1079,7 +1086,7 @@ YY_RULE_SETUP
     return token::PERCENT;
 }
 	YY_BREAK
-case 10:
+case 11:
 YY_RULE_SETUP
 {
 	
@@ -1089,7 +1096,7 @@ YY_RULE_SETUP
     return token::POWER;
 }
 	YY_BREAK
-case 11:
+case 12:
 YY_RULE_SETUP
 {
 	
@@ -1099,7 +1106,7 @@ YY_RULE_SETUP
     return token::LESS;
 }
 	YY_BREAK
-case 12:
+case 13:
 YY_RULE_SETUP
 {
 	
@@ -1109,7 +1116,7 @@ YY_RULE_SETUP
     return token::MORE;
 }
 	YY_BREAK
-case 13:
+case 14:
 YY_RULE_SETUP
 {
 	
@@ -1119,7 +1126,7 @@ YY_RULE_SETUP
     return token::NEGATION;
 }
 	YY_BREAK
-case 14:
+case 15:
 YY_RULE_SETUP
 {
 	
@@ -1129,7 +1136,7 @@ YY_RULE_SETUP
     return token::ASSIGN;
 }
 	YY_BREAK
-case 15:
+case 16:
 YY_RULE_SETUP
 {
 	
@@ -1139,7 +1146,7 @@ YY_RULE_SETUP
     return token::PLUS_ASSIGN;
 }
 	YY_BREAK
-case 16:
+case 17:
 YY_RULE_SETUP
 {
 	
@@ -1149,7 +1156,7 @@ YY_RULE_SETUP
     return token::MINUS_ASSIGN;
 }
 	YY_BREAK
-case 17:
+case 18:
 YY_RULE_SETUP
 {
 	
@@ -1159,7 +1166,7 @@ YY_RULE_SETUP
     return token::MULTIPLY_ASSIGN;
 }
 	YY_BREAK
-case 18:
+case 19:
 YY_RULE_SETUP
 {
 	
@@ -1169,7 +1176,7 @@ YY_RULE_SETUP
     return token::DIVIDE_ASSIGN;
 }
 	YY_BREAK
-case 19:
+case 20:
 YY_RULE_SETUP
 {
 	
@@ -1179,7 +1186,7 @@ YY_RULE_SETUP
     return token::PERCENT_ASSIGN;
 }
 	YY_BREAK
-case 20:
+case 21:
 YY_RULE_SETUP
 {
 	
@@ -1189,7 +1196,7 @@ YY_RULE_SETUP
     return token::AMPERSAND;
 }
 	YY_BREAK
-case 21:
+case 22:
 YY_RULE_SETUP
 {
 	
@@ -1199,7 +1206,7 @@ YY_RULE_SETUP
     return token::LOGIC_AND;
 }
 	YY_BREAK
-case 22:
+case 23:
 YY_RULE_SETUP
 {
 	
@@ -1209,7 +1216,7 @@ YY_RULE_SETUP
     return token::LOGIC_OR;
 }
 	YY_BREAK
-case 23:
+case 24:
 YY_RULE_SETUP
 {
 	
@@ -1219,7 +1226,7 @@ YY_RULE_SETUP
     return token::LESS_EQUAL;
 }
 	YY_BREAK
-case 24:
+case 25:
 YY_RULE_SETUP
 {
 	
@@ -1229,7 +1236,7 @@ YY_RULE_SETUP
     return token::MORE_EQUAL;
 }
 	YY_BREAK
-case 25:
+case 26:
 YY_RULE_SETUP
 {
 	
@@ -1239,7 +1246,7 @@ YY_RULE_SETUP
     return token::EQUAL;
 }
 	YY_BREAK
-case 26:
+case 27:
 YY_RULE_SETUP
 {
 	
@@ -1249,7 +1256,7 @@ YY_RULE_SETUP
     return token::NOT_EQUAL;
 }
 	YY_BREAK
-case 27:
+case 28:
 YY_RULE_SETUP
 {
 	
@@ -1259,7 +1266,7 @@ YY_RULE_SETUP
     return token::COMMAND_SEPARATOR;
 }
 	YY_BREAK
-case 28:
+case 29:
 YY_RULE_SETUP
 {
 	
@@ -1269,7 +1276,7 @@ YY_RULE_SETUP
     return token::VARIABLE_SEPARATOR;
 }
 	YY_BREAK
-case 29:
+case 30:
 YY_RULE_SETUP
 {
 	
@@ -1279,7 +1286,7 @@ YY_RULE_SETUP
     return token::START_IDENTIFICATION;
 }
 	YY_BREAK
-case 30:
+case 31:
 YY_RULE_SETUP
 {
 	
@@ -1289,7 +1296,7 @@ YY_RULE_SETUP
     return token::END_IDENTIFICATION;
 }
 	YY_BREAK
-case 31:
+case 32:
 YY_RULE_SETUP
 {
 	
@@ -1299,7 +1306,7 @@ YY_RULE_SETUP
     return token::CHAR;
 }
 	YY_BREAK
-case 32:
+case 33:
 YY_RULE_SETUP
 {
 	
@@ -1309,7 +1316,7 @@ YY_RULE_SETUP
     return token::STRING;
 }
 	YY_BREAK
-case 33:
+case 34:
 YY_RULE_SETUP
 {
 	
@@ -1319,7 +1326,7 @@ YY_RULE_SETUP
     return token::NAME_INTEGER;
 }
 	YY_BREAK
-case 34:
+case 35:
 YY_RULE_SETUP
 {
 	
@@ -1329,7 +1336,7 @@ YY_RULE_SETUP
     return token::NAME_FLOAT;
 }
 	YY_BREAK
-case 35:
+case 36:
 YY_RULE_SETUP
 {
 	
@@ -1339,7 +1346,7 @@ YY_RULE_SETUP
     return token::NAME_CHAR;
 }
 	YY_BREAK
-case 36:
+case 37:
 YY_RULE_SETUP
 {
 	
@@ -1349,7 +1356,7 @@ YY_RULE_SETUP
     return token::NAME_STRING;
 }
 	YY_BREAK
-case 37:
+case 38:
 YY_RULE_SETUP
 {
 	
@@ -1359,7 +1366,7 @@ YY_RULE_SETUP
     return token::NAME_LOGIC;
 }
 	YY_BREAK
-case 38:
+case 39:
 YY_RULE_SETUP
 {
 	
@@ -1379,7 +1386,7 @@ YY_RULE_SETUP
     return token::BOOL;
 }
 	YY_BREAK
-case 39:
+case 40:
 YY_RULE_SETUP
 {
 	
@@ -1389,7 +1396,7 @@ YY_RULE_SETUP
     return token::NAME_RETURN;
 }
 	YY_BREAK
-case 40:
+case 41:
 YY_RULE_SETUP
 {
 	
@@ -1399,7 +1406,7 @@ YY_RULE_SETUP
     return token::PREFIX_SIGNED;
 }
 	YY_BREAK
-case 41:
+case 42:
 YY_RULE_SETUP
 {
 	
@@ -1409,7 +1416,7 @@ YY_RULE_SETUP
     return token::PREFIX_UNSIGNED;
 }
 	YY_BREAK
-case 42:
+case 43:
 YY_RULE_SETUP
 {
 	
@@ -1419,7 +1426,7 @@ YY_RULE_SETUP
     return token::PREFIX_LONG;
 }
 	YY_BREAK
-case 43:
+case 44:
 YY_RULE_SETUP
 {
 	
@@ -1429,7 +1436,7 @@ YY_RULE_SETUP
     return token::PREFIX_CONST;
 }
 	YY_BREAK
-case 44:
+case 45:
 YY_RULE_SETUP
 {
 	
@@ -1439,7 +1446,7 @@ YY_RULE_SETUP
     return token::IF_OPERATOR;
 }
 	YY_BREAK
-case 45:
+case 46:
 YY_RULE_SETUP
 {
 	
@@ -1449,7 +1456,7 @@ YY_RULE_SETUP
     return token::ELSE_OPERATOR;
 }
 	YY_BREAK
-case 46:
+case 47:
 YY_RULE_SETUP
 {
 	
@@ -1459,7 +1466,7 @@ YY_RULE_SETUP
     return token::SWITCH_OPERATOR;
 }
 	YY_BREAK
-case 47:
+case 48:
 YY_RULE_SETUP
 {
 	
@@ -1469,7 +1476,7 @@ YY_RULE_SETUP
     return token::CASE_OPERATOR;
 }
 	YY_BREAK
-case 48:
+case 49:
 YY_RULE_SETUP
 {
 	
@@ -1479,7 +1486,7 @@ YY_RULE_SETUP
     return token::CASE_ENUMERATOR;
 }
 	YY_BREAK
-case 49:
+case 50:
 YY_RULE_SETUP
 {
 	
@@ -1489,7 +1496,7 @@ YY_RULE_SETUP
     return token::WHILE_OPERATOR;
 }
 	YY_BREAK
-case 50:
+case 51:
 YY_RULE_SETUP
 {
 	
@@ -1499,7 +1506,7 @@ YY_RULE_SETUP
     return token::DO_OPERATOR;
 }
 	YY_BREAK
-case 51:
+case 52:
 YY_RULE_SETUP
 {
 	
@@ -1509,7 +1516,7 @@ YY_RULE_SETUP
     return token::FOR_OPERATOR;
 }
 	YY_BREAK
-case 52:
+case 53:
 YY_RULE_SETUP
 {
 	
@@ -1519,7 +1526,7 @@ YY_RULE_SETUP
     return token::BREAK_OPERATOR;
 }
 	YY_BREAK
-case 53:
+case 54:
 YY_RULE_SETUP
 {
 	
@@ -1529,39 +1536,43 @@ YY_RULE_SETUP
     return token::CONTINUE_OPERATOR;
 }
 	YY_BREAK
-case 54:
-YY_RULE_SETUP
-{
- return token::PRINT;
- }
-	YY_BREAK
 case 55:
 YY_RULE_SETUP
 {
- return token::READ;
+   	*yyOutId << "Print ";
+
+ return token::PRINT;
  }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
 {
- return token::BLOCK_END;
+  	*yyOutId << "Read ";
+
+ return token::READ;
  }
 	YY_BREAK
 case 57:
+YY_RULE_SETUP
+{
+ return token::BLOCK_END;
+ }
+	YY_BREAK
+case 58:
 YY_RULE_SETUP
 { 
  return token::FUNCTION;
  }
 	YY_BREAK
-case 58:
-/* rule 58 can match eol */
+case 59:
+/* rule 59 can match eol */
 YY_RULE_SETUP
 {
 yylloc->lines(yyleng); yylloc->step();
  }
 	YY_BREAK
 /* /\\\\ */
-case 59:
+case 60:
 YY_RULE_SETUP
 {
 	
@@ -1571,7 +1582,7 @@ YY_RULE_SETUP
     return token::ID;
 }
 	YY_BREAK
-case 60:
+case 61:
 YY_RULE_SETUP
 {
 	
@@ -1581,7 +1592,7 @@ YY_RULE_SETUP
     return token::START_LIST_ARGUMENTS;
 }
 	YY_BREAK
-case 61:
+case 62:
 YY_RULE_SETUP
 {
 	
@@ -1593,13 +1604,6 @@ YY_RULE_SETUP
 	YY_BREAK
 /* gobble up end-of-lines */
 /*  TODO : \n transfer */
-case 62:
-/* rule 62 can match eol */
-YY_RULE_SETUP
-{
-    yylloc->step();
-}
-	YY_BREAK
 /*** END EXAMPLE - Change the example lexer rules above ***/
 case 63:
 YY_RULE_SETUP
