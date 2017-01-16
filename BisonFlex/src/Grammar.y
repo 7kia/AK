@@ -86,6 +86,7 @@ extern int yylex();
 %token BLOCK_END "end"
 %token FUNCTION "def"
 %token PRINT    "print"
+%token READ "read"
 /*TODO : delete /\\\ */
 
 %token END  0  "end of file"
@@ -199,39 +200,24 @@ extern int yylex();
 
 %%
 
-epsilon : /*empty*/
 
 constant : BOOL 
 		| INT 
 		| FLOAT 
+		| CHAR
 		| STRING
 
 variable : ID
 
-function_call : ID START_LIST_ARGUMENTS END_LIST_ARGUMENTS
-				| ID START_LIST_ARGUMENTS expression_list END_LIST_ARGUMENTS
-
 expression : constant 
-		| function_call
 		| variable 
 		| START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS
-        | PLUS expression 
-		| MINUS expression 
-        | expression LESS expression 
 		| expression EQUALS expression
         | expression PLUS expression 
 		| expression MINUS expression
         | expression STAR expression 
 		| expression DIVIDE expression
-        | expression PERCENT expression
 
-
-expression_list : 
-				expression 
-				| expression_list VARIABLE_SEPARATOR expression
-
-
-Init_list_values : START_BLOCK expression_list END_BLOCK
 
 
 /*
@@ -243,11 +229,8 @@ Init_list_values : START_BLOCK expression_list END_BLOCK
 */
 type_reference : NAME_FLOAT			
 				| NAME_INTEGER		
-				///*
 				| NAME_CHAR
-				//*/
 				| NAME_STRING
-
 				| NAME_LOGIC
 
 /*
@@ -258,10 +241,9 @@ type_reference : NAME_FLOAT
 statement : //function_call // TODO : see need it
 			//| // TODO : add because can call function (for example, Draw(); )
 			 PRINT START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS
+			| READ START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS
 
           | type_reference ID ASSIGN expression
-
-			| type_reference ID ASSIGN Init_list_values
 
           | NAME_RETURN expression
 	
@@ -270,10 +252,6 @@ statement : //function_call // TODO : see need it
           | IF_OPERATOR START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS block ELSE_OPERATOR block
 
           | WHILE_OPERATOR START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS block
-
-          | DO_OPERATOR block WHILE_OPERATOR START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS
-
-          | DO_OPERATOR WHILE_OPERATOR START_LIST_ARGUMENTS expression END_LIST_ARGUMENTS
 
 		  /* | epsilon */
 

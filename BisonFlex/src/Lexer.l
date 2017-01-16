@@ -158,7 +158,7 @@ ONLY_STRING_COMMENT		{START_ONE_STRING_COMMENT}(.)*[\n]?
 MULTI_STRING_COMMENT	{START_MULTI_STRING_COMMENT}((.)*[\n]*)+{END_MULTI_STRING_COMMENT}
 /* */
 /*  “ипы и их имена  */
-CHAR				\'.\'
+CHAR				\'(.)*\'
 STRING				\"(.)*\"
 
 NAME_INTEGER		"int"
@@ -719,6 +719,9 @@ UNDERSCORE_SYMBOL		"_"
 
  print   {
  return token::PRINT;
+ }
+  read   {
+ return token::READ;
  }
  end    {
  return token::BLOCK_END;
