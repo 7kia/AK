@@ -16,6 +16,12 @@ enum class TokensId
 	, TK_CHAR
 	, TK_STRING
 
+	, TK_INTEGER_TYPE
+	, TK_FLOAT_TYPE
+	, TK_CHAR_TYPE
+	, TK_BOOL_TYPE
+	, TK_STRING_TYPE
+
 	, TK_SIGNED
 	, TK_UNSIGNED
 	, TK_CONST
@@ -82,6 +88,7 @@ enum class TokensId
 	, TK_ASSIGN
 
 	, TK_PRINT
+	, TK_READ
 	, TK_SIZEOF
 
 	, TK_NEWLINE
@@ -119,6 +126,11 @@ static const std::map<TokensId, std::string> TokensStringPresentation
 	,{ TokensId::TK_FLOAT,  "Double" }
 	,{ TokensId::TK_CHAR, "Char" }
 	,{ TokensId::TK_STRING, "String" }
+
+	,{ TokensId::TK_INTEGER_TYPE, "Integer type" }
+	,{ TokensId::TK_FLOAT_TYPE,  "Double  type" }
+	,{ TokensId::TK_CHAR_TYPE, "Char type" }
+	,{ TokensId::TK_STRING_TYPE, "String type" }
 
 	,{ TokensId::TK_SIGNED, "Signed" }
 	,{ TokensId::TK_UNSIGNED, "Unsigned" }
@@ -318,6 +330,9 @@ static const SToken otherToken("other", TokensId::TK_NONE);
 static const SToken startBlockToken("{", TokensId::TK_LEFT_BRACE);
 static const SToken endBlockToken("}", TokensId::TK_RIGHT_BRACE);
 
+static const SToken startListToken("(", TokensId::TK_LEFT_PAREN);
+static const SToken endListToken(")", TokensId::TK_RIGHT_PAREN);
+
 
 static const SToken intToken("int", TokensId::TK_INTEGER);
 static const SToken floatToken("float", TokensId::TK_FLOAT);
@@ -331,4 +346,23 @@ static const SToken endListArgumentToken("END_LIST_ARGUMENTS", TokensId::TK_RIGH
 static const SToken expToken("exp", TokensId::RULE_EXPRESSION);
 static const SToken plusToken("+", TokensId::TK_PLUS);
 static const SToken minusToken("-", TokensId::TK_MINUS);
+static const SToken devideToken("/", TokensId::TK_SLASH);
+static const SToken starToken("*", TokensId::TK_STAR);
+
+static const SToken logicAndToken("&&", TokensId::TK_LOGIC_AND);
+static const SToken logicOrToken("||", TokensId::TK_LOGIC_OR);
+
+static const SToken intTypeToken("int type", TokensId::TK_INTEGER_TYPE);
+static const SToken floatTypeToken("float type", TokensId::TK_FLOAT_TYPE);
+static const SToken charTypeToken("char type ", TokensId::TK_CHAR_TYPE);
+static const SToken logicTypeToken("bool type ", TokensId::TK_BOOL_TYPE);
+static const SToken stringTypeToken("string type", TokensId::TK_STRING_TYPE);
+
+static const SToken printToken("print", TokensId::TK_PRINT);
+static const SToken readToken("read", TokensId::TK_READ);
+
+static const SToken returnToken("return", TokensId::TK_RETURN);
+static const SToken ifToken("if", TokensId::TK_IF);
+static const SToken whileToken("while", TokensId::TK_WHILE);
+
 

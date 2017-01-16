@@ -16,8 +16,8 @@ public:
 		, End
 	};
 
-	HybridWalker(const LRTable & LRtable
-		, const LLTable & LLtable
+	HybridWalker(LRTable * LRtable
+		, LLTable * LLtable
 		, State state);
 	//////////////////////////////////////////////////////////////////////
 	// Methods
@@ -33,8 +33,9 @@ public:
 	// Data
 private:
 	Tokens						m_inputTokens;
-	LRTable						m_LRTable;
-	LLTable						m_LLTable;
+	LRTable	*					m_LRTable = nullptr;
+	LLTable	*					m_LLTable = nullptr;
+
 	std::stack<std::string>		m_elements;
 	std::stack<CTransition>		m_transitions;
 

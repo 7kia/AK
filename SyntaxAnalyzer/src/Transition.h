@@ -88,3 +88,4 @@ namespace PointerConverter
 // Ready transitions
 static const CTransition notLLTransition(-1, nullptr, CTransition::TypeTable::LL);
 static const CTransition notLRTransition(-1, nullptr, CTransition::TypeTable::LR);
+static const CTransition notTransition(-1, nullptr, CTransition::TypeTable::NONE);
