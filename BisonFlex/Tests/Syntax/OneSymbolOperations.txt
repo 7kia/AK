@@ -1,0 +1,9 @@
+int main()
+{
+int v = 2 + 3;
+int v = 2 - 3;
+int v = 2 * 3;
+int v = 2 / 3;
+
+int f = 1;
+};

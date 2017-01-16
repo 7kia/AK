@@ -1,0 +1,8 @@
+int type ID START_LIST_ARGUMENTS END_LIST_ARGUMENTS 
+==Start block code==
+while START_LIST_ARGUMENTS Bool END_LIST_ARGUMENTS 
+==Start block code==
+==End block code==
+Command separator 
+==End block code==
+Command separator 

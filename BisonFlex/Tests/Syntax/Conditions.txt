@@ -1,0 +1,18 @@
+int main()
+{
+
+if(true)
+{
+
+}else{};
+
+bool flag = false;
+bool flag2 = true;
+if(flag)
+{
+
+}else {
+};
+
+
+};

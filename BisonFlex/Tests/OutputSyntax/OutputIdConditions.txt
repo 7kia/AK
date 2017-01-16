@@ -1,0 +1,20 @@
+int type ID START_LIST_ARGUMENTS END_LIST_ARGUMENTS 
+==Start block code==
+if START_LIST_ARGUMENTS Bool END_LIST_ARGUMENTS 
+==Start block code==
+==End block code==
+else 
+==Start block code==
+==End block code==
+Command separator 
+bool type ID Assign Bool Command separator 
+bool type ID Assign Bool Command separator 
+if START_LIST_ARGUMENTS ID END_LIST_ARGUMENTS 
+==Start block code==
+==End block code==
+else 
+==Start block code==
+==End block code==
+Command separator 
+==End block code==
+Command separator 

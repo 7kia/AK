@@ -1,0 +1,6 @@
+int type ID START_LIST_ARGUMENTS END_LIST_ARGUMENTS 
+==Start block code==
+Print START_LIST_ARGUMENTS String END_LIST_ARGUMENTS Command separator 
+ return Integer Command separator 
+==End block code==
+Command separator 

@@ -62,7 +62,7 @@ void TestLexer(const std::string & nameFile
 	std::string nameOutputFile = GetAbsolutePath(nameFile, folder, TestNameFiles::nameOutputFile, "");
 	std::string nameOutputIdsFile = GetAbsolutePath(nameFile, folder, TestNameFiles::nameOutputFile, "Id");
 
-	std::cout << nameFile << std::endl;
+	//std::cout << nameFile << std::endl;
 	BOOST_REQUIRE_NO_THROW(RunLexer(nameInputFile
 									, nameOutputFile
 									, nameOutputIdsFile

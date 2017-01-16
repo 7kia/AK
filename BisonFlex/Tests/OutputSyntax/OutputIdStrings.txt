@@ -1,0 +1,7 @@
+int type ID START_LIST_ARGUMENTS END_LIST_ARGUMENTS 
+==Start block code==
+string type ID Assign String Command separator 
+string type ID Assign String Command separator 
+string type ID Assign String Command separator 
+==End block code==
+Command separator 

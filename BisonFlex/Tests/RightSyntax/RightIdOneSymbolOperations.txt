@@ -1,0 +1,9 @@
+int type ID START_LIST_ARGUMENTS END_LIST_ARGUMENTS 
+==Start block code==
+int type ID Assign Integer Plus Integer Command separator 
+int type ID Assign Integer Minus Integer Command separator 
+int type ID Assign Integer Star Integer Command separator 
+int type ID Assign Integer Divide Integer Command separator 
+int type ID Assign Integer Command separator 
+==End block code==
+Command separator 
