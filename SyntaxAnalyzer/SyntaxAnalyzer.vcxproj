@@ -100,6 +100,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory);$(SDK)\bison;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\HybridWalkerExceptions.h" />
+    <ClInclude Include="src\Lexer\Interpreter.h" />
     <ClInclude Include="src\Lexer\Lexer.h" />
     <ClInclude Include="src\Lexer\Token.h" />
     <ClInclude Include="src\LRRow.h" />
@@ -150,11 +152,18 @@
     <ClInclude Include="src\main.h" />
     <ClInclude Include="src\Rule.h" />
     <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\Syntax\driver.h" />
+    <ClInclude Include="src\Syntax\Grammar.h" />
+    <ClInclude Include="src\Syntax\location.hh" />
+    <ClInclude Include="src\Syntax\position.hh" />
+    <ClInclude Include="src\Syntax\scanner.h" />
+    <ClInclude Include="src\Syntax\stack.hh" />
     <ClInclude Include="src\targetver.h" />
     <ClInclude Include="src\Transition.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\HybridWalkerExceptions.cpp" />
+    <ClCompile Include="src\Lexer\Interpreter.cpp" />
     <ClCompile Include="src\Lexer\Lexer.cpp" />
     <ClCompile Include="src\Lexer\Token.cpp" />
     <ClCompile Include="src\LL1RowElement.cpp" />
@@ -163,6 +172,9 @@
     <ClCompile Include="src\HybridWalker.cpp" />
     <ClCompile Include="src\Rule.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\Syntax\driver.cpp" />
+    <ClCompile Include="src\Syntax\Grammar.cpp" />
+    <ClCompile Include="src\Syntax\lexer.cpp" />
     <ClCompile Include="src\Transition.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

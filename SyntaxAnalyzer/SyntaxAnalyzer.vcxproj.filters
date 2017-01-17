@@ -19,6 +19,9 @@
     <Filter Include="Source Files\src\Lexer">
       <UniqueIdentifier>{3699f190-2bc0-40ae-91f5-807c825394ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Syntax">
+      <UniqueIdentifier>{87c7f0b3-f8af-48a9-82f7-3d2f99eba27b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -54,6 +57,27 @@
     <ClInclude Include="src\Lexer\Token.h">
       <Filter>Source Files\src\Lexer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Syntax\driver.h">
+      <Filter>Source Files\Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Syntax\Grammar.h">
+      <Filter>Source Files\Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Syntax\location.hh">
+      <Filter>Source Files\Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Syntax\position.hh">
+      <Filter>Source Files\Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Syntax\scanner.h">
+      <Filter>Source Files\Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Syntax\stack.hh">
+      <Filter>Source Files\Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Lexer\Interpreter.h">
+      <Filter>Source Files\src\Lexer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\stdafx.cpp">
@@ -84,6 +108,18 @@
       <Filter>Source Files\src\Lexer</Filter>
     </ClCompile>
     <ClCompile Include="src\Lexer\Token.cpp">
+      <Filter>Source Files\src\Lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Syntax\driver.cpp">
+      <Filter>Source Files\Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Syntax\Grammar.cpp">
+      <Filter>Source Files\Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Syntax\lexer.cpp">
+      <Filter>Source Files\Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Lexer\Interpreter.cpp">
       <Filter>Source Files\src\Lexer</Filter>
     </ClCompile>
   </ItemGroup>

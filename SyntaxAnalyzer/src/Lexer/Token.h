@@ -365,5 +365,3 @@ static const SToken returnToken("return", TokensId::TK_RETURN);
 static const SToken ifToken("if", TokensId::TK_IF);
 static const SToken elseToken("else", TokensId::TK_ELSE);
 static const SToken whileToken("while", TokensId::TK_WHILE);
-
-

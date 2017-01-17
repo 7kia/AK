@@ -1,10 +1,23 @@
 // LRTable.cpp : Defines the entry point for the console application.
 //
 
+#include <iostream>
+#include <time.h>
+
+
 #include "stdafx.h"
 #include "main.h"
 
-int main()
+void CheckParametrs(int argc)
+{
+	if (argc != AMOUNT_ARGUMENTS)
+	{
+		throw std::invalid_argument(MESSAGE_INCORRECT_AMOUNT_ARGUMENTS + std::to_string(AMOUNT_ARGUMENTS));
+	}
+}
+
+
+int main(int argc, char *argv[])
 {
 	LRTable LRNull;
 	LLTable LLNull;
@@ -18,6 +31,7 @@ int main()
 	LLTable expressionRule;
 	LLTable variableConstant;
 	LLTable functionCallConstant;
+	LLTable grammar;
 
 	SToken noneToken("NONE", TokensId::TK_NONE);
 
@@ -42,7 +56,10 @@ int main()
 	LLTable1.push_back(CLL1RowElement({ endBlockToken }, false, CTransition(5, &LLTable1, CTransition::TypeTable::LL), false, true, false));
 	LLTable1.push_back(CLL1RowElement({ endBlockToken }, true, notLLTransition, true, true, true));
 
+	std::ofstream outputFilå(argv[2]);
+	std::ifstream inputFilå(argv[1]);
 
+	auto walkår = HybridWalkår(inputFilå, std::cout, std::cout, outputFilå);
 	/*
 	//
 
@@ -105,18 +122,32 @@ int main()
 	variableConstant.push_back(CLL1RowElement({ idToken }, true, CTransition(-1, &variableConstant, CTransition::TypeTable::LL), true, true, true));// 3 - false
 
 
-	auto walker = HybridWalker(&LRTable1, &LLTable1, HybridWalker::State::LLCheck);
-	std::vector<SToken> inputSeq = { startBlockToken, intToken, plusToken, intToken,  endBlockToken };//plusToken, intToken,
+	auto walker = HybridWalker(&LRNull, &grammar, HybridWalker::State::LLCheck);
 
-	auto constantRuleWalker = HybridWalker(&LRNull, &expressionRule, HybridWalker::State::LLCheck);
-	std::vector<SToken> constantSeq = {
-		intToken, plusToken, intToken
-	};
 
 	try
 	{
-		//if (walker.CheckInputSequence(inputSeq))
-		if (constantRuleWalker.CheckInputSequence(constantSeq))
+		CheckParametrs(argc);
+
+	}
+	catch (std::runtime_error & err)
+	{
+		std::cout << err.what();
+	}
+
+	try
+	{
+		CheckParametrs(argc);
+	}
+	catch (const std::invalid_argument& e)
+	{
+		(void)e;
+
+		CInterpreter interpreter(std::cout);
+
+		interpreter.EnterLoop(std::cin);
+
+		if (walkår.CheckInputSequence(interpreter.m_tokens))
 		{
 			std::cout << "Hybrid Success!" << std::endl;
 		}
@@ -124,13 +155,31 @@ int main()
 		{
 			std::cout << "Hybrid Error!" << std::endl;
 		}
+
+		return 0;
 	}
-	catch (std::runtime_error & err)
+	catch (const std::exception& e)
 	{
-		std::cout << err.what();
+		std::cout << e.what() << std::endl;
+		return 1;
 	}
 
+
+	std::ofstream outputFile(argv[2]);
+	std::ifstream inputFile(argv[1]);
+
+	CInterpreter interpreter(outputFile);
+	interpreter.EnterLoop(inputFile);
 	
+	if (walkår.CheckInputSequence(interpreter.m_tokens))
+	{
+		std::cout << "Hybrid Success!" << std::endl;
+	}
+	else
+	{
+		std::cout << "Hybrid Error!" << std::endl;
+	}
+
 
     return 0;
 }
