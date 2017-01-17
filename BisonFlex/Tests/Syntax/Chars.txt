@@ -1,9 +1,0 @@
-int main()
-{
-	char var = '\n';
-	char var = '1';
-	char var = '\x001';
-
-	char var = '1';
-	print(var);
-};

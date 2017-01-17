@@ -56,6 +56,7 @@ bool HybridWalker::CheckInputSequence(const Tokens & tokens)
 		throw std::runtime_error("Incorrect start state");
 	}
 
+	std::cout << "Complete!" << std::endl;
 	return true;
 }
 

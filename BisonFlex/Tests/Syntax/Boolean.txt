@@ -1,6 +1,0 @@
-int main()
-{
-bool v = true;
-bool v = false;
-
-};

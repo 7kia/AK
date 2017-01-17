@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "HybridWalker.h"
 #include "HybridWalkerExceptions.h"
-
+#include <stdio.h>
+#include <tchar.h>
+#include <iostream>
 
 namespace
 {
@@ -56,6 +58,7 @@ bool HybridWalker::CheckInputSequence(const Tokens & tokens)
 		throw std::runtime_error("Incorrect start state");
 	}
 
+	std::cout << "Complete!" << std::endl;
 	return true;
 }
 

@@ -53,11 +53,7 @@ int main()
 	auto walker = HybridWalker(LRTable1, LLTable1, HybridWalker::State::LLCheck);
 	try
 	{
-		if (walker.CheckInputSequence(inputSeq))
-		{
-			std::cout << "Hybrid Success!" << std::endl;
-		}
-		else
+		if (!walker.CheckInputSequence(inputSeq))
 		{
 			std::cout << "Hybrid Error!" << std::endl;
 		}

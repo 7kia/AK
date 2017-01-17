@@ -1,6 +1,0 @@
-int type ID START_LIST_ARGUMENTS END_LIST_ARGUMENTS 
-==Start block code==
-bool type ID Assign Bool Command separator 
-bool type ID Assign Bool Command separator 
-==End block code==
-Command separator 
