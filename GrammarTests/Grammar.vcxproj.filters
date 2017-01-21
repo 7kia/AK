@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Файлы исходного кода">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Заголовочные файлы">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Файлы исходного кода\src">
+      <UniqueIdentifier>{fbfae5ac-0a4f-4048-ae8f-f7e4d4ab24f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\src\Example">
+      <UniqueIdentifier>{fef0dd55-c270-4807-aa48-92a7ffd769ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\src\Syntax">
+      <UniqueIdentifier>{fc17baa7-9656-41fa-9f90-667476c4e233}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\src\Lexer">
+      <UniqueIdentifier>{e5f6de16-a82f-4c08-91b3-851eef66b0f6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+    <Text Include="InStartLexerCpp.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="text1.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\targetver.h">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main.h">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Example\expressionExample.h">
+      <Filter>Файлы исходного кода\src\Example</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Example\NodeExample.h">
+      <Filter>Файлы исходного кода\src\Example</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Syntax\driver.h">
+      <Filter>Файлы исходного кода\src\Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Syntax\Grammar.h">
+      <Filter>Файлы исходного кода\src\Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Syntax\location.hh">
+      <Filter>Файлы исходного кода\src\Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Syntax\position.hh">
+      <Filter>Файлы исходного кода\src\Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Syntax\scanner.h">
+      <Filter>Файлы исходного кода\src\Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Syntax\stack.hh">
+      <Filter>Файлы исходного кода\src\Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Lexer\Interpreter.h">
+      <Filter>Файлы исходного кода\src\Lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Lexer\Lexer.h">
+      <Filter>Файлы исходного кода\src\Lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Lexer\Token.h">
+      <Filter>Файлы исходного кода\src\Lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HybridWalker.h">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HybridWalkerExceptions.h">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LRRow.h">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rule.h">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Transition.h">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Syntax\driver.cpp">
+      <Filter>Файлы исходного кода\src\Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Syntax\Grammar.cpp">
+      <Filter>Файлы исходного кода\src\Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Syntax\lexer.cpp">
+      <Filter>Файлы исходного кода\src\Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Lexer\Interpreter.cpp">
+      <Filter>Файлы исходного кода\src\Lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Lexer\Lexer.cpp">
+      <Filter>Файлы исходного кода\src\Lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Lexer\Token.cpp">
+      <Filter>Файлы исходного кода\src\Lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HybridWalker.cpp">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HybridWalkerExceptions.cpp">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LL1RowElement.cpp">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LRRow.cpp">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rule.cpp">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Transition.cpp">
+      <Filter>Файлы исходного кода\src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Lexer.l">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="src\Grammar.y">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="src\codegen.bat">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="compile.bat">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="src\Syntax\Grammar.y">
+      <Filter>Файлы исходного кода\src\Syntax</Filter>
+    </None>
+    <None Include="src\Syntax\Lexer.l">
+      <Filter>Файлы исходного кода\src\Syntax</Filter>
+    </None>
+  </ItemGroup>
+</Project>

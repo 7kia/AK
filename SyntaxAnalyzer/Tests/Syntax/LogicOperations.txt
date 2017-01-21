@@ -1,0 +1,5 @@
+int main()
+{
+	bool v = true && true;
+	bool v = true || true;
+};

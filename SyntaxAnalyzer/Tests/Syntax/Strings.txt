@@ -1,0 +1,6 @@
+int main()
+{
+string v = "";
+string v = "1";
+string v = "this string";
+};
